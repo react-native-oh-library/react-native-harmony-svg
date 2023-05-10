@@ -1,0 +1,14 @@
+# it may cause some issues when building the project when switching branches
+package-lock.json
+react_native_modules/
+
+# ---
+
+/node_modules
+/local.properties
+/.idea
+**/build
+/.hvigor
+.cxx
+/.clangd
+/.clang-tidy

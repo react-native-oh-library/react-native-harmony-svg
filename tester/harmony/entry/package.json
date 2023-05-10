@@ -1,0 +1,16 @@
+{
+  "name": "entry",
+  "version": "1.0.0",
+  "ohos": {
+    "org": "huawei",
+    "buildTool": "hvigor",
+    "directoryLevel": "module"
+  },
+  "description": "example description",
+  "repository": {},
+  "license": "ISC",
+  "dependencies": {
+    "@ohos/rnoh-svg": "file:../svg",
+    "@ohos/rnoh": "file:../react_native_modules/ohos-rnoh-0.0.9.tgz"
+  }
+}

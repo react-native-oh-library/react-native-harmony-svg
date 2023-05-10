@@ -1,0 +1,12 @@
+{
+  "name": "@ohos/rnoh-svg",
+  "description": "",
+  "version": "0.0.1",
+  "main": "index.ets",
+  "types": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@ohos/rnoh": "file:../react_native_modules/ohos-rnoh-0.0.9.tgz"
+  }
+}
