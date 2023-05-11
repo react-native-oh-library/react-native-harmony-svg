@@ -19,12 +19,14 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "react-native-harmony": "npm:@rnoh/react-native-harmony@^0.0.9"
+    "react-native-harmony": "npm:@rnoh/react-native-harmony@^0.0.9",
+    "react-native-svg": "^13.9.0"
   },
   "devDependencies": {
     "@tsconfig/react-native": "^3.0.0",
     "@types/react": "^18.2.0",
     "@types/react-native": "^0.71.6",
+    "@types/jest": "^29.5.1",
     "react-native-builder-bob": "^0.20.4",
     "typescript": "^5.0.4"
   },
@@ -38,9 +40,5 @@
       "commonjs",
       "typescript"
     ]
-  },
-  "dependencies": {
-    "@types/jest": "^29.5.1",
-    "react-native-svg": "^13.9.0"
   }
 }
