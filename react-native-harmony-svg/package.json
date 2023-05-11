@@ -19,7 +19,7 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "react-native-harmony": "npm:@rnoh/react-native-harmony@^0.0.9",
+    "react-native-harmony": "npm:@rnoh/react-native-harmony@^0.0.10",
     "react-native-svg": "^13.9.0"
   },
   "devDependencies": {
