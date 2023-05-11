@@ -14,5 +14,6 @@ export struct SVG {
     .height(this.descriptor.props.height)
     .position({ x: this.descriptor.props.left, y: this.descriptor.props.top })
     .backgroundColor("red")
+    .borderWidth(1)
   }
 }

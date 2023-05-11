@@ -10,6 +10,7 @@ export default register('RNSVGPath', () => {
     directEventTypes: {},
     validAttributes: {
       ...ReactNativeViewAttributes.UIView,
+      d: true,
     },
   };
 });

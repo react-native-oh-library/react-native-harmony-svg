@@ -6,9 +6,9 @@ import { SVG_TYPE_NAME, SVG, SVGDescriptor } from "@ohos/rnoh-svg"
 struct Index {
   @Builder
   buildCustomComponent(ctx: ComponentBuilderContext) {
-    if (ctx.descriptor.type === SVG_TYPE_NAME) {
-      SVG({ descriptor: ctx.descriptor as SVGDescriptor })
-    }
+//    if (ctx.descriptor.type === SVG_TYPE_NAME) {
+//      SVG({ descriptor: ctx.descriptor as SVGDescriptor })
+//    }
   }
 
   build() {
