@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "@ohos/rnoh-svg": "file:../svg",
-    "@ohos/rnoh": "file:../react_native_modules/ohos-rnoh-0.0.12.tgz"
+    "@ohos/rnoh": "file:../react_native_modules/ohos-rnoh-0.0.13.tgz"
   }
 }
