@@ -7,7 +7,7 @@ struct Index {
   @Builder
   buildCustomComponent(ctx: ComponentBuilderContext) {
 //    if (ctx.descriptor.type === SVG_TYPE_NAME) {
-//      SVG({ descriptor: ctx.descriptor as SVGDescriptor })
+      SVG({ descriptor: ctx.descriptor as SVGDescriptor })
 //    }
   }
 
