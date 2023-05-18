@@ -1,8 +1,11 @@
-import { Descriptor, ComponentBuilderContext, RNComponentFactory, RNOHContext } from '@ohos/rnoh'
+import { Descriptor, ComponentBuilderContext, RNComponentFactory, RNOHContext, convertColorValueToRGBA } from '@ohos/rnoh'
 
 export const SVG_VIEW_TYPE_NAME = "RNSVGSvgView" as const
 
-export type SVGViewDescriptor = Descriptor<typeof SVG_VIEW_TYPE_NAME, any>
+export type SVGViewDescriptor = Descriptor<typeof SVG_VIEW_TYPE_NAME, {
+  backgroundColor?: number
+}>
+
 
 
 @Component
@@ -11,14 +14,9 @@ export struct SVGView {
   @BuilderParam buildCustomComponent: (ctx: ComponentBuilderContext) => void
   @Consume("RNOHContext") ctx: RNOHContext
 
-  aboutToAppear() {
-    console.log("RNOH::SVGView", JSON.stringify(this.descriptor))
-  }
-
   build() {
     Shape() {
       ForEach(this.descriptor.childrenTags, (tag) => {
-//        Text(JSON.stringify(this.ctx.descriptorRegistry.getDescriptor(tag))).fontColor("blue")
         RNComponentFactory({ tag: tag, buildCustomComponent: this.buildCustomComponent })
       }, tag => tag)
     }
@@ -34,7 +32,6 @@ export struct SVGView {
       .height)
     .position(this.descriptor
       .layoutMetrics.frame.origin)
-    .backgroundColor("green")
-    .borderWidth(1)
+    .backgroundColor(this.descriptor.props.backgroundColor ? convertColorValueToRGBA(this.descriptor.props.backgroundColor) : undefined)
   }
 }

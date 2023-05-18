@@ -18,7 +18,7 @@ export struct SVGPath {
     Path()
       .width("100%")
       .height("100%")
-      .commands('M150 0 L300 300 L0 300 Z')
+      .commands(this.descriptor.props.d)
       .stroke("red")
       .strokeWidth(8)
       .position(this.descriptor.layoutMetrics.frame.origin)

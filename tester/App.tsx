@@ -9,7 +9,7 @@ function App({}): JSX.Element {
       <Tester>
         <TestSuite name="react-native-svg">
           <TestCase itShould="display black triangle">
-            <Svg style={styles.svgContainer} viewBox="0 0 100 100">
+            <Svg style={styles.svgContainer}>
               <Path d="M50 0 L15 100 L85 100 Z" />
             </Svg>
           </TestCase>
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   svgContainer: {
     width: '100%',
-    height: 300,
+    height: 100,
   },
 });
 

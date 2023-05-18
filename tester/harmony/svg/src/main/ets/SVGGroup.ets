@@ -18,7 +18,6 @@ export struct SVGGroup {
   build() {
     Shape() {
       ForEach(this.descriptor.childrenTags, (tag) => {
-//        Text(JSON.stringify(this.ctx.descriptorRegistry.getDescriptor(tag))).fontColor("blue")
         RNComponentFactory({ tag: tag, buildCustomComponent: this.buildCustomComponent })
       }, tag => tag)
     }
@@ -26,7 +25,5 @@ export struct SVGGroup {
     .height("100%")
     .position(this.descriptor
       .layoutMetrics.frame.origin)
-    .backgroundColor("green")
-    .borderWidth(1)
   }
 }
