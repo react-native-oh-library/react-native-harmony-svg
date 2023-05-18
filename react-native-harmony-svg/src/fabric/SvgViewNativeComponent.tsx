@@ -10,6 +10,10 @@ export default register('RNSVGSvgView', () => {
     directEventTypes: {},
     validAttributes: {
       ...ReactNativeViewAttributes.UIView,
+      minX: true,
+      minY: true,
+      vbWidth: true,
+      vbHeight: true,
     },
   };
 });

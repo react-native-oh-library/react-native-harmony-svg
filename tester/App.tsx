@@ -16,7 +16,7 @@ function App({}): JSX.Element {
               <Path d={TRIANGLE_PATH_DATA} />
             </Svg>
           </TestCase>
-          <TestCase itShould="display red rectangle triangle with green border on blue background">
+          <TestCase itShould="display red triangle with green border on blue background">
             <Svg style={[styles.svgContainer, {backgroundColor: 'blue'}]}>
               <Path
                 d={TRIANGLE_PATH_DATA}
@@ -25,6 +25,18 @@ function App({}): JSX.Element {
                 strokeWidth={8}
               />
             </Svg>
+          </TestCase>
+          <TestCase itShould="render right triangle larger and shifted compared to the left one">
+            <View style={[styles.svgContainer, {flexDirection: 'row'}]}>
+              <Svg style={{width: '50%', backgroundColor: 'red'}}>
+                <Path d={TRIANGLE_PATH_DATA} />
+              </Svg>
+              <Svg
+                style={{width: '50%', backgroundColor: 'green'}}
+                viewBox="0 0 100 100">
+                <Path d={TRIANGLE_PATH_DATA} />
+              </Svg>
+            </View>
           </TestCase>
         </TestSuite>
       </Tester>

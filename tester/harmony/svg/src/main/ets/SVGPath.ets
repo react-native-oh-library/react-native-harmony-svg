@@ -19,10 +19,6 @@ export type SVGPathDescriptor = Descriptor<typeof SVG_PATH_TYPE_NAME, {
 export struct SVGPath {
   @Prop descriptor: SVGPathDescriptor
 
-  aboutToAppear() {
-    console.log("RNOH::SVGPath", JSON.stringify(this.descriptor))
-  }
-
   build() {
     Path()
       .width("100%")
