@@ -16,8 +16,8 @@ export struct SVGPath {
 
   build() {
     Path()
-      .width(100)
-      .height(100)
+      .width("100%")
+      .height("100%")
       .commands('M150 0 L300 300 L0 300 Z')
       .stroke("red")
       .strokeWidth(8)

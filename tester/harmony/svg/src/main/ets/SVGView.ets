@@ -18,7 +18,7 @@ export struct SVGView {
   build() {
     Shape() {
       ForEach(this.descriptor.childrenTags, (tag) => {
-        Text(JSON.stringify(this.ctx.descriptorRegistry.getDescriptor(tag))).fontColor("blue")
+//        Text(JSON.stringify(this.ctx.descriptorRegistry.getDescriptor(tag))).fontColor("blue")
         RNComponentFactory({ tag: tag, buildCustomComponent: this.buildCustomComponent })
       }, tag => tag)
     }

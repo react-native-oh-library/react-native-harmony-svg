@@ -5,7 +5,10 @@ import {
   SVGViewDescriptor,
   SVG_PATH_TYPE_NAME,
   SVGPath,
-  SVGPathDescriptor
+  SVGPathDescriptor,
+  SVG_GROUP_TYPE_NAME,
+  SVGGroup,
+  SVGGroupDescriptor
 } from "@ohos/rnoh-svg"
 
 
@@ -20,6 +23,8 @@ struct Index {
       SVGView({ descriptor: ctx.descriptor as SVGViewDescriptor, buildCustomComponent: this.buildCustomComponent.bind(this) })
     } else if (ctx.descriptor.type === SVG_PATH_TYPE_NAME) {
       SVGPath({ descriptor: ctx.descriptor as SVGPathDescriptor })
+    } else if (ctx.descriptor.type === SVG_GROUP_TYPE_NAME) {
+      SVGGroup({ descriptor: ctx.descriptor as SVGGroupDescriptor, buildCustomComponent: this.buildCustomComponent.bind(this) })
     }
   }
 
