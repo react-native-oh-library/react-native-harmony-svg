@@ -11,6 +11,9 @@ export default register('RNSVGPath', () => {
     validAttributes: {
       ...ReactNativeViewAttributes.UIView,
       d: true,
+      fill: true,
+      stroke: true,
+      strokeWidth: true,
     },
   };
 });

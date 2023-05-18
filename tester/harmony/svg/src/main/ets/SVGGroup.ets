@@ -11,10 +11,6 @@ export struct SVGGroup {
   @Prop descriptor: SVGGroupDescriptor
   @BuilderParam buildCustomComponent: (ctx: ComponentBuilderContext) => void
 
-  aboutToAppear() {
-    console.log("RNOH::SVGGroup", JSON.stringify(this.descriptor))
-  }
-
   build() {
     Shape() {
       ForEach(this.descriptor.childrenTags, (tag) => {
