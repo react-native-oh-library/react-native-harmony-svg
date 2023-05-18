@@ -1,4 +1,4 @@
-import { RNApp, RNInstance, ComponentBuilderContext, RNComponentFactory } from '@ohos/rnoh'
+import { RNApp, RNInstance, ComponentBuilderContext, RNComponentFactory, RNOHContext } from '@ohos/rnoh'
 import {
   SVG_VIEW_TYPE_NAME,
   SVGView,
@@ -17,17 +17,12 @@ struct Index {
   //    RNComponentFactory({ tag: tag, buildCustomComponent: this.buildCustomComponent.bind(this) })
   //  }
 
-  @Builder buildChildren(childrenTags: number[]) {
-    ForEach(childrenTags, (childrenTag) => {
-      RNComponentFactory({ tag: childrenTag, buildCustomComponent: this.buildCustomComponent })
-    }, childrenTag => childrenTag)
-
-  }
+  @Provide("RNOHContext") rnohContext: RNOHContext = new RNOHContext();
 
   @Builder
   buildCustomComponent(ctx: ComponentBuilderContext) {
     if (ctx.descriptor.type === SVG_VIEW_TYPE_NAME) {
-      SVGView({ descriptor: ctx.descriptor as SVGViewDescriptor, buildChildren: this.buildChildren })
+//      SVGView({ descriptor: ctx.descriptor as SVGViewDescriptor, buildChildren: this.buildChildren })
     } else if (ctx.descriptor.type === SVG_PATH_TYPE_NAME) {
       SVGPath({ descriptor: ctx.descriptor as SVGPathDescriptor })
     }
@@ -36,7 +31,7 @@ struct Index {
   build() {
     Column() {
       RNApp({
-        rnInstance: new RNInstance((ctx) => []),
+        rnInstance: new RNInstance("", (ctx) => []),
         buildCustomComponent: this.buildCustomComponent.bind(this),
       })
     }
