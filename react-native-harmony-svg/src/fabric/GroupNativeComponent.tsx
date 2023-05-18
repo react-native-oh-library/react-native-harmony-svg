@@ -10,6 +10,9 @@ export default register('RNSVGGroup', () => {
     directEventTypes: {},
     validAttributes: {
       ...ReactNativeViewAttributes.UIView,
+      fill: true,
+      stroke: true,
+      strokeWidth: true,
     },
   };
 });

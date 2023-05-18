@@ -23,10 +23,6 @@ export struct SVGView {
   @BuilderParam buildCustomComponent: (ctx: ComponentBuilderContext) => void
   @Consume("RNOHContext") ctx: RNOHContext
 
-  aboutToAppear() {
-    console.log("RNOH::SVGView", JSON.stringify(this.descriptor))
-  }
-
   scaleValue() {
     return Math.max(this.scaleX(), this.scaleY())
   }

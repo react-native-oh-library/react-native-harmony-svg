@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import Svg, {Path} from 'react-native-svg';
+import Svg, {Path, G} from 'react-native-svg';
 import {Tester, TestSuite, TestCase} from '@rnoh/testerino';
 
 const TRIANGLE_PATH_DATA = 'M90 0 L0 180 L180 180 Z';
@@ -26,7 +26,7 @@ function App({}): JSX.Element {
               />
             </Svg>
           </TestCase>
-          <TestCase itShould="render right triangle larger and shifted compared to the left one">
+          <TestCase itShould="display right triangle larger compared to the left one">
             <View style={[styles.svgContainer, {flexDirection: 'row'}]}>
               <Svg style={{width: '50%', backgroundColor: 'red'}}>
                 <Path d={TRIANGLE_PATH_DATA} />
@@ -37,6 +37,13 @@ function App({}): JSX.Element {
                 <Path d={TRIANGLE_PATH_DATA} />
               </Svg>
             </View>
+          </TestCase>
+          <TestCase itShould="[FAILS] display red rectangle with green border (G)">
+            <Svg style={styles.svgContainer}>
+              <G fill="red" stroke="green" strokeWidth={8}>
+                <Path d={TRIANGLE_PATH_DATA} />
+              </G>
+            </Svg>
           </TestCase>
         </TestSuite>
       </Tester>
