@@ -7,6 +7,6 @@
   "license": "ISC",
   "type": "module",
   "devDependencies": {
-    "@ohos/rnoh": "file:../react_native_modules/ohos-rnoh-0.0.13.tgz"
+    "@ohos/rnoh": "file:../react_native_modules/ohos-rnoh-0.0.14.tgz"
   }
 }
