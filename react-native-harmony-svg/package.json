@@ -9,7 +9,7 @@
   "scripts": {
     "prepack": "bob build",
     "pack:native": "cd ../tester/harmony/svg && npm pack && cd ../../../react-native-harmony-svg",
-    "copy:native": "rimraf ./harmony && mkdir harmony && cp ../tester/harmony/svg/*.tgz ./harmony",
+    "copy:native": "rimraf ./harmony/*.tgz && cp ../tester/harmony/svg/*.tgz ./harmony",
     "preparePack": "npm run pack:native && npm run copy:native",
     "pack:prod": "npm run preparePack && npm pack",
     "prepublishOnly": "npm run preparePack"
