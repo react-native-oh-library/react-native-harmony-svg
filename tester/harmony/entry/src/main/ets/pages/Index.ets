@@ -31,7 +31,7 @@ struct Index {
   build() {
     Column() {
       RNApp({
-        rnInstance: new RNInstance("", (ctx) => []),
+        rnInstance: new RNInstance("", "rnempty", (ctx) => []),
         buildCustomComponent: this.buildCustomComponent.bind(this),
       })
     }

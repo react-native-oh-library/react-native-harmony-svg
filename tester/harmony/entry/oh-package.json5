@@ -1,0 +1,11 @@
+{
+  "license": "ISC",
+  "name": "entry",
+  "description": "example description",
+  "repository": {},
+  "version": "1.0.0",
+  "dependencies": {
+    "@ohos/rnoh": "file:../react_native_modules/rnoh",
+    "@ohos/rnoh-svg": "file:../svg"
+  }
+}

@@ -1,6 +1,7 @@
 # it may cause some issues when building the project when switching branches
 package-lock.json
 react_native_modules/
+oh_modules/
 
 # ---
 

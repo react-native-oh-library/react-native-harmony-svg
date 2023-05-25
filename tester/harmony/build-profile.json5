@@ -25,5 +25,9 @@
       name: 'svg',
       srcPath: './svg',
     },
+    {
+      name: "rnoh",
+      "srcPath": "./react_native_modules/rnoh"
+    }
   ],
 }
