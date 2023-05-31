@@ -11,6 +11,7 @@ import {
   SVGGroupDescriptor
 } from "@ohos/rnoh-svg"
 
+const BUNDLE_URL = "http://localhost:8081/index.bundle?platform=harmony&dev=false&minify=false"
 
 @Entry
 @Component
@@ -31,7 +32,7 @@ struct Index {
   build() {
     Column() {
       RNApp({
-        rnInstance: new RNInstance("", "rnempty", (ctx) => []),
+        rnInstance: new RNInstance(BUNDLE_URL, "rnempty", (ctx) => []),
         buildCustomComponent: this.buildCustomComponent.bind(this),
       })
     }
