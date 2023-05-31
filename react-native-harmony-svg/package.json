@@ -1,6 +1,6 @@
 {
   "name": "@rnoh/react-native-harmony-svg",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -8,10 +8,8 @@
   "react-native": "src/index",
   "scripts": {
     "prepack": "bob build",
-    "pack:native": "cd ../tester/harmony/svg && npm pack && cd ../../../react-native-harmony-svg",
-    "copy:native": "rimraf ./harmony/*.tgz && cp ../tester/harmony/svg/*.tgz ./harmony",
-    "preparePack": "npm run pack:native && npm run copy:native",
-    "pack:prod": "npm run preparePack && npm pack",
+    "pack:harmony": "react-native pack-harmony --oh-module-path ../tester/harmony/svg --harmony-dir-path ./harmony",
+    "pack:prod": "npm run pack:harmony && npm pack",
     "prepublishOnly": "npm run preparePack"
   },
   "author": "",
@@ -19,7 +17,7 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "react-native-harmony": "npm:@rnoh/react-native-harmony@^0.0.15",
+    "react-native-harmony": "*",
     "react-native-svg": "^13.9.0"
   },
   "devDependencies": {
@@ -28,7 +26,8 @@
     "@types/react-native": "^0.71.6",
     "@types/jest": "^29.5.1",
     "react-native-builder-bob": "^0.20.4",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "react-native-harmony": "npm:@rnoh/react-native-harmony@^0.0.17"
   },
   "harmony": {
     "alias": "react-native-svg"
