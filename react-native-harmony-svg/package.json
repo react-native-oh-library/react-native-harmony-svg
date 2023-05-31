@@ -10,7 +10,7 @@
     "prepack": "bob build",
     "pack:harmony": "react-native pack-harmony --oh-module-path ../tester/harmony/svg --harmony-dir-path ./harmony",
     "pack:prod": "npm run pack:harmony && npm pack",
-    "prepublishOnly": "npm run preparePack"
+    "prepublishOnly": "npm run prepack && npm run pack:harmony"
   },
   "author": "",
   "license": "ISC",
