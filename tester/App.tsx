@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import Svg, {Path, G} from 'react-native-svg';
+import Svg, {Path, G} from 'react-native-harmony-svg';
 import {Tester, TestSuite, TestCase} from '@rnoh/testerino';
 
 const TRIANGLE_PATH_DATA = 'M90 0 L0 180 L180 180 Z';
