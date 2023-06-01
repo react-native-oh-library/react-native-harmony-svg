@@ -1,6 +1,6 @@
 {
   "name": "@rnoh/react-native-harmony-svg",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -32,6 +32,11 @@
   "harmony": {
     "alias": "react-native-svg"
   },
+  "files": [
+    "./harmony.tar.gz",
+    "./lib/**/*",
+    "./*.json"
+  ],
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",
