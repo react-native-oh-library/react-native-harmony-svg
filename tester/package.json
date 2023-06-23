@@ -12,7 +12,7 @@
   "dependencies": {
     "react": "18.2.0",
     "react-native": "0.71.3",
-    "react-native-harmony": "npm:@rnoh/react-native-harmony@0.0.17",
+    "react-native-harmony": "npm:@rnoh/react-native-harmony@0.0.20",
     "react-native-harmony-svg": "file:../react-native-harmony-svg/rnoh-react-native-harmony-svg-0.0.2.tgz"
   },
   "devDependencies": {

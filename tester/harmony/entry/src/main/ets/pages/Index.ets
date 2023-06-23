@@ -1,4 +1,4 @@
-import { RNApp, RNInstance, ComponentBuilderContext, RNOHContext } from '@ohos/rnoh'
+import { RNApp, ComponentBuilderContext, RNOHContext } from '@ohos/rnoh'
 import {
   SVG_VIEW_TYPE_NAME,
   SVGView,
@@ -11,29 +11,37 @@ import {
   SVGGroupDescriptor
 } from "@ohos/rnoh-svg"
 
-const BUNDLE_URL = "http://localhost:8081/index.bundle?platform=harmony&dev=false&minify=false"
+let storage = LocalStorage.GetShared()
 
-@Entry
+@Entry(storage)
 @Component
 struct Index {
-  @Provide("RNOHContext") rnohContext: RNOHContext = new RNOHContext();
+  @LocalStorageProp('RNOHContext') rnohContext: RNOHContext | undefined = undefined
 
   @Builder
   buildCustomComponent(ctx: ComponentBuilderContext) {
+    // TODO: update component interfaces to pass RNOHContext explicitely or rewrite them from scratch to use ohos/svg
     if (ctx.descriptor.type === SVG_VIEW_TYPE_NAME) {
-      SVGView({ descriptor: ctx.descriptor as SVGViewDescriptor, buildCustomComponent: this.buildCustomComponent.bind(this) })
+      SVGView({
+        descriptor: ctx.descriptor as SVGViewDescriptor,
+        buildCustomComponent: this.buildCustomComponent.bind(this)
+      })
     } else if (ctx.descriptor.type === SVG_PATH_TYPE_NAME) {
       SVGPath({ descriptor: ctx.descriptor as SVGPathDescriptor })
     } else if (ctx.descriptor.type === SVG_GROUP_TYPE_NAME) {
-      SVGGroup({ descriptor: ctx.descriptor as SVGGroupDescriptor, buildCustomComponent: this.buildCustomComponent.bind(this) })
+      SVGGroup({
+        descriptor: ctx.descriptor as SVGGroupDescriptor,
+        buildCustomComponent: this.buildCustomComponent.bind(this)
+      })
     }
   }
 
   build() {
     Column() {
       RNApp({
-        rnInstance: new RNInstance(BUNDLE_URL, "rnempty", (ctx) => []),
-        buildCustomComponent: this.buildCustomComponent.bind(this),
+        rnohContext: this.rnohContext !,
+        appName: "app_name",
+        buildCustomComponent: this.buildCustomComponent.bind(this)
       })
     }
     .height('100%')
