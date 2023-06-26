@@ -19,9 +19,25 @@ export type SVGViewDescriptor = Descriptor<typeof SVG_VIEW_TYPE_NAME, {
 
 @Component
 export struct SVGView {
-  @Prop descriptor: SVGViewDescriptor
   @BuilderParam buildCustomComponent: (ctx: ComponentBuilderContext) => void
-  @Consume("RNOHContext") ctx: RNOHContext
+  ctx: RNOHContext
+  tag: number
+  @State descriptor: SVGViewDescriptor = {} as any
+
+  private unregisterDescriptorChangesListener?: () => void = undefined
+
+  aboutToAppear() {
+    this.descriptor = this.ctx.descriptorRegistry.getDescriptor<SVGViewDescriptor>(this.tag)
+    this.unregisterDescriptorChangesListener = this.ctx.descriptorRegistry.subscribeToDescriptorChanges(this.tag,
+      (newDescriptor) => {
+        this.descriptor = (newDescriptor as SVGViewDescriptor)
+      }
+    )
+  }
+
+  aboutToDisappear() {
+    this.unregisterDescriptorChangesListener?.()
+  }
 
   scaleValue() {
     return Math.max(this.scaleX(), this.scaleY())
@@ -53,7 +69,7 @@ export struct SVGView {
     Stack() {
       Shape() {
         ForEach(this.descriptor.childrenTags, (tag) => {
-          RNComponentFactory({ tag: tag, buildCustomComponent: this.buildCustomComponent })
+          RNComponentFactory({ ctx: this.ctx, tag: tag, buildCustomComponent: this.buildCustomComponent })
         }, tag => tag)
       }
       .width("100%")

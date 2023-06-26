@@ -1,4 +1,4 @@
-import { Descriptor, convertColorValueToRGBA } from '@ohos/rnoh'
+import { Descriptor, RNOHContext, convertColorValueToRGBA } from '@ohos/rnoh'
 
 export const SVG_PATH_TYPE_NAME = "RNSVGPath" as const
 
@@ -17,7 +17,23 @@ export type SVGPathDescriptor = Descriptor<typeof SVG_PATH_TYPE_NAME, {
 
 @Component
 export struct SVGPath {
-  @Prop descriptor: SVGPathDescriptor
+  ctx: RNOHContext
+  tag: number
+  @State descriptor: SVGPathDescriptor = {} as any
+  private unregisterDescriptorChangesListener?: () => void = undefined
+
+  aboutToAppear() {
+    this.descriptor = this.ctx.descriptorRegistry.getDescriptor<SVGPathDescriptor>(this.tag)
+    this.unregisterDescriptorChangesListener = this.ctx.descriptorRegistry.subscribeToDescriptorChanges(this.tag,
+      (newDescriptor) => {
+        this.descriptor = (newDescriptor as SVGPathDescriptor)
+      }
+    )
+  }
+
+  aboutToDisappear() {
+    this.unregisterDescriptorChangesListener?.()
+  }
 
   build() {
     Path()

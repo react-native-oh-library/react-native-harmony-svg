@@ -1,4 +1,4 @@
-import { Descriptor, RNComponentFactory, ComponentBuilderContext, convertColorValueToRGBA } from '@ohos/rnoh'
+import { Descriptor, RNComponentFactory, ComponentBuilderContext, convertColorValueToRGBA, RNOHContext } from '@ohos/rnoh'
 
 
 export const SVG_GROUP_TYPE_NAME = "RNSVGGroup" as const
@@ -8,18 +8,30 @@ export type SVGGroupDescriptor = Descriptor<typeof SVG_GROUP_TYPE_NAME, any>
 
 @Component
 export struct SVGGroup {
-  @Prop descriptor: SVGGroupDescriptor
   @BuilderParam buildCustomComponent: (ctx: ComponentBuilderContext) => void
+  ctx: RNOHContext
+  tag: number
+  @State descriptor: SVGGroupDescriptor = {} as any
+
+  private unregisterDescriptorChangesListener?: () => void = undefined
 
   aboutToAppear() {
-    console.log("RNOH::SVGGroup", JSON.stringify(this.descriptor))
+    this.descriptor = this.ctx.descriptorRegistry.getDescriptor<SVGGroupDescriptor>(this.tag)
+    this.unregisterDescriptorChangesListener = this.ctx.descriptorRegistry.subscribeToDescriptorChanges(this.tag,
+      (newDescriptor) => {
+        this.descriptor = (newDescriptor as SVGGroupDescriptor)
+      }
+    )
   }
 
+  aboutToDisappear() {
+    this.unregisterDescriptorChangesListener?.()
+  }
 
   build() {
     Shape() {
       ForEach(this.descriptor.childrenTags, (tag) => {
-        RNComponentFactory({ tag: tag, buildCustomComponent: this.buildCustomComponent })
+        RNComponentFactory({ ctx: this.ctx, tag: tag, buildCustomComponent: this.buildCustomComponent })
       }, tag => tag)
     }
     .width("100%")

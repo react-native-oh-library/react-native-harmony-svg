@@ -20,16 +20,18 @@ struct Index {
 
   @Builder
   buildCustomComponent(ctx: ComponentBuilderContext) {
-    // TODO: update component interfaces to pass RNOHContext explicitely or rewrite them from scratch to use ohos/svg
     if (ctx.descriptor.type === SVG_VIEW_TYPE_NAME) {
+
       SVGView({
+        ctx: ctx.rnohContext,
         descriptor: ctx.descriptor as SVGViewDescriptor,
         buildCustomComponent: this.buildCustomComponent.bind(this)
       })
     } else if (ctx.descriptor.type === SVG_PATH_TYPE_NAME) {
-      SVGPath({ descriptor: ctx.descriptor as SVGPathDescriptor })
+      SVGPath({ ctx: ctx.rnohContext, descriptor: ctx.descriptor as SVGPathDescriptor })
     } else if (ctx.descriptor.type === SVG_GROUP_TYPE_NAME) {
       SVGGroup({
+        ctx: ctx.rnohContext,
         descriptor: ctx.descriptor as SVGGroupDescriptor,
         buildCustomComponent: this.buildCustomComponent.bind(this)
       })
