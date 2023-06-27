@@ -1,5 +1,5 @@
 import React from 'react';
-import {extract} from 'react-native-svg/src/lib/extract/extractProps';
+import {extract} from '../lib/extract/extractProps';
 import Shape from './Shape';
 import RNSVGPath from '../fabric/PathNativeComponent';
 import type {CommonPathProps, NumberProp} from 'react-native-svg';

@@ -82,6 +82,7 @@ export struct SVGContainer {
   build() {
     RNViewBase({ ctx: this.ctx, tag: this.tag }) {
       SVGImageView({ model: this.model }).width("100%").height("100%")
+      Text(this.svgString).fontSize(10).opacity(0.25)
     }
   }
 }
