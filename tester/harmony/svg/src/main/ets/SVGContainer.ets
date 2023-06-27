@@ -11,6 +11,12 @@ export type SVGContainerDescriptor = Descriptor<"RNSVGSvgView", {
   vbHeight: number
 }>
 
+const SVG_TAG_BY_DESCRIPTOR_TYPE = {
+  RNSVGSvgView: "svg",
+  RNSVGGroup: "g",
+  RNSVGPath: "path"
+}
+
 @Component
 export struct SVGContainer {
   model: SVGImageView.SVGImageViewModel = new SVGImageView.SVGImageViewModel()
@@ -50,22 +56,20 @@ export struct SVGContainer {
     builder.addCustomParser("fill", colorStructParser)
     builder.addCustomParser("stroke", colorStructParser)
     if (descriptor.type === "RNSVGSvgView") {
+      const p = descriptor.props
       builder.setTag("svg")
-        .addAttribute("viewBox", `0 0 ${viewWidth} ${viewHeight}`)
+        .addAttribute("viewBox", `${p["minX"] ?? 0} ${p["minY"] ?? 0} ${p["vbWidth"] ?? viewWidth} ${p["vbHeight"] ?? viewHeight}`)
         .addAttribute("xml:space", "preserve")
-        .addAttributes(descriptor.props)
-        .addChildren(this.mapChildrenTagsToSVGString(descriptor.childrenTags))
-    } else if (descriptor.type === "RNSVGGroup") {
-      builder.setTag("g")
-        .addChildren(this.mapChildrenTagsToSVGString(descriptor.childrenTags))
-        .addAttributes(descriptor.props)
-    } else if (descriptor.type === "RNSVGPath") {
-      builder.setTag("path")
-        .addAttributes(descriptor.props)
+    } else if (descriptor.type in SVG_TAG_BY_DESCRIPTOR_TYPE) {
+      builder.setTag(SVG_TAG_BY_DESCRIPTOR_TYPE[descriptor.type])
     } else {
       this.ctx.logger.error(`Unknown SVG descriptor: ${JSON.stringify(descriptor)}`)
+      return "";
     }
-    return builder?.build() ?? ""
+    builder
+      .addAttributes(descriptor.props)
+      .addChildren(this.mapChildrenTagsToSVGString(descriptor.childrenTags))
+    return builder.build()
   }
 
   private mapChildrenTagsToSVGString(childrenTags: number[]): string {
