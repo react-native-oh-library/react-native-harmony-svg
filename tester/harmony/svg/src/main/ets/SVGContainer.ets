@@ -2,7 +2,6 @@ import { SVGImageView } from "@ohos/svg"
 import { RNOHContext, Descriptor, RNViewBase, convertColorValueToRGBA } from "@ohos/rnoh"
 import { XMLElementBuilder } from "./XMLElementBuilder"
 
-
 export type SVGContainerDescriptor = Descriptor<"RNSVGSvgView", {
   backgroundColor?: number
   minX: number,
@@ -19,6 +18,7 @@ const SVG_TAG_BY_DESCRIPTOR_TYPE = {
 
 @Component
 export struct SVGContainer {
+  static DESCRIPTOR_TYPE = "RNSVGSvgView"
   model: SVGImageView.SVGImageViewModel = new SVGImageView.SVGImageViewModel()
   ctx: RNOHContext
   tag: number
