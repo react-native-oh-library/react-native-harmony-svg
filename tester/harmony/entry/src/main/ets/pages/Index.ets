@@ -13,7 +13,6 @@ import {
 } from "@ohos/rnoh-svg"
 
 
-
 let storage = LocalStorage.GetShared()
 
 @Entry(storage)
@@ -24,30 +23,29 @@ struct Index {
   @Builder
   buildCustomComponent(ctx: ComponentBuilderContext) {
     if (ctx.descriptor.type === SVG_VIEW_TYPE_NAME) {
-      SVGView({
+      SVGContainer({
         ctx: ctx.rnohContext,
-        descriptor: ctx.descriptor as SVGViewDescriptor,
-        buildCustomComponent: this.buildCustomComponent.bind(this)
-      })
-    } else if (ctx.descriptor.type === SVG_PATH_TYPE_NAME) {
-      SVGPath({ ctx: ctx.rnohContext, descriptor: ctx.descriptor as SVGPathDescriptor })
-    } else if (ctx.descriptor.type === SVG_GROUP_TYPE_NAME) {
-      SVGGroup({
-        ctx: ctx.rnohContext,
-        descriptor: ctx.descriptor as SVGGroupDescriptor,
-        buildCustomComponent: this.buildCustomComponent.bind(this)
+        tag: ctx.descriptor.tag,
       })
     }
+    // } else if (ctx.descriptor.type === SVG_PATH_TYPE_NAME) {
+    //   SVGPath({ ctx: ctx.rnohContext, descriptor: ctx.descriptor as SVGPathDescriptor })
+    // } else if (ctx.descriptor.type === SVG_GROUP_TYPE_NAME) {
+    //   SVGGroup({
+    //     ctx: ctx.rnohContext,
+    //     descriptor: ctx.descriptor as SVGGroupDescriptor,
+    //     buildCustomComponent: this.buildCustomComponent.bind(this)
+    //   })
+    // }
   }
 
   build() {
     Column() {
-      SVGContainer()
-      // RNApp({
-      //   rnohContext: this.rnohContext !,
-      //   appName: "app_name",
-      //   buildCustomComponent: this.buildCustomComponent.bind(this)
-      // })
+      RNApp({
+        rnohContext: this.rnohContext !,
+        appName: "app_name",
+        buildCustomComponent: this.buildCustomComponent.bind(this)
+      })
     }
     .height('100%')
     .width('100%')
