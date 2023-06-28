@@ -17,7 +17,6 @@ export default class Path extends Shape<PathProps> {
     const {props} = this;
     const {d} = props;
     const pathProps = {...extract(this, props), d};
-
     return (
       <RNSVGPath
         ref={(ref: any) => this.refMethod(ref as (Path & NativeMethods) | null)}

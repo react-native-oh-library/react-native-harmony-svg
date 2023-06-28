@@ -5,7 +5,7 @@
   "scripts": {
     "install:dev": "npm run pack:pkg && npm uninstall react-native-harmony-svg && npm i",
     "pack:pkg": "cd ../react-native-harmony-svg && npm pack && cd ../tester",
-    "install:pkg": "npm run pack:pkg && npm i react-native-harmony-svg@file:../react-native-harmony-svg/rnoh-react-native-harmony-svg-0.0.2.tgz",
+    "install:pkg": "npm run pack:pkg && npm i react-native-harmony-svg@file:../react-native-harmony-svg/rnoh-react-native-harmony-svg-0.0.3.tgz",
     "dev": "npm uninstall react-native-harmony-svg && npm run install:pkg && react-native bundle-harmony",
     "postinstall": "react-native unpack-harmony"
   },
@@ -13,7 +13,8 @@
     "react": "18.2.0",
     "react-native": "0.71.3",
     "react-native-harmony": "npm:@rnoh/react-native-harmony@0.0.20",
-    "react-native-harmony-svg": "file:../react-native-harmony-svg/rnoh-react-native-harmony-svg-0.0.2.tgz"
+    "react-native-harmony-svg": "file:../react-native-harmony-svg/rnoh-react-native-harmony-svg-0.0.3.tgz",
+    "react-native-svg": "^13.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

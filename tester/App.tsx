@@ -26,19 +26,19 @@ function App({}): JSX.Element {
               />
             </Svg>
           </TestCase>
-          <TestCase itShould="display right triangle larger compared to the left one">
+          <TestCase itShould="[FAILS] display right triangle larger compared to the left one">
             <View style={[styles.svgContainer, {flexDirection: 'row'}]}>
               <Svg style={{width: '50%', backgroundColor: 'red'}}>
                 <Path d={TRIANGLE_PATH_DATA} />
               </Svg>
               <Svg
-                style={{width: '50%', backgroundColor: 'green'}}
+                style={{width: '50%', backgroundColor: 'blue'}}
                 viewBox="0 0 100 100">
                 <Path d={TRIANGLE_PATH_DATA} />
               </Svg>
             </View>
           </TestCase>
-          <TestCase itShould="[FAILS] display red rectangle with green border (G)">
+          <TestCase itShould="display red rectangle with green border (G)">
             <Svg style={styles.svgContainer}>
               <G fill="red" stroke="green" strokeWidth={8}>
                 <Path d={TRIANGLE_PATH_DATA} />
