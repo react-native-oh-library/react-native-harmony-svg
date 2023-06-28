@@ -19,17 +19,20 @@ export class XMLElementBuilder {
     return this;
   }
 
-  addAttribute(name: string, value: string | number) {
-    this.attributeValueByName[name] = value
-    return this;
-  }
-
-  addAttributes(attributes: Object) {
+  addAttributes(attributes: Object, kebabize: boolean = false) {
     for (const [name, value] of Object.entries(attributes)) {
-      this.attributeValueByName[name] = value
+      this.addAttribute(name, value, kebabize)
     }
     return this;
   }
+
+  addAttribute(name: string, value: string | number, kebabize: boolean = false) {
+
+    this.attributeValueByName[kebabize ? this.kebabize(name) : name] = value
+    return this;
+  }
+
+  private kebabize = (str: string) => str.replace(/[A-Z]+(?![a-z])|[A-Z]/g, ($, ofs) => (ofs ? "-" : "") + $.toLowerCase())
 
   build(): string {
     if (!this.tag) {

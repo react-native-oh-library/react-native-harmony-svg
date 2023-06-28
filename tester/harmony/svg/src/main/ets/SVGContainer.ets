@@ -67,7 +67,7 @@ export struct SVGContainer {
       return "";
     }
     builder
-      .addAttributes(descriptor.props)
+      .addAttributes(descriptor.props, true)
       .addChildren(this.mapChildrenTagsToSVGString(descriptor.childrenTags))
     return builder.build()
   }

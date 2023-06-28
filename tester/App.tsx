@@ -16,13 +16,13 @@ function App({}): JSX.Element {
               <Path d={TRIANGLE_PATH_DATA} />
             </Svg>
           </TestCase>
-          <TestCase itShould="display red triangle with green border on blue background">
+          <TestCase itShould="display red triangle with orange border on blue background">
             <Svg style={[styles.svgContainer, {backgroundColor: 'blue'}]}>
               <Path
                 d={TRIANGLE_PATH_DATA}
                 fill="red"
-                stroke="green"
-                strokeWidth={8}
+                stroke="orange"
+                strokeWidth={80}
               />
             </Svg>
           </TestCase>
