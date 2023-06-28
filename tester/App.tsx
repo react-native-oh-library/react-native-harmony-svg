@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Svg, {Path, G} from 'react-native-harmony-svg';
 import {Tester, TestSuite, TestCase} from '@rnoh/testerino';
@@ -45,10 +45,37 @@ function App({}): JSX.Element {
               </G>
             </Svg>
           </TestCase>
+          <TestCase itShould="[FAILS] change triangle color every second">
+            <Blinker
+              renderContent={refreshKey => {
+                return (
+                  <Svg
+                    style={[styles.svgContainer, {backgroundColor: 'white'}]}>
+                    <Path
+                      d={TRIANGLE_PATH_DATA}
+                      fill={refreshKey % 2 ? 'red' : 'black'}
+                    />
+                  </Svg>
+                );
+              }}
+            />
+          </TestCase>
         </TestSuite>
       </Tester>
     </View>
   );
+}
+
+function Blinker(props: {renderContent: (refreshKey: number) => any}) {
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  useEffect(() => {
+    setInterval(() => {
+      setRefreshKey(prev => prev + 1);
+    }, 1000);
+  }, []);
+
+  return <>{props.renderContent(refreshKey)}</>;
 }
 
 const styles = StyleSheet.create({

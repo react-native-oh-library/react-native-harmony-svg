@@ -34,8 +34,8 @@ export struct SVGContainer {
   private setSVGString(tag: number) {
     let result = `<?xml version="1.0" encoding="utf-8"?>`
     result += this.mapSVGDescriptorToString(tag)
-    this.ctx.logger.info("RNOH" + result)
     this.svgString = result
+    this.model.canvas.clear()
     this.model.setFromString(result)
   }
 
