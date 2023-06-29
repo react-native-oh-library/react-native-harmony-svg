@@ -26,9 +26,13 @@ export class XMLElementBuilder {
     return this;
   }
 
-  addAttribute(name: string, value: string | number, kebabize: boolean = false) {
-
-    this.attributeValueByName[kebabize ? this.kebabize(name) : name] = value
+  addAttribute(name: string, value: string | number | undefined, kebabize: boolean = false) {
+    const key = kebabize ? this.kebabize(name) : name
+    if (value === undefined) {
+      delete this.attributeValueByName[key]
+      return;
+    }
+    this.attributeValueByName[key] = value
     return this;
   }
 

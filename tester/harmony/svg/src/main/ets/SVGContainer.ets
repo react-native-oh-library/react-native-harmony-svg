@@ -86,11 +86,12 @@ export struct SVGContainer {
     builder.addCustomParser("stroke", colorStructParser)
 
     if (descriptor.type === "RNSVGSvgView") {
+      console.log("RNSVGSvgView:: ", JSON.stringify(descriptor))
       const viewBox = this.extractViewBox(tag)
       const p = descriptor.props
       builder.setTag("svg")
         .addAttribute("viewBox", `${p["minX"] ?? 0} ${p["minY"] ?? 0} ${viewBox.width} ${viewBox.height}`)
-        .addAttribute("xxscale", viewBox.scale)
+        .addAttribute("preserveAspectRatio", p["align"] && p["meetOrSlice"] !== undefined ? p["align"] + ' ' + ["meet", "slice", "none"][p["meetOrSlice"]] : undefined)
     } else if (descriptor.type in SVG_TAG_BY_DESCRIPTOR_TYPE) {
       builder.setTag(SVG_TAG_BY_DESCRIPTOR_TYPE[descriptor.type])
         .addAttributes(descriptor.props, true)

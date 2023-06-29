@@ -14,6 +14,8 @@ export default register('RNSVGSvgView', () => {
       minY: true,
       vbWidth: true,
       vbHeight: true,
+      align: true,
+      meetOrSlice: true,
     },
   };
 });
