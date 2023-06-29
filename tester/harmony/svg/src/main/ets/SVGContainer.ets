@@ -1,6 +1,7 @@
 import { SVGImageView } from "@ohos/svg"
 import { RNOHContext, Descriptor, RNViewBase, convertColorValueToRGBA } from "@ohos/rnoh"
 import { XMLElementBuilder } from "./XMLElementBuilder"
+import display from '@ohos.display';
 
 export type SVGContainerDescriptor = Descriptor<"RNSVGSvgView", {
   backgroundColor?: number
@@ -16,6 +17,12 @@ const SVG_TAG_BY_DESCRIPTOR_TYPE = {
   RNSVGPath: "path"
 }
 
+type ViewBox = {
+  width: number,
+  height: number
+  scale: number
+}
+
 @Component
 export struct SVGContainer {
   static DESCRIPTOR_TYPE = "RNSVGSvgView"
@@ -25,7 +32,9 @@ export struct SVGContainer {
   @State svgString: string = ""
 
   aboutToAppear() {
-    this.setSVGString(this.tag)
+    setTimeout(() => {
+      this.setSVGString(this.tag)
+    }, 0) // Scaling is not set if this method is run immediately
     this.ctx.descriptorRegistry.subscribeToDescriptorSubtreeChanges(this.tag, () => {
       this.setSVGString(this.tag)
     })
@@ -35,12 +44,20 @@ export struct SVGContainer {
     let result = `<?xml version="1.0" encoding="utf-8"?>`
     result += this.mapSVGDescriptorToString(tag)
     this.svgString = result
-    this.model.canvas.clear()
-    this.model.setFromString(result)
+    this.render(result, this.extractViewBox(tag))
   }
 
-  private mapSVGDescriptorToString(tag: number): string {
+  private render(str: string, viewBox: ViewBox) {
+    this.model.canvas.clear()
+    this.model.isScale = false
+    const scale = this.extractViewBox(this.tag).scale
+    this.model.context.scale(scale, scale)
+    this.model.setFromString(str)
+  }
+
+  private extractViewBox(tag: number): ViewBox {
     const descriptor = this.ctx.descriptorRegistry.getDescriptor(tag)
+    const p = descriptor.props
     const viewWidth = descriptor
       .layoutMetrics
       .frame
@@ -51,23 +68,37 @@ export struct SVGContainer {
       .frame
       .size
       .height
+    const width = p["vbWidth"] ?? viewWidth
+    const height = p["vbHeight"] ?? viewHeight
+
+    return {
+      width,
+      height,
+      scale: Math.min(viewWidth / width, viewHeight / height) * display.getDefaultDisplaySync().densityPixels
+    }
+  }
+
+  private mapSVGDescriptorToString(tag: number): string {
+    const descriptor = this.ctx.descriptorRegistry.getDescriptor(tag)
     const builder = new XMLElementBuilder()
     const colorStructParser = (colorStruct) => convertColorValueToRGBA(colorStruct.payload)
     builder.addCustomParser("fill", colorStructParser)
     builder.addCustomParser("stroke", colorStructParser)
+
     if (descriptor.type === "RNSVGSvgView") {
+      const viewBox = this.extractViewBox(tag)
       const p = descriptor.props
       builder.setTag("svg")
-        .addAttribute("viewBox", `${p["minX"] ?? 0} ${p["minY"] ?? 0} ${p["vbWidth"] ?? viewWidth} ${p["vbHeight"] ?? viewHeight}`)
-        .addAttribute("xml:space", "preserve")
+        .addAttribute("viewBox", `${p["minX"] ?? 0} ${p["minY"] ?? 0} ${viewBox.width} ${viewBox.height}`)
+        .addAttribute("xxscale", viewBox.scale)
     } else if (descriptor.type in SVG_TAG_BY_DESCRIPTOR_TYPE) {
       builder.setTag(SVG_TAG_BY_DESCRIPTOR_TYPE[descriptor.type])
+        .addAttributes(descriptor.props, true)
     } else {
       this.ctx.logger.error(`Unknown SVG descriptor: ${JSON.stringify(descriptor)}`)
       return "";
     }
     builder
-      .addAttributes(descriptor.props, true)
       .addChildren(this.mapChildrenTagsToSVGString(descriptor.childrenTags))
     return builder.build()
   }
@@ -82,7 +113,7 @@ export struct SVGContainer {
   build() {
     RNViewBase({ ctx: this.ctx, tag: this.tag }) {
       SVGImageView({ model: this.model }).width("100%").height("100%")
-      Text(this.svgString).fontSize(10).opacity(0.25)
+      Text(this.svgString).fontSize(10).opacity(0.25).fontColor("green")
     }
   }
 }

@@ -1,14 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import Svg, {Path, G} from 'react-native-svg';
 import {Tester, TestSuite, TestCase} from '@rnoh/testerino';
 
-const TRIANGLE_PATH_DATA = 'M90 0 L0 180 L180 180 Z';
+const TRIANGLE_PATH_DATA = 'M64 0 L0 128 L128 128 Z';
 
 function App({}): JSX.Element {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Tester>
         <TestSuite name="react-native-svg">
           <TestCase itShould="display black triangle">
@@ -22,18 +22,18 @@ function App({}): JSX.Element {
                 d={TRIANGLE_PATH_DATA}
                 fill="red"
                 stroke="orange"
-                strokeWidth={80}
+                strokeWidth={8}
               />
             </Svg>
           </TestCase>
-          <TestCase itShould="[FAILS] display right triangle larger compared to the left one">
+          <TestCase itShould="[FAILS] display smaller right triangle">
             <View style={[styles.svgContainer, {flexDirection: 'row'}]}>
               <Svg style={{width: '50%', backgroundColor: 'red'}}>
                 <Path d={TRIANGLE_PATH_DATA} />
               </Svg>
               <Svg
                 style={{width: '50%', backgroundColor: 'blue'}}
-                viewBox="0 0 100 100">
+                viewBox="0 0 500 100">
                 <Path d={TRIANGLE_PATH_DATA} />
               </Svg>
             </View>
@@ -62,7 +62,7 @@ function App({}): JSX.Element {
           </TestCase>
         </TestSuite>
       </Tester>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
   svgContainer: {
     width: '100%',
-    height: 100,
+    height: 128,
   },
 });
 
