@@ -1,6 +1,5 @@
 {
   app: {
-    signingConfigs: [],
     compileSdkVersion: 9,
     compatibleSdkVersion: 9,
     products: [
@@ -17,7 +16,9 @@
       targets: [
         {
           name: 'default',
-          applyToProducts: ['default'],
+          applyToProducts: [
+            'default'
+          ],
         },
       ],
     },
