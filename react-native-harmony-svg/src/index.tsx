@@ -1,6 +1,6 @@
 import Shape from './elements/Shape';
 import Rect from './elements/Rect';
-// import Circle from './elements/Circle';
+import Circle from './elements/Circle';
 // import Ellipse from './elements/Ellipse';
 // import Polygon from './elements/Polygon';
 // import Polyline from './elements/Polyline';
@@ -34,7 +34,7 @@ import G from './elements/G';
 // } from './css';
 // import { LocalSvg, WithLocalSvg, loadLocalRawResource } from './LocalSvg';
 import {
-  // RNSVGCircle,
+  RNSVGCircle,
   // RNSVGClipPath,
   // RNSVGDefs,
   // RNSVGEllipse,
@@ -58,7 +58,7 @@ import {
 } from './fabric';
 
 export type {RectProps} from './elements/Rect';
-// export type {CircleProps} from './elements/Circle';
+export type {CircleProps} from './elements/Circle';
 // export type {EllipseProps} from './elements/Ellipse';
 // export type {PolygonProps} from './elements/Polygon';
 // export type {PolylineProps} from './elements/Polyline';
@@ -87,7 +87,7 @@ export * from 'react-native-svg/src/lib/extract/types';
 
 export {
   Svg,
-  // Circle,
+  Circle,
   // Ellipse,
   G,
   // Text,
@@ -142,7 +142,7 @@ export {
   RNSVGPath,
   // RNSVGLine,
   // RNSVGEllipse,
-  // RNSVGCircle,
+  RNSVGCircle,
   RNSVGRect,
   RNSVGSvg,
   // RNSVGSvgAndroid,

@@ -1,4 +1,4 @@
-// export RNSVGCircle from './CircleNativeComponent';
+import RNSVGCircle from './CircleNativeComponent';
 // export RNSVGClipPath from './ClipPathNativeComponent';
 // export RNSVGDefs from './DefsNativeComponent';
 // export RNSVGEllipse from './EllipseNativeComponent';
@@ -20,4 +20,4 @@ import RNSVGSvg from './SvgViewNativeComponent';
 // export RNSVGTSpan from './TSpanNativeComponent';
 // export RNSVGUse from './UseNativeComponent';
 
-export {RNSVGGroup, RNSVGPath, RNSVGSvg, RNSVGRect};
+export {RNSVGGroup, RNSVGPath, RNSVGSvg, RNSVGRect, RNSVGCircle};
