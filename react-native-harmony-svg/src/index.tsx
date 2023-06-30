@@ -1,5 +1,5 @@
 import Shape from './elements/Shape';
-// import Rect from './elements/Rect';
+import Rect from './elements/Rect';
 // import Circle from './elements/Circle';
 // import Ellipse from './elements/Ellipse';
 // import Polygon from './elements/Polygon';
@@ -48,7 +48,7 @@ import {
   RNSVGPath,
   // RNSVGPattern,
   // RNSVGRadialGradient,
-  // RNSVGRect,
+  RNSVGRect,
   RNSVGSvg,
   // RNSVGSymbol,
   // RNSVGText,
@@ -57,7 +57,7 @@ import {
   // RNSVGUse,
 } from './fabric';
 
-// export type {RectProps} from './elements/Rect';
+export type {RectProps} from './elements/Rect';
 // export type {CircleProps} from './elements/Circle';
 // export type {EllipseProps} from './elements/Ellipse';
 // export type {PolygonProps} from './elements/Polygon';
@@ -97,7 +97,7 @@ export {
   // Polygon,
   // Polyline,
   // Line,
-  // Rect,
+  Rect,
   // Use,
   // Image,
   // Symbol,
@@ -143,7 +143,7 @@ export {
   // RNSVGLine,
   // RNSVGEllipse,
   // RNSVGCircle,
-  // RNSVGRect,
+  RNSVGRect,
   RNSVGSvg,
   // RNSVGSvgAndroid,
   // RNSVGSvgIOS,

@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import Svg, {Path, G} from 'react-native-svg';
+import Svg, {Path, G, Rect} from 'react-native-svg';
 import {Tester, TestSuite, TestCase} from '@rnoh/testerino';
 
 const TRIANGLE_PATH_DATA = 'M64 0 L0 128 L128 128 Z';
@@ -60,6 +60,18 @@ function App({}): JSX.Element {
               }}
             />
           </TestCase>
+          <TestCase itShould="render semi-transparent red rectangle with a pink border">
+            <Svg style={styles.svgContainer}>
+              <Rect
+                fill="red"
+                width="100"
+                height="100"
+                stroke="pink"
+                strokeWidth="8"
+                opacity="0.5"
+              />
+            </Svg>
+          </TestCase>
         </TestSuite>
       </Tester>
     </ScrollView>
@@ -70,9 +82,12 @@ function Blinker(props: {renderContent: (refreshKey: number) => any}) {
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
-    setInterval(() => {
+    const id = setInterval(() => {
       setRefreshKey(prev => prev + 1);
     }, 1000);
+    return () => {
+      clearInterval(id);
+    };
   }, []);
 
   return <>{props.renderContent(refreshKey)}</>;

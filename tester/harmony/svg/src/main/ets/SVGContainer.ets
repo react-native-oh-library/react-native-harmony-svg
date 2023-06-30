@@ -14,7 +14,8 @@ export type SVGContainerDescriptor = Descriptor<"RNSVGSvgView", {
 const SVG_TAG_BY_DESCRIPTOR_TYPE = {
   RNSVGSvgView: "svg",
   RNSVGGroup: "g",
-  RNSVGPath: "path"
+  RNSVGPath: "path",
+  RNSVGRect: "rect",
 }
 
 type ViewBox = {
@@ -114,7 +115,7 @@ export struct SVGContainer {
   build() {
     RNViewBase({ ctx: this.ctx, tag: this.tag }) {
       SVGImageView({ model: this.model }).width("100%").height("100%")
-      Text(this.svgString).fontSize(10).opacity(0.25).fontColor("green")
+      Text(this.svgString).fontSize(10).opacity(0.25).fontColor("#A0A")
     }
   }
 }

@@ -12,7 +12,7 @@ import RNSVGGroup from './GroupNativeComponent';
 import RNSVGPath from './PathNativeComponent';
 // export RNSVGPattern from './PatternNativeComponent';
 // export RNSVGRadialGradient from './RadialGradientNativeComponent';
-// export RNSVGRect from './RectNativeComponent';
+import RNSVGRect from './RectNativeComponent';
 import RNSVGSvg from './SvgViewNativeComponent';
 // export RNSVGSymbol from './SymbolNativeComponent';
 // export RNSVGText from './TextNativeComponent';
@@ -20,4 +20,4 @@ import RNSVGSvg from './SvgViewNativeComponent';
 // export RNSVGTSpan from './TSpanNativeComponent';
 // export RNSVGUse from './UseNativeComponent';
 
-export {RNSVGGroup, RNSVGPath, RNSVGSvg};
+export {RNSVGGroup, RNSVGPath, RNSVGSvg, RNSVGRect};
