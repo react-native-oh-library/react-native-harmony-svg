@@ -85,11 +85,11 @@ function App({}): JSX.Element {
               />
             </Svg>
           </TestCase>
-          <TestCase itShould="display a red semicircle on the blue rectangle">
+          <TestCase itShould="display a red circle in a blue rectangle">
             <Svg style={styles.svgContainer}>
               <Defs>
                 <ClipPath id="clip-circle">
-                  <Circle cy="50" cx="100" r="50" />
+                  <Circle cy="50" cx="50" r="50" />
                 </ClipPath>
               </Defs>
               <Rect

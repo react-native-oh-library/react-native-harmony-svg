@@ -33,7 +33,8 @@ export struct SVGContainer {
   model: SVGImageView.SVGImageViewModel = new SVGImageView.SVGImageViewModel()
   ctx: RNOHContext
   tag: number
-  @State svgString: string = ""
+  @State private debugModeEnabled: boolean = false
+  @State private svgString: string = ""
 
   aboutToAppear() {
     setTimeout(() => {
@@ -118,7 +119,7 @@ export struct SVGContainer {
   build() {
     RNViewBase({ ctx: this.ctx, tag: this.tag }) {
       SVGImageView({ model: this.model }).width("100%").height("100%")
-      Text(this.svgString).fontSize(10).opacity(0.25).fontColor("#A0A")
+      if (this.debugModeEnabled) Text(this.svgString).fontSize(10).opacity(0.25).fontColor("rgba(0,128,0,1)")
     }
   }
 }

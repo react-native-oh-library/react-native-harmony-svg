@@ -15,6 +15,7 @@ struct Index {
       SVGContainer({
         ctx: ctx.rnohContext,
         tag: ctx.descriptor.tag,
+        debugModeEnabled: true
       })
     }
   }
