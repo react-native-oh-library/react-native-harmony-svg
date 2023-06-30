@@ -17,6 +17,7 @@ const SVG_TAG_BY_DESCRIPTOR_TYPE = {
   RNSVGPath: "path",
   RNSVGRect: "rect",
   RNSVGCircle: "circle",
+  RNSVGDefs: "defs",
 }
 
 type ViewBox = {

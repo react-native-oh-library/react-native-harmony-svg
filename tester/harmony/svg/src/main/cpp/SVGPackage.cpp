@@ -4,6 +4,7 @@
 #include "RNSVGPathComponentDescriptor.h"
 #include "RNSVGRectComponentDescriptor.h"
 #include "RNSVGCircleComponentDescriptor.h"
+#include "RNSVGDefsComponentDescriptor.h"
 
 using namespace rnoh;
 using namespace facebook;
@@ -13,5 +14,6 @@ std::vector<react::ComponentDescriptorProvider> SVGPackage::createComponentDescr
             react::concreteComponentDescriptorProvider<react::RNSVGGroupComponentDescriptor>(),
             react::concreteComponentDescriptorProvider<react::RNSVGPathComponentDescriptor>(),
             react::concreteComponentDescriptorProvider<react::RNSVGCircleComponentDescriptor>(),
+            react::concreteComponentDescriptorProvider<react::RNSVGDefsComponentDescriptor>(),
             react::concreteComponentDescriptorProvider<react::RNSVGRectComponentDescriptor>()};
 }

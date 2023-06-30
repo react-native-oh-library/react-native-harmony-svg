@@ -14,7 +14,7 @@ import G from './elements/G';
 // import Use from './elements/Use';
 // import Image from './elements/Image';
 // import Symbol from './elements/Symbol';
-// import Defs from './elements/Defs';
+import Defs from './elements/Defs';
 // import LinearGradient from './elements/LinearGradient';
 // import RadialGradient from './elements/RadialGradient';
 // import Stop from './elements/Stop';
@@ -36,7 +36,7 @@ import G from './elements/G';
 import {
   RNSVGCircle,
   // RNSVGClipPath,
-  // RNSVGDefs,
+  RNSVGDefs,
   // RNSVGEllipse,
   // RNSVGForeignObject,
   RNSVGGroup,
@@ -101,7 +101,7 @@ export {
   // Use,
   // Image,
   // Symbol,
-  // Defs,
+  Defs,
   // LinearGradient,
   // RadialGradient,
   // Stop,
@@ -131,7 +131,7 @@ export {
   // RNSVGClipPath,
   // RNSVGRadialGradient,
   // RNSVGLinearGradient,
-  // RNSVGDefs,
+  RNSVGDefs,
   // RNSVGSymbol,
   // RNSVGImage,
   // RNSVGUse,
