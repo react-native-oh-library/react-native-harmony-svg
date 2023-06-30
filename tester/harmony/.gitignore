@@ -13,4 +13,4 @@ oh_modules/
 .cxx
 /.clangd
 /.clang-tidy
-./build-profile.json5
+build-profile.json5
