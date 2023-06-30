@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  stringifyPropsForFabric,
-  withoutXY,
-} from 'react-native-svg/src/lib/extract/extractProps'; // patch: import
+import {stringifyPropsForFabric, withoutXY} from '../lib/extract/extractProps';
 import type {
   CommonPathProps,
   NumberProp,

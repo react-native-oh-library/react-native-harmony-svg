@@ -2,21 +2,18 @@
 import {register} from 'react-native/Libraries/Renderer/shims/ReactNativeViewConfigRegistry';
 //@ts-ignore
 import ReactNativeViewAttributes from 'react-native/Libraries/Components/View/ReactNativeViewAttributes';
-import {commonPathAttributes} from './attributes';
+import {commonPathAttributes, fontAttributes} from './attributes';
 
-export default register('RNSVGDefs', () => {
+export default register('RNSVGClipPath', () => {
   return {
-    uiViewClassName: 'RNSVGDefs',
+    uiViewClassName: 'RNSVGClipPath',
     bubblingEventTypes: {},
     directEventTypes: {},
     validAttributes: {
       ...ReactNativeViewAttributes.UIView,
       ...commonPathAttributes,
-      name: true,
-      opacity: true,
-      responsible: true,
-      display: true,
-      pointerEvents: true,
+      ...fontAttributes,
+      id: true,
     },
   };
 });

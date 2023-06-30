@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import Svg, {Path, G, Rect, Circle} from 'react-native-svg';
+import Svg, {Path, G, Rect, Circle, ClipPath, Defs} from 'react-native-svg';
 import {Tester, TestSuite, TestCase} from '@rnoh/testerino';
 
 const TRIANGLE_PATH_DATA = 'M64 0 L0 128 L128 128 Z';
@@ -82,6 +82,30 @@ function App({}): JSX.Element {
                 stroke="pink"
                 strokeWidth="8"
                 opacity="0.5"
+              />
+            </Svg>
+          </TestCase>
+          <TestCase itShould="display a red semicircle on the blue rectangle">
+            <Svg style={styles.svgContainer}>
+              <Defs>
+                <ClipPath id="clip-circle">
+                  <Circle cy="50" cx="100" r="50" />
+                </ClipPath>
+              </Defs>
+              <Rect
+                fill="blue"
+                width="100"
+                height="100"
+                stroke="pink"
+                strokeWidth="8"
+              />
+              <Rect
+                fill="red"
+                width="100"
+                height="100"
+                stroke="pink"
+                strokeWidth="8"
+                clipPath="url(#clip-circle)"
               />
             </Svg>
           </TestCase>

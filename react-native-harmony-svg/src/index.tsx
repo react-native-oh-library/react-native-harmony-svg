@@ -18,7 +18,7 @@ import Defs from './elements/Defs';
 // import LinearGradient from './elements/LinearGradient';
 // import RadialGradient from './elements/RadialGradient';
 // import Stop from './elements/Stop';
-// import ClipPath from './elements/ClipPath';
+import ClipPath from './elements/ClipPath';
 // import Pattern from './elements/Pattern';
 // import Mask from './elements/Mask';
 // import Marker from './elements/Marker';
@@ -35,7 +35,7 @@ import Defs from './elements/Defs';
 // import { LocalSvg, WithLocalSvg, loadLocalRawResource } from './LocalSvg';
 import {
   RNSVGCircle,
-  // RNSVGClipPath,
+  RNSVGClipPath,
   RNSVGDefs,
   // RNSVGEllipse,
   // RNSVGForeignObject,
@@ -75,7 +75,7 @@ export type {GProps} from './elements/G';
 // export type {LinearGradientProps} from './elements/LinearGradient';
 // export type {RadialGradientProps} from './elements/RadialGradient';
 // export type {StopProps} from './elements/Stop';
-// export type {ClipPathProps} from './elements/ClipPath';
+export type {ClipPathProps} from './elements/ClipPath';
 // export type {PatternProps} from './elements/Pattern';
 // export type {MaskProps} from './elements/Mask';
 // export type {MarkerProps} from './elements/Marker';
@@ -105,7 +105,7 @@ export {
   // LinearGradient,
   // RadialGradient,
   // Stop,
-  // ClipPath,
+  ClipPath,
   // Pattern,
   // Mask,
   // Marker,
@@ -128,7 +128,7 @@ export {
   // RNSVGMarker,
   // RNSVGMask,
   // RNSVGPattern,
-  // RNSVGClipPath,
+  RNSVGClipPath,
   // RNSVGRadialGradient,
   // RNSVGLinearGradient,
   RNSVGDefs,
