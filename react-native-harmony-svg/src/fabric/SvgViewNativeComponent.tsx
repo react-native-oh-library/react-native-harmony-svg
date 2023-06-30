@@ -2,6 +2,7 @@
 import {register} from 'react-native/Libraries/Renderer/shims/ReactNativeViewConfigRegistry';
 //@ts-ignore
 import ReactNativeViewAttributes from 'react-native/Libraries/Components/View/ReactNativeViewAttributes';
+import {groupAttributes} from './GroupNativeComponent';
 
 export default register('RNSVGSvgView', () => {
   return {
@@ -10,6 +11,7 @@ export default register('RNSVGSvgView', () => {
     directEventTypes: {},
     validAttributes: {
       ...ReactNativeViewAttributes.UIView,
+      ...groupAttributes,
       minX: true,
       minY: true,
       vbWidth: true,

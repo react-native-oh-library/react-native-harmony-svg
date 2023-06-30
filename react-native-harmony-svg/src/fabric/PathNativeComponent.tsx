@@ -2,6 +2,7 @@
 import {register} from 'react-native/Libraries/Renderer/shims/ReactNativeViewConfigRegistry';
 //@ts-ignore
 import ReactNativeViewAttributes from 'react-native/Libraries/Components/View/ReactNativeViewAttributes';
+import {commonPathAttributes} from './attributes';
 
 export default register('RNSVGPath', () => {
   return {
@@ -10,10 +11,9 @@ export default register('RNSVGPath', () => {
     directEventTypes: {},
     validAttributes: {
       ...ReactNativeViewAttributes.UIView,
+      ...commonPathAttributes,
       d: true,
-      fill: true,
-      stroke: true,
-      strokeWidth: true,
+      opacity: true,
     },
   };
 });
