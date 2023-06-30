@@ -1,7 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import Svg, {Path, G, Rect, Circle, ClipPath, Defs} from 'react-native-svg';
+import Svg, {
+  Path,
+  G,
+  Rect,
+  Circle,
+  ClipPath,
+  Defs,
+  Image,
+} from 'react-native-svg';
 import {Tester, TestSuite, TestCase} from '@rnoh/testerino';
 
 const TRIANGLE_PATH_DATA = 'M64 0 L0 128 L128 128 Z';
@@ -106,6 +114,15 @@ function App({}): JSX.Element {
                 stroke="pink"
                 strokeWidth="8"
                 clipPath="url(#clip-circle)"
+              />
+            </Svg>
+          </TestCase>
+          <TestCase itShould="render image">
+            <Svg style={styles.svgContainer}>
+              <Image
+                href="https://i.pravatar.cc/100"
+                width="100"
+                height="100"
               />
             </Svg>
           </TestCase>

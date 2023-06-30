@@ -4,7 +4,7 @@ import RNSVGDefs from './DefsNativeComponent';
 // export RNSVGEllipse from './EllipseNativeComponent';
 // export RNSVGForeignObject from './ForeignObjectNativeComponent';
 import RNSVGGroup from './GroupNativeComponent';
-// export RNSVGImage from './ImageNativeComponent';
+import RNSVGImage from './ImageNativeComponent';
 // export RNSVGLinearGradient from './LinearGradientNativeComponent';
 // export RNSVGLine from './LineNativeComponent';
 // export RNSVGMarker from './MarkerNativeComponent';
@@ -28,4 +28,5 @@ export {
   RNSVGCircle,
   RNSVGDefs,
   RNSVGClipPath,
+  RNSVGImage,
 };

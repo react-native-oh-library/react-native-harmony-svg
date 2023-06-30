@@ -12,7 +12,7 @@ import G from './elements/G';
 // import TSpan from './elements/TSpan';
 // import TextPath from './elements/TextPath';
 // import Use from './elements/Use';
-// import Image from './elements/Image';
+import Image from './elements/Image';
 // import Symbol from './elements/Symbol';
 import Defs from './elements/Defs';
 // import LinearGradient from './elements/LinearGradient';
@@ -40,7 +40,7 @@ import {
   // RNSVGEllipse,
   // RNSVGForeignObject,
   RNSVGGroup,
-  // RNSVGImage,
+  RNSVGImage,
   // RNSVGLine,
   // RNSVGLinearGradient,
   // RNSVGMarker,
@@ -70,7 +70,7 @@ export type {GProps} from './elements/G';
 // export type {TSpanProps} from './elements/TSpan';
 // export type {TextPathProps} from './elements/TextPath';
 // export type {UseProps} from './elements/Use';
-// export type {ImageProps} from './elements/Image';
+export type {ImageProps} from './elements/Image';
 // export type {SymbolProps} from './elements/Symbol';
 // export type {LinearGradientProps} from './elements/LinearGradient';
 // export type {RadialGradientProps} from './elements/RadialGradient';
@@ -99,7 +99,7 @@ export {
   // Line,
   Rect,
   // Use,
-  // Image,
+  Image,
   // Symbol,
   Defs,
   // LinearGradient,
@@ -133,7 +133,7 @@ export {
   // RNSVGLinearGradient,
   RNSVGDefs,
   // RNSVGSymbol,
-  // RNSVGImage,
+  RNSVGImage,
   // RNSVGUse,
   // RNSVGTextPath,
   // RNSVGTSpan,
