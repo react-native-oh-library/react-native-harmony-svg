@@ -9,9 +9,11 @@ import Svg, {
   ClipPath,
   Defs,
   Image,
+  LinearGradient,
+  Stop,
 } from 'react-native-svg';
 import {Tester, TestSuite, TestCase} from '@rnoh/testerino';
-import QRCode from 'react-native-qrcode-svg';
+// import QRCode from 'react-native-qrcode-svg';
 
 const TRIANGLE_PATH_DATA = 'M64 0 L0 128 L128 128 Z';
 
@@ -124,9 +126,22 @@ function App({}): JSX.Element {
               expect(Image).not.to.be.undefined;
             }}
           />
-          <TestCase itShould="make react-native-qrcode-svg usable">
-            <QRCode value="123" />
+          <TestCase itShould="render linear gradient">
+            <Svg style={styles.svgContainer}>
+              <Svg height="150" width="300">
+                <Defs>
+                  <LinearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+                    <Stop offset="0" stopColor="#FFD080" stopOpacity="1" />
+                    <Stop offset="1" stopColor="red" stopOpacity="1" />
+                  </LinearGradient>
+                </Defs>
+                <Circle cy="50" cx="50" r="50" fill="url(#grad)" />
+              </Svg>
+            </Svg>
           </TestCase>
+          {/* <TestCase itShould="make react-native-qrcode-svg usable">
+            <QRCode value="123" />
+          </TestCase> */}
         </TestSuite>
       </Tester>
     </ScrollView>

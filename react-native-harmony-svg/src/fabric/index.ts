@@ -5,7 +5,7 @@ import RNSVGDefs from './DefsNativeComponent';
 // export RNSVGForeignObject from './ForeignObjectNativeComponent';
 import RNSVGGroup from './GroupNativeComponent';
 import RNSVGImage from './ImageNativeComponent';
-// export RNSVGLinearGradient from './LinearGradientNativeComponent';
+import RNSVGLinearGradient from './LinearGradientNativeComponent';
 // export RNSVGLine from './LineNativeComponent';
 // export RNSVGMarker from './MarkerNativeComponent';
 // export RNSVGMask from './MaskNativeComponent';
@@ -29,4 +29,5 @@ export {
   RNSVGDefs,
   RNSVGClipPath,
   RNSVGImage,
+  RNSVGLinearGradient,
 };

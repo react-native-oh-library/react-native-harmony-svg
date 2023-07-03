@@ -6,6 +6,8 @@
 #include "RNSVGCircleComponentDescriptor.h"
 #include "RNSVGDefsComponentDescriptor.h"
 #include "RNSVGClipPathComponentDescriptor.h"
+#include "RNSVGLinearGradientComponentDescriptor.h"
+#include "RNSVGStopComponentDescriptor.h"
 #include "RNSVGImageComponentDescriptor.h"
 
 using namespace rnoh;
@@ -19,5 +21,7 @@ std::vector<react::ComponentDescriptorProvider> SVGPackage::createComponentDescr
             react::concreteComponentDescriptorProvider<react::RNSVGDefsComponentDescriptor>(),
             react::concreteComponentDescriptorProvider<react::RNSVGClipPathComponentDescriptor>(),
             react::concreteComponentDescriptorProvider<react::RNSVGImageComponentDescriptor>(),
+            react::concreteComponentDescriptorProvider<react::RNSVGLinearGradientComponentDescriptor>(),
+            react::concreteComponentDescriptorProvider<react::RNSVGStopComponentDescriptor>(),
             react::concreteComponentDescriptorProvider<react::RNSVGRectComponentDescriptor>()};
 }

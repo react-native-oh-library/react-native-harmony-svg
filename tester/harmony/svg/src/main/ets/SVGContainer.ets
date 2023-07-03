@@ -20,6 +20,8 @@ const SVG_TAG_BY_DESCRIPTOR_TYPE = {
   RNSVGDefs: "defs",
   RNSVGClipPath: "clipPath",
   RNSVGImage: "image",
+  RNSVGLinearGradient: "linearGradient",
+  RNSVGStop: "stop",
 }
 
 type ViewBox = {

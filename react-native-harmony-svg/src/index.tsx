@@ -15,9 +15,9 @@ import G from './elements/G';
 import Image from './elements/Image';
 // import Symbol from './elements/Symbol';
 import Defs from './elements/Defs';
-// import LinearGradient from './elements/LinearGradient';
+import LinearGradient from './elements/LinearGradient';
 // import RadialGradient from './elements/RadialGradient';
-// import Stop from './elements/Stop';
+import Stop from './elements/Stop';
 import ClipPath from './elements/ClipPath';
 // import Pattern from './elements/Pattern';
 // import Mask from './elements/Mask';
@@ -42,7 +42,7 @@ import {
   RNSVGGroup,
   RNSVGImage,
   // RNSVGLine,
-  // RNSVGLinearGradient,
+  RNSVGLinearGradient,
   // RNSVGMarker,
   // RNSVGMask,
   RNSVGPath,
@@ -72,9 +72,9 @@ export type {GProps} from './elements/G';
 // export type {UseProps} from './elements/Use';
 export type {ImageProps} from './elements/Image';
 // export type {SymbolProps} from './elements/Symbol';
-// export type {LinearGradientProps} from './elements/LinearGradient';
+export type {LinearGradientProps} from 'react-native-svg/src/elements/LinearGradient';
 // export type {RadialGradientProps} from './elements/RadialGradient';
-// export type {StopProps} from './elements/Stop';
+export type {StopProps} from 'react-native-svg/src/elements/Stop';
 export type {ClipPathProps} from './elements/ClipPath';
 // export type {PatternProps} from './elements/Pattern';
 // export type {MaskProps} from './elements/Mask';
@@ -102,9 +102,9 @@ export {
   Image,
   // Symbol,
   Defs,
-  // LinearGradient,
+  LinearGradient,
   // RadialGradient,
-  // Stop,
+  Stop,
   ClipPath,
   // Pattern,
   // Mask,
@@ -130,7 +130,7 @@ export {
   // RNSVGPattern,
   RNSVGClipPath,
   // RNSVGRadialGradient,
-  // RNSVGLinearGradient,
+  RNSVGLinearGradient,
   RNSVGDefs,
   // RNSVGSymbol,
   RNSVGImage,
