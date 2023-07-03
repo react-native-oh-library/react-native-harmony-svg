@@ -37,7 +37,7 @@ function App({}): JSX.Element {
               />
             </Svg>
           </TestCase>
-          <TestCase itShould="[FAILS] display smaller right triangle">
+          <TestCase itShould="display a smaller triangle on the right">
             <View style={[styles.svgContainer, {flexDirection: 'row'}]}>
               <Svg style={{width: '50%', backgroundColor: 'red'}}>
                 <Path d={TRIANGLE_PATH_DATA} />
@@ -120,13 +120,15 @@ function App({}): JSX.Element {
               />
             </Svg>
           </TestCase>
+          {/* Path to the image must be transformed to make this component work.  */}
           <TestCase
             itShould="export image component"
             fn={({expect}) => {
               expect(Image).not.to.be.undefined;
             }}
           />
-          <TestCase itShould="render linear gradient">
+          <TestCase itShould="[FAILS] support linear gradient">
+            {/* props may yet need to be transformed e.g. supporting various fill's ColorStruct types. */}
             <Svg style={styles.svgContainer}>
               <Svg height="150" width="300">
                 <Defs>
