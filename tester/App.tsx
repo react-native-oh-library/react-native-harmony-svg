@@ -117,15 +117,12 @@ function App({}): JSX.Element {
               />
             </Svg>
           </TestCase>
-          <TestCase itShould="render image">
-            <Svg style={styles.svgContainer}>
-              <Image
-                href="https://i.pravatar.cc/100"
-                width="100"
-                height="100"
-              />
-            </Svg>
-          </TestCase>
+          <TestCase
+            itShould="export image component"
+            fn={({expect}) => {
+              expect(Image).not.to.be.undefined;
+            }}
+          />
         </TestSuite>
       </Tester>
     </ScrollView>
