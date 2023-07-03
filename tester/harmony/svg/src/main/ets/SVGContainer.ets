@@ -41,6 +41,9 @@ export struct SVGContainer {
 
   aboutToAppear() {
     setTimeout(() => {
+      this.model.isScale = false
+      const scale = this.extractViewBox(this.tag).scale
+      this.model.context.scale(scale, scale)
       this.setSVGString(this.tag)
     }, 0) // Scaling is not set if this method is run immediately
     this.ctx.descriptorRegistry.subscribeToDescriptorSubtreeChanges(this.tag, () => {
@@ -52,14 +55,11 @@ export struct SVGContainer {
     let result = `<?xml version="1.0" encoding="utf-8"?>`
     result += this.mapSVGDescriptorToString(tag)
     this.svgString = result
-    this.render(result, this.extractViewBox(tag))
+    this.render(result)
   }
 
-  private render(str: string, viewBox: ViewBox) {
+  private render(str: string) {
     this.model.canvas.clear()
-    this.model.isScale = false
-    const scale = this.extractViewBox(this.tag).scale
-    this.model.context.scale(scale, scale)
     this.model.setFromString(str)
   }
 
@@ -94,7 +94,6 @@ export struct SVGContainer {
     builder.addCustomParser("stroke", colorStructParser)
 
     if (descriptor.type === "RNSVGSvgView") {
-      console.log("RNSVGSvgView:: ", JSON.stringify(descriptor))
       const viewBox = this.extractViewBox(tag)
       const p = descriptor.props
       builder.setTag("svg")
