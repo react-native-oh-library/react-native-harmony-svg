@@ -37,6 +37,23 @@ function App({}): JSX.Element {
               />
             </Svg>
           </TestCase>
+          <TestCase itShould="[FAILS] change triangle color every second">
+            <Blinker
+              renderContent={refreshKey => {
+                return (
+                  <Svg
+                    style={[styles.svgContainer, {backgroundColor: 'white'}]}>
+                    <Path
+                      d={TRIANGLE_PATH_DATA}
+                      fill={refreshKey % 2 ? 'red' : 'black'}
+                      stroke="orange"
+                      strokeWidth={8}
+                    />
+                  </Svg>
+                );
+              }}
+            />
+          </TestCase>
           <TestCase itShould="display a smaller triangle on the right">
             <View style={[styles.svgContainer, {flexDirection: 'row'}]}>
               <Svg style={{width: '50%', backgroundColor: 'red'}}>
@@ -55,21 +72,6 @@ function App({}): JSX.Element {
                 <Path d={TRIANGLE_PATH_DATA} />
               </G>
             </Svg>
-          </TestCase>
-          <TestCase itShould="[FAILS] change triangle color every second">
-            <Blinker
-              renderContent={refreshKey => {
-                return (
-                  <Svg
-                    style={[styles.svgContainer, {backgroundColor: 'white'}]}>
-                    <Path
-                      d={TRIANGLE_PATH_DATA}
-                      fill={refreshKey % 2 ? 'red' : 'black'}
-                    />
-                  </Svg>
-                );
-              }}
-            />
           </TestCase>
           <TestCase itShould="render semi-transparent red rectangle with a pink border">
             <Svg style={styles.svgContainer}>
