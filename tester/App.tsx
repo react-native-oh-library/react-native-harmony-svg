@@ -13,7 +13,7 @@ import Svg, {
   Stop,
 } from 'react-native-svg';
 import {Tester, TestSuite, TestCase} from '@rnoh/testerino';
-// import QRCode from 'react-native-qrcode-svg';
+import QRCode from 'react-native-qrcode-svg';
 
 const TRIANGLE_PATH_DATA = 'M64 0 L0 128 L128 128 Z';
 
@@ -139,9 +139,9 @@ function App({}): JSX.Element {
               </Svg>
             </Svg>
           </TestCase>
-          {/* <TestCase itShould="make react-native-qrcode-svg usable">
+          <TestCase itShould="make react-native-qrcode-svg usable">
             <QRCode value="123" />
-          </TestCase> */}
+          </TestCase>
         </TestSuite>
       </Tester>
     </ScrollView>
