@@ -2,23 +2,23 @@
   "name": "@rnoh/react-native-harmony-svg",
   "version": "0.0.4",
   "description": "",
+  "react-native": "src/index",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
-  "react-native": "src/index",
   "scripts": {
     "prepack": "bob build",
-    "pack:harmony": "react-native pack-harmony --oh-module-path ../tester/harmony/svg --harmony-dir-path ./harmony",
-    "pack:prod": "npm run pack:harmony && npm pack",
-    "prepublishOnly": "npm run prepack && npm run pack:harmony"
+    "prepublishOnly": "npm run prepack && react-native verify-package-harmony --package-path . --skip-checks oh_package_name_is_derived_from_npm_package_name",
+    "update_version": "node ./scripts/update-version.js",
+    "deploy": "node ./scripts/deploy.js"
   },
   "author": "",
   "license": "ISC",
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "react-native-harmony": "*",
-    "react-native-svg": "^13.9.0"
+    "@rnoh/react-native-harmony": "^0.72.25",
+    "react-native-svg": "13.14.0"
   },
   "devDependencies": {
     "@tsconfig/react-native": "^3.0.0",
@@ -27,14 +27,16 @@
     "@types/jest": "^29.5.1",
     "react-native-builder-bob": "^0.20.4",
     "typescript": "^5.0.4",
-    "react-native-harmony": "npm:@rnoh/react-native-harmony@^0.72.0"
+    "@rnoh/react-native-harmony": "^0.72.25"
   },
   "harmony": {
-    "alias": "react-native-svg"
+    "alias": "react-native-svg",
+    "redirectInternalImports": true
   },
   "files": [
-    "./harmony.tar.gz",
-    "./lib/**/*",
+    "./harmony/*",
+    "src",
+    "lib",
     "./*.json"
   ],
   "react-native-builder-bob": {
@@ -42,6 +44,7 @@
     "output": "lib",
     "targets": [
       "commonjs",
+      "module",
       "typescript"
     ]
   }

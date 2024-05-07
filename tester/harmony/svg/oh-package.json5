@@ -1,14 +1,11 @@
 {
-  "license": "ISC",
-  "types": "",
-  "devDependencies": {
-    "@ohos/rnoh": "file:../react_native_modules/rnoh"
-  },
-  "name": "@ohos/rnoh-svg",
-  "description": "",
-  "main": "index.ets",
-  "version": "0.0.1",
-  "dependencies": {
-    "@ohos/svg": "^2.0.0"
-  }
+  license: '',
+  devDependencies: {},
+  author: '',
+  description: "",
+  name: '@rnoh/react-native-openharmony-svg',
+  type: 'module',
+  main: 'index.ets',
+  version: '0.0.1',
+  dependencies: {},
 }

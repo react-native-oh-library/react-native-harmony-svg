@@ -12,18 +12,19 @@
     "postinstall": "react-native unpack-harmony"
   },
   "dependencies": {
+    "@rnoh/react-native-harmony-svg": "file:../react-native-harmony-svg/rnoh-react-native-harmony-svg-0.0.4.tgz",
     "react": "18.2.0",
-    "react-native": "0.72.0",
-    "react-native-harmony": "npm:@rnoh/react-native-harmony@0.72.0",
-    "react-native-harmony-svg": "file:../react-native-harmony-svg/rnoh-react-native-harmony-svg-0.0.4.tgz",
+    "react-native": "0.72.5",
+    "react-native-harmony": "npm:@rnoh/react-native-harmony@^0.72.25",
     "react-native-qrcode-svg": "^6.2.0",
-    "react-native-svg": "^13.9.0"
+    "react-native-svg": "13.14.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@babel/preset-env": "^7.20.0",
     "@babel/runtime": "^7.20.0",
     "@react-native-community/eslint-config": "^3.2.0",
+    "@react-native/metro-config": "^0.72.9",
     "@rnoh/testerino": "^0.0.1",
     "@tsconfig/react-native": "^2.0.2",
     "@types/jest": "^29.2.1",
@@ -40,5 +41,9 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "overrides": {
+    "@rnoh/react-native-harmony-cli": "^0.0.23",
+    "@react-native/codegen": "0.74.0"
   }
 }

@@ -1,32 +1,41 @@
-import { RNApp, ComponentBuilderContext, RNOHContext } from '@ohos/rnoh'
-import { SVGContainer } from "@ohos/rnoh-svg"
-
+import {
+  RNApp,
+  ComponentBuilderContext,
+  RNOHCoreContext,
+  MetroJSBundleProvider,
+  RNOHErrorDialog
+} from '@rnoh/react-native-openharmony'
 
 let storage = LocalStorage.GetShared()
+
+@Builder
+function CustomComponentBuilder(ctx: ComponentBuilderContext) {
+  Stack() {
+  }
+}
+
+const wrappedCustomRNComponentBuilder = wrapBuilder(CustomComponentBuilder)
 
 @Entry(storage)
 @Component
 struct Index {
-  @LocalStorageProp('RNOHContext') rnohContext: RNOHContext | undefined = undefined
-
-  @Builder
-  buildCustomComponent(ctx: ComponentBuilderContext) {
-    if (ctx.descriptor.type === SVGContainer.DESCRIPTOR_TYPE) {
-      SVGContainer({
-        ctx: ctx.rnohContext,
-        tag: ctx.descriptor.tag,
-        debugModeEnabled: true
-      })
-    }
-  }
+  @StorageLink('RNOHCoreContext') rnohCoreContext: RNOHCoreContext | undefined = undefined
 
   build() {
     Column() {
-      RNApp({
-        rnohContext: this.rnohContext !,
-        appName: "app_name",
-        buildCustomComponent: this.buildCustomComponent.bind(this)
-      })
+      if (this.rnohCoreContext) {
+        RNOHErrorDialog({ ctx: this.rnohCoreContext });
+        RNApp({
+          appKey: "app_name",
+          rnInstanceConfig: {
+            enableCAPIArchitecture: true,
+            createRNPackages: (ctx) => []
+          },
+          buildCustomComponent: CustomComponentBuilder,
+          jsBundleProvider: new MetroJSBundleProvider(),
+          wrappedCustomRNComponentBuilder: wrappedCustomRNComponentBuilder,
+        })
+      }
     }
     .height('100%')
     .width('100%')

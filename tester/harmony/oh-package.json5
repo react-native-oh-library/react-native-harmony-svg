@@ -5,7 +5,9 @@
   },
   "name": "rnoh",
   "description": "example description",
-  "repository": {},
+  "repository": '',
   "version": "1.0.0",
-  "dependencies": {}
+  "dependencies": {
+    "@rnoh/react-native-openharmony": "file:../node_modules/@rnoh/react-native-harmony/harmony/react_native_openharmony.har"
+  }
 }
