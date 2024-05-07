@@ -22,7 +22,7 @@ void RNSVGLineComponentInstance::onPropsChanged(SharedConcreteProps const &props
     svgLine->x2 = std::stod(props->x2);
     svgLine->y2 = std::stod(props->y2);
 
-    svgLine->setBrushColor((uint32_t)*props->fill.payload);
+    svgLine->setBrushColor((uint32_t)*props->fill.payload,props->fillOpacity);
     
     svgLine->setStrokColor((uint32_t)*props->stroke.payload);
     svgLine->setStrokeLineWith(props->strokeWidth);

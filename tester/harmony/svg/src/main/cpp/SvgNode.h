@@ -1,98 +1,110 @@
 // from ArkUI "frameworks/core/components_ng/svg/parse/svg_node.h"
 #pragma once
 
-#include <vector>
+#include <glog/logging.h>
 #include <native_drawing/drawing_canvas.h>
+#include <memory>
+#include <vector>
+#include "SvgBaseAttribute.h"
+#include "SvgContext.h"
 #include "properties/Dimension.h"
 #include "properties/Size.h"
-#include <glog/logging.h>
-#include "SvgBaseAttribute.h"
 
 namespace rnoh {
 
 enum class SvgLengthType {
-    HORIZONTAL,
-    VERTICAL,
-    OTHER,
+  HORIZONTAL,
+  VERTICAL,
+  OTHER,
 };
 
 class SvgNode {
+ public:
+  SvgNode() = default;
+  virtual ~SvgNode() = default;
 
-public:
-    SvgNode() = default;
-    virtual ~SvgNode() = default;
+  std::shared_ptr<SvgContext> GetContext() {
+    return context_;
+  }
+  void SetContext(std::shared_ptr<SvgContext> context) {
+    context_ = context;
+  }
 
-    virtual void Draw(OH_Drawing_Canvas *canvas) {
-        for (const auto &child : children_) {
-            if (child != nullptr) {
-                child->Draw(canvas);
-            }
-        }
-        OnDraw(canvas);
-    };
+  void InitStyle(const SvgBaseAttribute& attr);
 
-    virtual void SetAttr(const std::string &name, const std::string &value);
+  virtual void Draw(OH_Drawing_Canvas* canvas);
 
-    virtual bool ParseAndSetSpecializedAttr(const std::string &name, const std::string &value) { return false; }
+  virtual void SetAttr(const std::string& name, const std::string& value);
 
-    virtual OH_Drawing_Path *AsPath() {
-        LOG(INFO) << "[SVGNode] AsPath";
-        return nullptr;
-    };
+  virtual bool ParseAndSetSpecializedAttr(
+      const std::string& name,
+      const std::string& value) {
+    return false;
+  }
 
+  virtual OH_Drawing_Path* AsPath() const {
+    LOG(INFO) << "[SVGNode] AsPath";
+  };
 
-    virtual void OnDraw(OH_Drawing_Canvas *canvas) {}
+  virtual void AppendChild(const std::shared_ptr<SvgNode>& child) {
+    children_.emplace_back(child);
+  }
 
-    virtual void AppendChild(const std::shared_ptr<SvgNode> &child) { children_.emplace_back(child); }
+ protected:
+  virtual void InheritAttr(const SvgBaseAttribute& parent) {
+    attributes_.Inherit(parent);
+  }
 
-    std::vector<std::shared_ptr<SvgNode>> children_;
+  void InheritUseAttr(const SvgBaseAttribute& parent) {
+    attributes_.InheritFromUse(parent);
+  }
 
-protected:
-    SvgBaseAttribute attributes_;
+  // override as need by derived class
+  // called by function AppendChild
+  virtual void OnAppendChild(const std::shared_ptr<SvgNode>& child) {}
+  // called by function InitStyle
+  virtual void OnInitStyle() {}
 
-    float smoothEdge_ = 0.0f;
-    uint8_t opacity_ = 0xFF;
-    float GetSmoothEdge() const { return smoothEdge_; }
-    
-//     std::optional<ImageColorFilter> GetColorFilter() const { return colorFilter_; }
+  virtual void OnDraw(OH_Drawing_Canvas* canvas) {}
+  virtual void OnDrawTraversed(OH_Drawing_Canvas* canvas);
+  void OnClipPath(OH_Drawing_Canvas* canvas);
+  void OnMask(OH_Drawing_Canvas* canvas);
+  void OnTransform(OH_Drawing_Canvas* canvas);
 
-    bool hrefFill_ = true;      // get fill attributes from reference
-    bool hrefRender_ = true;    // get render attr (mask, filter, transform, opacity, clip path) from reference
-    bool passStyle_ = true;     // pass style attributes to child node, TAGS circle/path/line/... = false
-    bool inheritStyle_ = true;  // inherit style attributes from parent node, TAGS mask/defs/pattern/filter = false
-    bool drawTraversed_ = true; // enable OnDraw, TAGS mask/defs/pattern/filter = false
+  void SetSmoothEdge(float edge) {
+    smoothEdge_ = edge;
+  }
+  float GetSmoothEdge() const {
+    return smoothEdge_;
+  }
 
-    double ConvertDimensionToPx(const Dimension &value, const Size &viewPort, SvgLengthType type) const {
-        switch (value.Unit()) {
-        case DimensionUnit::PERCENT: {
-            if (type == SvgLengthType::HORIZONTAL) {
-                return value.Value() * viewPort.Width();
-            }
-            if (type == SvgLengthType::VERTICAL) {
-                return value.Value() * viewPort.Height();
-            }
-            if (type == SvgLengthType::OTHER) {
-                return value.Value() * sqrt(viewPort.Width() * viewPort.Height());
-            }
-            return 0.0;
-        }
-        case DimensionUnit::PX:
-            return value.Value();
-        case DimensionUnit::VP:
-            return vpToPx(value.Value());
-        default:
-            return vpToPx(value.Value());
-        }
-    }
-};
+  double ConvertDimensionToPx(
+      const Dimension& value,
+      const Size& viewPort,
+      SvgLengthType type) const;
 
-class SvgHost {
-public:
-    void SetSvgNode(const std::shared_ptr<SvgNode> &svgNode) { m_svgNode = svgNode; };
-    const std::shared_ptr<SvgNode> &GetSvgNode() { return m_svgNode; };
+  SvgBaseAttribute attributes_;
+  std::shared_ptr<SvgContext> context_;
 
-private:
-    std::shared_ptr<SvgNode> m_svgNode;
+  std::vector<std::shared_ptr<SvgNode>> children_;
+  std::string nodeId_;
+  std::vector<float> transform_; // transform matrix
+
+  std::string hrefClipPath_;
+  std::string hrefMaskId_;
+  std::string imagePath_;
+  float smoothEdge_ = 0.0f;
+  uint8_t opacity_ = 0xFF;
+
+  bool hrefFill_ = true; // get fill attributes from reference
+  bool hrefRender_ = true; // get render attr (mask, filter, transform, opacity,
+                           // clip path) from reference
+  bool passStyle_ = true; // pass style attributes to child node, TAGS
+                          // circle/path/line/... = false
+  bool inheritStyle_ = true; // inherit style attributes from parent node, TAGS
+                             // mask/defs/pattern/filter = false
+  bool drawTraversed_ =
+      true; // enable OnDraw, TAGS mask/defs/pattern/filter = false
 };
 
 } // namespace rnoh

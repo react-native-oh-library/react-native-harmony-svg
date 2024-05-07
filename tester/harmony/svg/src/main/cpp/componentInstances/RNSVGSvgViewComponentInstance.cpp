@@ -2,13 +2,15 @@
 #include "Props.h"
 #include <react/renderer/core/ConcreteState.h>
 #include <sstream>
+#include "SvgSvg.h"
 
 namespace rnoh {
 
 RNSVGSvgViewComponentInstance::RNSVGSvgViewComponentInstance(Context context)
     : CppComponentInstance(std::move(context)) {
-    SetSvgNode(std::make_shared<SvgNode>());
+    SetSvgNode(std::make_shared<SvgSvg>());
     m_svgArkUINode.SetSvgNode(GetSvgNode());
+    GetSvgNode()->SetContext(std::make_shared<SvgContext>());
 }
 
 void RNSVGSvgViewComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
@@ -26,6 +28,13 @@ void RNSVGSvgViewComponentInstance::onPropsChanged(SharedConcreteProps const &pr
     LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->meetOrSlice: " << props->meetOrSlice;
     LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->tintColor: " << props->tintColor;
     LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->color: " << props->color;
+    auto svg = dynamic_pointer_cast<SvgSvg>(GetSvgNode());
+    svg->attr_.x = Dimension(props->minX);
+    svg->attr_.y = Dimension(props->minY);
+    svg->attr_.width = Dimension(props->vbWidth);
+    svg->attr_.height = Dimension(props->vbHeight);
+
+    svg->InitStyle({});
 }
 
 SvgArkUINode &RNSVGSvgViewComponentInstance::getLocalRootArkUINode() {

@@ -12,7 +12,7 @@ const char VALUE_NONE[] = "none";
 struct SvgBaseAttribute : Attribute {
     bool hasOpacity = false;
     double opacity = 1.0;
-//     FillState fillState;
+    FillState fillState;
     StrokeState strokeState;
 //     SvgTextStyle textStyle;
     std::string transform;
@@ -33,7 +33,7 @@ struct SvgBaseAttribute : Attribute {
                 opacity = 1.0; // default opacity is 1.0
             }
         }
-//         fillState.Inherit(parent.fillState);
+        fillState.Inherit(parent.fillState);
         strokeState.Inherit(parent.strokeState);
 //         clipState.Inherit(parent.clipState);
     }
@@ -47,7 +47,7 @@ struct SvgBaseAttribute : Attribute {
                 opacity = 1.0; // default opacity is 1.0
             }
         }
-//         fillState.Inherit(parent.fillState);
+        fillState.Inherit(parent.fillState);
         strokeState.Inherit(parent.strokeState);
 //         clipState.Inherit(parent.clipState);
     }
