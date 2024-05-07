@@ -3,10 +3,9 @@
   "devDependencies": {},
   "name": "entry",
   "description": "example description",
-  "repository": {},
+  "repository": '',
   "version": "1.0.0",
   "dependencies": {
-    "@ohos/rnoh": "file:../react_native_modules/rnoh",
-    "@ohos/rnoh-svg": "file:../svg"
+    "@rnoh/react-native-openharmony-svg": "file:../svg"
   }
 }
