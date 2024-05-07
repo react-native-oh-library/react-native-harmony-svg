@@ -2,7 +2,7 @@ import React from 'react';
 import extractGradient from 'react-native-svg/src/lib/extract/extractGradient';
 import Shape from './Shape';
 import RNSVGLinearGradient from '../fabric/LinearGradientNativeComponent';
-import {stringifyPropsForFabric} from '../lib/extract/extractProps';
+import {stringifyPropsForFabric} from 'react-native-svg/src/lib/extract/extractProps';
 import type {NativeMethods} from 'react-native';
 import {LinearGradientProps} from 'react-native-svg/src/elements/LinearGradient';
 

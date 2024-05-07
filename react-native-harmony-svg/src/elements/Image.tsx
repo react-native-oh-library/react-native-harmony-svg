@@ -5,7 +5,7 @@ import {
   alignEnum,
   meetOrSliceTypes,
 } from 'react-native-svg/src/lib/extract/extractViewBox';
-import {stringifyPropsForFabric, withoutXY} from '../lib/extract/extractProps';
+import {stringifyPropsForFabric, withoutXY} from 'react-native-svg/src/lib/extract/extractProps';
 import type {
   CommonPathProps,
   NumberProp,
