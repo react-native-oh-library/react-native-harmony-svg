@@ -31,11 +31,6 @@
   },
   "harmony": {
     "alias": "react-native-svg",
-    "codegenConfig": {
-      "specPaths": [
-        "./src/fabric"
-      ]
-    },
     "redirectInternalImports": true
   },
   "files": [
