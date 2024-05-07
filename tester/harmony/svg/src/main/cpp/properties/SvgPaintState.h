@@ -10,6 +10,7 @@
 #include "properties/Color.h"
 #include "properties/Dimension.h"
 #include "properties/PaintState.h"
+#include "properties/Decoration.h"
 
 namespace rnoh {
 
@@ -24,6 +25,86 @@ const char ATTR_NAME_STROKE_OPACITY[] = "stroke-opacity";
 const char ATTR_NAME_LETTER_SPACING[] = "letter-spacing";
 const char ANIMATOR_TYPE_MOTION[] = "motion";
 const char ATTR_NAME_FILL_RULE_EVENODD[] = "evenodd";
+
+
+class FillState {
+public:
+//     void SetContextAndCallback(const WeakPtr<PipelineContext> &context, const RenderNodeAnimationCallback &callback) {
+//         color_.SetContextAndCallback(context, callback);
+//         opacity_.SetContextAndCallback(context, callback);
+//     }
+//
+    const Color &GetColor() const { return color_; }
+
+    /**
+     * set fill color
+     * @param color
+     * @param isSelf if false the color value inherited from the parent node, otherwise the value is setted by self
+     */
+    void SetColor(const Color &color, bool isSelf = true) {
+        color_ = Color(color);
+        hasColor_ = isSelf;
+    }
+
+    std::optional<Gradient> &GetGradient() { return gradient_; }
+
+    const std::optional<Gradient> &GetGradient() const { return gradient_; }
+
+    void SetGradient(const Gradient &gradient, bool isSelf = true) {
+        gradient_ = std::make_optional(gradient);
+        hasGradient_ = isSelf;
+    }
+
+    void SetOpacity(double opacity, bool isSelf = true) {
+        opacity_ = opacity;
+        hasOpacity_ = isSelf;
+    }
+
+    double GetOpacity() const { return opacity_; }
+
+    void SetFillRule(const std::string &fillRule, bool isSelf = true) {
+        fillRule_ = fillRule;
+        hasFillRule_ = isSelf;
+    }
+
+    const std::string &GetFillRule() const { return fillRule_; }
+
+//     bool IsEvenodd() const { return fillRule_ == ATTR_NAME_FILL_RULE_EVENODD; }
+//
+    void Inherit(const FillState &parent) {
+        if (!hasColor_) {
+            color_ = parent.GetColor();
+        }
+        if (!hasOpacity_) {
+            opacity_ = parent.GetOpacity();
+        }
+        if (!hasFillRule_) {
+            fillRule_ = parent.GetFillRule();
+        }
+        if (!hasGradient_) {
+            gradient_ = parent.GetGradient();
+        }
+    }
+
+    bool HasColor() const { return hasColor_; }
+
+    bool HasOpacity() const { return hasOpacity_; }
+
+    void SetHref(const std::string &href) { href_ = href; }
+
+    const std::string &GetHref() const { return href_; }
+
+protected:
+    Color color_ = Color(Color::BLACK);
+    double opacity_ = double(1.0);
+    std::string fillRule_;
+    std::optional<Gradient> gradient_;
+    bool hasColor_ = false;
+    bool hasOpacity_ = false;
+    bool hasFillRule_ = false;
+    bool hasGradient_ = false;
+    std::string href_;
+};
 
 class StrokeState {
 public:

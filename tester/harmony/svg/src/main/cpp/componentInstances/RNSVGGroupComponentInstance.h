@@ -16,10 +16,7 @@ public:
     RNSVGGroupComponentInstance(Context context);
     
     void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override{
-        auto childSvgHost = std::dynamic_pointer_cast<SvgHost>(childComponentInstance);
-        if (childSvgHost) {
-            GetSvgNode()->AppendChild(childSvgHost->GetSvgNode());
-        }
+        OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
     }
     
     void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override{

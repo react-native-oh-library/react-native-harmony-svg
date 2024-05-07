@@ -39,7 +39,9 @@ private:
 public:
     RNSVGUseComponentInstance(Context context);
     
-    void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override{}
+    void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override{
+        OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
+    }
     
     void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override{}
     

@@ -1,5 +1,6 @@
 #pragma once
 #include "SvgNode.h"
+#include "SvgHost.h"
 #include "RNOH/arkui/ArkUINode.h"
 #include "arkui/native_node.h"
 

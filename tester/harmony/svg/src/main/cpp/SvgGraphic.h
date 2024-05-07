@@ -36,7 +36,11 @@ public:
     void OnDraw(OH_Drawing_Canvas *canvas) override;
 
     // temporary
-    void setBrushColor(const uint32_t fill) { OH_Drawing_BrushSetColor(fillBrush_, fill); }
+    void setBrushColor(const uint32_t fill,double fillOpacity) { 
+//         OH_Drawing_BrushSetColor(fillBrush_, fill);
+        attributes_.fillState.SetColor(Color(fill));
+        attributes_.fillState.SetOpacity(fillOpacity);
+    }
     void setStrokColor(const uint32_t fill) {
         attributes_.strokeState.SetColor(Color(fill));
     }
@@ -127,10 +131,10 @@ protected:
         }
     }
 
-    // TODO bool UpdateFillStyle(int color, bool antiAlias = true);
+    bool UpdateFillStyle(bool antiAlias = true);
     bool UpdateStrokeStyle(bool antiAlias = true);
     // TODO void UpdateGradient(const std::pair<float, float> &viewPort);
-    // TODO void SetGradientStyle(double opacity);
+    void SetGradientStyle(double opacity);
     void UpdateLineDash();
 
 private:

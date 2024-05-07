@@ -24,9 +24,66 @@ void SvgGraphic::OnDraw(OH_Drawing_Canvas *canvas) {
     //     OH_Drawing_PenReset(strokePen_);
     // 获取子类的绘制路径。
     path_ = AsPath();
-    OnGraphicFill(canvas);
+    if (UpdateFillStyle()) {
+        OnGraphicFill(canvas);
+    }
+//     OnGraphicFill(canvas);
     UpdateStrokeStyle();
     OnGraphicStroke(canvas);
+}
+bool SvgGraphic::UpdateFillStyle(bool antiAlias) {
+    const auto &fillState_ = attributes_.fillState;
+    if (fillState_.GetColor() == Color::TRANSPARENT && !fillState_.GetGradient()) {
+        return false;
+    }
+    double curOpacity = fillState_.GetOpacity() * opacity_ * (1.0f / UINT8_MAX);
+    OH_Drawing_BrushSetAntiAlias(fillBrush_,antiAlias);
+    if (fillState_.GetGradient()) {
+        LOG(INFO) << "[SVGGraphic] SetGradientStyle";
+        SetGradientStyle(curOpacity);
+    } else {
+//         auto fillColor = (color) ? *color : fillState_.GetColor();
+//         fillBrush_.SetColor(fillColor.BlendOpacity(curOpacity).GetValue());
+        OH_Drawing_BrushSetColor(fillBrush_, fillState_.GetColor().BlendOpacity(curOpacity).GetValue());
+    }
+    return true;
+}
+void SvgGraphic::SetGradientStyle(double opacity) {
+//     auto gradient = fillState_.GetGradient();
+//     CHECK_NULL_VOID(gradient);
+//     auto gradientColors = gradient->GetColors();
+//     if (gradientColors.empty()) {
+//         return;
+//     }
+//     std::vector<RSScalar> pos;
+//     std::vector<RSColorQuad> colors;
+//     for (const auto &gradientColor : gradientColors) {
+//         pos.push_back(static_cast<RSScalar>(gradientColor.GetDimension().Value()));
+//         colors.push_back(
+//             gradientColor.GetColor().BlendOpacity(gradientColor.GetOpacity()).BlendOpacity(opacity).GetValue());
+//     }
+//     if (gradient->GetType() == GradientType::LINEAR) {
+//         auto info = gradient->GetLinearGradientInfo();
+//         std::array<RSPoint, 2> pts = {RSPoint(static_cast<RSScalar>(info.x1), static_cast<RSScalar>(info.y1)),
+//                                       RSPoint(static_cast<RSScalar>(info.x2), static_cast<RSScalar>(info.y2))};
+//         fillBrush_.SetShaderEffect(RSRecordingShaderEffect::CreateLinearGradient(
+//             pts[0], pts[1], colors, pos, static_cast<RSTileMode>(gradient->GetSpreadMethod())));
+//     }
+//     if (gradient->GetType() == GradientType::RADIAL) {
+//         auto info = gradient->GetRadialGradientInfo();
+//         auto center = RSPoint(static_cast<RSScalar>(info.cx), static_cast<RSScalar>(info.cy));
+//         auto focal = RSPoint(static_cast<RSScalar>(info.fx), static_cast<RSScalar>(info.fx));
+//         if (center == focal) {
+//             fillBrush_.SetShaderEffect(
+//                 RSRecordingShaderEffect::CreateRadialGradient(center, static_cast<RSScalar>(info.r), colors, pos,
+//                                                               static_cast<RSTileMode>(gradient->GetSpreadMethod())));
+//         } else {
+//             RSMatrix matrix;
+//             fillBrush_.SetShaderEffect(RSRecordingShaderEffect::CreateTwoPointConical(
+//                 focal, 0, center, static_cast<RSScalar>(info.r), colors, pos,
+//                 static_cast<RSTileMode>(gradient->GetSpreadMethod()), &matrix));
+//         }
+//     }
 }
 
 bool SvgGraphic::UpdateStrokeStyle(bool antiAlias) {

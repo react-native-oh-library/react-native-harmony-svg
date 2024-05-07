@@ -29,13 +29,15 @@ void RNSVGRectComponentInstance::onPropsChanged(SharedConcreteProps const &props
         // TODO fix: use std::stod cpp crash
         svgRect->ry = std::stof(props->ry);
     }
-    svgRect->setBrushColor((uint32_t)*props->fill.payload);
+    svgRect->setBrushColor((uint32_t)*props->fill.payload, props->fillOpacity);
     svgRect->setStrokColor((uint32_t)*props->stroke.payload);
-//     svgRect->setStrokeLineWith(std::stod(props->strokeWidth));
-    svgRect->SetAttr("strokeWidth", props->strokeWidth);
-//     svgRect->SetAttr("strokeDashoffset",std::to_string(props->strokeDashoffset));
-//     svgRect->SetAttr("strokeLinecap", std::to_string(props->strokeLinecap));
-//     svgRect->SetAttr("strokeLinejoin", std::to_string(props->strokeLinejoin));
+    svgRect->setStrokeLineWith(props->strokeWidth);
+    svgRect->setStrokeDasharray(props->strokeDasharray);
+    svgRect->setStrokeDashoffset(props->strokeDashoffset);
+    svgRect->setStrokeLineCap(props->strokeLinecap);
+    svgRect->setStrokeLineJoin(props->strokeLinejoin);
+    svgRect->setStrokeMiterlimit(props->strokeMiterlimit);
+    svgRect->setStrokeOpacity(props->strokeOpacity);
 }
 
 SvgArkUINode &RNSVGRectComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }

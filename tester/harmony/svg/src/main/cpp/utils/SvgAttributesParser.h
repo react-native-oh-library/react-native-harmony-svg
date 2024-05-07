@@ -72,7 +72,6 @@ struct SvgFeIn {
 };
 
 struct SvgAttributes {
-    Rect viewBox;
     Dimension x;
     Dimension y;
     Dimension width = -1.0_px;
