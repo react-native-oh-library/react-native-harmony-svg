@@ -4,3 +4,5 @@ node_modules
 /**/.vscode
 bundle.harmony.js
 *.code-workspace
+tester/package-lock.json
+tester/harmony/react_native_openharmony.har

@@ -65,7 +65,7 @@ void SvgArkUINode::OnDraw(ArkUI_NodeCustomEvent *event) {
     auto *drawingHandle = reinterpret_cast<OH_Drawing_Canvas *>(OH_ArkUI_DrawContext_GetCanvas(drawContext));
     LOG(INFO) << "[svg] <SVGArkUINode> CanvasGetHeight: " << OH_Drawing_CanvasGetHeight(drawingHandle) / 3.25010318;
     LOG(INFO) << "[svg] <SVGArkUINode> CanvasGetWidth: " << OH_Drawing_CanvasGetWidth(drawingHandle) / 3.25010318;
-    root_->RegisterRefTraversal(root_);
+    root_->ContextTraversal(root_);
     root_->InitStyle({});
     root_->Draw(drawingHandle);
 }

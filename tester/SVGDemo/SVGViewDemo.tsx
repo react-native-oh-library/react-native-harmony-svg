@@ -19,7 +19,7 @@ const SVGDemo = () => {
     <View>
       <Svg width={100} height={100} strokeWidth="10">
         <Mask id="myMask">
-          <Rect x="0" y="0" width="100" height="100" fill="white" />
+          <Rect opacity="1.0" x="0" y="0" width="100" height="100" fill="white" />
         </Mask>
         <Rect
           x="50"

@@ -425,12 +425,13 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props, const std::shared_pt
     }
 }
 
-void SvgNode::RegisterRefTraversal(const std::shared_ptr<SvgNode> &self) {
+void SvgNode::ContextTraversal(const std::shared_ptr<SvgNode> &self) {
     if (!attributes_.id.empty()) {
         context_->Push(attributes_.id, self);
     }
     for (const auto &child : children_) {
-        child->RegisterRefTraversal(child);
+        child->SetContext(context_);
+        child->ContextTraversal(child);
     }
 }
 } // namespace rnoh
