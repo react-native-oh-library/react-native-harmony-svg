@@ -11,6 +11,8 @@ RNSVGDefsComponentInstance::RNSVGDefsComponentInstance(Context context) : CppCom
 
 void RNSVGDefsComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
      CppComponentInstance::onPropsChanged(props);
+
+     GetSvgNode()->UpdateCommonProps(props, GetSvgNode());
 }
 
 SvgArkUINode &RNSVGDefsComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }

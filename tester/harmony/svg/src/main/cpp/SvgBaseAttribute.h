@@ -4,6 +4,7 @@
 #include "Attribute.h"
 #include "properties/SvgPaintState.h"
 #include <string>
+#include <vector>
 
 namespace rnoh {
 
@@ -12,15 +13,19 @@ const char VALUE_NONE[] = "none";
 struct SvgBaseAttribute : Attribute {
     bool hasOpacity = false;
     double opacity = 1.0;
+    float smoothEdge = 0.0f;
     FillState fillState;
     StrokeState strokeState;
 //     SvgTextStyle textStyle;
-    std::string transform;
+    std::vector<double> transform; // transform matrix
     std::string transformOrigin;
     std::string filterId;
     std::string maskId;
     std::string href;
     std::string id;
+    std::string markerStart;
+    std::string markerMid;
+    std::string markerEnd;
 //     ClipState clipState;
 
     void InheritFromUse(const SvgBaseAttribute& parent)

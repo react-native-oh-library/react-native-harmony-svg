@@ -9,6 +9,7 @@
 #include "SvgContext.h"
 #include "properties/Dimension.h"
 #include "properties/Size.h"
+#include "Props.h"
 
 namespace rnoh {
 
@@ -50,6 +51,9 @@ class SvgNode {
     children_.emplace_back(child);
   }
 
+  using ConcreteProps = std::shared_ptr<const facebook::react::RNSVGCommonProps>;
+  void UpdateCommonProps(const ConcreteProps& props, const std::shared_ptr<SvgNode>& self);
+
  protected:
   virtual void InheritAttr(const SvgBaseAttribute& parent) {
     attributes_.Inherit(parent);
@@ -72,10 +76,10 @@ class SvgNode {
   void OnTransform(OH_Drawing_Canvas* canvas);
 
   void SetSmoothEdge(float edge) {
-    smoothEdge_ = edge;
+    attributes_.smoothEdge = edge;
   }
   float GetSmoothEdge() const {
-    return smoothEdge_;
+    return attributes_.smoothEdge;
   }
 
   double ConvertDimensionToPx(
@@ -87,14 +91,9 @@ class SvgNode {
   std::shared_ptr<SvgContext> context_;
 
   std::vector<std::shared_ptr<SvgNode>> children_;
-  std::string nodeId_;
-  std::vector<float> transform_; // transform matrix
 
   std::string hrefClipPath_;
-  std::string hrefMaskId_;
   std::string imagePath_;
-  float smoothEdge_ = 0.0f;
-  uint8_t opacity_ = 0xFF;
 
   bool hrefFill_ = true; // get fill attributes from reference
   bool hrefRender_ = true; // get render attr (mask, filter, transform, opacity,

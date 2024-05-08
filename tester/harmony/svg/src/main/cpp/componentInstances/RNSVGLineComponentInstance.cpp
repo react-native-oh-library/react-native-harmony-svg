@@ -38,6 +38,8 @@ void RNSVGLineComponentInstance::onPropsChanged(SharedConcreteProps const &props
     //     svgLine->SetAttr("strokeLinecap", std::to_string(props->strokeLinecap));
     //     svgLine->SetAttr("strokeLinejoin", std::to_string(props->strokeLinejoin));
     
+
+    svgLine->UpdateCommonProps(props, svgLine);
 }
 
 SvgArkUINode &RNSVGLineComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }

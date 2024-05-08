@@ -36,7 +36,7 @@ bool SvgGraphic::UpdateFillStyle(bool antiAlias) {
     if (fillState_.GetColor() == Color::TRANSPARENT && !fillState_.GetGradient()) {
         return false;
     }
-    double curOpacity = fillState_.GetOpacity() * opacity_ * (1.0f / UINT8_MAX);
+    double curOpacity = fillState_.GetOpacity() * attributes_.opacity;
     OH_Drawing_BrushSetAntiAlias(fillBrush_,antiAlias);
     if (fillState_.GetGradient()) {
         LOG(INFO) << "[SVGGraphic] SetGradientStyle";
@@ -96,7 +96,7 @@ bool SvgGraphic::UpdateStrokeStyle(bool antiAlias) {
         return false;
     }
 
-    double curOpacity = strokeState.GetOpacity() * opacity_ * (1.0f / UINT8_MAX);
+    double curOpacity = strokeState.GetOpacity() * attributes_.opacity;
     //     strokePen_.SetColor(strokeState.GetColor().BlendOpacity(curOpacity).GetValue());
     OH_Drawing_PenSetColor(strokePen_, strokeState.GetColor().BlendOpacity(curOpacity).GetValue());
     LOG(INFO) << "[svg] strokeState.GetLineCap(): " << static_cast<int>(strokeState.GetLineCap());

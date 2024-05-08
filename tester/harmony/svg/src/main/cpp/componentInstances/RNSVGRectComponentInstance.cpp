@@ -38,6 +38,8 @@ void RNSVGRectComponentInstance::onPropsChanged(SharedConcreteProps const &props
     svgRect->setStrokeLineJoin(props->strokeLinejoin);
     svgRect->setStrokeMiterlimit(props->strokeMiterlimit);
     svgRect->setStrokeOpacity(props->strokeOpacity);
+
+    svgRect->UpdateCommonProps(props, svgRect);
 }
 
 SvgArkUINode &RNSVGRectComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
