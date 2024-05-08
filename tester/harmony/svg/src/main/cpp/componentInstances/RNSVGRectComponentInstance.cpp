@@ -16,6 +16,10 @@ void RNSVGRectComponentInstance::onPropsChanged(SharedConcreteProps const &props
     LOG(INFO) << "[RNSVGRectComponentInstance] Props->strokeWidth: " << props->strokeWidth;
     LOG(INFO) << "[RNSVGRectComponentInstance] Props->rx: " << props->rx;
     LOG(INFO) << "[RNSVGRectComponentInstance] Props->ry: " << props->ry;
+    LOG(INFO) << "[RNSVGRectComponentInstance] Props->propList size: " << props->propList.size();
+    for (auto &prop : props->propList) {
+        LOG(INFO) << "[RNSVGRectComponentInstance] Props->propList: " << prop;
+    }
     auto svgRect = std::dynamic_pointer_cast<SvgRect>(GetSvgNode());
     svgRect->x = std::stod(props->x);
     svgRect->y = std::stod(props->y);

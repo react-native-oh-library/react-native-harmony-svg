@@ -31,7 +31,7 @@ class SvgNode {
     context_ = context;
   }
 
-  void RegisterRefTraversal(const std::shared_ptr<SvgNode>& self);
+  void ContextTraversal(const std::shared_ptr<SvgNode>& self);
   void InitStyle(const SvgBaseAttribute& attr);
 
   virtual void Draw(OH_Drawing_Canvas* canvas);
