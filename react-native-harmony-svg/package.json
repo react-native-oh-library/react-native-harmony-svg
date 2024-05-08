@@ -17,7 +17,6 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "@rnoh/react-native-harmony": "^0.72.25",
     "react-native-svg": "13.14.0"
   },
   "devDependencies": {
@@ -26,8 +25,7 @@
     "@types/react-native": "^0.71.6",
     "@types/jest": "^29.5.1",
     "react-native-builder-bob": "^0.20.4",
-    "typescript": "^5.0.4",
-    "@rnoh/react-native-harmony": "^0.72.25"
+    "typescript": "^5.0.4"
   },
   "harmony": {
     "alias": "react-native-svg",

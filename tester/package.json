@@ -3,19 +3,18 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "react-native start",
+    "start": "hdc rport tcp:8081 tcp:8081 && react-native start",
     "install:dev": "npm run pack:pkg && npm uninstall react-native-harmony-svg && npm i",
     "pack:pkg": "cd ../react-native-harmony-svg && npm pack && cd ../tester",
     "install:pkg": "npm run pack:pkg && npm i react-native-harmony-svg@file:../react-native-harmony-svg/rnoh-react-native-harmony-svg-0.0.4.tgz",
-    "dev": "npm uninstall react-native-harmony-svg && npm run install:pkg && react-native bundle-harmony",
-    "android": "react-native run-android",
-    "postinstall": "react-native unpack-harmony"
+    "dev": "npm uninstall react-native-harmony-svg && npm run install:pkg && react-native bundle-harmony --dev --minify=false",
+    "android": "react-native run-android"
   },
   "dependencies": {
-    "@rnoh/react-native-harmony-svg": "file:../react-native-harmony-svg/rnoh-react-native-harmony-svg-0.0.4.tgz",
     "react": "18.2.0",
     "react-native": "0.72.5",
-    "react-native-harmony": "npm:@rnoh/react-native-harmony@^0.72.25",
+    "react-native-harmony": "file:../react-native-harmony/rnoh-react-native-harmony-0.72.23.tgz",
+    "react-native-harmony-svg": "file:../react-native-harmony-svg/rnoh-react-native-harmony-svg-0.0.4.tgz",
     "react-native-qrcode-svg": "^6.2.0",
     "react-native-svg": "13.14.0"
   },
@@ -43,7 +42,7 @@
     "preset": "react-native"
   },
   "overrides": {
-    "@rnoh/react-native-harmony-cli": "^0.0.23",
+    "@rnoh/react-native-harmony-cli": "file:../react-native-harmony-cli/rnoh-react-native-harmony-cli-0.0.25.tgz",
     "@react-native/codegen": "0.74.0"
   }
 }
