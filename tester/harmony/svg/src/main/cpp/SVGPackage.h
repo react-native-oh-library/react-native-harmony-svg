@@ -41,6 +41,7 @@
 #include "componentInstances/RNSVGClipPathComponentInstance.h"
 #include "componentInstances/RNSVGMaskComponentInstance.h"
 #include "componentInstances/RNSVGUseComponentInstance.h"
+#include "componentInstances/RNSVGMarkerComponentInstance.h"
 
 using namespace rnoh;
 using namespace facebook;
@@ -96,6 +97,9 @@ public:
         }
         if (ctx.componentName == "RNSVGUse") {
             return std::make_shared<RNSVGUseComponentInstance>(std::move(ctx));
+        }
+        if (ctx.componentName == "RNSVGMarker") {
+            return std::make_shared<RNSVGMarkerComponentInstance>(std::move(ctx));
         }
         return nullptr;
     }
