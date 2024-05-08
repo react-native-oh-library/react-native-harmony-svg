@@ -74,6 +74,8 @@ struct SvgFeIn {
 struct SvgAttributes {
     Dimension x;
     Dimension y;
+    Dimension vbWidth;
+    Dimension vbHeight;
     Dimension width = -1.0_px;
     Dimension height = -1.0_px;
     bool autoMirror = false;

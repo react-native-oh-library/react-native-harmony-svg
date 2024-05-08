@@ -31,8 +31,10 @@ void RNSVGSvgViewComponentInstance::onPropsChanged(SharedConcreteProps const &pr
     auto svg = dynamic_pointer_cast<SvgSvg>(GetSvgNode());
     svg->attr_.x = Dimension(props->minX);
     svg->attr_.y = Dimension(props->minY);
-    svg->attr_.width = Dimension(props->vbWidth);
-    svg->attr_.height = Dimension(props->vbHeight);
+    svg->attr_.vbWidth = Dimension(props->vbWidth);
+    svg->attr_.vbHeight = Dimension(props->vbHeight);
+    svg->attr_.width = Dimension(props->bbWidth);
+    svg->attr_.height = Dimension(props->bbHeight);
 }
 
 SvgArkUINode &RNSVGSvgViewComponentInstance::getLocalRootArkUINode() {
