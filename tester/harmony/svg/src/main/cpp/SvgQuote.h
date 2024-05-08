@@ -28,8 +28,8 @@ class SvgQuote : public SvgNode {
   }
 
  protected:
-  virtual void OnDrawTraversedBefore(OH_Drawing_Canvas* canvas, Size viewPort) {}
-  virtual void OnDrawTraversedAfter(OH_Drawing_Canvas* canvas, Size viewPort) {}
+  virtual void OnDrawTraversedBefore(OH_Drawing_Canvas* canvas) {}
+  virtual void OnDrawTraversedAfter(OH_Drawing_Canvas* canvas) {}
 
   // mask/pattern/filter/clipPath
   void InitHrefFlag() {

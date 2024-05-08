@@ -33,8 +33,6 @@ void RNSVGSvgViewComponentInstance::onPropsChanged(SharedConcreteProps const &pr
     svg->attr_.y = Dimension(props->minY);
     svg->attr_.width = Dimension(props->vbWidth);
     svg->attr_.height = Dimension(props->vbHeight);
-
-    svg->InitStyle({});
 }
 
 SvgArkUINode &RNSVGSvgViewComponentInstance::getLocalRootArkUINode() {

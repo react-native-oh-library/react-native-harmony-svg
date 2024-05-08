@@ -31,6 +31,7 @@ class SvgNode {
     context_ = context;
   }
 
+  void RegisterRefTraversal(const std::shared_ptr<SvgNode>& self);
   void InitStyle(const SvgBaseAttribute& attr);
 
   virtual void Draw(OH_Drawing_Canvas* canvas);
@@ -45,6 +46,7 @@ class SvgNode {
 
   virtual OH_Drawing_Path* AsPath() const {
     LOG(INFO) << "[SVGNode] AsPath";
+        return nullptr;
   };
 
   virtual void AppendChild(const std::shared_ptr<SvgNode>& child) {
