@@ -17,7 +17,7 @@ import Svg, {
 const SVGDemo = () => {
   return (
     <View>
-      <Svg width={100} height={100} strokeWidth="10">
+      <Svg viewBox="0 0 100 100" strokeWidth="10">
         <Mask id="myMask">
           <Rect opacity="1.0" x="0" y="0" width="100" height="100" fill="white" />
         </Mask>
