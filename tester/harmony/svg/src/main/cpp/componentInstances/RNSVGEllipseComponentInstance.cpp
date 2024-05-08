@@ -21,6 +21,8 @@ void RNSVGEllipseComponentInstance::onPropsChanged(SharedConcreteProps const &pr
     svgEllipse->rx = std::stof(props->rx);
     svgEllipse->ry = std::stof(props->ry);
     svgEllipse->colorFill = (uint32_t)*props->fill.payload;
+
+    GetSvgNode()->UpdateCommonProps(props, GetSvgNode());
 }
 
 SvgArkUINode &RNSVGEllipseComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }

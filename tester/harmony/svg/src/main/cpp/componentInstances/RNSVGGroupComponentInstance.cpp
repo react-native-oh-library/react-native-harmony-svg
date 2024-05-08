@@ -12,7 +12,8 @@ RNSVGGroupComponentInstance::RNSVGGroupComponentInstance(Context context) : CppC
 void RNSVGGroupComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
     CppComponentInstance::onPropsChanged(props);
     LOG(INFO) << "[RNSVGGroupComponentInstance] props->fill.payload: " << (uint32_t)*props->fill.payload;
-    
+
+    GetSvgNode()->UpdateCommonProps(props, GetSvgNode());
 }
 
 SvgArkUINode &RNSVGGroupComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }

@@ -216,16 +216,10 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
   }
 }
 
-static inline std::string toString(const RNSVGCircleStrokeStruct &value) {
-  return "[Object RNSVGCircleStrokeStruct]";
-}
-class JSI_EXPORT RNSVGCircleProps final : public ViewProps {
- public:
-  RNSVGCircleProps() = default;
-  RNSVGCircleProps(const PropsParserContext& context, const RNSVGCircleProps &sourceProps, const RawProps &rawProps);
-
-#pragma mark - Props
-
+class RNSVGCommonProps : public ViewProps {
+public:
+  RNSVGCommonProps() = default;
+  RNSVGCommonProps(const PropsParserContext& context, const RNSVGCommonProps &sourceProps, const RawProps &rawProps);
   std::string name{};
   Float opacity{1.0};
   std::vector<Float> matrix{};
@@ -234,6 +228,18 @@ class JSI_EXPORT RNSVGCircleProps final : public ViewProps {
   std::string markerMid{};
   std::string markerEnd{};
   std::string clipPath{};
+};
+
+static inline std::string toString(const RNSVGCircleStrokeStruct &value) {
+  return "[Object RNSVGCircleStrokeStruct]";
+}
+class JSI_EXPORT RNSVGCircleProps final : public RNSVGCommonProps {
+ public:
+  RNSVGCircleProps() = default;
+  RNSVGCircleProps(const PropsParserContext& context, const RNSVGCircleProps &sourceProps, const RawProps &rawProps);
+
+#pragma mark - Props
+
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -391,21 +397,13 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
 static inline std::string toString(const RNSVGClipPathFontStruct &value) {
   return "[Object RNSVGClipPathFontStruct]";
 }
-class JSI_EXPORT RNSVGClipPathProps final : public ViewProps {
+class JSI_EXPORT RNSVGClipPathProps final : public RNSVGCommonProps {
  public:
   RNSVGClipPathProps() = default;
   RNSVGClipPathProps(const PropsParserContext& context, const RNSVGClipPathProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -428,21 +426,13 @@ class JSI_EXPORT RNSVGClipPathProps final : public ViewProps {
   RNSVGClipPathFontStruct font{};
 };
 
-class JSI_EXPORT RNSVGDefsProps final : public ViewProps {
+class JSI_EXPORT RNSVGDefsProps final : public RNSVGCommonProps {
  public:
   RNSVGDefsProps() = default;
   RNSVGDefsProps(const PropsParserContext& context, const RNSVGDefsProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -502,21 +492,13 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
 static inline std::string toString(const RNSVGEllipseStrokeStruct &value) {
   return "[Object RNSVGEllipseStrokeStruct]";
 }
-class JSI_EXPORT RNSVGEllipseProps final : public ViewProps {
+class JSI_EXPORT RNSVGEllipseProps final : public RNSVGCommonProps {
  public:
   RNSVGEllipseProps() = default;
   RNSVGEllipseProps(const PropsParserContext& context, const RNSVGEllipseProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -675,21 +657,13 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
 static inline std::string toString(const RNSVGForeignObjectFontStruct &value) {
   return "[Object RNSVGForeignObjectFontStruct]";
 }
-class JSI_EXPORT RNSVGForeignObjectProps final : public ViewProps {
+class JSI_EXPORT RNSVGForeignObjectProps final : public RNSVGCommonProps {
  public:
   RNSVGForeignObjectProps() = default;
   RNSVGForeignObjectProps(const PropsParserContext& context, const RNSVGForeignObjectProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -851,21 +825,13 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
 static inline std::string toString(const RNSVGGroupFontStruct &value) {
   return "[Object RNSVGGroupFontStruct]";
 }
-class JSI_EXPORT RNSVGGroupProps final : public ViewProps {
+class JSI_EXPORT RNSVGGroupProps final : public RNSVGCommonProps {
  public:
   RNSVGGroupProps() = default;
   RNSVGGroupProps(const PropsParserContext& context, const RNSVGGroupProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -941,21 +907,13 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
 static inline std::string toString(const RNSVGImageStrokeStruct &value) {
   return "[Object RNSVGImageStrokeStruct]";
 }
-class JSI_EXPORT RNSVGImageProps final : public ViewProps {
+class JSI_EXPORT RNSVGImageProps final : public RNSVGCommonProps {
  public:
   RNSVGImageProps() = default;
   RNSVGImageProps(const PropsParserContext& context, const RNSVGImageProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -1002,21 +960,13 @@ class JSI_EXPORT RNSVGSvgViewProps final : public ViewProps {
   std::string pointerEvents{};
 };
 
-class JSI_EXPORT RNSVGLinearGradientProps final : public ViewProps {
+class JSI_EXPORT RNSVGLinearGradientProps final : public RNSVGCommonProps {
  public:
   RNSVGLinearGradientProps() = default;
   RNSVGLinearGradientProps(const PropsParserContext& context, const RNSVGLinearGradientProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -1083,21 +1033,13 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
 static inline std::string toString(const RNSVGLineStrokeStruct &value) {
   return "[Object RNSVGLineStrokeStruct]";
 }
-class JSI_EXPORT RNSVGLineProps final : public ViewProps {
+class JSI_EXPORT RNSVGLineProps final : public RNSVGCommonProps {
  public:
   RNSVGLineProps() = default;
   RNSVGLineProps(const PropsParserContext& context, const RNSVGLineProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -1256,21 +1198,13 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
 static inline std::string toString(const RNSVGMarkerFontStruct &value) {
   return "[Object RNSVGMarkerFontStruct]";
 }
-class JSI_EXPORT RNSVGMarkerProps final : public ViewProps {
+class JSI_EXPORT RNSVGMarkerProps final : public RNSVGCommonProps {
  public:
   RNSVGMarkerProps() = default;
   RNSVGMarkerProps(const PropsParserContext& context, const RNSVGMarkerProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -1440,21 +1374,13 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
 static inline std::string toString(const RNSVGMaskFontStruct &value) {
   return "[Object RNSVGMaskFontStruct]";
 }
-class JSI_EXPORT RNSVGMaskProps final : public ViewProps {
+class JSI_EXPORT RNSVGMaskProps final : public RNSVGCommonProps {
  public:
   RNSVGMaskProps() = default;
   RNSVGMaskProps(const PropsParserContext& context, const RNSVGMaskProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -1536,21 +1462,13 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
 static inline std::string toString(const RNSVGPathStrokeStruct &value) {
   return "[Object RNSVGPathStrokeStruct]";
 }
-class JSI_EXPORT RNSVGPathProps final : public ViewProps {
+class JSI_EXPORT RNSVGPathProps final : public RNSVGCommonProps {
  public:
   RNSVGPathProps() = default;
   RNSVGPathProps(const PropsParserContext& context, const RNSVGPathProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -1706,21 +1624,13 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
 static inline std::string toString(const RNSVGPatternFontStruct &value) {
   return "[Object RNSVGPatternFontStruct]";
 }
-class JSI_EXPORT RNSVGPatternProps final : public ViewProps {
+class JSI_EXPORT RNSVGPatternProps final : public RNSVGCommonProps {
  public:
   RNSVGPatternProps() = default;
   RNSVGPatternProps(const PropsParserContext& context, const RNSVGPatternProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -1756,21 +1666,13 @@ class JSI_EXPORT RNSVGPatternProps final : public ViewProps {
   int meetOrSlice{0};
 };
 
-class JSI_EXPORT RNSVGRadialGradientProps final : public ViewProps {
+class JSI_EXPORT RNSVGRadialGradientProps final : public RNSVGCommonProps {
  public:
   RNSVGRadialGradientProps() = default;
   RNSVGRadialGradientProps(const PropsParserContext& context, const RNSVGRadialGradientProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -1839,21 +1741,13 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
 static inline std::string toString(const RNSVGRectStrokeStruct &value) {
   return "[Object RNSVGRectStrokeStruct]";
 }
-class JSI_EXPORT RNSVGRectProps final : public ViewProps {
+class JSI_EXPORT RNSVGRectProps final : public RNSVGCommonProps {
  public:
   RNSVGRectProps() = default;
   RNSVGRectProps(const PropsParserContext& context, const RNSVGRectProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -2014,21 +1908,13 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
 static inline std::string toString(const RNSVGSymbolFontStruct &value) {
   return "[Object RNSVGSymbolFontStruct]";
 }
-class JSI_EXPORT RNSVGSymbolProps final : public ViewProps {
+class JSI_EXPORT RNSVGSymbolProps final : public RNSVGCommonProps {
  public:
   RNSVGSymbolProps() = default;
   RNSVGSymbolProps(const PropsParserContext& context, const RNSVGSymbolProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -2192,21 +2078,13 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
 static inline std::string toString(const RNSVGTextFontStruct &value) {
   return "[Object RNSVGTextFontStruct]";
 }
-class JSI_EXPORT RNSVGTextProps final : public ViewProps {
+class JSI_EXPORT RNSVGTextProps final : public RNSVGCommonProps {
  public:
   RNSVGTextProps() = default;
   RNSVGTextProps(const PropsParserContext& context, const RNSVGTextProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -2375,21 +2253,13 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
 static inline std::string toString(const RNSVGTextPathFontStruct &value) {
   return "[Object RNSVGTextPathFontStruct]";
 }
-class JSI_EXPORT RNSVGTextPathProps final : public ViewProps {
+class JSI_EXPORT RNSVGTextPathProps final : public RNSVGCommonProps {
  public:
   RNSVGTextPathProps() = default;
   RNSVGTextPathProps(const PropsParserContext& context, const RNSVGTextPathProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -2564,21 +2434,13 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
 static inline std::string toString(const RNSVGTSpanFontStruct &value) {
   return "[Object RNSVGTSpanFontStruct]";
 }
-class JSI_EXPORT RNSVGTSpanProps final : public ViewProps {
+class JSI_EXPORT RNSVGTSpanProps final : public RNSVGCommonProps {
  public:
   RNSVGTSpanProps() = default;
   RNSVGTSpanProps(const PropsParserContext& context, const RNSVGTSpanProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};
@@ -2666,21 +2528,13 @@ static inline void fromRawValue(const PropsParserContext& context, const RawValu
 static inline std::string toString(const RNSVGUseStrokeStruct &value) {
   return "[Object RNSVGUseStrokeStruct]";
 }
-class JSI_EXPORT RNSVGUseProps final : public ViewProps {
+class JSI_EXPORT RNSVGUseProps final : public RNSVGCommonProps {
  public:
   RNSVGUseProps() = default;
   RNSVGUseProps(const PropsParserContext& context, const RNSVGUseProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-  std::string name{};
-  Float opacity{1.0};
-  std::vector<Float> matrix{};
-  std::string mask{};
-  std::string markerStart{};
-  std::string markerMid{};
-  std::string markerEnd{};
-  std::string clipPath{};
   int clipRule{0};
   bool responsible{false};
   std::string display{};

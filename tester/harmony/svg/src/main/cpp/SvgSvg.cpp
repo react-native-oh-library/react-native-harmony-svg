@@ -37,8 +37,14 @@ void SvgSvg::FitCanvas(OH_Drawing_Canvas* canvas) {
   float ty = 0.0;
   constexpr float half = 0.5f;
 
-  const Rect viewBox(attr_.x.Value(), attr_.y.Value(), attr_.width.Value(), attr_.height.Value()); // should be viewBox attribute
-  const auto svgSize = Size(attr_.width.Value(), attr_.height.Value()); // should be width and height defined in attribute
+  const Rect viewBox(
+      attr_.x.Value(),
+      attr_.y.Value(),
+      attr_.width.Value(),
+      attr_.height.Value()); // should be viewBox attribute
+  const auto svgSize = Size(
+      attr_.width.Value(),
+      attr_.height.Value()); // should be width and height defined in attribute
   const auto layout = Size(
       OH_Drawing_CanvasGetWidth(canvas), OH_Drawing_CanvasGetHeight(canvas));
   /*
@@ -90,7 +96,11 @@ void SvgSvg::FitCanvas(OH_Drawing_Canvas* canvas) {
 }
 
 void SvgSvg::Draw(OH_Drawing_Canvas* canvas) {
-  context_->SetViewBox(Rect(attr_.x.Value(), attr_.y.Value(), attr_.width.Value(), attr_.height.Value()));
+  context_->SetViewBox(Rect(
+      attr_.x.Value(),
+      attr_.y.Value(),
+      attr_.width.Value(),
+      attr_.height.Value()));
 
   // apply scale
   OH_Drawing_CanvasSave(canvas);

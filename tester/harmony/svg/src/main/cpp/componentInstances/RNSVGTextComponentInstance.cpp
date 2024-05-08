@@ -11,6 +11,7 @@ RNSVGTextComponentInstance::RNSVGTextComponentInstance(Context context) : CppCom
 
 void RNSVGTextComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
      CppComponentInstance::onPropsChanged(props);
+     GetSvgNode()->UpdateCommonProps(props, GetSvgNode());
 }
 
 

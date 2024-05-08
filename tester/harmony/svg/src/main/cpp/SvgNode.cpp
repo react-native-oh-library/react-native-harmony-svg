@@ -305,21 +305,6 @@ void SvgNode::SetAttr(const std::string& name, const std::string& value) {
 
 void SvgNode::InitStyle(const SvgBaseAttribute& attr) {
   InheritAttr(attr);
-  if (hrefFill_) {
-    // auto href = attributes_.fillState.GetHref();
-    // if (!href.empty()) {
-    //   auto gradient = GetGradient(href);
-    //   if (gradient) {
-    //     attributes_.fillState.SetGradient(gradient.value());
-    //   }
-    // }
-  }
-  if (hrefRender_) {
-    // hrefClipPath_ = attributes_.clipState.GetHref();
-    // opacity_ = OpacityDoubleToUint8(attributes_.opacity);
-    // transform_ = attributes_.transform;
-    // hrefMaskId_ = ParseIdFromUrl(attributes_.maskId);
-  }
   OnInitStyle();
   if (passStyle_) {
     for (auto& node : children_) {
@@ -353,7 +338,7 @@ void SvgNode::OnClipPath(OH_Drawing_Canvas* canvas) {
 }
 
 void SvgNode::OnMask(OH_Drawing_Canvas* canvas) {
-  auto refMask = context_->GetSvgNodeById(hrefMaskId_);
+  auto refMask = context_->GetSvgNodeById(attributes_.maskId);
   if (!refMask) {
     return;
   };
@@ -361,18 +346,19 @@ void SvgNode::OnMask(OH_Drawing_Canvas* canvas) {
 }
 
 void SvgNode::OnTransform(OH_Drawing_Canvas* canvas) {
+  const auto& transform = attributes_.transform;
   auto* matrix = OH_Drawing_MatrixCreate();
   OH_Drawing_MatrixSetMatrix(
       matrix,
-      transform_[0],
-      transform_[1],
-      transform_[2],
-      transform_[3],
-      transform_[4],
-      transform_[5],
-      transform_[6],
-      transform_[7],
-      transform_[8]);
+      transform[0],
+      transform[1],
+      transform[2],
+      transform[3],
+      transform[4],
+      transform[5],
+      transform[6],
+      transform[7],
+      transform[8]);
   OH_Drawing_CanvasConcatMatrix(canvas, matrix);
   OH_Drawing_MatrixDestroy(matrix);
 }
@@ -410,15 +396,47 @@ void SvgNode::Draw(OH_Drawing_Canvas* canvas) {
   if (!hrefClipPath_.empty()) {
     OnClipPath(canvas);
   }
-  if (!transform_.empty()) {
+  if (!attributes_.transform.empty()) {
     OnTransform(canvas);
   }
-  if (!hrefMaskId_.empty()) {
+  if (!attributes_.maskId.empty()) {
     OnMask(canvas);
   }
 
   OnDraw(canvas);
+  // on marker
+
   OnDrawTraversed(canvas);
   OH_Drawing_CanvasRestoreToCount(canvas, count);
-};
+}
+
+void SvgNode::UpdateCommonProps(
+    const ConcreteProps& props,
+    const std::shared_ptr<SvgNode>& self) {
+  if (!props->name.empty()) {
+    context_->Push(props->name, self);
+  }
+  attributes_.id = props->name;
+
+  if (hrefRender_) {
+    attributes_.transform = props->matrix;
+    attributes_.maskId = props->mask;
+    attributes_.opacity = props->opacity;
+    attributes_.hasOpacity = true; // how to tell if opacity is in props?
+    attributes_.markerStart = props->markerStart;
+    attributes_.markerMid = props->markerMid;
+    attributes_.markerEnd = props->markerEnd;
+    // clipPath
+  }
+
+  if (hrefFill_) {
+    // auto href = attributes_.fillState.GetHref();
+    // if (!href.empty()) {
+    //   auto gradient = GetGradient(href);
+    //   if (gradient) {
+    //     attributes_.fillState.SetGradient(gradient.value());
+    //   }
+    // }
+  }
+}
 } // namespace rnoh
