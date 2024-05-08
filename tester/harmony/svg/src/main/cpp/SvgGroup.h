@@ -16,11 +16,11 @@ protected:
     // svg g use
     void InitGroupFlag()
     {
-//         hrefFill_ = true;
-//         hrefRender_ = true;
-//         passStyle_ = true;
-//         inheritStyle_ = true;
-//         drawTraversed_ = true;
+        hrefFill_ = true;
+        hrefRender_ = true;
+        passStyle_ = true;
+        inheritStyle_ = true;
+        drawTraversed_ = true;
     }
 };
 

@@ -1,7 +1,8 @@
 import React from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import Svg, {
   Path,
+  Mask,
   Rect,
   Image,
   Circle,
@@ -17,13 +18,16 @@ const SVGDemo = () => {
   return (
     <View>
       <Svg width={100} height={100} strokeWidth="10">
+        <Mask id="myMask">
+          <Rect x="0" y="0" width="100" height="100" fill="white" />
+        </Mask>
         <Rect
           x="50"
           y="50"
           width="180"
           height="170"
           stroke="red"
-          
+
           fill="yellow"
           strokeDashoffset={10}
           strokeLinecap="round"
@@ -38,6 +42,7 @@ const SVGDemo = () => {
           stroke="blue"
           strokeWidth="2.5"
           fill="green"
+          mask="url(#myMask)"
         />
         <Line
           x1="30"
@@ -45,7 +50,7 @@ const SVGDemo = () => {
           x2="200"
           y2="180"
           stroke="grey"
-        //   strokeWidth={10}
+          //   strokeWidth={10}
           strokeLinecap="round"
           strokeLinejoin="bevel"
         />
