@@ -63,8 +63,8 @@ void SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
             
             // Initialize translate-x to e-x - (vb-x * scale-x).
             // Initialize translate-y to e-y - (vb-y * scale-y).
-            tx = (viewBox.Left() * scaleX);
-            ty = (viewBox.Top() * scaleY);
+            tx = attr_.x.Value() - (viewBox.Left() * scaleX);
+            ty = attr_.y.Value() - (viewBox.Top() * scaleY);
 
             // If align is 'none'
             if (attr_.meetOrSlice == MOS_NONE) {
