@@ -15,9 +15,10 @@ import {
 
 const styles = StyleSheet.create({
   container: {
-    height: 100,
+    height: 300,
     width: 200,
-    marginBottom: 10
+    marginBottom: 10,
+    backgroundColor: 'white'
   },
   svg: {
     flex: 1,
@@ -30,18 +31,13 @@ class SimpleMask extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Svg viewBox="-10 -10 120 120">
-          <Rect x={-10} y={-10} width={120} height={120} fill="blue" />
-          <Mask id="myMask">
-            <Rect x={0} y={0} width={100} height={100} fill="white" />
-            <Path
-              d="M10,35 A20,20,0,0,1,50,35 A20,20,0,0,1,90,35 Q90,65,50,95 Q10,65,10,35 Z"
-              fill="black"
-            />
-          </Mask>
-          <Polygon points="-10,110 110,110 110,-10" fill="orange" />
-          <Circle cx={50} cy={50} r={50} fill="purple" mask="url(#myMask)" />
-        </Svg>
+      <Svg viewBox="0 0 600 500" width={400} height={400} color="green" preserveAspectRatio="xMinYMid slice">
+        <Mask id="myMask" x={60} y={60}  width={200} height={200} >
+            <Rect x={30} y={45} width={120} height={120} fill="blue" />
+        </Mask>
+          
+          <Rect x={30} y={45} width={200} height={200} fill="red" mask="url(#myMask)" />
+       </Svg>
       </View>
     );
   }
@@ -156,9 +152,9 @@ export default function () {
       }}
     >
       <SimpleMask />
-      <AnotherMask />
+      {/* <AnotherMask />
       <MaskWithText />
-      {icon}
+      {icon} */}
     </View>
   )
 }
