@@ -43,7 +43,7 @@ public:
     void UpdateCommonProps(const ConcreteProps &props, const std::shared_ptr<SvgNode> &self);
 
 protected:
-    virtual void InheritAttr(const SvgBaseAttribute &parent) { attributes_.Inherit(parent); }
+    void InheritAttr(const SvgBaseAttribute &parent) { attributes_.Inherit(parent); }
 
     void InheritUseAttr(const SvgBaseAttribute &parent) { attributes_.InheritFromUse(parent); }
 
