@@ -7,20 +7,22 @@
 
 namespace rnoh {
 class SvgSvg : public SvgGroup {
- public:
-  SvgSvg();
-  ~SvgSvg() override = default;
+public:
+    SvgSvg();
+    ~SvgSvg() override = default;
 
-  OH_Drawing_Path* AsPath() const override;
+    OH_Drawing_Path *AsPath() const override;
 
-  Size GetSize() const;
-  void Draw(OH_Drawing_Canvas* canvas) override;
+    Size GetSize() const;
 
-  SvgAttributes attr_;
+    Rect GetViewBox() const;
+    
+    void Draw(OH_Drawing_Canvas *canvas) override;
 
- private:
-  void FitCanvas(OH_Drawing_Canvas* canvas);
+    SvgAttributes attr_;
 
+private:
+    void FitCanvas(OH_Drawing_Canvas *canvas);
 };
 
 } // namespace rnoh

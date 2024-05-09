@@ -72,13 +72,17 @@ struct SvgFeIn {
 };
 
 struct SvgAttributes {
-    Dimension x;
-    Dimension y;
+    Dimension vbX;
+    Dimension vbY;
     Dimension vbWidth;
     Dimension vbHeight;
+    Dimension x;
+    Dimension y;
     Dimension width = -1.0_px;
     Dimension height = -1.0_px;
     bool autoMirror = false;
+    std::string align;
+    int meetOrSlice;
 };
 
 struct SvgAnimateAttribute {
