@@ -169,7 +169,7 @@ bool SvgGraphic::UpdateStrokeStyle(bool antiAlias) {
     //     if (!colorFilter.has_value() && strokeState.GetColor() == Color::TRANSPARENT) {
     //         return false;
     //     }
-    if (!GreatNotEqual(strokeState.GetLineWidth().Value(), 0.0)) {
+    if (!GreatNotEqual(strokeState.GetLineWidth(), 0.0)) {
         return false;
     }
 
@@ -196,9 +196,9 @@ bool SvgGraphic::UpdateStrokeStyle(bool antiAlias) {
         OH_Drawing_PenSetJoin(strokePen_, LINE_MITER_JOIN);
     }
 
-    //     strokePen_.SetWidth(static_cast<float>(strokeState.GetLineWidth().Value()));
-    LOG(INFO) << "[SvgRect] OH_Drawing_PenSetWidth: " << strokeState.GetLineWidth().GetNativeValue(DimensionUnit::PX);
-    OH_Drawing_PenSetWidth(strokePen_, strokeState.GetLineWidth().GetNativeValue(DimensionUnit::PX));
+    //     strokePen_.SetWidth(static_cast<RSScalar>(strokeState.GetLineWidth().Value()));
+    LOG(INFO) << "[SvgRect] OH_Drawing_PenSetWidth: " << strokeState.GetLineWidth();
+    OH_Drawing_PenSetWidth(strokePen_, strokeState.GetLineWidth());
 
     //     strokePen_.SetMiterLimit(static_cast<float>(strokeState.GetMiterLimit()));
     OH_Drawing_PenSetMiterLimit(strokePen_, strokeState.GetMiterLimit());
