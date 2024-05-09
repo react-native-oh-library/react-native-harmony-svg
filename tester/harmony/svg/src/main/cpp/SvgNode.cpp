@@ -131,7 +131,7 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props, const std::shared_pt
     if (hrefRender_) {
         attributes_.transform = props->matrix;
         attributes_.maskId = props->mask;
-        attributes_.opacity = props->opacity;
+        attributes_.selfOpacity = props->opacity;
         attributes_.markerStart = props->markerStart;
         attributes_.markerMid = props->markerMid;
         attributes_.markerEnd = props->markerEnd;
@@ -157,7 +157,7 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props, const std::shared_pt
     attributes_.fillState.SetFillRule(std::to_string(props->fillRule), set.count("fillRule"));
 
     attributes_.strokeState.SetColor(Color((uint32_t)*props->stroke.payload), set.count("stroke"));
-    attributes_.strokeState.SetLineWidth(vpToPx(StringUtils::StringToDouble(props->strokeWidth)));
+    attributes_.strokeState.SetLineWidth(vpToPx(StringUtils::StringToDouble(props->strokeWidth)), set.count("strokeWidth"));
     attributes_.strokeState.SetStrokeDashArray(StringUtils::stringVectorToDoubleVector(props->strokeDasharray),
                                                set.count("strokeDasharray"));
     attributes_.strokeState.SetStrokeDashOffset(vpToPx(props->strokeDashoffset), set.count("strokeDashoffset"));
