@@ -27,6 +27,7 @@
 #include <folly/dynamic.h>
 #include "SvgArkUINode.h"
 #include "ShadowNodes.h"
+#include "SvgDefs.h"
 
 namespace rnoh {
 
