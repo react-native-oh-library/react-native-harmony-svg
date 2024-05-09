@@ -22,16 +22,16 @@ void RNSVGLineComponentInstance::onPropsChanged(SharedConcreteProps const &props
     svgLine->x2 = std::stod(props->x2);
     svgLine->y2 = std::stod(props->y2);
 
-    svgLine->setBrushColor((uint32_t)*props->fill.payload,props->fillOpacity);
-    
-    svgLine->setStrokColor((uint32_t)*props->stroke.payload);
+    svgLine->setBrushColor((uint32_t)*props->fill.payload);
+    svgLine->setBrushOpacity(props->fillOpacity);
+    svgLine->setStrokeColor((uint32_t)*props->stroke.payload);
     svgLine->setStrokeLineWith(props->strokeWidth);
     svgLine->setStrokeDasharray(props->strokeDasharray);
     svgLine->setStrokeDashoffset(props->strokeDashoffset);
     svgLine->setStrokeLineCap(props->strokeLinecap);
     svgLine->setStrokeLineJoin(props->strokeLinejoin);
     svgLine->setStrokeMiterlimit(props->strokeMiterlimit);
-    svgLine->setStrokeOpacity(props->strokeOpacity);
+    svgLine->setStrokeOpacity(props->opacity);
 
     //     svgLine->SetAttr("strokeWidth", props->strokeWidth);
     //     svgLine->SetAttr("strokeDashoffset", std::to_string(props->strokeDashoffset));
