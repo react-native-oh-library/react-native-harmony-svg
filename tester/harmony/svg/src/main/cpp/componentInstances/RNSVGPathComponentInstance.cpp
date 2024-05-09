@@ -14,6 +14,10 @@ void RNSVGPathComponentInstance::onPropsChanged(SharedConcreteProps const &props
     
     LOG(INFO) << "[RNSVGPathComponentInstance] d: " << props->d;
     LOG(INFO) << "[RNSVGCircleComponentInstance] fill.payload: " << (uint32_t)*props->fill.payload;
+    LOG(INFO) << "[SVG] <SVGViewComponentInstance> propList size = " << props->propList.size();
+    for (auto prop : props->propList) {
+        LOG(INFO) << "[SVG] <SVGViewComponentInstance> prop: " << prop;
+    }
     auto svgPath = std::dynamic_pointer_cast<SvgPath>(GetSvgNode());
     // set attribute to svgPath.
     // need to convert color
@@ -22,7 +26,6 @@ void RNSVGPathComponentInstance::onPropsChanged(SharedConcreteProps const &props
 
     svgPath->UpdateCommonProps(props, svgPath);
 }
-
 
 
 SvgArkUINode &RNSVGPathComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }

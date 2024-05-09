@@ -16,6 +16,11 @@ void RNSVGCircleComponentInstance::onPropsChanged(SharedConcreteProps const &pro
     LOG(INFO) << "[RNSVGCircleComponentInstance] r: " << props->r;
     LOG(INFO) << "[RNSVGCircleComponentInstance] r: " << props->opacity;
     LOG(INFO) << "[RNSVGCircleComponentInstance] fill.payload: " << (uint32_t)*props->fill.payload ;
+    LOG(INFO) << "[RNSVGCircleComponentInstance] mask: " << props->mask;
+    LOG(INFO) << "[SVG] <RNSVGCircleComponentInstance> propList size = " << props->propList.size();
+    for (auto prop : props->propList) {
+        LOG(INFO) << "[SVG] <RNSVGCircleComponentInstance> prop: " << prop;
+    }
     // set attribute to svgCircle.
     auto svgCircle = std::dynamic_pointer_cast<SvgCircle>(GetSvgNode());
     svgCircle->x = std::stof(props->cx);

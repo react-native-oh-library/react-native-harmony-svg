@@ -8,7 +8,6 @@
 // #include "frameworks/core/components/common/properties/paint_state.h"
 // #include "frameworks/core/components/common/properties/text_style.h"
 #include "properties/Color.h"
-#include "properties/Dimension.h"
 #include "properties/PaintState.h"
 #include "properties/Decoration.h"
 
@@ -159,13 +158,13 @@ public:
         lineJoin_ = lineJoin;
         hasLineJoin_ = isSelf;
     }
-    // AnimatableDimension
-    const Dimension& GetLineWidth() const
+
+    const double& GetLineWidth() const
     {
         return lineWidth_;
     }
 
-    void SetLineWidth(Dimension lineWidth, bool isSelf = true)
+    void SetLineWidth(double lineWidth, bool isSelf = true)
     {
         lineWidth_ = lineWidth;
         hasLineWidth_ = isSelf;
@@ -205,24 +204,24 @@ public:
         hasLineDash_ = isSelf;
     }
 
-    void SetStrokeDashOffset(const Dimension& offset, bool isSelf = true)
+    void SetStrokeDashOffset(const double& offset, bool isSelf = true)
     {
         strokeDashOffset_ = offset;
         hasStrokeDashOffset_ = isSelf;
     }
 
-    void SetStrokeDashArray(const std::vector<Dimension>& segments, bool isSelf = true)
+    void SetStrokeDashArray(const std::vector<double>& segments, bool isSelf = true)
     {
         strokeDashArray_ = segments;
         hasStrokeDashArray_ = isSelf;
     }
 
-    const Dimension& GetStrokeDashOffset() const
+    const double& GetStrokeDashOffset() const
     {
         return strokeDashOffset_;
     }
 
-    const std::vector<Dimension>& GetStrokeDashArray() const
+    const std::vector<double>& GetStrokeDashArray() const
     {
         return strokeDashArray_;
     }
@@ -307,11 +306,11 @@ private:
     double opacity_ = 1.0;
     LineCapStyle lineCap_ = LineCapStyle::BUTT;
     LineJoinStyle lineJoin_ = LineJoinStyle::MITER;
-    Dimension lineWidth_ = Dimension(1.0);
+    double lineWidth_ = 1.0;
     double miterLimit_ = 4.0;
     LineDashParam lineDash_;
-    std::vector<Dimension> strokeDashArray_;
-    Dimension strokeDashOffset_;
+    std::vector<double> strokeDashArray_;
+    double strokeDashOffset_;
     std::string href_;
     bool hasColor_ = false;
     bool hasOpacity_ = false;

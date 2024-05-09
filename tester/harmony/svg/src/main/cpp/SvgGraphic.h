@@ -12,8 +12,6 @@
 #include "SvgNode.h"
 #include "RNOH/CppComponentInstance.h"
 #include "utils/StringUtils.h"
-#include "utils/SvgAttributesParser.h"
-#include "utils/StringUtils.h"
 #include "utils/Utils.h"
 
 namespace rnoh {
@@ -34,46 +32,6 @@ public:
 
 
     void OnDraw(OH_Drawing_Canvas *canvas) override;
-
-    // temporary
-    void setBrushColor(const uint32_t fill) { 
-        attributes_.fillState.SetColor(Color(fill));
-    }
-    void setBrushOpacity(const double fillOpacity) {
-        attributes_.fillState.SetOpacity(std::clamp(fillOpacity, 0.0, 1.0));
-    }
-    void setGradient(const Gradient &gradient) {
-        attributes_.fillState.SetGradient(gradient);
-    }
-    void setStrokeColor(const uint32_t fill) {
-        attributes_.strokeState.SetColor(Color(fill));
-    }
-    void setStrokeOpacity(const double strokeOpacity) {
-        attributes_.strokeState.SetOpacity(std::clamp(strokeOpacity, 0.0, 1.0));
-    }
-    void setStrokeLineWith(const std::string strokeWidth) {
-        attributes_.strokeState.SetLineWidth(Dimension(vpToPx(StringUtils::StringToDouble(strokeWidth))));
-    }
-    void setStrokeLineCap(const int strokeLinecap) {
-        attributes_.strokeState.SetLineCap(SvgAttributesParser::GetLineCapStyle(std::to_string(strokeLinecap)));
-    }
-    void setStrokeLineJoin(const int strokeLinejoin) {
-        attributes_.strokeState.SetLineJoin(SvgAttributesParser::GetLineJoinStyle(std::to_string(strokeLinejoin)));
-    }
-    void setStrokeDasharray(const std::vector<std::string> strokeDasharray) {
-        std::vector<double> lineDashVector;
-        lineDashVector = StringUtils::stringVectorToDoubleVector(strokeDasharray);
-        attributes_.strokeState.SetLineDash(lineDashVector);
-    }
-    void setStrokeDashoffset(const double strokeDashoffset) {
-        attributes_.strokeState.SetLineDashOffset(vpToPx(strokeDashoffset));
-    }
-    void setStrokeMiterlimit(const double strokeMiterlimit) {
-        if (GreatOrEqual(vpToPx(strokeMiterlimit), 1.0)) {
-            attributes_.strokeState.SetMiterLimit(vpToPx(strokeMiterlimit));
-        }
-    }
-    
 protected:
     OH_Drawing_Path *path_;
     OH_Drawing_Brush *fillBrush_;
