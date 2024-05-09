@@ -3,6 +3,34 @@
 #include <cmath>
 #include <cstdint>
 
+#define CHECK_NULL_VOID(ptr)                                                                                           \
+    do {                                                                                                               \
+        if (!(ptr)) {                                                                                                  \
+            return;                                                                                                    \
+        }                                                                                                              \
+    } while (0)
+
+#define CHECK_NULL_RETURN(ptr, ret)                                                                                    \
+    do {                                                                                                               \
+        if (!(ptr)) {                                                                                                  \
+            return ret;                                                                                                \
+        }                                                                                                              \
+    } while (0)
+
+#define CHECK_ERROR_CODE_RETURN(code)                                                                                  \
+    do {                                                                                                               \
+        if ((code) > 0) {                                                                                              \
+            return code;                                                                                               \
+        }                                                                                                              \
+    } while (0)
+
+#define CHECK_EQUAL_VOID(var, value)                                                                                   \
+    do {                                                                                                               \
+        if ((var) == (value)) {                                                                                        \
+            return;                                                                                                    \
+        }                                                                                                              \
+    } while (0)
+
 namespace rnoh {
 
 inline double vpToPx(double vp) {
