@@ -1,4 +1,4 @@
-
+#pragma once
 #include "SvgNode.h"
 #include <native_drawing/drawing_path.h>
 
@@ -12,16 +12,18 @@ class SvgQuote : public SvgNode {
   ~SvgQuote() override = default;
 
   OH_Drawing_Path* AsPath() const override {
-    auto* path = OH_Drawing_PathCreate();
-    for (const auto& child : children_) {
-      auto* childPath = child->AsPath();
-      //   path.Op(path, childPath, RSPathOp::UNION);
+      LOG(INFO) << "[SvgQuote] AsPath";
+      auto *path = OH_Drawing_PathCreate();
+      for (const auto &child : children_) {
+          auto *childPath = child->AsPath();
+          //   path.Op(path, childPath, RSPathOp::UNION);
     }
     return path;
   }
 
   void Draw(OH_Drawing_Canvas* canvas) override {
     // render composition on other svg tags
+    LOG(INFO) << "[SvgQuote] Draw";
     OnDrawTraversedBefore(canvas);
     OnDrawTraversed(canvas);
     OnDrawTraversedAfter(canvas);
