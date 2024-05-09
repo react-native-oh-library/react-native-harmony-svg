@@ -27,6 +27,8 @@
 #include <folly/dynamic.h>
 #include "SvgArkUINode.h"
 #include "ShadowNodes.h"
+#include "properties/Dimension.h"
+#include "SvgMask.h"
 
 namespace rnoh {
 
@@ -39,6 +41,7 @@ public:
     RNSVGMaskComponentInstance(Context context);
     
     void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override{
+        LOG(INFO) << "[RNSVGMaskComponentInstance] onChildInserted ";
         OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
     }
     

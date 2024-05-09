@@ -281,6 +281,32 @@ inline float StringToFloat(const std::string& value)
     }
 }
 
+static Dimension FromString(const std::string &str) {
+    static const int32_t percentUnit = 100;
+    static const std::unordered_map<std::string, DimensionUnit> uMap{
+        {"px", DimensionUnit::PX},     {"vp", DimensionUnit::VP},   {"fp", DimensionUnit::FP},
+        {"%", DimensionUnit::PERCENT}, {"lpx", DimensionUnit::LPX}, {"auto", DimensionUnit::AUTO},
+    };
+
+    double value = 0.0;
+    DimensionUnit unit = DimensionUnit::FP;
+
+    if (str.empty()) {
+        return Dimension(value, unit);
+    }
+
+    for (int32_t i = str.length() - 1; i >= 0; --i) {
+        if (str[i] >= '0' && str[i] <= '9') {
+            value = StringUtils::StringToDouble(str.substr(0, i + 1));
+            auto subStr = str.substr(i + 1);
+            unit = uMap.count(subStr) ? uMap.at(subStr) : unit;
+            value = unit == DimensionUnit::PERCENT ? value / percentUnit : value;
+            break;
+        }
+    }
+    return Dimension(value, unit);
+};
+
 static Dimension StringToDimensionWithUnit(const std::string& value, DimensionUnit defaultUnit = DimensionUnit::PX,
     float defaultValue = 0.0f, bool isCalc = false)
 {
