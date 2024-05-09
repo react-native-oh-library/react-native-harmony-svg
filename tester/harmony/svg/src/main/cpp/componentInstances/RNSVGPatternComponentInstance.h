@@ -24,29 +24,43 @@
 
 #pragma once
 #include "RNOH/CppComponentInstance.h"
+// #include "SwiperNode.h"
+// #include "EventEmitters.h"
 #include <folly/dynamic.h>
+#include <math.h>
 #include "SvgArkUINode.h"
 #include "ShadowNodes.h"
-#include "SvgDefs.h"
+#include "SvgPattern.h"
 
 namespace rnoh {
-
-class RNSVGDefsComponentInstance : public CppComponentInstance<facebook::react::RNSVGDefsShadowNode>, public SvgHost {
+// 3.实现SvgCircleComponentInstance，继承SvgShadowNoder
+class RNSVGPatternComponentInstance : public CppComponentInstance<facebook::react::RNSVGPatternShadowNode>, public SvgHost {
 
 private:
     SvgArkUINode m_svgArkUINode;
 
 public:
-    RNSVGDefsComponentInstance(Context context);
-    
-    void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override{
+    // todo 构造SvgArkUINode 和SvgNode并把SvgNode设给SvgArkUINode
+    RNSVGPatternComponentInstance(Context context);
+
+    // 通过childComponentInstance拿到里面保存的SvgNode对象，设置给root
+    void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override {
         OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
     }
-    
+
+    // 通过childComponentInstance拿到里面保存的SvgNode对象，从root_中删除
     void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override{}
-    
+
+    // 用来给父亲挂载节点
     SvgArkUINode &getLocalRootArkUINode() override;
-    
+
+    // 更新SvgNode中的属性
     void onPropsChanged(SharedConcreteProps const &props) override;
+
+    // 处理标签上的方法，Svg可能不涉及，待确认是否需要支持
+    void handleCommand(std::string const &commandName, folly::dynamic const &args) override{}
+
+    // 分发Target事件，分发到svg下面的子节点；待确认是否需求要支持
+//     std::vector<TouchTarget::Shared> getTouchTargetChildren() override
 };
 } // namespace rnoh

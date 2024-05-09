@@ -33,6 +33,13 @@ void SvgGraphic::OnDraw(OH_Drawing_Canvas *canvas) {
     //     OnGraphicFill(canvas);
     UpdateStrokeStyle();
     OnGraphicStroke(canvas);
+    auto &fillState_ = attributes_.fillState;
+    if (!fillState_.GetHref().empty()) {
+        auto svgContext = GetContext();
+        auto refSvgNode = svgContext->GetSvgNodeById(fillState_.GetHref());
+        CHECK_NULL_VOID(refSvgNode);
+        refSvgNode->Draw(canvas);
+    }
 }
 // todo implement bounds
 void SvgGraphic::UpdateGradient() {

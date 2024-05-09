@@ -28,7 +28,7 @@
 #include <math.h>
 #include "SvgArkUINode.h"
 #include "ShadowNodes.h"
-#include "SVGPath.h"
+#include "SvgPath.h"
 
 namespace rnoh {
 
