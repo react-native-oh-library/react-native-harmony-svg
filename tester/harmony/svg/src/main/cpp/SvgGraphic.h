@@ -133,7 +133,7 @@ protected:
 
     bool UpdateFillStyle(bool antiAlias = true);
     bool UpdateStrokeStyle(bool antiAlias = true);
-    // TODO void UpdateGradient(const std::pair<float, float> &viewPort);
+    void UpdateGradient();
     void SetGradientStyle(double opacity);
     void UpdateLineDash();
 
