@@ -36,12 +36,16 @@ public:
     void OnDraw(OH_Drawing_Canvas *canvas) override;
 
     // temporary
-    void setBrushColor(const uint32_t fill,double fillOpacity) { 
-//         OH_Drawing_BrushSetColor(fillBrush_, fill);
+    void setBrushColor(const uint32_t fill) { 
         attributes_.fillState.SetColor(Color(fill));
-        attributes_.fillState.SetOpacity(fillOpacity);
     }
-    void setStrokColor(const uint32_t fill) {
+    void setBrushOpacity(const double fillOpacity) {
+        attributes_.fillState.SetOpacity(std::clamp(fillOpacity, 0.0, 1.0));
+    }
+    void setGradient(const Gradient &gradient) {
+        attributes_.fillState.SetGradient(gradient);
+    }
+    void setStrokeColor(const uint32_t fill) {
         attributes_.strokeState.SetColor(Color(fill));
     }
     void setStrokeOpacity(const double strokeOpacity) {
