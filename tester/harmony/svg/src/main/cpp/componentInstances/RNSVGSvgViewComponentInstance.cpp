@@ -29,12 +29,16 @@ void RNSVGSvgViewComponentInstance::onPropsChanged(SharedConcreteProps const &pr
     LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->tintColor: " << props->tintColor;
     LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->color: " << props->color;
     auto svg = dynamic_pointer_cast<SvgSvg>(GetSvgNode());
-    svg->attr_.x = Dimension(props->minX);
-    svg->attr_.y = Dimension(props->minY);
+    svg->attr_.vbX = Dimension(props->minX);
+    svg->attr_.vbY = Dimension(props->minY);
     svg->attr_.vbWidth = Dimension(props->vbWidth);
     svg->attr_.vbHeight = Dimension(props->vbHeight);
+    svg->attr_.x = Dimension(m_layoutMetrics.frame.origin.x);
+    svg->attr_.y = Dimension(m_layoutMetrics.frame.origin.y);
     svg->attr_.width = Dimension(m_layoutMetrics.frame.size.width);
-    svg->attr_.height = Dimension(m_layoutMetrics.frame.size.width);
+    svg->attr_.height = Dimension(m_layoutMetrics.frame.size.height);
+    svg->attr_.align = props->align;
+    svg->attr_.meetOrSlice = props->meetOrSlice;
 }
 
 SvgArkUINode &RNSVGSvgViewComponentInstance::getLocalRootArkUINode() {

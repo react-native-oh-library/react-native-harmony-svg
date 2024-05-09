@@ -1,4 +1,3 @@
-
 #include "SvgSvg.h"
 #include <string>
 #include <vector>
@@ -14,7 +13,10 @@
 namespace rnoh {
 namespace {
 const char DOM_SVG_SRC_VIEW_BOX[] = "viewBox";
-}
+const int MOS_MEET = 0;
+const int MOS_SLICE = 1;
+const int MOS_NONE = 2;
+} // namespace
 
 SvgSvg::SvgSvg() : SvgGroup() {}
 
@@ -28,62 +30,108 @@ OH_Drawing_Path *SvgSvg::AsPath() const {
 }
 
 Size SvgSvg::GetSize() const { return {attr_.width.Value(), attr_.height.Value()}; }
+Rect SvgSvg::GetViewBox() const {
+    return Rect(vpToPx(attr_.vbX.Value()), vpToPx(attr_.vbY.Value()), vpToPx(attr_.vbX.Value() + attr_.vbWidth.Value()),
+                vpToPx(attr_.vbY.Value() + attr_.vbHeight.Value()));
+}
 
 void SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
-    float scaleViewBox = 1.0;
+    // based on https://svgwg.org/svg2-draft/coords.html#ComputingAViewportsTransform
+
+    // Let vb-x, vb-y, vb-width, vb-height be the min-x, min-y, width and height values of the
+    // viewBox attribute respectively.
+    float scaleX = 1.0;
+    float scaleY = 1.0;
     float tx = 0.0;
     float ty = 0.0;
     constexpr float half = 0.5f;
-
-    const Rect viewBox(attr_.x.Value(), attr_.y.Value(), attr_.vbWidth.Value(),
-                       attr_.vbHeight.Value()); // should be viewBox attribute
-    const auto svgSize = Size(attr_.width.Value(),
-                              attr_.height.Value()); // should be width and height defined in attribute
+    
+    auto viewBox = GetViewBox(); // should be viewBox attribute
+    const auto svgSize = Size(OH_Drawing_CanvasGetWidth(canvas), OH_Drawing_CanvasGetHeight(canvas));
+    // TODO Since OH_Drawing API return px and RN pass vp
     const auto layout = Size(OH_Drawing_CanvasGetWidth(canvas), OH_Drawing_CanvasGetHeight(canvas));
     LOG(INFO) << "[FitCanvas] viewBox = " << viewBox.ToString() << " svgSize = " << svgSize.ToString()
-              << " layout = " << layout.ToString() << " canvas = " << canvas;
-    /*
-     * 1. viewBox_, svgSize_, and layout are on 3 different scales.
-     * 2. Elements are painted in viewBox_ scale but displayed in layout scale.
-     * 3. To center align svg content, we first align viewBox_ to svgSize_, then
-     * we align svgSize_ to layout.
-     * 4. Canvas is initially in layout scale, so transformation (tx, ty) needs to
-     * be in that scale, too.
-     */
+              << " layout = " << layout.ToString() << " canvas = " << OH_Drawing_CanvasGetWidth(canvas) << ", "
+              << OH_Drawing_CanvasGetHeight(canvas);
+    
     if (viewBox.IsValid()) {
         if (svgSize.IsValid() && !svgSize.IsInfinite()) {
-            // center align viewBox_ to svg, need to map viewBox_ to the scale of
-            // svgSize_
-            scaleViewBox = std::min(svgSize.Width() / viewBox.Width(), svgSize.Height() / viewBox.Height());
-            tx = svgSize.Width() * half - (viewBox.Width() * half + viewBox.Left()) * scaleViewBox;
-            ty = svgSize.Height() * half - (viewBox.Height() * half + viewBox.Top()) * scaleViewBox;
+            // Initialize scale-x to e-width/vb-width.
+            scaleX = svgSize.Width() / viewBox.Width();
+            // Initialize scale-y to e-height/vb-height.
+            scaleY = svgSize.Height() / viewBox.Height();
+            
+            // Initialize translate-x to e-x - (vb-x * scale-x).
+            // Initialize translate-y to e-y - (vb-y * scale-y).
+            tx = attr_.x.Value() - (viewBox.Left() * scaleX);
+            ty = attr_.y.Value() - (viewBox.Top() * scaleY);
 
-            // center align svg to layout container
-            tx += (layout.Width() - svgSize.Width()) * half;
-            ty += (layout.Height() - svgSize.Height()) * half;
-        } else if (!layout.IsEmpty()) {
-            // no svgSize_, center align viewBox to layout container
-            scaleViewBox = std::min(layout.Width() / viewBox.Width(), layout.Height() / viewBox.Height());
-            tx = layout.Width() * half - (viewBox.Width() * half + viewBox.Left()) * scaleViewBox;
-            ty = layout.Height() * half - (viewBox.Height() * half + viewBox.Top()) * scaleViewBox;
-        } else {
-            // LOGW("FitImage containerSize and svgSize is null");
+            // If align is 'none'
+            if (attr_.meetOrSlice == MOS_NONE) {
+                // Let scale be set the smaller value of scale-x and scale-y.
+                // Assign scale-x and scale-y to scale.
+                auto scale = scaleX = scaleY = std::min(scaleX, scaleY);
+                // If scale is greater than 1
+                if (scale > 1) {
+                    // Minus translateX by (eWidth / scale - vbWidth) / 2
+                    // Minus translateY by (eHeight / scale - vbHeight) / 2
+                    tx -= (svgSize.Width() / scale - viewBox.Width()) * half;
+                    ty -= (svgSize.Height() / scale - viewBox.Height()) * half;
+                } else {
+                    tx -= (svgSize.Width() - viewBox.Width() * scale) * half;
+                    ty -= (svgSize.Height() - viewBox.Height() * scale) * half;
+                }
+            } else {
+                // If align is not 'none' and meetOrSlice is 'meet', set the larger of scale-x and scale-y to
+                // the smaller.
+                // Otherwise, if align is not 'none' and meetOrSlice is 'slice', set the smaller of scale-x
+                // and scale-y to the larger.
+                if (!attr_.align.empty() && attr_.meetOrSlice == MOS_MEET) {
+                    scaleX = scaleY = std::min(scaleX, scaleY);
+                } else if (!attr_.align.empty() && attr_.meetOrSlice == MOS_SLICE) {
+                    scaleX = scaleY = std::max(scaleX, scaleY);
+                }
+
+                // If align contains 'xMid', add (e-width - vb-width * scale-x) / 2 to translate-x.
+                if (attr_.align.find("xMid") != std::string::npos) {
+                    LOG(INFO) << "[FitCanvas] contain xMid: " << tx;
+                    tx += (svgSize.Width() - viewBox.Width() * scaleX) * half;
+                }
+
+                // If align contains 'xMax', add (e-width - vb-width * scale-x) to translate-x.
+                if (attr_.align.find("xMax") != std::string::npos) {
+                    tx += (svgSize.Width() - viewBox.Width() * scaleX);
+                }
+
+                // If align contains 'yMid', add (e-height - vb-height * scale-y) / 2 to translate-y.
+                if (attr_.align.find("YMid") != std::string::npos) {
+                    LOG(INFO) << "[FitCanvas] contain YMid: " << ty;
+                    ty += (svgSize.Height() - viewBox.Height() * scaleY) * half;
+                }
+
+                // If align contains 'yMax', add (e-height - vb-height * scale-y) to translate-y.
+                if (attr_.align.find("YMax") != std::string::npos) {
+                    //                     translateY += (eHeight - vbHeight * scaleY);
+                    ty += (svgSize.Height() - viewBox.Height() * scaleY);
+                }
+            }
         }
     }
     auto *rect = OH_Drawing_RectCreate(0.0f, 0.0f, layout.Width(), layout.Height());
     OH_Drawing_CanvasClipRect(canvas, rect, OH_Drawing_CanvasClipOp::INTERSECT, true);
     OH_Drawing_RectDestroy(rect);
+    // The transform applied to content contained by the element is given by
+    // translate(translate-x, translate-y) scale(scale-x, scale-y).
     OH_Drawing_CanvasTranslate(canvas, tx, ty);
-
-    if (NearZero(scaleViewBox)) {
+    if (NearZero(scaleX) || NearZero(scaleY)) {
         return;
     }
-    OH_Drawing_CanvasScale(canvas, scaleViewBox, scaleViewBox);
-    LOG(INFO) << "scale = " << scaleViewBox << " tx = " << tx << " ty = " << ty;
+    OH_Drawing_CanvasScale(canvas, scaleX, scaleY);
+    LOG(INFO) << "[FitCanvas] scale = " << scaleX << ", " << scaleY << " tx = " << tx << " ty = " << ty;
 }
 
 void SvgSvg::Draw(OH_Drawing_Canvas *canvas) {
-    context_->SetViewBox(Rect(attr_.x.Value(), attr_.y.Value(), attr_.width.Value(), attr_.height.Value()));
+    context_->SetViewBox(GetViewBox());
 
     // apply scale
     OH_Drawing_CanvasSave(canvas);
@@ -92,3 +140,4 @@ void SvgSvg::Draw(OH_Drawing_Canvas *canvas) {
     OH_Drawing_CanvasRestore(canvas);
 };
 } // namespace rnoh
+

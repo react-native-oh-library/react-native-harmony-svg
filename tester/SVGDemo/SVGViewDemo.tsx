@@ -17,7 +17,7 @@ import Svg, {
 const SVGDemo = () => {
   return (
     <View>
-      <Svg viewBox="0 0 100 100" strokeWidth="10">
+      <Svg viewBox="0 0 600 500" width={400} height={400} strokeWidth="10" color="green" preserveAspectRatio="xMinYMid slice">
         <Mask id="myMask">
           <Rect opacity="1.0" x="0" y="0" width="100" height="100" fill="white" />
         </Mask>
@@ -26,7 +26,7 @@ const SVGDemo = () => {
           y="50"
           width="180"
           height="170"
-          stroke="red"
+          stroke="currentColor"
 
           fill="yellow"
           strokeDashoffset={10}
