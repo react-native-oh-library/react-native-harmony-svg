@@ -40,7 +40,7 @@ public:
      * @param color
      * @param isSelf if false the color value inherited from the parent node, otherwise the value is setted by self
      */
-    void SetColor(const Color &color, bool isSelf = true) {
+    void SetColor(const Color &color, bool isSelf) {
         color_ = Color(color);
         hasColor_ = isSelf;
     }
@@ -49,19 +49,19 @@ public:
 
     const std::optional<Gradient> &GetGradient() const { return gradient_; }
 
-    void SetGradient(const Gradient &gradient, bool isSelf = true) {
+    void SetGradient(const Gradient &gradient, bool isSelf) {
         gradient_ = std::make_optional(gradient);
         hasGradient_ = isSelf;
     }
 
-    void SetOpacity(double opacity, bool isSelf = true) {
+    void SetOpacity(double opacity, bool isSelf) {
         opacity_ = opacity;
         hasOpacity_ = isSelf;
     }
 
     double GetOpacity() const { return opacity_; }
 
-    void SetFillRule(const std::string &fillRule, bool isSelf = true) {
+    void SetFillRule(const std::string &fillRule, bool isSelf) {
         fillRule_ = fillRule;
         hasFillRule_ = isSelf;
     }
@@ -120,13 +120,13 @@ public:
         return color_;
     }
 
-    void SetColor(const Color& color, bool isSelf = true)
+    void SetColor(const Color& color, bool isSelf)
     {
         color_ = color;
         hasColor_ = isSelf;
     }
 
-    void SetOpacity(double opacity, bool isSelf = true)
+    void SetOpacity(double opacity, bool isSelf)
     {
         opacity_ = opacity;
         hasOpacity_ = isSelf;
@@ -142,7 +142,7 @@ public:
         return lineCap_;
     }
 
-    void SetLineCap(LineCapStyle lineCap, bool isSelf = true)
+    void SetLineCap(LineCapStyle lineCap, bool isSelf)
     {
         lineCap_ = lineCap;
         hasLineCap_ = isSelf;
@@ -153,7 +153,7 @@ public:
         return lineJoin_;
     }
 
-    void SetLineJoin(LineJoinStyle lineJoin, bool isSelf = true)
+    void SetLineJoin(LineJoinStyle lineJoin, bool isSelf)
     {
         lineJoin_ = lineJoin;
         hasLineJoin_ = isSelf;
@@ -164,7 +164,7 @@ public:
         return lineWidth_;
     }
 
-    void SetLineWidth(double lineWidth, bool isSelf = true)
+    void SetLineWidth(double lineWidth, bool isSelf)
     {
         lineWidth_ = lineWidth;
         hasLineWidth_ = isSelf;
@@ -175,7 +175,7 @@ public:
         return miterLimit_;
     }
 
-    void SetMiterLimit(double miterLimit, bool isSelf = true)
+    void SetMiterLimit(double miterLimit, bool isSelf)
     {
         miterLimit_ = miterLimit;
         hasMiterLimit_ = isSelf;
@@ -186,31 +186,31 @@ public:
         return lineDash_;
     }
 
-    void SetLineDash(const LineDashParam& lineDash, bool isSelf = true)
+    void SetLineDash(const LineDashParam& lineDash, bool isSelf)
     {
         lineDash_ = lineDash;
         hasLineDash_ = isSelf;
     }
 
-    void SetLineDashOffset(double offset, bool isSelf = true)
+    void SetLineDashOffset(double offset, bool isSelf)
     {
         lineDash_.dashOffset = offset;
         hasDashOffset_ = isSelf;
     }
 
-    void SetLineDash(const std::vector<double>& segments, bool isSelf = true)
+    void SetLineDash(const std::vector<double>& segments, bool isSelf)
     {
         lineDash_.lineDash = segments;
         hasLineDash_ = isSelf;
     }
 
-    void SetStrokeDashOffset(const double& offset, bool isSelf = true)
+    void SetStrokeDashOffset(const double& offset, bool isSelf)
     {
         strokeDashOffset_ = offset;
         hasStrokeDashOffset_ = isSelf;
     }
 
-    void SetStrokeDashArray(const std::vector<double>& segments, bool isSelf = true)
+    void SetStrokeDashArray(const std::vector<double>& segments, bool isSelf)
     {
         strokeDashArray_ = segments;
         hasStrokeDashArray_ = isSelf;
@@ -246,6 +246,7 @@ public:
         if (!hasLineJoin_) {
             lineJoin_ = strokeState.GetLineJoin();
         }
+        LOG(INFO) << "hasLineWIdth = " << hasLineWidth_ << " to inherit : " << strokeState.GetLineWidth();
         if (!hasLineWidth_) {
             lineWidth_ = strokeState.GetLineWidth();
         }
@@ -326,7 +327,7 @@ private:
 
 class ClipState {
 public:
-    void SetClipRule(const std::string& clipRule, bool isSelf = true)
+    void SetClipRule(const std::string& clipRule, bool isSelf)
     {
         clipRule_ = clipRule;
         hasClipRule_ = isSelf;
@@ -342,7 +343,7 @@ public:
         return clipRule_ == ATTR_NAME_FILL_RULE_EVENODD;
     }
 
-    void SetHref(const std::string& href, bool isSelf = true)
+    void SetHref(const std::string& href, bool isSelf)
     {
         href_ = href;
         hasHref_ = isSelf;

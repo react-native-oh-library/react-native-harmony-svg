@@ -18,18 +18,17 @@ import Svg, {
 const SVGDemo = () => {
   return (
     <View>
-      <Svg viewBox="0 0 600 500" width={400} height={400} strokeWidth="10" color="green" preserveAspectRatio="xMinYMid slice">
+      <Svg viewBox="0 0 600 500" width={400} height={400} color="green" preserveAspectRatio="xMinYMid slice">
         <Mask id="myMask">
           <Rect opacity="1.0" x="0" y="0" width="100" height="100" fill="white" />
         </Mask>
-        <G stroke="pink" fill="pink">
+        <G stroke="pink" fill="pink" strokeWidth={10} opacity="0.5">
           <Rect
             x="50"
             y="50"
             width="180"
             height="170"
             stroke="currentColor"
-
             fill="yellow"
             strokeDashoffset={10}
             strokeLinecap="round"
@@ -52,7 +51,7 @@ const SVGDemo = () => {
             x2="200"
             y2="180"
             stroke="grey"
-            //   strokeWidth={10}
+            strokeWidth={10}
             strokeLinecap="round"
             strokeLinejoin="bevel"
           />

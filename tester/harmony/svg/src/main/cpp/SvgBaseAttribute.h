@@ -11,7 +11,8 @@ namespace rnoh {
 const char VALUE_NONE[] = "none";
 
 struct SvgBaseAttribute : Attribute {
-    double opacity = 1.0;
+    double selfOpacity = 1.0; // opacity declared in tag attribute
+    double opacity = 1.0; // multiplied with parent opacity. The actual opacity to be drawn
     float smoothEdge = 0.0f;
     FillState fillState;
     StrokeState strokeState;
@@ -20,7 +21,6 @@ struct SvgBaseAttribute : Attribute {
     std::string transformOrigin;
     std::string filterId;
     std::string maskId;
-    std::string href;
     std::string id;
     std::string markerStart;
     std::string markerMid;
@@ -29,6 +29,7 @@ struct SvgBaseAttribute : Attribute {
 
     void InheritFromUse(const SvgBaseAttribute& parent)
     {
+        opacity = selfOpacity * parent.opacity;
         fillState.Inherit(parent.fillState);
         strokeState.Inherit(parent.strokeState);
 //         clipState.Inherit(parent.clipState);
@@ -36,6 +37,7 @@ struct SvgBaseAttribute : Attribute {
 
     void Inherit(const SvgBaseAttribute& parent)
     {
+        opacity = selfOpacity * parent.opacity;
         fillState.Inherit(parent.fillState);
         strokeState.Inherit(parent.strokeState);
 //         clipState.Inherit(parent.clipState);
@@ -117,17 +119,6 @@ struct SvgBaseAttribute : Attribute {
 //         return attribute.clipState.GetHref();
 //     }
 //
-//     void SetHref(const std::string& href)
-//     {
-//         auto& attribute = static_cast<SvgBaseAttribute&>(GetAttribute(AttributeTag::SPECIALIZED_ATTR));
-//         attribute.href = href;
-//     }
-//
-//     const std::string& GetHref() const
-//     {
-//         auto& attribute = static_cast<SvgBaseAttribute&>(GetAttribute(AttributeTag::SPECIALIZED_ATTR));
-//         return attribute.href;
-//     }
 //
 //     const ClipState& GetClipState() const
 //     {
