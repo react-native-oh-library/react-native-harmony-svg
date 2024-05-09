@@ -213,14 +213,14 @@ bool SvgGraphic::UpdateStrokeStyle(bool antiAlias) {
     return true;
 }
 void SvgGraphic::UpdateLineDash() {
-    const auto &strokeState = attributes_.strokeState;
-    if (!strokeState.GetLineDash().lineDash.empty()) {
-        auto lineDashState = strokeState.GetLineDash().lineDash;
+    const auto& strokeState = attributes_.strokeState;
+    if (!strokeState.GetStrokeDashArray().empty()) {
+        auto lineDashState = strokeState.GetStrokeDashArray();
         float intervals[lineDashState.size()];
         for (size_t i = 0; i < lineDashState.size(); ++i) {
             intervals[i] = static_cast<float>(lineDashState[i]);
         }
-        float phase = static_cast<float>(strokeState.GetLineDash().dashOffset);
+        float phase = static_cast<float>(strokeState.GetStrokeDashOffset());
         auto *DashPathEffect = OH_Drawing_CreateDashPathEffect(intervals, lineDashState.size(), phase);
         OH_Drawing_PenSetPathEffect(strokePen_, DashPathEffect);
     }
