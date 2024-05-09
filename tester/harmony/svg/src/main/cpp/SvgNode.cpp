@@ -321,6 +321,15 @@ void SvgNode::OnDrawTraversed(OH_Drawing_Canvas *canvas) {
     }
 }
 
+const Rect &SvgNode::GetRootViewBox() const {
+    if (!context_) {
+//         LOGE("Gradient failed, svgContext is null");
+        static Rect empty;
+        return empty;
+    }
+    return context_->GetRootViewBox();
+}
+
 void SvgNode::OnClipPath(OH_Drawing_Canvas *canvas) {
     if (!context_) {
         LOG(INFO) << "NO CONTEXT";

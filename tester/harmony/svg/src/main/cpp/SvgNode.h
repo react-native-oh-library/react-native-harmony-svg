@@ -76,6 +76,7 @@ class SvgNode {
   void OnClipPath(OH_Drawing_Canvas* canvas);
   void OnMask(OH_Drawing_Canvas* canvas);
   void OnTransform(OH_Drawing_Canvas* canvas);
+  const Rect &GetRootViewBox() const;
 
   void SetSmoothEdge(float edge) {
     attributes_.smoothEdge = edge;

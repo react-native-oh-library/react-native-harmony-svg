@@ -24,10 +24,12 @@ class SvgContext {
       const std::pair<std::string, std::string>& attrPair);
 
   const AttrMap& GetAttrMap(const std::string& key) const;
+    
+  void SetRootViewBox(const Rect &viewBox) { rootViewBox_ = viewBox; }
 
-  void SetViewBox(const Rect& viewBox) { rootViewBox_ = viewBox; }
+  const Rect &GetRootViewBox() const { return rootViewBox_; }
 
- private:
+  private:
   std::unordered_map<std::string, std::shared_ptr<SvgNode>> idMapper_;
   ClassStyleMap styleMap_;
   Rect rootViewBox_;

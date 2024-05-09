@@ -14,7 +14,7 @@ public:
     OH_Drawing_Path *AsPath() const override;
 
     Size GetSize() const;
-
+    
     Rect GetViewBox() const;
     
     void Draw(OH_Drawing_Canvas *canvas) override;
