@@ -18,8 +18,19 @@ const basicCases: CaseParams[] = [
                 opacity: '0.6'
             },
             {
-                d:`M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30 z`,
-                fill: 'red'
+                d:`M10,10 L90,10 L90,90 L10,90 Z M30,30 L70,30 L70,70 L30,70 Z`,
+                fill: 'red',
+                fillRule: 'evenodd',
+            },
+            {
+                d:`M10,10 L90,10 L90,90 L10,90 Z M30,30 L70,30 L70,70 L30,70 Z`,
+                fill: 'red',
+                fillRule: 'nonzero',
+            },
+
+            {
+                d:`M10,10 L90,10 L90,90 L10,90 Z M30,30 L70,30 L70,70 L30,70 Z`,
+                fill: 'red',
             }
         ]
     }
