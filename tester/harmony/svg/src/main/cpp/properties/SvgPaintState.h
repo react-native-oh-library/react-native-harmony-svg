@@ -26,7 +26,6 @@ const char ATTR_NAME_LETTER_SPACING[] = "letter-spacing";
 const char ANIMATOR_TYPE_MOTION[] = "motion";
 const char ATTR_NAME_FILL_RULE_EVENODD[] = "evenodd";
 
-
 class FillState {
 public:
 //     void SetContextAndCallback(const WeakPtr<PipelineContext> &context, const RenderNodeAnimationCallback &callback) {
@@ -34,6 +33,11 @@ public:
 //         opacity_.SetContextAndCallback(context, callback);
 //     }
 //
+    enum class FillRule {
+        FILL_RULE_EVEN_ODD = 0,
+        FILL_RULE_NONZERO = 1
+    };
+
     const Color &GetColor() const { return color_; }
 
     /**
@@ -62,15 +66,23 @@ public:
 
     double GetOpacity() const { return opacity_; }
 
-    void SetFillRule(const std::string &fillRule, bool isSelf) {
+    void SetFillRule(const FillState::FillRule fillRule , bool isSelf) {
         fillRule_ = fillRule;
         hasFillRule_ = isSelf;
     }
 
-    const std::string &GetFillRule() const { return fillRule_; }
-
-//     bool IsEvenodd() const { return fillRule_ == ATTR_NAME_FILL_RULE_EVENODD; }
-//
+    const FillState::FillRule &GetFillRule() const { return fillRule_; }
+    
+    OH_Drawing_PathFillType GetFillRuleForDraw() const{
+        if (IsEvenodd()) {
+            return OH_Drawing_PathFillType::PATH_FILL_TYPE_EVEN_ODD;
+        } else {
+            return OH_Drawing_PathFillType::PATH_FILL_TYPE_WINDING;
+        }
+    }
+    
+    bool IsEvenodd() const { return fillRule_ == FillRule::FILL_RULE_EVEN_ODD; }
+    //
     void Inherit(const FillState &parent) {
         if (!hasColor_) {
             color_ = parent.GetColor();
@@ -97,7 +109,7 @@ public:
 protected:
     Color color_ = Color(Color::BLACK);
     double opacity_ = double(1.0);
-    std::string fillRule_;
+    FillState::FillRule fillRule_;
     std::optional<Gradient> gradient_;
     bool hasColor_ = false;
     bool hasOpacity_ = false;

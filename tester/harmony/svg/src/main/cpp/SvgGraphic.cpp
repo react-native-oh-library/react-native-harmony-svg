@@ -121,6 +121,7 @@ bool SvgGraphic::UpdateFillStyle(bool antiAlias) {
         //         auto fillColor = (color) ? *color : fillState_.GetColor();
         //         fillBrush_.SetColor(fillColor.BlendOpacity(curOpacity).GetValue());
         OH_Drawing_BrushSetColor(fillBrush_, fillState_.GetColor().BlendOpacity(curOpacity).GetValue());
+        OH_Drawing_PathSetFillType(path_,fillState_.GetFillRuleForDraw());
     }
     return true;
 }

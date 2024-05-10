@@ -168,7 +168,8 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
     }
     attributes_.fillState.SetColor(Color((uint32_t)*props->fill.payload), set.count("fill"));
     attributes_.fillState.SetOpacity(std::clamp(props->fillOpacity, 0.0, 1.0), set.count("fillOpacity"));
-    attributes_.fillState.SetFillRule(std::to_string(props->fillRule), set.count("fillRule"));
+    // todo Inheritance situation
+    attributes_.fillState.SetFillRule(static_cast<FillState::FillRule>(props->fillRule), true);
     attributes_.fillState.SetHref(props->fill.brushRef);
 
     attributes_.strokeState.SetColor(Color((uint32_t)*props->stroke.payload), set.count("stroke"));
