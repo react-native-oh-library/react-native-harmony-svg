@@ -10,6 +10,7 @@
 #include "properties/Color.h"
 #include "properties/PaintState.h"
 #include "properties/Decoration.h"
+#include <native_drawing/drawing_path.h>
 
 namespace rnoh {
 
@@ -327,20 +328,34 @@ private:
 
 class ClipState {
 public:
-    void SetClipRule(const std::string& clipRule, bool isSelf)
+    enum class ClipRule {
+        FILL_RULE_NONZERO = 0,
+        FILL_RULE_EVENODD
+    };
+
+    void SetClipRule(const ClipState::ClipRule clipRule, bool isSelf)
     {
         clipRule_ = clipRule;
         hasClipRule_ = isSelf;
     }
 
-    const std::string& GetClipRule() const
+    const ClipState::ClipRule GetClipRule() const
     {
         return clipRule_;
     }
 
+    // Convert different interface values (FILL_RULE_NONZERO <===> PATH_FILL_TYPE_WINDING)
+    OH_Drawing_PathFillType GetClipRuleOfDwaw() {
+        if (clipRule_ == ClipRule::FILL_RULE_EVENODD) {
+            return OH_Drawing_PathFillType::PATH_FILL_TYPE_EVEN_ODD;
+        } else{
+            return OH_Drawing_PathFillType::PATH_FILL_TYPE_WINDING;
+        }
+    }
+
     bool IsEvenodd() const
     {
-        return clipRule_ == ATTR_NAME_FILL_RULE_EVENODD;
+        return clipRule_ == ClipRule::FILL_RULE_EVENODD;
     }
 
     void SetHref(const std::string& href, bool isSelf)
@@ -365,7 +380,7 @@ public:
     }
 
 private:
-    std::string clipRule_;
+    ClipState::ClipRule clipRule_ = ClipState::ClipRule::FILL_RULE_NONZERO;
     std::string href_;
     bool hasClipRule_ = false;
     bool hasHref_ = false;

@@ -12,6 +12,7 @@ RNSVGUseComponentInstance::RNSVGUseComponentInstance(Context context) : CppCompo
 void RNSVGUseComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
      CppComponentInstance::onPropsChanged(props);
      GetSvgNode()->UpdateCommonProps(props);
+
      LOG(INFO) << "[RNSvgUseComponentInstance] Props: " ;
      LOG(INFO) << "[RNSvgUseComponentInstance] x: " << props->x;
      LOG(INFO) << "[RNSvgUseComponentInstance] y: " << props->y;
@@ -28,6 +29,7 @@ void RNSVGUseComponentInstance::onPropsChanged(SharedConcreteProps const &props)
      svgUse->height = std::stof(props->height);
      svgUse->href = props->href;
      // svgUse->UpdateCommonProps(props, svgUse);
+
 }
 
 SvgArkUINode &RNSVGUseComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }

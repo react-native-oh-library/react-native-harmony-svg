@@ -26,14 +26,14 @@ struct SvgBaseAttribute : Attribute {
     std::string markerMid;
     std::string markerEnd;
     std::string clipPath;
-//     ClipState clipState;
+    ClipState clipState;
 
     void InheritFromUse(const SvgBaseAttribute& parent)
     {
         opacity = selfOpacity * parent.opacity;
         fillState.Inherit(parent.fillState);
         strokeState.Inherit(parent.strokeState);
-//         clipState.Inherit(parent.clipState);
+        clipState.Inherit(parent.clipState);
     }
 
     void Inherit(const SvgBaseAttribute& parent)
@@ -41,7 +41,7 @@ struct SvgBaseAttribute : Attribute {
         opacity = selfOpacity * parent.opacity;
         fillState.Inherit(parent.fillState);
         strokeState.Inherit(parent.strokeState);
-//         clipState.Inherit(parent.clipState);
+        clipState.Inherit(parent.clipState);
     }
 };
 

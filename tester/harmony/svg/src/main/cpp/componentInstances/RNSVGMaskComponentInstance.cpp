@@ -28,8 +28,9 @@ void RNSVGMaskComponentInstance::onPropsChanged(SharedConcreteProps const &props
     svgMask->setMaskY(StringUtils::FromString(props->y));
     svgMask->setMaskHeight(StringUtils::FromString(props->height));
     svgMask->setMaskWidth(StringUtils::FromString(props->width));
-    svgMask->isDefaultMaskUnits(props->maskUnits == 1);
-    svgMask->isDefaultMaskContentUnits(props->maskContentUnits == 1);
+    svgMask->isDefaultMaskUnits(props->maskUnits == 0); // means objectBoundingBox
+    svgMask->isDefaultMaskContentUnits(props->maskContentUnits == 1);// means userSpaceOnUse
+
 	GetSvgNode()->UpdateCommonProps(props);
   
 }

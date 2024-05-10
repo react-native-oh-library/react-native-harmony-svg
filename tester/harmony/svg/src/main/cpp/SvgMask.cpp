@@ -21,13 +21,16 @@ void SvgMask::OnDrawTraversedBefore(OH_Drawing_Canvas* canvas)
 {
      LOG(INFO) << "[RNSVGMask] OnDrawTraversedBefore";
      // todo: need to finish AsBounds
-          auto nodeBounds = isDefaultMaskUnits_ ? AsBounds() : GetRootViewBox();
-          float left = static_cast<float>(nodeBounds.Left() + ParseUnitsAttr(x_, nodeBounds.Width()));
-          float top = static_cast<float>(nodeBounds.Top() + ParseUnitsAttr(y_, nodeBounds.Height()));
-          float width = static_cast<float>(ParseUnitsAttr(width_, nodeBounds.Width()));
-          float height = static_cast<float>(ParseUnitsAttr(height_, nodeBounds.Height()));
-          auto maskBounds_ = OH_Drawing_RectCreate(left, top, width + left, height + top);
-//           auto maskBounds_ = OH_Drawing_RectCreate(30, 30, 60, 60);
+     auto nodeBounds = isDefaultMaskUnits_ ? AsBounds() : GetRootViewBox();
+     LOG(INFO) << "[RNSVGMask] Left: " << nodeBounds.Left();
+     LOG(INFO) << "[RNSVGMask] Top: " << nodeBounds.Top();
+     LOG(INFO) << "[RNSVGMask] Width: " << nodeBounds.Width();
+     LOG(INFO) << "[RNSVGMask] Height: " << nodeBounds.Height();
+     float left = static_cast<float>(nodeBounds.Left() + ParseUnitsAttr(x_, nodeBounds.Width()));
+     float top = static_cast<float>(nodeBounds.Top() + ParseUnitsAttr(y_, nodeBounds.Height()));
+     float width = static_cast<float>(ParseUnitsAttr(width_, nodeBounds.Width()));
+     float height = static_cast<float>(ParseUnitsAttr(height_, nodeBounds.Height()));
+     auto maskBounds_ = OH_Drawing_RectCreate(left, top, width + left, height + top);
 
      // create mask layer
      OH_Drawing_CanvasSaveLayer(canvas, maskBounds_, nullptr);
@@ -62,20 +65,12 @@ void SvgMask::OnDrawTraversedAfter(OH_Drawing_Canvas* canvas)
 void SvgMask::OnInitStyle()
 {
     LOG(INFO) << "[RNSVGMask] OnInitStyle";
-    // todo: need to finish SvgMaskDeclaration
-//     auto declaration = Ace::AceType::DynamicCast<SvgMaskDeclaration>(declaration_);
-//     CHECK_NULL_VOID(declaration);
-//     isDefaultMaskUnits_ = (declaration->GetMaskUnits() == "objectBoundingBox");
-//     isDefaultMaskContentUnits_ = (declaration->GetMaskContentUnits() == "userSpaceOnUse");
-//     x_ = declaration->GetX();
-//     y_ = declaration->GetY();
-//     height_ = declaration->GetHeight();
-//     width_ = declaration->GetWidth();
 }
 
  double SvgMask::ParseUnitsAttr(const Dimension &attr, double value) {
     LOG(INFO) << "[RNSVGMask] ParseUnitsAttr";
     if (isDefaultMaskUnits_) {
+        LOG(INFO) << "[RNSVGMask] isDefaultMaskUnits_";
         // only support decimal or percent
         if (attr.Unit() == DimensionUnit::PERCENT) {
             return value * attr.Value();
@@ -87,10 +82,6 @@ void SvgMask::OnInitStyle()
            return value * attr.Value();
        }
        return attr.Value();
- }
-
- Rect SvgMask::AsBounds() {
-    return {60, 60, 450, 450};
  }
  } // namespace rnoh
 
