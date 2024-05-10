@@ -26,11 +26,6 @@ void RNSVGCircleComponentInstance::onPropsChanged(SharedConcreteProps const &pro
     svgCircle->x = std::stof(props->cx);
     svgCircle->y = std::stof(props->cy);
     svgCircle->r = std::stof(props->r);
-    //透明度穿0.0-1.0 ，需要乘以100转换
-    svgCircle->opacity = props->opacity*100;
-    //颜色需要转换
-    svgCircle->colorFill = (uint32_t)*props->fill.payload;
-   
     svgCircle->UpdateCommonProps(props);
 }
 
