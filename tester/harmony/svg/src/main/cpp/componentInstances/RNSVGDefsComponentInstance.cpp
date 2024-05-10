@@ -7,7 +7,7 @@
 namespace rnoh {
 
 RNSVGDefsComponentInstance::RNSVGDefsComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
-    SetSvgNode(std::make_shared<SvgGroup>());
+    SetSvgNode(std::make_shared<SvgDefs>());
 }
 
 void RNSVGDefsComponentInstance::onPropsChanged(SharedConcreteProps const &props) {

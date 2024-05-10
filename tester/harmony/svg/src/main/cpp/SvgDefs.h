@@ -3,6 +3,7 @@
 #include <string>
 #include "SvgNode.h"
 #include <native_drawing/drawing_path.h>
+#include "SvgGraphic.h"
 
 namespace rnoh {
 
@@ -12,7 +13,7 @@ public:
     SvgDefs() : SvgNode()
     {
         InitDefsFlag();
-        LOG(INFO) << "[RNSvgDefsComponentInstance]: " ;
+
     }
 
     ~SvgDefs() override = default;
@@ -27,13 +28,20 @@ public:
 
     OH_Drawing_Path *AsPath() override
     {
-        auto* path = OH_Drawing_PathCreate();
-        for (const auto& child : children_) {
-            path = child->AsPath();
-        //   path.Op(path, childPath, RSPathOp::UNION);
+        auto path = OH_Drawing_PathCreate();
+        LOG(INFO) << "[SvgDfes:AsPath] : arrived Defs AsPath";
+        for (auto child : children_) {
+            if(!child) {
+                LOG(INFO) << "[SvgDfes:AsPath] : childnode is a null ptr" ;
+            } else {
+                LOG(INFO) << "[SvgDfes:AsPath] : get child path:" ;
+            }
+            auto childPath = child->AsPath();
+            // path.Op(path, childPath, RSPathOp::UNION);
+            path = childPath;
         }
         return path;
     }
 };
 
-}
+} // namespace rnoh
