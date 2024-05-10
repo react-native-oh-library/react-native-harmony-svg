@@ -1,49 +1,54 @@
-import React from "react";
-import { Svg, Circle } from 'react-native-svg'
-import { GenMain } from './gen'
-import { genTransformProps, genTouchableProps, genFillProps, CaseParams } from '../genUtil'
+import React from 'react';
+import {Svg, Circle} from 'react-native-svg';
+import {GenMain} from './gen';
+import {
+  genTransformProps,
+  genTouchableProps,
+  genFillProps,
+  CaseParams,
+  genStrokeProps,
+} from '../genUtil';
 const basicProps = {
-    width: 80,
-    height: 80,
-    fill: 'red'
-}
+  width: 80,
+  height: 80,
+  fill: 'red',
+};
 
 const basicCases: CaseParams[] = [
-    {
-        type: 'mulKey',
-        values: [
-            {
-                width: 30,
-                height: 60
-            },
-            {
-                width: 90,
-                height: 60,
-                fill: 'green'
-            },
-        ]
-    }
-]
-
+  {
+    type: 'mulKey',
+    values: [
+      {
+        width: 30,
+        height: 60,
+      },
+      {
+        width: 90,
+        height: 60,
+        fill: 'green',
+      },
+    ],
+  },
+];
 
 const allCases: CaseParams[] = [
-    ...basicCases,
-    ...genFillProps(),
-    ...genTransformProps(),
-]
+  ...basicCases,
+  ...genFillProps(),
+  ...genStrokeProps(),
+  ...genTransformProps(),
+];
 
 const bindFunc = {
-    ...genTouchableProps('Rect')
-}
-
+  ...genTouchableProps('Rect'),
+};
 
 export default function () {
-    return (
-        <GenMain
-            cases={allCases}
-            basicProps={basicProps}
-            comName='Rect'
-            bindFunc={bindFunc}
-        />
-    )
+  return (
+    <GenMain
+      cases={allCases}
+      basicProps={basicProps}
+      comName="Rect"
+      bindFunc={bindFunc}
+    />
+  );
 }
