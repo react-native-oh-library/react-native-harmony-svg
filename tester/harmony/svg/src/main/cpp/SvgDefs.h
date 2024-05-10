@@ -1,23 +1,22 @@
 #pragma once
 
+#include <string>
 #include "SvgNode.h"
+#include <native_drawing/drawing_path.h>
 #include "SvgGraphic.h"
 
 namespace rnoh {
 
 class SvgDefs : public SvgNode {
+
 public:
     SvgDefs() : SvgNode()
     {
         InitDefsFlag();
+
     }
 
     ~SvgDefs() override = default;
-
-    // static RefPtr<SvgNode> Create()
-    // {
-    //     return AceType::MakeRefPtr<SvgDefs>();
-    // }
 
     void InitDefsFlag()
     {
