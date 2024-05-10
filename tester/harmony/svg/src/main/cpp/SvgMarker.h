@@ -8,7 +8,6 @@
 #define HARMONY_SVGMARKER_H
 
 #include "SvgGroup.h"
-#include "properties/SvgMarkerPosition.h"
 #include "properties/Dimension.h"
 #include "properties/Size.h"
 #include "utils/SvgMarkerPositionUtils.h"
