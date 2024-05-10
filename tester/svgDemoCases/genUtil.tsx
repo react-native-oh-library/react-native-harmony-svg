@@ -142,12 +142,12 @@ export function genClipProps(): CaseParams[] {
     return [
         {
             key: 'clipRule',
-            values: []
+            values: ['evenodd', 'nonzero']
         },
-        {
-            key: 'clipPath',
-            values: []
-        }
+        // {
+        //     key: 'clipPath',
+        //     values: []
+        // }
     ]
 }
 export function genTransformProps(): CaseParams[] {
@@ -254,21 +254,40 @@ export function genTouchableProps(name: string, { disabled = false } = {}) {
     }
 }
 
-export function genViewProps(): CaseParams[] {
+export function genAccessibilityProps() {
     return [
-        {
-            key: 'style',
-            values: []
-        },
         {
             key: 'testID',
             values: []
         },
+        {
+            key: 'accessible',
+            values: ['true', 'false']
+        },
+    ]
+}
+
+export function genViewProps(): CaseParams[] {
+    return [
+        {
+            key: 'style',
+            values: [
+                {
+                    opacity: '0.1'
+                }
+            ]
+        },
+        
     ]
 }
 
 export function genCommonPathProps() {
-
+    return [
+        {
+            key: 'opacity',
+            values: ['0.1', '0.5', '1']
+        }
+    ]
 }
 
 export function genTextSpecificProps() {
@@ -279,27 +298,31 @@ export function genFontProps(): CaseParams[] {
     return [
         {
             key: 'fontWeight',
-            values: ['12', '16', '22']
+            values: ['12', '16', '500']
         },
         {
             key: 'fontSize',
-            values: ['12', '16', '22']
+            values: ['12', '24', '48']
         },
         {
             key: 'fontFamily',
-            values: ['12', '16', '22']
+            values: ['Verdana', 'Times'],
+            othersProps: {
+                fontSize: '30',
+                y: 60
+            }
         },
         {
             key: 'textAnchor',
-            values: ['12', '16', '22']
+            values: ['start', 'middle', 'end'] // 'start' | 'middle' | 'end'
         },
         {
             key: 'letterSpacing',
-            values: ['12', '16', '22']
+            values: ['1', '4', '10']
         },
         {
             key: 'wordSpacing',
-            values: ['12', '16', '22']
+            values: ['1', '4', '10']
         },
     ]
 }
