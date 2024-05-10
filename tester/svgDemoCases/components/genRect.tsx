@@ -27,6 +27,19 @@ const basicCases: CaseParams[] = [
         height: 60,
         fill: 'green',
       },
+      {
+        width: 90,
+        height: 60,
+        fill: 'green',
+        opacity:'0.5'
+      },
+
+      {
+        width: 90,
+        height: 60,
+        fill: 'green',
+        opacity:'0.1'
+      },
     ],
   },
 ];

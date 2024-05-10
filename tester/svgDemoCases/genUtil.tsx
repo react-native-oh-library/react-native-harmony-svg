@@ -9,6 +9,7 @@ export interface CaseParams {
     othersProps?: Object,
     showOtherProps?: boolean,
     showBasicProps?: boolean,
+    opacity?:string
 }
 
 export function genFillProps() {
