@@ -22,7 +22,8 @@ import Symbol from './Symbol';
 import TextPath from './TextPath';
 import Use from './Use';
 import Svg from './Svg'
-import clipPath from './clipPath';
+import ClipPath from './clipPath';
+import Image from './Image';
 export default {
     Circle,
     Defs,
@@ -48,5 +49,6 @@ export default {
     Symbol,
     Svg,
     Xml,
-    clipPath
+    ClipPath,
+    Image
 }

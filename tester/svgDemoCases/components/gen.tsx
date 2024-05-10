@@ -21,7 +21,7 @@ export interface RenderCaseProps{
 function deepMerge<T extends object, U extends object>(  
     obj1: T,  
     obj2: U,  
-    mergeValues: boolean = false
+    mergeValues: boolean = true
 ): T & U {  
     const result: any = { ...obj1 }; 
   
@@ -61,7 +61,7 @@ function RenderCase({_case, basicProps, comName, renderComChildren, bindFunc, no
                     const Com = ASVG[comName]
                     const caseProps = type === 'key-value' ? {[_case.key as string]: v } : v
                     let showProps = deepMerge(caseProps, _case.othersProps || {}, _case.showOtherProps)
-                    const word = type === 'key-value' ? `${_case.key}=${v}` : `${JSON.stringify(showProps)}`
+                    const word = type === 'key-value' ? `${_case.key}=${JSON.stringify(v)}` : `${JSON.stringify(showProps)}`
                     return (
                         <TestCase
                         // <View
@@ -181,7 +181,7 @@ function RenderDefCase({
                     const DefCom = ASVG[defName]
                     const caseProps = type === 'key-value' ? {[_case.key as string]: v } : v
                     let showProps = deepMerge(caseProps, _case.othersProps || {}, _case.showOtherProps)
-                    const word = type === 'key-value' ? `${_case.key}=${v}` : `${JSON.stringify(showProps)}`
+                    const word = type === 'key-value' ? `${_case.key}=${JSON.stringify(v)}` : `${JSON.stringify(showProps)}`
                     return (
                         <TestCase
                         // <View

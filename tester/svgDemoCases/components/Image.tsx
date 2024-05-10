@@ -1,22 +1,57 @@
 import React from "react";
-import { Svg, Circle,  } from 'react-native-svg'
-import { ScrollView, View, Text } from 'react-native'
-import {Tester, Filter, TestCase, TestSuite } from '@rnoh/testerino';
-export default function() {
+// import  from 'react-native-svg'
+import { Svg, Circle, Rect } from 'react-native-svg'
+import { GenMain } from './gen'
+import { genTransformProps, genStrokeProps, genFillProps, CaseParams } from '../genUtil'
+const basicProps = {
+    width: 80,
+    height: 80,
+    href: 'https://live.mdnplay.dev/zh-CN/docs/Web/SVG/Element/image/mdn_logo_only_color.png'
+}
+
+const basicCases: CaseParams[] = [
+    {
+        type: 'mulKey',
+        values: [
+            {
+                width: 80,
+                height: 80,
+                opacity: '1'
+            },
+            {
+                width: 80,
+                height: 80,
+                opacity: '0.1'
+            },
+            {
+                width: 30,
+                height: 60,
+                opacity: '0.5'
+            },
+            {
+                width: 90,
+                height: 60,
+                fill: 'green'
+            },
+        ]
+    }
+]
+
+const allCases = [
+    ...basicCases,
+    // ...genFillProps(),
+    // ...genStrokeProps(),
+    ...genTransformProps()
+]
+
+
+export default function () {
     return (
-        <Tester style={{flex: 1}}>
-             <ScrollView>
-                <TestCase 
-                    itShould="case 1 desc"
-                >
-                    <Text>case 1 in here</Text>
-                </TestCase>
-                <TestCase 
-                    itShould="case 2 desc"
-                >
-                    <Text>case 2 in here</Text>
-                </TestCase>
-            </ScrollView>
-        </Tester>
+        <GenMain
+            cases={allCases}
+            basicProps={basicProps}
+            comName='Image'
+        >
+        </GenMain>
     )
 }
