@@ -16,9 +16,11 @@ class SvgQuote : public SvgNode {
       auto *path = OH_Drawing_PathCreate();
       for (const auto &child : children_) {
           auto *childPath = child->AsPath();
+          // Just For test
+          return childPath;
           //   path.Op(path, childPath, RSPathOp::UNION);
     }
-    return path;
+//     return path;
   }
 
   void Draw(OH_Drawing_Canvas* canvas) override {

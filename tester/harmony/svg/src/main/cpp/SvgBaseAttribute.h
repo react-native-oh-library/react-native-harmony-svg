@@ -25,6 +25,7 @@ struct SvgBaseAttribute : Attribute {
     std::string markerStart;
     std::string markerMid;
     std::string markerEnd;
+    std::string clipPath;
 //     ClipState clipState;
 
     void InheritFromUse(const SvgBaseAttribute& parent)
