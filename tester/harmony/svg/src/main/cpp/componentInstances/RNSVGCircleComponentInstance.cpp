@@ -31,7 +31,7 @@ void RNSVGCircleComponentInstance::onPropsChanged(SharedConcreteProps const &pro
     //颜色需要转换
     svgCircle->colorFill = (uint32_t)*props->fill.payload;
    
-    svgCircle->UpdateCommonProps(props, svgCircle);
+    svgCircle->UpdateCommonProps(props);
 }
 
 SvgArkUINode &RNSVGCircleComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }

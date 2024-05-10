@@ -12,7 +12,7 @@ RNSVGLinearGradientComponentInstance::RNSVGLinearGradientComponentInstance(Conte
 void RNSVGLinearGradientComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
      CppComponentInstance::onPropsChanged(props);
 
-     GetSvgNode()->UpdateCommonProps(props, GetSvgNode());
+     GetSvgNode()->UpdateCommonProps(props);
 }
 
 SvgArkUINode &RNSVGLinearGradientComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
