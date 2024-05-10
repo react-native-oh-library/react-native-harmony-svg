@@ -61,6 +61,8 @@ void SvgNode::OnClipPath(OH_Drawing_Canvas *canvas) {
         LOG(WARNING) << "[SvgNode] OnClipPath: Path is null!";
         return;
     };
+    // Set clipRule through Drawing API
+    OH_Drawing_PathSetFillType(clipPath, attributes_.clipState.GetClipRuleOfDwaw());
     OH_Drawing_CanvasClipPath(canvas, clipPath, OH_Drawing_CanvasClipOp::INTERSECT, true);
     OH_Drawing_PathDestroy(clipPath);
 }
@@ -182,6 +184,7 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
         attributes_.strokeState.SetMiterLimit(limit, set.count("strokeMiterlimit"));
     }
     attributes_.strokeState.SetOpacity(std::clamp(props->strokeOpacity, 0.0, 1.0), set.count("strokeOpacity"));
+    attributes_.clipState.SetClipRule(static_cast<ClipState::ClipRule>(props->clipRule), set.count("clipRule"));
 }
 
 void SvgNode::ContextTraversal() {
