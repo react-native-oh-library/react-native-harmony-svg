@@ -73,6 +73,8 @@ protected:
 
     std::string hrefClipPath_;
     std::string imagePath_;
+    // TODO get densityPixels in CAPI
+    double scale_ = 3.25010318;
 
     bool hrefFill_ = true;      // get fill attributes from reference
     bool hrefRender_ = true;    // get render attr (mask, filter, transform, opacity,
