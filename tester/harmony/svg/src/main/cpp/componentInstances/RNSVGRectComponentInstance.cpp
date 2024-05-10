@@ -34,7 +34,7 @@ void RNSVGRectComponentInstance::onPropsChanged(SharedConcreteProps const &props
         svgRect->ry = std::stof(props->ry);
     }
 
-    svgRect->UpdateCommonProps(props, svgRect);
+    svgRect->UpdateCommonProps(props);
 }
 
 SvgArkUINode &RNSVGRectComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }

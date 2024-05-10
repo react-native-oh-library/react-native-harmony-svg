@@ -30,7 +30,7 @@ void RNSVGMaskComponentInstance::onPropsChanged(SharedConcreteProps const &props
     svgMask->setMaskWidth(StringUtils::FromString(props->width));
     svgMask->isDefaultMaskUnits(props->maskUnits == 1);
     svgMask->isDefaultMaskContentUnits(props->maskContentUnits == 1);
-	GetSvgNode()->UpdateCommonProps(props, GetSvgNode());
+	GetSvgNode()->UpdateCommonProps(props);
   
 }
 

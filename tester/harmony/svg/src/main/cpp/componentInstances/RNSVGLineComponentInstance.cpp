@@ -29,7 +29,7 @@ void RNSVGLineComponentInstance::onPropsChanged(SharedConcreteProps const &props
     svgLine->x2 = std::stod(props->x2);
     svgLine->y2 = std::stod(props->y2);
 
-    svgLine->UpdateCommonProps(props, svgLine);
+    svgLine->UpdateCommonProps(props);
 }
 
 SvgArkUINode &RNSVGLineComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
