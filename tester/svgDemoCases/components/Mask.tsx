@@ -32,11 +32,11 @@ class SimpleMask extends Component {
     return (
       <View style={styles.container}>
       <Svg viewBox="0 0 600 500" width={400} height={400} color="green" preserveAspectRatio="xMinYMid slice">
-        <Mask id="myMask" x={60} y={60}  width={200} height={200} >
-            <Rect x={30} y={45} width={120} height={120} fill="blue" />
+        <Mask id="myMask" x={0} y={0}  width={400} height={400} maskUnits="objectBoundingBox">
+            <Rect x={90} y={150} width={120} height={120} fill="blue" />
         </Mask>
           
-          <Rect x={30} y={45} width={200} height={200} fill="red" mask="url(#myMask)" />
+          <Rect x={100} y={150} width={400} height={400} fill="red" mask="url(#myMask)" />
        </Svg>
       </View>
     );
