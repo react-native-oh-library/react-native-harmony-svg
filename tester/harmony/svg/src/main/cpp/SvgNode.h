@@ -3,6 +3,7 @@
 
 #include <glog/logging.h>
 #include <native_drawing/drawing_canvas.h>
+#include <native_drawing/drawing_rect.h>
 #include <memory>
 #include <vector>
 #include "SvgBaseAttribute.h"
@@ -41,6 +42,7 @@ public:
 
     using ConcreteProps = std::shared_ptr<const facebook::react::RNSVGCommonProps>;
     void UpdateCommonProps(const ConcreteProps &props);
+    Rect AsBounds();
 
 protected:
     void InheritAttr(const SvgBaseAttribute &parent) { attributes_.Inherit(parent); }

@@ -54,9 +54,6 @@ protected:
     void OnDrawTraversedAfter(OH_Drawing_Canvas *canvas) override;
     double ParseUnitsAttr(const Dimension &attr, double value);
 
-    Rect AsBounds();
-
-
 private:
     Dimension x_ = Dimension(-0.1, DimensionUnit::PERCENT);     // x-axis default value
     Dimension y_ = Dimension(-0.1, DimensionUnit::PERCENT);     // y-axis default value
