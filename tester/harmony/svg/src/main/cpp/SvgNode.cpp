@@ -46,15 +46,21 @@ const Rect &SvgNode::GetRootViewBox() const {
 }
 
 void SvgNode::OnClipPath(OH_Drawing_Canvas *canvas) {
+    LOG(INFO) << "[SvgNode] Draw OnClipPath enter";
     if (!context_) {
-        LOG(INFO) << "NO CONTEXT";
+        LOG(WARNING) << "[SvgNode] OnClipPath: Context is null!";
         return;
     }
     auto refSvgNode = context_->GetSvgNodeById(hrefClipPath_);
     if (!refSvgNode) {
+        LOG(WARNING) << "[SvgNode] OnClipPath: SvgNode is null!";
         return;
     };
     auto *clipPath = refSvgNode->AsPath();
+    if (!clipPath) {
+        LOG(WARNING) << "[SvgNode] OnClipPath: Path is null!";
+        return;
+    };
     OH_Drawing_CanvasClipPath(canvas, clipPath, OH_Drawing_CanvasClipOp::INTERSECT, true);
     OH_Drawing_PathDestroy(clipPath);
 }
@@ -105,6 +111,7 @@ double SvgNode::ConvertDimensionToPx(const Dimension &value, const Size &viewPor
 
 void SvgNode::Draw(OH_Drawing_Canvas *canvas) {
     // mask and filter create extra layers, need to record initial layer count
+    LOG(INFO) << "[SvgNode] Draw enter";
     const auto count = OH_Drawing_CanvasGetSaveCount(canvas);
     OH_Drawing_CanvasSave(canvas);
     if (!hrefClipPath_.empty()) {
@@ -136,6 +143,8 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props, const std::shared_pt
         attributes_.markerMid = props->markerMid;
         attributes_.markerEnd = props->markerEnd;
         // clipPath
+        attributes_.clipPath = props->clipPath;
+        hrefClipPath_ = props->clipPath;
     }
 
     if (hrefFill_) {
