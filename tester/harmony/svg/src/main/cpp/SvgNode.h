@@ -38,17 +38,28 @@ public:
         return nullptr;
     };
 
+    SvgBaseAttribute GetBaseAttributes() const
+    {
+        return attributes_;
+    }
+
+    void SetBaseAttributes(const SvgBaseAttribute& attr)
+    {
+        attributes_ = attr;
+    }
+
     virtual void AppendChild(const std::shared_ptr<SvgNode> &child) { children_.emplace_back(child); }
 
     using ConcreteProps = std::shared_ptr<const facebook::react::RNSVGCommonProps>;
     void UpdateCommonProps(const ConcreteProps &props);
+
     Rect AsBounds();
 
-protected:
     void InheritAttr(const SvgBaseAttribute &parent) { attributes_.Inherit(parent); }
 
     void InheritUseAttr(const SvgBaseAttribute &parent) { attributes_.InheritFromUse(parent); }
 
+protected:
     // override as need by derived class
     // called by function AppendChild
     virtual void OnAppendChild(const std::shared_ptr<SvgNode> &child) {}
