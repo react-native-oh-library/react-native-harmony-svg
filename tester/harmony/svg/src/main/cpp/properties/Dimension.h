@@ -125,9 +125,10 @@ public:
             // TODO get densityPixels in CAPI
             return value_ * 3.25010318;
         }
-//         if (unit_ == DimensionUnit::FP) {
+        if (unit_ == DimensionUnit::FP) {
 //             return value_ * pipeline->GetDipScale() * pipeline->GetFontScale();
-//         }
+            return value_ * 3.25010318;
+        }
 //         if (unit_ == DimensionUnit::LPX) {
 //             return value_ * pipeline->GetLogicScale();
 //         }

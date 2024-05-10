@@ -27,6 +27,7 @@
 #include <folly/dynamic.h>
 #include "SvgArkUINode.h"
 #include "ShadowNodes.h"
+#include "SvgText.h"
 
 namespace rnoh {
 
@@ -34,11 +35,14 @@ class RNSVGTextComponentInstance : public CppComponentInstance<facebook::react::
 
 private:
     SvgArkUINode m_svgArkUINode;
+    std::shared_ptr<SvgText> m_svgText = std::make_shared<SvgText>();
 
 public:
     RNSVGTextComponentInstance(Context context);
     
-    void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override{}
+    void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override{
+        OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
+    }
     
     void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override{}
     
