@@ -1,30 +1,20 @@
 import React from "react"
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import { SvgAst, SvgFromUri, SvgFromXml, SvgXml, Circle, SvgUri, parse, Svg, AstProps, JsxAST } from 'react-native-svg'
-const css = StyleSheet.create({
-    item: {
-        backgroundColor: '#fff',
-        marginBottom: 4,
-        padding: 6
-    },
-    svgBorder: {
-        borderWidth: 1
-    }
-})
-
-interface ItemProps{
+import { Tester, Filter, TestCase, TestSuite } from '@rnoh/testerino';
+import { genAdditionalProps } from '../genUtil'
+interface ItemProps {
     text: string,
     children: React.ReactNode
 }
 
 function Item({ text, children }: ItemProps) {
     return (
-        <View
-            style={[css.svgBorder, css.svgBorder]}
+        <TestCase
+            itShould={text}
         >
-            <Text>{text}</Text>
             {children}
-        </View>
+        </TestCase>
     )
 }
 
@@ -36,42 +26,43 @@ export default function () {
         </svg>
     `
     return (
-        <View style={{
-            padding: 10,
-            paddingTop: 20,
-        }}>
-            <Item
-                text="test SvgUri"
-            >
-                <SvgUri
-                    width="150"
-                    height="70"
-                    uri="https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/debian.svg"
-                />
-            </Item>
-            <Item
-                text="test SvgFromUri"
-            >
-                <SvgFromUri
-                    width="150"
-                    height="70"
-                    uri="https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/debian.svg"
-                />
-            </Item>
-            <Item text="test SvgXml">
-                <SvgXml xml={xmlCase} width="100" height="100" />
-            </Item>
-            <Item text="test parse">
-                <Svg width={60} height={60}>
-                    {(parse(xmlCase) as JsxAST).children}
-                </Svg>
-            </Item>
-            <Item text="test SvgFromXml">
-                <SvgFromXml xml={xmlCase} width="90" height="70" />
-            </Item>
-            <Item text="test SvgAst">
-                <SvgAst ast={parse(xmlCase)} override={{ width: "60", height: "70" }}  />
-            </Item>
-        </View>
+        <Tester>
+            <ScrollView>
+                <Item
+                    text="test SvgUri"
+                >
+                    <SvgUri
+                        width="150"
+                        height="70"
+                        uri="https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/debian.svg"
+                        { ...genAdditionalProps('SvgUri') }
+                    />
+                </Item>
+                <Item
+                    text="test SvgFromUri"
+                >
+                    <SvgFromUri
+                        width="150"
+                        height="70"
+                        uri="https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/debian.svg"
+                        { ...genAdditionalProps('SvgFromUri') }
+                    />
+                </Item>
+                <Item text="test SvgXml">
+                    <SvgXml xml={xmlCase} width="100" height="100" { ...genAdditionalProps('SvgXml') } />
+                </Item>
+                <Item text="test parse">
+                    <Svg width={60} height={60}>
+                        {(parse(xmlCase) as JsxAST).children}
+                    </Svg>
+                </Item>
+                <Item text="test SvgFromXml">
+                    <SvgFromXml xml={xmlCase} width="90" height="70" { ...genAdditionalProps('SvgFromXml') } />
+                </Item>
+                <Item text="test SvgAst">
+                    <SvgAst ast={parse(xmlCase)} override={{ width: "60", height: "70" }} { ...genAdditionalProps('SvgAst') } />
+                </Item>
+            </ScrollView>
+        </Tester>
     )
 }

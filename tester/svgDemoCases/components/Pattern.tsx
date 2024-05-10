@@ -1,22 +1,58 @@
 import React from "react";
-import { Svg, Circle,  } from 'react-native-svg'
-import { ScrollView, View, Text } from 'react-native'
-import {Tester, Filter, TestCase, TestSuite } from '@rnoh/testerino';
-export default function() {
+// import  from 'react-native-svg'
+import { Svg, Circle, Polygon } from 'react-native-svg'
+import { GenDefs } from './gen'
+import { genTransformProps, genFillProps, genStrokeProps, CaseParams } from '../genUtil'
+const basicProps = {
+    id: 'star',
+    viewBox: '0,0,10,10',
+    width: '10%',
+    height: '10%'
+}
+// id="star" viewBox="0,0,10,10" width="5%" height="5%"
+
+const basicCases: CaseParams[] = [
+    {
+        type: 'mulKey',
+        id: 'pattern1',
+        values: [
+            {
+                width: '10%',
+                height: '10%'
+            },
+            {
+                width: '5%',
+                height: '5%'
+            },
+            {
+                width: '25%',
+                height: '25%'
+            },
+        ]
+    }
+]
+
+const allCases = [
+    ...basicCases,
+    ...genTransformProps()
+]
+
+const EffectCom = (
+    <Circle cx="50" cy="50" r="50" fill="url(#star)" />
+)
+const DefChildren = (
+    <Polygon points="0,0 2,5 0,10 5,8 10,10 8,5 10,0 5,2" />
+)
+
+export default function () {
     return (
-        <Tester style={{flex: 1}}>
-             <ScrollView>
-                <TestCase 
-                    itShould="case 1 desc"
-                >
-                    <Text>case 1 in here</Text>
-                </TestCase>
-                <TestCase 
-                    itShould="case 2 desc"
-                >
-                    <Text>case 2 in here</Text>
-                </TestCase>
-            </ScrollView>
-        </Tester>
+        <GenDefs
+            cases={allCases}
+            basicProps={basicProps}
+            renderComChildren={DefChildren}
+            EffectCom={EffectCom}
+            defName="Pattern"
+        >
+        </GenDefs>
     )
 }
