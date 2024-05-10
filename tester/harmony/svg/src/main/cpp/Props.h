@@ -158,7 +158,7 @@ public:
     int meetOrSlice{0};
     SharedColor tintColor{};
     SharedColor color{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     bool hasTVPreferredFocus{false};
     Float borderTopEndRadius{0.0};
     Float borderBottomStartRadius{0.0};
@@ -236,7 +236,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string cx{};
     std::string cy{};
@@ -335,7 +335,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
@@ -352,7 +352,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
 };
 
 
@@ -367,7 +367,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string cx{};
     std::string cy{};
@@ -469,7 +469,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
@@ -571,7 +571,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
@@ -589,7 +589,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string x{};
     std::string y{};
@@ -618,7 +618,7 @@ public:
     int meetOrSlice{0};
     SharedColor tintColor{};
     SharedColor color{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
 };
 
 class JSI_EXPORT RNSVGLinearGradientProps final : public RNSVGCommonProps {
@@ -632,7 +632,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     std::string x1{};
     std::string y1{};
     std::string x2{};
@@ -653,7 +653,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string x1{};
     std::string y1{};
@@ -752,7 +752,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
@@ -861,7 +861,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
@@ -885,7 +885,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string d{};
 };
@@ -982,7 +982,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
@@ -1013,7 +1013,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     std::string fx{};
     std::string fy{};
     std::string cx{};
@@ -1036,7 +1036,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string x{};
     std::string y{};
@@ -1137,7 +1137,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
@@ -1240,7 +1240,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
@@ -1350,7 +1350,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
@@ -1465,7 +1465,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
@@ -1495,7 +1495,7 @@ public:
     
     bool responsible{false};
     std::string display{};
-    std::string pointerEvents{};
+    // std::string pointerEvents{};
     int vectorEffect{0};
     std::string href{};
     std::string x{};
