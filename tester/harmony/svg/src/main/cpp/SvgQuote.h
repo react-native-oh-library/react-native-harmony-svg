@@ -19,7 +19,7 @@ class SvgQuote : public SvgNode {
       auto *childPath = child->AsPath();
       //   path.Op(path, childPath, RSPathOp::UNION);
     }
-//     return path;
+    return path;
   }
 
   void Draw(OH_Drawing_Canvas* canvas) override {
