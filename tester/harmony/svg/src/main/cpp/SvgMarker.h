@@ -7,7 +7,7 @@
 #ifndef HARMONY_SVGMARKER_H
 #define HARMONY_SVGMARKER_H
 
-#include "SvgGroup.h"
+#include "SvgQuote.h"
 #include "properties/Dimension.h"
 #include "properties/Size.h"
 #include "utils/SvgMarkerPositionUtils.h"
@@ -22,107 +22,67 @@
 
 namespace rnoh {
 
-class SvgMarker : public SvgGroup {
+class SvgMarker : public SvgQuote {
 public:
     SvgMarker() = default;
     ~SvgMarker() override = default;
 
     Size size;
 
-    void setRefX(Dimension refX) {
-        mRefX = ConvertDimensionToPx(refX, size, SvgLengthType::HORIZONTAL);
-        invalidate();
-    }
+    void setRefX(Dimension refX) { mRefX = ConvertDimensionToPx(refX, size, SvgLengthType::HORIZONTAL); }
 
-    void setRefY(Dimension refY) {
-        mRefY = ConvertDimensionToPx(refY, size, SvgLengthType::VERTICAL);
-        invalidate();
-    }
+    void setRefY(Dimension refY) { mRefY = ConvertDimensionToPx(refY, size, SvgLengthType::VERTICAL); }
 
     void setMarkerWidth(Dimension markerWidth) {
         mMarkerWidth = ConvertDimensionToPx(markerWidth, size, SvgLengthType::HORIZONTAL);
         LOG(INFO) << "[SvgMarker] setMarkerWidth mMarkerWidth=" << mMarkerWidth;
-        invalidate();
     }
 
     void setMarkerHeight(Dimension markerHeight) {
         mMarkerHeight = ConvertDimensionToPx(markerHeight, size, SvgLengthType::VERTICAL);
-        invalidate();
     }
 
-    void setMarkerUnits(std::string markerUnits) {
-        mMarkerUnits = markerUnits;
-        invalidate();
-    }
+    void setMarkerUnits(std::string markerUnits) { mMarkerUnits = markerUnits; }
 
-    void setOrient(std::string orient) {
-        mOrient = orient;
-        invalidate();
-    }
+    void setOrient(std::string orient) { mOrient = orient; }
 
-    void setMinX(float minX) {
-        mMinX = minX;
-        invalidate();
-    }
+    void setMinX(float minX) { mMinX = minX; }
 
-    void setMinY(float minY) {
-        mMinY = minY;
-        invalidate();
-    }
+    void setMinY(float minY) { mMinY = minY; }
 
-    void setVbWidth(float vbWidth) {
-        mVbWidth = vbWidth;
-        invalidate();
-    }
+    void setVbWidth(float vbWidth) { mVbWidth = vbWidth; }
 
-    void setVbHeight(float vbHeight) {
-        mVbHeight = vbHeight;
-        invalidate();
-    }
+    void setVbHeight(float vbHeight) { mVbHeight = vbHeight; }
 
-    void setAlign(std::string align) {
-        mAlign = align;
-        invalidate();
-    }
+    void setAlign(std::string align) { mAlign = align; }
 
-    void setMeetOrSlice(int meetOrSlice) {
-        mMeetOrSlice = meetOrSlice;
-        invalidate();
-    }
-    
-    void OnDraw(OH_Drawing_Canvas *canvas) override;
-    
-    void invalidate();
+    void setMeetOrSlice(int meetOrSlice) { mMeetOrSlice = meetOrSlice; }
 
-    void renderMarker(OH_Drawing_Canvas *canvas, SvgMarkerPosition position, float strokeWidth);
+    void renderMarker(OH_Drawing_Canvas *canvas, const SvgMarkerPosition &position, float strokeWidth);
 
     // todo VirtualView.saveDefinition and Override
     void saveDefinition() {
-//         if (mName != null) {
-//           SvgView svg = getSvgView();
-//           svg.defineMarker(this, mName);
-//           for (int i = 0; i < getChildCount(); i++) {
-//             View node = getChildAt(i);
-//             if (node instanceof VirtualView) {
-//               ((VirtualView) node).saveDefinition();
-//             }
-//           }
-//         }
-    }
-    
-    //todo VirtualView.relativeOnWidth
-    double relativeOnWidth(double markerWidth){
-        return markerWidth;
+        //         if (mName != null) {
+        //           SvgView svg = getSvgView();
+        //           svg.defineMarker(this, mName);
+        //           for (int i = 0; i < getChildCount(); i++) {
+        //             View node = getChildAt(i);
+        //             if (node instanceof VirtualView) {
+        //               ((VirtualView) node).saveDefinition();
+        //             }
+        //           }
+        //         }
     }
 
+    // todo VirtualView.relativeOnWidth
+    double relativeOnWidth(double markerWidth) { return markerWidth; }
+
     // todo VirtualView.relativeOnHeight
-    double relativeOnHeight(double markerHeight){
-        return markerHeight;
-    }
+    double relativeOnHeight(double markerHeight) { return markerHeight; }
 
     /**
      * from VirtualView.saveAndSetupCanvas
-     * 
+     *
      * Sets up the transform matrix on the canvas before an element is drawn.
      *
      * <p>NB: for perf reasons this does not apply opacity, as that would mean creating a new canvas
@@ -132,16 +92,16 @@ public:
      * @param canvas the canvas to set up
      * @param ctm current transformation matrix
      */
-    void saveAndSetupCanvas(OH_Drawing_Canvas *canvas, OH_Drawing_Matrix* ctm) {
+    void saveAndSetupCanvas(OH_Drawing_Canvas *canvas, OH_Drawing_Matrix *ctm) {
         OH_Drawing_CanvasSave(canvas);
         OH_Drawing_MatrixConcat(mCTM, mMatrix, mTransform);
         OH_Drawing_CanvasConcatMatrix(canvas, mCTM);
         OH_Drawing_MatrixConcat(mCTM, mCTM, ctm);
         mCTMInvertible = OH_Drawing_MatrixInvert(mCTM, mInvCTM);
     }
-    
+
 private:
-    OH_Drawing_Matrix* markerTransform;
+    OH_Drawing_Matrix *markerTransform;
     double mRefX;
     double mRefY;
     double mMarkerWidth;
@@ -156,7 +116,7 @@ private:
     int mMeetOrSlice;
     int mScale = 2;
 
-    //todo 父类 VirtualView 属性，暂时定义
+    // todo 父类 VirtualView 属性，暂时定义
     OH_Drawing_Matrix *mCTM;
     OH_Drawing_Matrix *mMatrix;
     OH_Drawing_Matrix *mTransform;
@@ -165,4 +125,4 @@ private:
 };
 } // namespace rnoh
 
-#endif //HARMONY_SVGMARKER_H
+#endif // HARMONY_SVGMARKER_H

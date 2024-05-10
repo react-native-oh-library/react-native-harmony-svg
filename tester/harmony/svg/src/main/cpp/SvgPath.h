@@ -9,7 +9,7 @@ public:
     std::string d;
     uint32_t colorFill;
     void OnDraw(OH_Drawing_Canvas *canvas) override;
-    OH_Drawing_Path *AsPath() const override;
+    OH_Drawing_Path *AsPath() override;
 private:
 };
 

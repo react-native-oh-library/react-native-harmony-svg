@@ -14,33 +14,10 @@
 
 namespace rnoh {
 
-    // todo test
-    void SvgMarker::OnDraw(OH_Drawing_Canvas *canvas) {
-        std::vector<PathElement> path_vec;
-    
-        PathElement path1(ElementType::kCGPathElementAddLineToPoint, {{20, 80}, {30, 90}, {40, 100}});
-        path_vec.push_back(path1);
-    
-        PathElement path2(ElementType::kCGPathElementAddLineToPoint, {{20, 80}, {30, 90}, {40, 100}});
-        path_vec.push_back(path2);
-    
-        PathElement path3(ElementType::kCGPathElementAddLineToPoint, {{20, 80}, {30, 90}, {40, 100}});
-        path_vec.push_back(path3);
-    
-        std::vector<SvgMarkerPosition> pos_vec = SvgMarkerPositionUtils::fromPath(path_vec);
-    
-        for (size_t i = 0; i < pos_vec.size(); ++i) {
-            renderMarker(canvas, pos_vec[i], 20);
-        }
-    };
-
-    void SvgMarker::invalidate(){
-        //todo 属性变化之后重绘 ui
-    }
-
-    void SvgMarker::renderMarker(OH_Drawing_Canvas *canvas, SvgMarkerPosition position, float strokeWidth){
+    void SvgMarker::renderMarker(OH_Drawing_Canvas *canvas, const SvgMarkerPosition& position, float strokeWidth){
         LOG(INFO) << "[SvgMarker] renderMarker start";
         saveAndSetupCanvas(canvas, mCTM);
+        const auto count = OH_Drawing_CanvasGetSaveCount(canvas);
     
         if(markerTransform == nullptr) {
             markerTransform = OH_Drawing_MatrixCreate();
@@ -79,8 +56,9 @@ namespace rnoh {
         
         //todo 调用父类方法，未移植
         //drawGroup(canvas, paint, opacity);
+        OnDrawTraversed(canvas);
     
-        OH_Drawing_CanvasRestoreToCount(canvas, OH_Drawing_CanvasGetSaveCount(canvas));
+        OH_Drawing_CanvasRestoreToCount(canvas, count);
         LOG(INFO) << "[SvgMarker] renderMarker done.";
     }
 }

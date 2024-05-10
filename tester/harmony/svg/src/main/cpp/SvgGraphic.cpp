@@ -17,6 +17,8 @@
 #include <native_drawing/drawing_shader_effect.h>
 #include <native_drawing/drawing_point.h>
 #include <native_drawing/drawing_shader_effect.h>
+#include "utils\SvgMarkerPositionUtils.h"
+#include "SvgMarker.h"
 
 namespace rnoh {
 
@@ -33,6 +35,10 @@ void SvgGraphic::OnDraw(OH_Drawing_Canvas *canvas) {
     //     OnGraphicFill(canvas);
     UpdateStrokeStyle();
     OnGraphicStroke(canvas);
+    if (!attributes_.markerStart.empty() || !attributes_.markerMid.empty() || !attributes_.markerEnd.empty()) {
+        LOG(INFO) << "DRaw marker";
+        DrawMarker(canvas);
+    }
 }
 // todo implement bounds
 void SvgGraphic::UpdateGradient() {
@@ -213,7 +219,7 @@ bool SvgGraphic::UpdateStrokeStyle(bool antiAlias) {
     return true;
 }
 void SvgGraphic::UpdateLineDash() {
-    const auto& strokeState = attributes_.strokeState;
+    const auto &strokeState = attributes_.strokeState;
     if (!strokeState.GetStrokeDashArray().empty()) {
         auto lineDashState = strokeState.GetStrokeDashArray();
         float intervals[lineDashState.size()];
@@ -223,6 +229,44 @@ void SvgGraphic::UpdateLineDash() {
         float phase = static_cast<float>(strokeState.GetStrokeDashOffset());
         auto *DashPathEffect = OH_Drawing_CreateDashPathEffect(intervals, lineDashState.size(), phase);
         OH_Drawing_PenSetPathEffect(strokePen_, DashPathEffect);
+    }
+}
+
+void SvgGraphic::DrawMarker(OH_Drawing_Canvas *canvas) {
+    auto markerStart = dynamic_pointer_cast<SvgMarker>(context_->GetSvgNodeById(attributes_.markerStart));
+    auto markerMid = dynamic_pointer_cast<SvgMarker>(context_->GetSvgNodeById(attributes_.markerMid));
+    auto markerEnd = dynamic_pointer_cast<SvgMarker>(context_->GetSvgNodeById(attributes_.markerEnd));
+    if (!markerStart && !markerMid && !markerEnd) {
+        LOG(WARNING) << "NO MARKER";
+        return;
+    }
+    if (elements_.empty()) {
+        LOG(WARNING) << "NO path";
+        return;
+    }
+    std::vector<SvgMarkerPosition> positions = SvgMarkerPositionUtils::fromPath(elements_);
+    for (const auto &position : positions) {
+        RNSVGMarkerType type = position.type;
+        std::shared_ptr<SvgMarker> marker;
+        switch (type) {
+        case RNSVGMarkerType::kStartMarker:
+            marker = markerStart;
+            break;
+
+        case RNSVGMarkerType::kMidMarker:
+            marker = markerMid;
+            break;
+
+        case RNSVGMarkerType::kEndMarker:
+            marker = markerEnd;
+            break;
+        default:
+            break;
+        }
+        if (!marker) {
+            continue;
+        }
+        marker->renderMarker(canvas, position, attributes_.strokeState.GetLineWidth());
     }
 }
 

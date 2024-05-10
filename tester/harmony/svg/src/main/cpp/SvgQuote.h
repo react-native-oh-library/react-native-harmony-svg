@@ -11,7 +11,7 @@ class SvgQuote : public SvgNode {
   }
   ~SvgQuote() override = default;
 
-  OH_Drawing_Path* AsPath() const override {
+  OH_Drawing_Path* AsPath() override {
       LOG(INFO) << "[SvgQuote] AsPath";
       auto *path = OH_Drawing_PathCreate();
       for (const auto &child : children_) {

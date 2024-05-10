@@ -20,7 +20,7 @@ public:
     Float ry;
     
     
-    OH_Drawing_Path *AsPath() const override {
+    OH_Drawing_Path *AsPath() override {
         LOG(INFO) << "[SvgRect] AsPath";
         //TODO implement ConvertDimensionToPx
         auto rect = OH_Drawing_RectCreate(vpToPx(x), vpToPx(y), vpToPx(x + width), vpToPx(y + height));
