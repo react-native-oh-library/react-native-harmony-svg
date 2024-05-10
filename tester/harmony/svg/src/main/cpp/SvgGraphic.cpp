@@ -17,7 +17,7 @@
 #include <native_drawing/drawing_shader_effect.h>
 #include <native_drawing/drawing_point.h>
 #include <native_drawing/drawing_shader_effect.h>
-#include "utils\SvgMarkerPositionUtils.h"
+#include "utils/SvgMarkerPositionUtils.h"
 #include "SvgMarker.h"
 
 namespace rnoh {
