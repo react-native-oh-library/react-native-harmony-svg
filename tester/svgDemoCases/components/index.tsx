@@ -21,11 +21,11 @@ import RadialGradient from './RadialGradient';
 import Symbol from './Symbol';
 import TextPath from './TextPath';
 import Use from './Use';
-
+import Svg from './Svg'
+import clipPath from './clipPath';
 export default {
-    OldDemo,
-    Xml,
     Circle,
+    Defs,
     Ellise,
     Path,
     Polygon,
@@ -37,13 +37,16 @@ export default {
     TouchEvents,
     G,
     Line,
-    Defs,
     ForeignObject,
+    TextPath,
     TSpan,
     LinearGradient,
     Marker,
+    OldDemo,
     Pattern,
     RadialGradient,
     Symbol,
-    TextPath
+    Svg,
+    Xml,
+    clipPath
 }
