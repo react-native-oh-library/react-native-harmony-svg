@@ -5,6 +5,7 @@ file(GLOB rnoh_svg_SRC CONFIGURE_DEPENDS
     *.cpp
     componentInstances/*.cpp
     componentBinders/*.cpp
+    drawing/*.cpp
     napiBinders/*.cpp
     properties/*.cpp
     turboModule/*.cpp
