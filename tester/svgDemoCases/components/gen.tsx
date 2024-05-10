@@ -3,7 +3,7 @@
 
 import React, {  } from 'react'
 import { View, Text as QText, ScrollView } from 'react-native'
-import { Svg } from 'react-native-svg';
+import { Svg, Defs, Stop } from 'react-native-svg';
 import * as ASVG from 'react-native-svg'
 import {Tester, Filter, TestCase, TestSuite } from '@rnoh/testerino';
 import { CaseParams } from '../genUtil'
@@ -21,27 +21,23 @@ export interface RenderCaseProps{
 function deepMerge<T extends object, U extends object>(  
     obj1: T,  
     obj2: U,  
-    mergeValues: boolean = true // 默认值为true，表示要合并值  
+    mergeValues: boolean = false
 ): T & U {  
-    const result: any = { ...obj1 }; // 浅拷贝obj1到result  
+    const result: any = { ...obj1 }; 
   
-    // 遍历obj2的属性  
     for (const key in obj2) {  
         if (obj2.hasOwnProperty(key)) { 
             //@ts-ignore
             const val1 = obj1[key];  
             const val2 = obj2[key];  
   
-            // 如果mergeValues为false，则不合并值，直接跳过  
             if (!mergeValues) {  
                 continue;  
             }  
   
-            // 如果两个值都是对象，则递归合并  
             if (val1 && typeof val1 === 'object' && val2 && typeof val2 === 'object') {  
                 result[key] = deepMerge(val1, val2, mergeValues);  
-            } else {  
-                // 否则，直接覆盖  
+            } else {
                 result[key] = val2;  
             }  
         }  
@@ -70,7 +66,7 @@ function RenderCase({_case, basicProps, comName, renderComChildren, bindFunc, no
                         <TestCase
                         // <View
                             itShould={`${_case.desc || word}`}
-                            key={JSON.stringify(v) + _case.key + _case.id}
+                            key={word}
                         >
                             <View
                                 style={{
@@ -151,11 +147,116 @@ export function GenMain({
     )
 }
 
-export function GenDefs() {
+export interface RenderDefCaseProps{
+    _case: CaseParams,
+    basicProps: Object,
+    children?: React.ReactNode,
+    bindFunc?: Object
+    renderComChildren?: React.ReactNode | string,
+    noSvg?: boolean,
+    defName: string,
+    EffectCom: React.ReactNode
+}
+
+function RenderDefCase({
+    _case,
+    basicProps,
+    renderComChildren,
+    bindFunc,
+    noSvg,
+    defName,
+    EffectCom
+} : RenderDefCaseProps) {
+    const type = _case.type || 'key-value'
+    return (
+        <View
+            style={{
+                backgroundColor: '#000'
+            }}
+            key={_case.id || _case.key || JSON.stringify(_case.values)}
+        >
+            {
+                (_case.values || []).map((v, i) => {
+                    //@ts-ignore
+                    const DefCom = ASVG[defName]
+                    const caseProps = type === 'key-value' ? {[_case.key as string]: v } : v
+                    let showProps = deepMerge(caseProps, _case.othersProps || {}, _case.showOtherProps)
+                    const word = type === 'key-value' ? `${_case.key}=${v}` : `${JSON.stringify(showProps)}`
+                    return (
+                        <TestCase
+                        // <View
+                            itShould={`${_case.desc || word}`}
+                            key={word}
+                        >
+                            <View
+                                style={{
+                                    borderWidth: 1,
+                                    width: 100,
+                                    height: 100
+                                }}
+                            >
+                                <Svg>
+                                    <Defs>
+                                        <DefCom
+                                            {...basicProps}
+                                            { ..._case.othersProps }
+                                            {...caseProps }
+                                            { ...bindFunc }
+                                        >
+                                            {renderComChildren}
+                                        </DefCom>
+                                    </Defs>
+                                    { EffectCom }
+                                </Svg>
+                            </View>
+                        </TestCase>
+                    )
+                })
+            }
+        </View>
+    )
+}
+export interface GenDefsProps{
+    cases: CaseParams[],
+    basicProps: Object,
+    children?: React.ReactNode,
+    bindFunc?: Object
+    renderComChildren?: React.ReactNode | string,
+    noSvg?: boolean,
+    defName: string,
+    EffectCom: React.ReactNode
+}
+
+export function GenDefs({
+    cases,
+    basicProps,
+    children, // other cases
+    bindFunc,
+    renderComChildren,
+    noSvg,
+    defName,
+    EffectCom
+} : GenDefsProps) {
     return (
         <Tester style={{flex: 1}}>
             <ScrollView>
-
+                {
+                    cases.map(_case => {
+                        return (
+                            <RenderDefCase 
+                                _case={_case}
+                                basicProps={basicProps}
+                                key={_case.key}
+                                renderComChildren={renderComChildren}
+                                bindFunc={bindFunc}
+                                noSvg={noSvg}
+                                defName={defName}
+                                EffectCom={EffectCom}
+                            />
+                        )
+                    })
+                }
+                { children }
             </ScrollView>
         </Tester>
     )

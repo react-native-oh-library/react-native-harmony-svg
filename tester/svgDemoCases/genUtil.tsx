@@ -1,5 +1,4 @@
-import { Alert } from 'react-native'
-
+import { Alert, View, Text } from 'react-native'
 export interface CaseParams {
     type?: | 'mulKey' | 'key-value' | undefined,
     id?: string,
@@ -44,7 +43,7 @@ export function commonProps() {
     ]
 }
 
-export function genStrokeProps() {
+export function genStrokeProps(): CaseParams[] {
     return [
         {
             key: 'stroke',
@@ -88,7 +87,7 @@ export function genStrokeProps() {
             values: ['butt', 'round', 'square'],
             othersProps: {
                 stroke: 'green',
-                strokeWidth: '8',
+                strokeWidth: 8,
                 y: 20,
                 x: 10
             }
@@ -98,7 +97,7 @@ export function genStrokeProps() {
             values: ['miter', 'bevel', 'round'],
             othersProps: {
                 stroke: 'green',
-                strokeWidth: '8',
+                strokeWidth: 8,
             }
         },
         {
@@ -114,7 +113,7 @@ export function genStrokeProps() {
             values: ['none', 'non-scaling-stroke', 'nonScalingStroke', 'default', 'uri', 'inherit'],
             othersProps: {
                 stroke: 'green',
-                strokeWidth: 8,
+                strokeWidth: '8',
             }
         },
     ]
@@ -139,8 +138,19 @@ vectorEffect?:
     | 'uri'
 `
 
-export function genClipProps() {}
-export function genTransformProps() {
+export function genClipProps(): CaseParams[] {
+    return [
+        {
+            key: 'clipRule',
+            values: []
+        },
+        {
+            key: 'clipPath',
+            values: []
+        }
+    ]
+}
+export function genTransformProps(): CaseParams[] {
     return [
         {
             key: 'translate',
@@ -211,7 +221,7 @@ transform?:
     | TransformsStyle['transform']
 `
 
-export function genResponderProps() {
+export function genResponderProps(): CaseParams[] {
     return [
         {
             key: 'pointerEvents',
@@ -244,8 +254,17 @@ export function genTouchableProps(name: string, { disabled = false } = {}) {
     }
 }
 
-export function genViewProps() {
-
+export function genViewProps(): CaseParams[] {
+    return [
+        {
+            key: 'style',
+            values: []
+        },
+        {
+            key: 'testID',
+            values: []
+        },
+    ]
 }
 
 export function genCommonPathProps() {
@@ -256,10 +275,58 @@ export function genTextSpecificProps() {
 
 }
 
-export function genFontProps() {
-
+export function genFontProps(): CaseParams[] {
+    return [
+        {
+            key: 'fontWeight',
+            values: ['12', '16', '22']
+        },
+        {
+            key: 'fontSize',
+            values: ['12', '16', '22']
+        },
+        {
+            key: 'fontFamily',
+            values: ['12', '16', '22']
+        },
+        {
+            key: 'textAnchor',
+            values: ['12', '16', '22']
+        },
+        {
+            key: 'letterSpacing',
+            values: ['12', '16', '22']
+        },
+        {
+            key: 'wordSpacing',
+            values: ['12', '16', '22']
+        },
+    ]
 }
 
 export function genTextCommonProps() {
+
+}
+
+export function genAdditionalProps(name: string) {
+    return {
+        onError() {
+            console.log(`Triggered onError of the ${name}`)
+            Alert.alert(`Triggered onError of the ${name}`)
+        },
+        onLoad() {
+            console.log(`Triggered onLoad of the ${name}`)
+        },
+        fallback() {
+            return <Text>this is fallback</Text>
+        }
+    }
+}
+
+export function genPointerEvents() {
+
+}
+
+export function genCommonMarkerProps() {
 
 }

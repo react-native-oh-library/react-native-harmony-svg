@@ -4,7 +4,7 @@ import Svg, { Path, Rect, Image, Circle, Polygon, LinearGradient, Stop, Defs } f
 const SVGDemo = () => {
 
   return (
-    <ScrollView style={{ width: '100%', height: '100%' }}>
+    <ScrollView style={{ width: '100%', height: '100%', backgroundColor: '#fff' }}>
       <View style={{ height: 20 }}>
       </View>
       <View>
