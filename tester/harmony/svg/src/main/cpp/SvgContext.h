@@ -12,27 +12,26 @@ using AttrMap = std::unordered_map<std::string, std::string>;
 using ClassStyleMap = std::unordered_map<std::string, AttrMap>;
 class SvgNode;
 class SvgContext {
- public:
-  void Push(const std::string& value, const std::shared_ptr<SvgNode>& svgNode) {
-    idMapper_.emplace(value, svgNode);
-  }
+public:
+    void Push(const std::string &value, const std::shared_ptr<SvgNode> &svgNode) { idMapper_.emplace(value, svgNode); }
 
-  std::shared_ptr<SvgNode> GetSvgNodeById(const std::string& id) const;
+    std::shared_ptr<SvgNode> GetSvgNodeById(const std::string &id) const;
 
-  void PushStyle(
-      const std::string& styleName,
-      const std::pair<std::string, std::string>& attrPair);
+    void PushStyle(const std::string &styleName, const std::pair<std::string, std::string> &attrPair);
 
-  const AttrMap& GetAttrMap(const std::string& key) const;
-    
-  void SetRootViewBox(const Rect &viewBox) { rootViewBox_ = viewBox; }
+    const AttrMap &GetAttrMap(const std::string &key) const;
 
-  const Rect &GetRootViewBox() const { return rootViewBox_; }
+    void SetRootViewBox(const Rect &viewBox) { rootViewBox_ = viewBox; }
 
-  private:
-  std::unordered_map<std::string, std::shared_ptr<SvgNode>> idMapper_;
-  ClassStyleMap styleMap_;
-  Rect rootViewBox_;
-  Size viewPort_;
+    const Rect &GetRootViewBox() const { return rootViewBox_; }
+
+    void SetSvgSize(const Size &size) { svgSize_ = size; }
+    const Size &GetSvgSize() const { return svgSize_; }
+
+private:
+    std::unordered_map<std::string, std::shared_ptr<SvgNode>> idMapper_;
+    ClassStyleMap styleMap_;
+    Rect rootViewBox_;
+    Size svgSize_;
 };
 } // namespace rnoh
