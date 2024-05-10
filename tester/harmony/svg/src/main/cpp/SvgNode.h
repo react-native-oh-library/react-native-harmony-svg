@@ -32,7 +32,7 @@ public:
 
     virtual void Draw(OH_Drawing_Canvas *canvas);
 
-    virtual OH_Drawing_Path *AsPath() const {
+    virtual OH_Drawing_Path *AsPath() {
         LOG(INFO) << "[SVGNode] AsPath";
         return nullptr;
     };

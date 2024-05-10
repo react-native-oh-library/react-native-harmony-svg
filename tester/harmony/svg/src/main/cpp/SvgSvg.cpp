@@ -20,7 +20,7 @@ const int MOS_NONE = 2;
 
 SvgSvg::SvgSvg() : SvgGroup() {}
 
-OH_Drawing_Path *SvgSvg::AsPath() const {
+OH_Drawing_Path *SvgSvg::AsPath() {
     auto *path = OH_Drawing_PathCreate();
     for (const auto &child : children_) {
         auto *childPath = child->AsPath();

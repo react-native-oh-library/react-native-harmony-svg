@@ -40,7 +40,7 @@ void SvgPath::OnDraw(OH_Drawing_Canvas *canvas) {
 }
 
 
-OH_Drawing_Path *SvgPath::AsPath() const {
+OH_Drawing_Path *SvgPath::AsPath() {
     LOG(INFO) << "[SVGPath] AsPath:";
     auto path = OH_Drawing_PathCreate();
     

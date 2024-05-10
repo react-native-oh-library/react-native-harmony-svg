@@ -16,16 +16,7 @@ public:
     Float x2;
     Float y2;
 
-    OH_Drawing_Path *AsPath() const override {
-        LOG(INFO) << "[SvgLine] AsPath";
-        // Test getRootViewBox
-        LOG(INFO) << "[SvgLine] getRootViewBox: " << context_->GetRootViewBox().Left() << ", "
-                  << context_->GetRootViewBox().Top() << ", " << context_->GetRootViewBox().Right() << ", "
-                  << context_->GetRootViewBox().Bottom();
-        OH_Drawing_PathMoveTo(path_, vpToPx(x1), vpToPx(y1));
-        OH_Drawing_PathLineTo(path_, vpToPx(x2), vpToPx(y2));
-        return path_;
-    };
+    OH_Drawing_Path *AsPath() override;
 };
 
 } // namespace rnoh

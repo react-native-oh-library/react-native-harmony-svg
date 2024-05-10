@@ -13,6 +13,7 @@
 #include "RNOH/CppComponentInstance.h"
 #include "utils/StringUtils.h"
 #include "utils/Utils.h"
+#include "utils/SvgMarkerPositionUtils.h"
 
 namespace rnoh {
 
@@ -99,7 +100,10 @@ protected:
     void SetGradientStyle(double opacity);
     void UpdateLineDash();
 
+    std::vector<PathElement> elements_;
+
 private:
+    void DrawMarker(OH_Drawing_Canvas *canvas);
     // TODO void UpdateColorFilter(OH_Drawing_Filter *filter);
 };
 
