@@ -19,7 +19,7 @@ enum class SvgLengthType {
     OTHER,
 };
 
-class SvgNode {
+class SvgNode : public std::enable_shared_from_this<SvgNode> {
 public:
     SvgNode() = default;
     virtual ~SvgNode() = default;
@@ -27,7 +27,7 @@ public:
     std::shared_ptr<SvgContext> GetContext() { return context_; }
     void SetContext(std::shared_ptr<SvgContext> context) { context_ = context; }
 
-    void ContextTraversal(const std::shared_ptr<SvgNode> &self);
+    void ContextTraversal();
     void InitStyle(const SvgBaseAttribute &attr);
 
     virtual void Draw(OH_Drawing_Canvas *canvas);
@@ -40,7 +40,7 @@ public:
     virtual void AppendChild(const std::shared_ptr<SvgNode> &child) { children_.emplace_back(child); }
 
     using ConcreteProps = std::shared_ptr<const facebook::react::RNSVGCommonProps>;
-    void UpdateCommonProps(const ConcreteProps &props, const std::shared_ptr<SvgNode> &self);
+    void UpdateCommonProps(const ConcreteProps &props);
 
 protected:
     void InheritAttr(const SvgBaseAttribute &parent) { attributes_.Inherit(parent); }

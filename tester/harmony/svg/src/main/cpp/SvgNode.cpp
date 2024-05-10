@@ -135,7 +135,7 @@ void SvgNode::Draw(OH_Drawing_Canvas *canvas) {
     OH_Drawing_CanvasRestoreToCount(canvas, count);
 }
 
-void SvgNode::UpdateCommonProps(const ConcreteProps &props, const std::shared_ptr<SvgNode> &self) {
+void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
     attributes_.id = props->name;
 
     if (hrefRender_) {
@@ -184,13 +184,13 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props, const std::shared_pt
     attributes_.strokeState.SetOpacity(std::clamp(props->strokeOpacity, 0.0, 1.0), set.count("strokeOpacity"));
 }
 
-void SvgNode::ContextTraversal(const std::shared_ptr<SvgNode> &self) {
+void SvgNode::ContextTraversal() {
     if (!attributes_.id.empty()) {
-        context_->Push(attributes_.id, self);
+        context_->Push(attributes_.id, shared_from_this());
     }
     for (const auto &child : children_) {
         child->SetContext(context_);
-        child->ContextTraversal(child);
+        child->ContextTraversal();
     }
 }
 } // namespace rnoh

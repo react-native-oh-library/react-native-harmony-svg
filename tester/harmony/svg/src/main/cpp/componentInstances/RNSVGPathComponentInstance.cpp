@@ -24,7 +24,7 @@ void RNSVGPathComponentInstance::onPropsChanged(SharedConcreteProps const &props
     svgPath->colorFill = (uint32_t)*props->fill.payload;
     svgPath->d = props->d;
 
-    svgPath->UpdateCommonProps(props, svgPath);
+    svgPath->UpdateCommonProps(props);
 }
 
 

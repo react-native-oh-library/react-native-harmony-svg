@@ -17,7 +17,7 @@ RNSVGMarkerComponentInstance::RNSVGMarkerComponentInstance(Context context) : Cp
 void RNSVGMarkerComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
     CppComponentInstance::onPropsChanged(props);
     LOG(INFO) << "liwang----->[RNSVGMarkerComponentInstance] onPropsChanged markerWidth=" << props->markerWidth << " markerHeight=" << props->markerHeight;
-    GetSvgNode()->UpdateCommonProps(props, GetSvgNode());
+    GetSvgNode()->UpdateCommonProps(props);
     auto svgMarker = std::dynamic_pointer_cast<SvgMarker>(GetSvgNode());
     svgMarker->setRefX(StringUtils::StringToDimensionWithUnit(props->refX));
     svgMarker->setRefY(StringUtils::StringToDimensionWithUnit(props->refY));

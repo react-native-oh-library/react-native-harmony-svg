@@ -13,7 +13,7 @@ RNSVGClipPathComponentInstance::RNSVGClipPathComponentInstance(Context context) 
 void RNSVGClipPathComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
     LOG(INFO) << "[RNSVGClipPathComponentInstance] onPropsChanged props name = " << props->name;
     CppComponentInstance::onPropsChanged(props);
-    GetSvgNode()->UpdateCommonProps(props, GetSvgNode());
+    GetSvgNode()->UpdateCommonProps(props);
 }
 
 SvgArkUINode &RNSVGClipPathComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
