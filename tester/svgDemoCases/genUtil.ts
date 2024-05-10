@@ -62,21 +62,25 @@ export function genStrokeProps() {
             key: 'strokeOpacity',
             values: ['0.1', '0.5', '1'],
             othersProps: {
-                stroke: 'green'
+                stroke: 'green',
+                strokeWidth: '8',
             }
         },
         {
             key: 'strokeDasharray',
             values: ['5, 5', '20, 20'],
             othersProps: {
-                stroke: 'green'
+                stroke: 'green',
+                strokeWidth: '8',
             }
         },
         {
             key: 'strokeDashoffset',
             values: ['10', '50', '80'],
             othersProps: {
-                stroke: 'green'
+                stroke: 'green',
+                strokeWidth: '8',
+                strokeDasharray: "20 20"
             }
         },
         {
@@ -84,7 +88,7 @@ export function genStrokeProps() {
             values: ['butt', 'round', 'square'],
             othersProps: {
                 stroke: 'green',
-                strokeWidth: 20,
+                strokeWidth: '8',
                 y: 20,
                 x: 10
             }
@@ -94,21 +98,23 @@ export function genStrokeProps() {
             values: ['miter', 'bevel', 'round'],
             othersProps: {
                 stroke: 'green',
-                strokeWidth: 4,
+                strokeWidth: '8',
             }
         },
         {
             key: 'strokeMiterlimit',
             values: ['10', '20', '30'],
             othersProps: {
-                stroke: 'green'
+                stroke: 'green',
+                strokeWidth: '8',
             }
         },
         {
             key: 'vectorEffect',
             values: ['none', 'non-scaling-stroke', 'nonScalingStroke', 'default', 'uri', 'inherit'],
             othersProps: {
-                stroke: 'green'
+                stroke: 'green',
+                strokeWidth: 8,
             }
         },
     ]
