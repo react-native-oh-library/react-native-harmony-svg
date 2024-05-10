@@ -13,8 +13,7 @@
  * limitations under the License.
  */
 
-#ifndef FOUNDATION_ACE_FRAMEWORKS_CORE_COMPONENTS_NG_SVG_PARSE_SVG_CIRCLE_H
-#define FOUNDATION_ACE_FRAMEWORKS_CORE_COMPONENTS_NG_SVG_PARSE_SVG_CIRCLE_H
+#pragma once
 
 #include "SvgGraphic.h"
 #include <native_drawing/drawing_point.h>
@@ -25,21 +24,10 @@ class SvgCircle : public SvgGraphic {
 public:
     SvgCircle() = default;
     ~SvgCircle() override = default;
-    // onProps changed 进行修改
     float x;
     float y;
     float r;
-    float opacity;
-    uint32_t colorFill;
-    void OnDraw(OH_Drawing_Canvas *canvas) override;
-//     OH_Drawing_Path *AsPath() override;
-
-private:
- 
-    float width_ = 100;
-    float height_ = 100;
+    OH_Drawing_Path *AsPath() override;
 };
 
 } // namespace rnoh
-
-#endif // FOUNDATION_ACE_FRAMEWORKS_CORE_COMPONENTS_NG_SVG_PARSE_SVG_CIRCLE_H
