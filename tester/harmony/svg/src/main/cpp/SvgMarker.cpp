@@ -16,8 +16,8 @@ namespace rnoh {
 
     void SvgMarker::renderMarker(OH_Drawing_Canvas *canvas, const SvgMarkerPosition& position, float strokeWidth){
         LOG(INFO) << "[SvgMarker] renderMarker start";
-        saveAndSetupCanvas(canvas, mCTM);
         const auto count = OH_Drawing_CanvasGetSaveCount(canvas);
+        saveAndSetupCanvas(canvas, mCTM);
     
         if(markerTransform == nullptr) {
             markerTransform = OH_Drawing_MatrixCreate();
@@ -54,8 +54,6 @@ namespace rnoh {
         OH_Drawing_MatrixPreTranslate(markerTransform, static_cast<float>(-x), static_cast<float>(-y));
         OH_Drawing_CanvasConcatMatrix(canvas, markerTransform);
         
-        //todo 调用父类方法，未移植
-        //drawGroup(canvas, paint, opacity);
         OnDrawTraversed(canvas);
     
         OH_Drawing_CanvasRestoreToCount(canvas, count);
