@@ -23,7 +23,7 @@
 namespace rnoh {
 
 void SvgGraphic::OnDraw(OH_Drawing_Canvas *canvas) {
-    LOG(INFO) << "[SVGGraphic] onDraw";
+    LOG(INFO) << "[SVGGraphic] onDraw marker = " << attributes_.markerStart << " " << attributes_.markerMid << " " << attributes_.markerEnd;
     //     OH_Drawing_BrushReset(fillBrush_);
     //     OH_Drawing_PenReset(strokePen_);
     // 获取子类的绘制路径。
@@ -266,6 +266,7 @@ void SvgGraphic::DrawMarker(OH_Drawing_Canvas *canvas) {
         if (!marker) {
             continue;
         }
+        LOG(INFO) << "DRAW MARKER at " << position.origin.x << " " << position.origin.y << "] type: " << static_cast<int>(type);
         marker->renderMarker(canvas, position, attributes_.strokeState.GetLineWidth());
     }
 }

@@ -127,7 +127,6 @@ void SvgNode::Draw(OH_Drawing_Canvas *canvas) {
 void SvgNode::UpdateCommonProps(const ConcreteProps &props, const std::shared_ptr<SvgNode> &self) {
     attributes_.id = props->name;
 
-    LOG(INFO) << "[UpdateCommonProps] opacity: " << props->opacity;
     if (hrefRender_) {
         attributes_.transform = props->matrix;
         attributes_.maskId = props->mask;
