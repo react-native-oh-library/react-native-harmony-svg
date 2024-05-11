@@ -124,6 +124,20 @@ struct RadialGradientInfo {
     double fy = 0.0;
 };
 
+// indicates which coordinate system to use
+enum class Unit {
+    objectBoundingBox = 0, // use current node's boundary box
+    userSpaceOnUse = 1,    // use rootViewBox
+};
+
+inline Unit ToUnit(int value) {
+    auto unit = static_cast<Unit>(value);
+    if (unit < Unit::objectBoundingBox || unit > Unit::userSpaceOnUse) {
+        unit = Unit::objectBoundingBox;
+    }
+    return unit;
+}
+
 class GradientColor final {
 public:
     GradientColor() = default;
@@ -225,8 +239,7 @@ struct LinearGradient {
     std::optional<Dimension> y2;
 
     // is direction in x-axis
-    static bool IsXAxis(GradientDirection direction)
-    {
+    static bool IsXAxis(GradientDirection direction) {
         return (direction == GradientDirection::LEFT || direction == GradientDirection::RIGHT ||
                 direction == GradientDirection::START_TO_END || direction == GradientDirection::END_TO_START);
     }
@@ -234,12 +247,11 @@ struct LinearGradient {
 
 class Gradient final {
 public:
-    void AddColor(const GradientColor& color);
+    void AddColor(const GradientColor &color);
 
     void ClearColors();
 
-    bool IsSweepGradientValid() const
-    {
+    bool IsSweepGradientValid() const {
         if (sweepGradient_.startAngle.has_value() && sweepGradient_.endAngle.has_value()) {
             return LessOrEqual(sweepGradient_.startAngle.value().Value(), sweepGradient_.endAngle.value().Value());
         }
@@ -252,81 +264,40 @@ public:
         return true;
     }
 
-    bool IsValid() const
-    {
+    bool IsValid() const {
         if (GetType() == GradientType::SWEEP) {
             return IsSweepGradientValid() && colors_.size() > 1;
         }
         return colors_.size() > 1;
     }
 
-    void SetRepeat(bool repeat)
-    {
-        repeat_ = repeat;
-    }
+    void SetRepeat(bool repeat) { repeat_ = repeat; }
 
-    bool GetRepeat() const
-    {
-        return repeat_;
-    }
+    bool GetRepeat() const { return repeat_; }
 
-    const std::vector<GradientColor>& GetColors() const
-    {
-        return colors_;
-    }
+    const std::vector<GradientColor> &GetColors() const { return colors_; }
 
-    const Offset& GetBeginOffset() const
-    {
-        return beginOffset_;
-    }
+    const Offset &GetBeginOffset() const { return beginOffset_; }
 
-    void SetBeginOffset(const Offset& beginOffset)
-    {
-        beginOffset_ = beginOffset;
-    }
+    void SetBeginOffset(const Offset &beginOffset) { beginOffset_ = beginOffset; }
 
-    const Offset& GetEndOffset() const
-    {
-        return endOffset_;
-    }
+    const Offset &GetEndOffset() const { return endOffset_; }
 
-    void SetEndOffset(const Offset& endOffset)
-    {
-        endOffset_ = endOffset;
-    }
+    void SetEndOffset(const Offset &endOffset) { endOffset_ = endOffset; }
 
-    double GetInnerRadius() const
-    {
-        return innerRadius_;
-    }
+    double GetInnerRadius() const { return innerRadius_; }
 
-    void SetInnerRadius(double innerRadius)
-    {
-        innerRadius_ = innerRadius;
-    }
+    void SetInnerRadius(double innerRadius) { innerRadius_ = innerRadius; }
 
-    double GetOuterRadius() const
-    {
-        return outerRadius_;
-    }
+    double GetOuterRadius() const { return outerRadius_; }
 
-    void SetOuterRadius(double outerRadius)
-    {
-        outerRadius_ = outerRadius;
-    }
+    void SetOuterRadius(double outerRadius) { outerRadius_ = outerRadius; }
 
-    GradientType GetType() const
-    {
-        return type_;
-    }
+    GradientType GetType() const { return type_; }
 
-    void SetType(GradientType type)
-    {
-        type_ = type;
-    }
+    void SetType(GradientType type) { type_ = type; }
 
-    std::string ToString() const
-    {
+    std::string ToString() const {
         return std::string("Gradient (")
             .append(beginOffset_.ToString())
             .append(",")
@@ -338,68 +309,31 @@ public:
             .append(")");
     }
 
-    SweepGradient& GetSweepGradient()
-    {
-        return sweepGradient_;
-    }
+    SweepGradient &GetSweepGradient() { return sweepGradient_; }
 
-    const SweepGradient& GetSweepGradient() const
-    {
-        return sweepGradient_;
-    }
+    const SweepGradient &GetSweepGradient() const { return sweepGradient_; }
 
-    void SetSweepGradient(const SweepGradient& sweepGradient)
-    {
-        sweepGradient_ = sweepGradient;
-    }
+    void SetSweepGradient(const SweepGradient &sweepGradient) { sweepGradient_ = sweepGradient; }
 
-    ConicGradient& GetConicGradient()
-    {
-        return conicGradient_;
-    }
+    ConicGradient &GetConicGradient() { return conicGradient_; }
 
-    const ConicGradient& GetConicGradient() const
-    {
-        return conicGradient_;
-    }
+    const ConicGradient &GetConicGradient() const { return conicGradient_; }
 
-    void SetConicGradient(const ConicGradient& conicGradient)
-    {
-        conicGradient_ = conicGradient;
-    }
+    void SetConicGradient(const ConicGradient &conicGradient) { conicGradient_ = conicGradient; }
 
-    RadialGradient& GetRadialGradient()
-    {
-        return radialGradient_;
-    }
+    RadialGradient &GetRadialGradient() { return radialGradient_; }
 
-    const RadialGradient& GetRadialGradient() const
-    {
-        return radialGradient_;
-    }
+    const RadialGradient &GetRadialGradient() const { return radialGradient_; }
 
-    void SetRadialGradient(const RadialGradient& radialGradient)
-    {
-        radialGradient_ = radialGradient;
-    }
+    void SetRadialGradient(const RadialGradient &radialGradient) { radialGradient_ = radialGradient; }
 
-    LinearGradient& GetLinearGradient()
-    {
-        return linearGradient_;
-    }
+    LinearGradient &GetLinearGradient() { return linearGradient_; }
 
-    const LinearGradient& GetLinearGradient() const
-    {
-        return linearGradient_;
-    }
+    const LinearGradient &GetLinearGradient() const { return linearGradient_; }
 
-    void SetLinearGradient(const LinearGradient& linearGradient)
-    {
-        linearGradient_ = linearGradient;
-    }
+    void SetLinearGradient(const LinearGradient &linearGradient) { linearGradient_ = linearGradient; }
 
-    void SetDirection(const GradientDirection& direction)
-    {
+    void SetDirection(const GradientDirection &direction) {
         if (LinearGradient::IsXAxis(direction)) {
             linearGradient_.linearX = direction;
         } else {
@@ -407,55 +341,31 @@ public:
         }
     }
 
-    void SetSpreadMethod(SpreadMethod spreadMethod)
-    {
-        spreadMethod_ = spreadMethod;
-    }
+    void SetSpreadMethod(SpreadMethod spreadMethod) { spreadMethod_ = spreadMethod; }
 
-    void SetGradientTransform(const std::vector<facebook::react::Float>& gradientTransform)
-    {
+    void SetGradientTransform(const std::vector<facebook::react::Float> &gradientTransform) {
         gradientTransform_ = gradientTransform;
     }
 
-    SpreadMethod GetSpreadMethod() const
-    {
-        return spreadMethod_;
-    }
+    SpreadMethod GetSpreadMethod() const { return spreadMethod_; }
 
-    const std::vector<facebook::react::Float>& GetGradientTransform() const
-    {
-        return gradientTransform_;
-    }
+    const std::vector<facebook::react::Float> &GetGradientTransform() const { return gradientTransform_; }
 
-    const RadialGradientInfo& GetRadialGradientInfo() const
-    {
-        return radialGradientInfo_;
-    }
+    const RadialGradientInfo &GetRadialGradientInfo() const { return radialGradientInfo_; }
 
-    void SetRadialGradientInfo(const RadialGradientInfo& radialGradientInfo)
-    {
+    void SetRadialGradientInfo(const RadialGradientInfo &radialGradientInfo) {
         radialGradientInfo_ = radialGradientInfo;
     }
 
-    const LinearGradientInfo& GetLinearGradientInfo() const
-    {
-        return linearGradientInfo_;
-    }
+    const LinearGradientInfo &GetLinearGradientInfo() const { return linearGradientInfo_; }
 
-    void SetLinearGradientInfo(const LinearGradientInfo& linearGradientInfo)
-    {
+    void SetLinearGradientInfo(const LinearGradientInfo &linearGradientInfo) {
         linearGradientInfo_ = linearGradientInfo;
     }
 
-    const int& GetGradientUnits() const
-    {
-        return gradientUnits_;
-    }
+    Unit GetGradientUnits() const { return gradientUnits_; }
 
-    void SetGradientUnits(const int& gradientUnits)
-    {
-        gradientUnits_ = gradientUnits;
-    }
+    void SetGradientUnits(Unit gradientUnits) { gradientUnits_ = gradientUnits; }
 
 private:
     GradientType type_ = GradientType::LINEAR;
@@ -476,7 +386,7 @@ private:
     double innerRadius_ = 0.0;
     double outerRadius_ = 0.0;
     SpreadMethod spreadMethod_ = SpreadMethod::PAD;
-    int gradientUnits_ = 0;
+    Unit gradientUnits_ = Unit::objectBoundingBox;
     std::vector<facebook::react::Float> gradientTransform_;
     LinearGradientInfo linearGradientInfo_;
     RadialGradientInfo radialGradientInfo_;

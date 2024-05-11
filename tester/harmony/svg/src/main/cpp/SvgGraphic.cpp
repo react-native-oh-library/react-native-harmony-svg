@@ -55,7 +55,7 @@ void SvgGraphic::UpdateGradient() {
     auto &gradient = fillState_.GetGradient();
     CHECK_NULL_VOID(gradient);
     // objectBoundingBox - 0(DEFAULT), userSpaceOnUse - 1
-    auto nodeBounds = (gradient->GetGradientUnits() == 0) ? AsBounds() : Rect(0, 0, context_->GetSvgSize().Width(), context_->GetSvgSize().Height());
+    auto nodeBounds = (gradient->GetGradientUnits() == Unit::objectBoundingBox) ? AsBounds() : Rect(0, 0, context_->GetSvgSize().Width(), context_->GetSvgSize().Height());
     if (gradient->GetType() == GradientType::LINEAR) {
         const auto &linearGradient = gradient->GetLinearGradient();
         auto gradientInfo = LinearGradientInfo();
