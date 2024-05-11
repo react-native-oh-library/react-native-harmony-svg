@@ -7,17 +7,16 @@ namespace rnoh {
 class SvgQuote : public SvgNode {
  public:
   SvgQuote() : SvgNode() {
-    LOG(INFO) << "[SvgQuote] init";
     InitHrefFlag();
   }
   ~SvgQuote() override = default;
 
   OH_Drawing_Path* AsPath() override {
-    LOG(INFO) << "[SvgQuote] AsPath";
-    auto *path = OH_Drawing_PathCreate();
-    for (const auto &child : children_) {
-      auto *childPath = child->AsPath();
-      //   path.Op(path, childPath, RSPathOp::UNION);
+      LOG(INFO) << "[SvgQuote] AsPath";
+      auto *path = OH_Drawing_PathCreate();
+      for (const auto &child : children_) {
+          auto *childPath = child->AsPath();
+          OH_Drawing_PathOp(path, childPath, PATH_OP_MODE_UNION);
     }
     return path;
   }
