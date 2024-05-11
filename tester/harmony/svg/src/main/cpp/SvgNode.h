@@ -14,12 +14,6 @@
 
 namespace rnoh {
 
-enum class SvgLengthType {
-    HORIZONTAL,
-    VERTICAL,
-    OTHER,
-};
-
 class SvgNode : public std::enable_shared_from_this<SvgNode> {
 public:
     SvgNode() = default;
@@ -77,8 +71,6 @@ protected:
     void SetSmoothEdge(float edge) { attributes_.smoothEdge = edge; }
     float GetSmoothEdge() const { return attributes_.smoothEdge; }
 
-    double ConvertDimensionToPx(const Dimension &value, const Size &viewPort, SvgLengthType type) const;
-    double ConvertDimensionToPx(const Dimension& value, double baseValue) const;
     std::optional<Gradient> GetGradient(const std::string& href);
 
     void InitNoneFlag()

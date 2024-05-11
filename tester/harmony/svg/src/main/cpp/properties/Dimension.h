@@ -2,6 +2,7 @@
 #pragma once
 #include <cmath>
 #include <string>
+#include "Size.h"
 
 #define NEAR_ZERO(value) ((value > 0.0) ? ((value - 0.0) <= 0.000001f) : ((0.0 - value) <= 0.000001f))
 
@@ -49,6 +50,12 @@ enum class DimensionUnit {
     CALC,
 };
 
+enum class SvgLengthType {
+    HORIZONTAL,
+    VERTICAL,
+    OTHER,
+};
+
 /*
  * Dimension contains a value and an unit to represent different
  * scales in one class.
@@ -78,13 +85,9 @@ public:
 
     void SetUnit(DimensionUnit unit) { unit_ = unit; }
 
-    // Deprecated: don't use this to covert to px.
-    double ConvertToPx(double dipScale) const {
-        if (unit_ == DimensionUnit::VP || unit_ == DimensionUnit::FP) {
-            return value_ * dipScale;
-        }
-        return value_;
-    }
+    double ConvertToPx(double baseLen) const;
+
+    double ConvertToPx(const Size &viewPort, SvgLengthType type) const;
 
     // Percentage unit conversion is not supported.
     double ConvertToVp() const {

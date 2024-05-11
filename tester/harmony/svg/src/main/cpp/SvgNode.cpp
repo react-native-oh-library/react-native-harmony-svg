@@ -108,37 +108,6 @@ void SvgNode::OnTransform(OH_Drawing_Canvas *canvas) {
     OH_Drawing_MatrixDestroy(matrix);
 }
 
-double SvgNode::ConvertDimensionToPx(const Dimension &value, const Size &viewPort, SvgLengthType type) const {
-    switch (value.Unit()) {
-    case DimensionUnit::PERCENT: {
-        if (type == SvgLengthType::HORIZONTAL) {
-            return value.Value() * viewPort.Width();
-        }
-        if (type == SvgLengthType::VERTICAL) {
-            return value.Value() * viewPort.Height();
-        }
-        if (type == SvgLengthType::OTHER) {
-            return value.Value() * sqrt(viewPort.Width() * viewPort.Height());
-        }
-        return 0.0;
-    }
-    case DimensionUnit::PX:
-        return value.Value();
-    case DimensionUnit::VP:
-        return vpToPx(value.Value());
-    default:
-        return vpToPx(value.Value());
-    }
-}
-
-double SvgNode::ConvertDimensionToPx(const Dimension& value, double baseValue) const
-{
-    if (value.Unit() == DimensionUnit::PERCENT) {
-        return value.Value() * baseValue;
-    }
-    return vpToPx(value.Value());
-}
-
 std::optional<Gradient> SvgNode::GetGradient(const std::string& href)
 {
     if (!context_) {

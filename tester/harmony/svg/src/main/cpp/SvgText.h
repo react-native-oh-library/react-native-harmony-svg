@@ -14,6 +14,8 @@ public:
 
     std::vector<double> x;
     std::vector<double> y;
+    double dx;
+    double dy;
     std::string text;
     double fontSize;
 

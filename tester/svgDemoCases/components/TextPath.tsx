@@ -9,12 +9,12 @@ export default function() {
                 <TestCase 
                     itShould="case 1 desc"
                 >
-                    <Text>case 1 in here</Text>
+                    <Text dx="5">case 1 in here</Text>
                 </TestCase>
                 <TestCase 
                     itShould="case 2 desc"
                 >
-                    <Text>case 2 in here</Text>
+                    <Text dy="10">case 2 in here</Text>
                 </TestCase>
             </ScrollView>
         </Tester>
