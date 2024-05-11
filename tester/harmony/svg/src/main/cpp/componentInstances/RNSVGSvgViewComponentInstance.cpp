@@ -33,8 +33,8 @@ void RNSVGSvgViewComponentInstance::onPropsChanged(SharedConcreteProps const &pr
     svg->attr_.vbY = Dimension(props->minY);
     svg->attr_.vbWidth = Dimension(props->vbWidth);
     svg->attr_.vbHeight = Dimension(props->vbHeight);
-    svg->attr_.x = Dimension(m_layoutMetrics.frame.origin.x);
-    svg->attr_.y = Dimension(m_layoutMetrics.frame.origin.y);
+    svg->attr_.x = Dimension(0);
+    svg->attr_.y = Dimension(0);
     svg->attr_.width = Dimension(m_layoutMetrics.frame.size.width);
     svg->attr_.height = Dimension(m_layoutMetrics.frame.size.height);
     svg->attr_.align = props->align;
