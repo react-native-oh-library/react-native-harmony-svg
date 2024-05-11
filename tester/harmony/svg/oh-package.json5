@@ -3,9 +3,9 @@
   devDependencies: {},
   author: '',
   description: "",
-  name: '@rnoh/react-native-openharmony-svg',
+  name: '@react-native-oh-tpl/react-native-svg',
   type: 'module',
   main: 'index.ets',
-  version: '0.0.1',
+  version: '13.14.0-0.3.0',
   dependencies: {},
 }

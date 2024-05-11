@@ -1,6 +1,6 @@
 {
-  "name": "@rnoh/react-native-harmony-svg",
-  "version": "0.0.4",
+  "name": "@react-native-oh-tpl/react-native-svg",
+  "version": "13.14.0-0.3.0",
   "description": "",
   "react-native": "src/index",
   "main": "lib/commonjs/index",
@@ -32,7 +32,7 @@
     "redirectInternalImports": true
   },
   "files": [
-    "./harmony/*",
+    "harmony",
     "src",
     "lib",
     "./*.json"
