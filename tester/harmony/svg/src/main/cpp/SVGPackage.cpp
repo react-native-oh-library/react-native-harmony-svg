@@ -60,7 +60,7 @@ std::vector<react::ComponentDescriptorProvider> SVGPackage::createComponentDescr
         facebook::react::concreteComponentDescriptorProvider<facebook::react::RNSVGForeignObjectComponentDescriptor>(),
         facebook::react::concreteComponentDescriptorProvider<facebook::react::RNSVGGroupComponentDescriptor>(),
         facebook::react::concreteComponentDescriptorProvider<facebook::react::RNSVGSvgViewComponentDescriptor>(),
-//         facebook::react::concreteComponentDescriptorProvider<facebook::react::RNSVGImageComponentDescriptor>(),
+        facebook::react::concreteComponentDescriptorProvider<facebook::react::RNSVGImageComponentDescriptor>(),
         facebook::react::concreteComponentDescriptorProvider<facebook::react::RNSVGLineComponentDescriptor>(),
         facebook::react::concreteComponentDescriptorProvider<facebook::react::RNSVGLinearGradientComponentDescriptor>(),
         facebook::react::concreteComponentDescriptorProvider<facebook::react::RNSVGMarkerComponentDescriptor>(),
