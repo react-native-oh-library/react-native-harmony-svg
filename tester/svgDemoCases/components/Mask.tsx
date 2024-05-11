@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import {
   Svg,
   Circle,
@@ -12,13 +12,14 @@ import {
   Stop,
   Text,
 } from 'react-native-svg';
+import { Tester, Filter, TestCase, TestSuite } from '@rnoh/testerino';
 
 const styles = StyleSheet.create({
   container: {
     height: 300,
     width: 200,
     marginBottom: 10,
-    backgroundColor: 'white'
+
   },
   svg: {
     flex: 1,
@@ -31,13 +32,18 @@ class SimpleMask extends Component {
   render() {
     return (
       <View style={styles.container}>
-      <Svg viewBox="0 0 600 500" width={400} height={400} color="green" preserveAspectRatio="xMinYMid slice">
-        <Mask id="myMask" x={0} y={0}  width={400} height={400} maskUnits="objectBoundingBox">
-            <Rect x={90} y={150} width={120} height={120} fill="blue" />
-        </Mask>
-          
-          <Rect x={100} y={150} width={400} height={400} fill="red" mask="url(#myMask)" />
-       </Svg>
+        <Svg viewBox="-10 -10 120 120">
+          <Rect x={-10} y={-10} width={120} height={120} fill="blue" />
+          <Mask id="myMask" maskUnits="objectBoundingBox" maskContentUnits="userSpaceOnUse">
+            <Rect x={0} y={0} width={100} height={100} fill="white" />
+            <Path
+              d="M10,35 A20,20,0,0,1,50,35 A20,20,0,0,1,90,35 Q90,65,50,95 Q10,65,10,35 Z"
+              fill="black"
+            />
+          </Mask>
+          <Polygon points="-10,110 110,110 110,-10" fill="orange" />
+          <Circle cx={50} cy={50} r={50} fill="purple" mask="url(#myMask)" />
+        </Svg>
       </View>
     );
   }
@@ -141,20 +147,37 @@ const icon = (
 
 const samples = [SimpleMask, AnotherMask, MaskWithText];
 
-export {icon, samples};
+export { icon, samples };
 
 export default function () {
   return (
-    <View 
-      style={{
-        display: 'flex',
-        flexDirection: 'column'
-      }}
-    >
-      <SimpleMask />
-      {/* <AnotherMask />
-      <MaskWithText />
-      {icon} */}
-    </View>
+    <Tester style={{
+      display: 'flex',
+      flexDirection: 'column'
+    }}>
+      <ScrollView>
+        <TestCase
+          itShould="SimpleMask"
+        >
+          <SimpleMask />
+        </TestCase>
+
+        <TestCase
+          itShould="IconMask"
+        >
+          {icon}
+        </TestCase>
+        {/* <TestCase
+          itShould="MaskWithText"
+        >
+          <MaskWithText />
+        </TestCase> */}
+        <TestCase
+          itShould="AnotherMask"
+        >
+          <AnotherMask />
+        </TestCase>
+      </ScrollView>
+    </Tester>
   )
 }
