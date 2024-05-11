@@ -26,9 +26,13 @@ void RNSVGSvgViewComponentInstance::onPropsChanged(SharedConcreteProps const &pr
     LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->vbHeight: " << props->vbHeight;
     LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->align: " << props->align;
     LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->meetOrSlice: " << props->meetOrSlice;
-    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->tintColor: " << props->tintColor;
-    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->color: " << props->color;
+    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->testId: " << props->testId;
+
     auto svg = dynamic_pointer_cast<SvgSvg>(GetSvgNode());
+    auto tintColor = getColorFromDynamic(props->rawProps);
+    if (tintColor.has_value()) {
+        svg->GetContext()->SetSvgColor(Color::FromString(tintColor.value()));
+    }
     svg->attr_.vbX = Dimension(props->minX);
     svg->attr_.vbY = Dimension(props->minY);
     svg->attr_.vbWidth = Dimension(props->vbWidth);
@@ -41,8 +45,11 @@ void RNSVGSvgViewComponentInstance::onPropsChanged(SharedConcreteProps const &pr
     svg->attr_.meetOrSlice = props->meetOrSlice;
 }
 
-SvgArkUINode &RNSVGSvgViewComponentInstance::getLocalRootArkUINode() {
-    return m_svgArkUINode;
+SvgArkUINode &RNSVGSvgViewComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
+
+std::optional<std::string> RNSVGSvgViewComponentInstance::getColorFromDynamic(folly::dynamic value) {
+    auto rawPropsColor = (value.count("color") > 0) ? std::optional(value["color"].asString()) : std::nullopt;
+    return rawPropsColor;
 }
 
 } // namespace rnoh

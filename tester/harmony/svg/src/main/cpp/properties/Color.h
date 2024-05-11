@@ -91,6 +91,10 @@ public:
                std::to_string(colorValue_.argb.green) + ", " + std::to_string(colorValue_.argb.blue) + ")";
     }
 
+    void SetUseCurrentColor(const bool& useCurrentColor) { UseCurrentColor = useCurrentColor; }
+
+    bool IsUseCurrentColor() const { return UseCurrentColor; }
+
 private:
     constexpr explicit Color(ColorParam colorValue) : colorValue_(colorValue) {}
 
@@ -111,5 +115,6 @@ private:
 
     float CalculateBlend(float alphaLeft, float alphaRight, float valueLeft, float valueRight) const;
     ColorParam colorValue_{.value = 0xff000000};
+    bool UseCurrentColor{false};
 };
 } // namespace rnoh

@@ -49,7 +49,16 @@ public:
 
     Rect AsBounds();
 
-    void InheritAttr(const SvgBaseAttribute &parent) { attributes_.Inherit(parent); }
+    void InheritAttr(const SvgBaseAttribute &parent) { 
+        attributes_.Inherit(parent);
+        // svg color -> current color
+        if (attributes_.strokeState.GetColor().IsUseCurrentColor()) {
+            attributes_.strokeState.SetColor(context_->GetSvgColor(), true);
+        }
+        if (attributes_.fillState.GetColor().IsUseCurrentColor()) {
+            attributes_.fillState.SetColor(context_->GetSvgColor(), true);
+        }
+    }
 
     void InheritUseAttr(const SvgBaseAttribute &parent) { attributes_.InheritFromUse(parent); }
 
@@ -83,6 +92,7 @@ protected:
     }
 
     SvgBaseAttribute attributes_;
+  
     std::shared_ptr<SvgContext> context_;
 
     std::vector<std::shared_ptr<SvgNode>> children_;

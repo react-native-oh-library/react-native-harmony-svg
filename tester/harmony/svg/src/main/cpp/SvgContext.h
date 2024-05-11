@@ -3,9 +3,9 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-
 #include "properties/Rect.h"
 #include "properties/Size.h"
+#include "properties/Color.h"
 
 namespace rnoh {
 using AttrMap = std::unordered_map<std::string, std::string>;
@@ -26,12 +26,20 @@ public:
     const Rect &GetRootViewBox() const;
 
     void SetSvgSize(const Size &size) { svgSize_ = size; }
+    
     const Size &GetSvgSize() const { return svgSize_; }
+
+    void SetSvgColor(const Color& svgColor) {
+        svgColor_ = svgColor;
+    }
+
+    const Color &GetSvgColor() { return svgColor_; }
 
 private:
     std::unordered_map<std::string, std::shared_ptr<SvgNode>> idMapper_;
     ClassStyleMap styleMap_;
     Rect rootViewBox_;
     Size svgSize_;
+    Color svgColor_;
 };
 } // namespace rnoh
