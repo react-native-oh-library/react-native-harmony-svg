@@ -23,7 +23,7 @@ public:
 
     void SetRootViewBox(const Rect &viewBox) { rootViewBox_ = viewBox; }
 
-    const Rect &GetRootViewBox() const { return rootViewBox_; }
+    const Rect &GetRootViewBox() const;
 
     void SetSvgSize(const Size &size) { svgSize_ = size; }
     const Size &GetSvgSize() const { return svgSize_; }
