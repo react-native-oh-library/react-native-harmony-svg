@@ -78,6 +78,17 @@ protected:
     float GetSmoothEdge() const { return attributes_.smoothEdge; }
 
     double ConvertDimensionToPx(const Dimension &value, const Size &viewPort, SvgLengthType type) const;
+    double ConvertDimensionToPx(const Dimension& value, double baseValue) const;
+    std::optional<Gradient> GetGradient(const std::string& href);
+
+    void InitNoneFlag()
+    {
+        hrefFill_ = false;
+        hrefRender_ = false;
+        passStyle_ = false;
+        inheritStyle_ = false;
+        drawTraversed_ = false;
+    }
 
     SvgBaseAttribute attributes_;
     std::shared_ptr<SvgContext> context_;

@@ -8,6 +8,7 @@
 #include "properties/PaintState.h"
 #include "properties/Dimension.h"
 #include "properties/Rect.h"
+#include "properties/Decoration.h"
 
 namespace rnoh {
 class SvgAttributesParser {
@@ -221,8 +222,8 @@ struct SvgFeColorMatrixAttribute {
     std::string values;
 };
 
-// struct SvgGradientAttribute {
-//     Gradient gradient = Gradient();
-// };
+struct SvgGradientAttribute {
+    Gradient gradient = Gradient();
+};
 
 } // namespace rnoh

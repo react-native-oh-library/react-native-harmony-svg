@@ -34,6 +34,7 @@
 #include "componentInstances/RNSVGImageComponentInstance.h"
 #include "componentInstances/RNSVGEllipseComponentInstance.h"
 #include "componentInstances/RNSVGLinearGradientComponentInstance.h"
+#include "componentInstances/RNSVGRadialGradientComponentInstance.h"
 #include "componentInstances/RNSVGLineComponentInstance.h"
 #include "componentInstances/RNSVGDefsComponentInstance.h"
 #include "componentInstances/RNSVGTextComponentInstance.h"
@@ -80,6 +81,9 @@ public:
         }
         if (ctx.componentName == "RNSVGLinearGradient") {
             return std::make_shared<RNSVGLinearGradientComponentInstance>(std::move(ctx));
+        }
+        if (ctx.componentName == "RNSVGRadialGradient") {
+            return std::make_shared<RNSVGRadialGradientComponentInstance>(std::move(ctx));
         }
         if (ctx.componentName == "RNSVGLine") {
             return std::make_shared<RNSVGLineComponentInstance>(std::move(ctx));
