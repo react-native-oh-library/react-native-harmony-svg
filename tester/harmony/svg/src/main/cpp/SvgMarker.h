@@ -114,7 +114,7 @@ private:
     float mVbHeight;
     std::string mAlign;
     int mMeetOrSlice;
-    int mScale = 2;
+    double mScale = scale_;
 
     // todo 父类 VirtualView 属性，暂时定义
     OH_Drawing_Matrix *mCTM;
