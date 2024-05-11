@@ -23,8 +23,8 @@ void SvgText::OnDraw(OH_Drawing_Canvas *canvas) {
         if (tSpan->y.empty()) {
             tSpan->y = y;
         }
+        tSpan->SetContext(context_);
         pos = tSpan->DrawText(canvas, pos);
     }
 }
-
 } // namespace rnoh

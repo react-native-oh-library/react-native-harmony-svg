@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include "properties/Dimension.h"
 #include "utils/Utils.h"
-#include "SvgText.h"
+#include "SvgNode.h"
 
 namespace rnoh {
 
@@ -104,12 +104,12 @@ private:
 public:
     GlyphContext(float scale, float width, float height);
 
-    void pushContext(std::shared_ptr<SvgGraphic> node, ReadableMap font) {
+    void pushContext(std::shared_ptr<SvgNode> node, ReadableMap font) {
         pushNodeAndFont(node, font);
         pushIndices();
     }
 
-    void pushContext(bool reset, std::shared_ptr<SvgText> node, ReadableMap font, std::vector<Dimension> x,
+    void pushContext(bool reset, std::shared_ptr<SvgNode> node, ReadableMap font, std::vector<Dimension> x,
                      std::vector<Dimension> y, std::vector<Dimension> deltaX, std::vector<Dimension> deltaY,
                      std::vector<Dimension> rotate);
 

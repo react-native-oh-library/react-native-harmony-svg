@@ -17,15 +17,15 @@ void RNSVGTSpanComponentInstance::onPropsChanged(SharedConcreteProps const &prop
     auto fontSize = StringUtils::FromString(props->font.fontSize);
     m_svgTSpan->fontSize = fontSize.ConvertToPx();
 
-    m_svgTSpan->x.clear();
+    m_svgTSpan->x_.clear();
     for (auto const &value : props->x) {
         auto x = StringUtils::FromString(value);
-        m_svgTSpan->x.push_back(x.ConvertToPx());
+        m_svgTSpan->x_.push_back(x.ConvertToPx());
     }
-    m_svgTSpan->y.clear();
+    m_svgTSpan->y_.clear();
     for (auto const &value : props->y) {
         auto y = StringUtils::FromString(value);
-        m_svgTSpan->y.push_back(y.ConvertToPx());
+        m_svgTSpan->y_.push_back(y.ConvertToPx());
     }
 }
 

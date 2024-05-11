@@ -7,10 +7,13 @@
 namespace rnoh {
 
 Offset SvgTSpan::DrawText(OH_Drawing_Canvas *canvas, Offset startPos) {
+    // CHECK_NULL_VOID(context_);
+    context_->pushContext(false, shared_from_this(), {}, x_, y_, dx_, dy_, rotate_);
 
     if (content.empty()) {
         for (const auto &child : children_) {
             if (auto tSpan = std::dynamic_pointer_cast<SvgTSpan>(child); tSpan) {
+                tSpan->SetContext(context_);
                 startPos = tSpan->DrawText(canvas, startPos);
             }
         }
@@ -34,7 +37,10 @@ Offset SvgTSpan::DrawText(OH_Drawing_Canvas *canvas, Offset startPos) {
     OH_Drawing_TypographyHandlerAddText(typographyHandler, content.c_str());
     auto typography = OH_Drawing_CreateTypography(typographyHandler);
     OH_Drawing_TypographyLayout(typography, 1e9);
-    OH_Drawing_TypographyPaint(typography, canvas, x[0], y[0]);
+    double x = context_->nextX(0);
+    double y = context_->nextY();
+    LOG(INFO) << "next X = " << x << " next y = " << y;
+    OH_Drawing_TypographyPaint(typography, canvas, x, y);
 
     Size textSize = {OH_Drawing_TypographyGetMaxWidth(typography), OH_Drawing_TypographyGetHeight(typography)};
 
@@ -43,6 +49,7 @@ Offset SvgTSpan::DrawText(OH_Drawing_Canvas *canvas, Offset startPos) {
     OH_Drawing_DestroyTypographyHandler(typographyHandler);
     OH_Drawing_DestroyFontCollection(fontCollection);
 
+    context_->popContext();
     return startPos;
 }
 
