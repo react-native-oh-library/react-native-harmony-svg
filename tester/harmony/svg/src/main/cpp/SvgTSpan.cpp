@@ -6,7 +6,17 @@
 
 namespace rnoh {
 
-void rnoh::SvgTSpan::OnDraw(OH_Drawing_Canvas *canvas) {
+Offset SvgTSpan::DrawText(OH_Drawing_Canvas *canvas, Offset startPos) {
+
+    if (content.empty()) {
+        for (const auto &child : children_) {
+            if (auto tSpan = std::dynamic_pointer_cast<SvgTSpan>(child); tSpan) {
+                startPos = tSpan->DrawText(canvas, startPos);
+            }
+        }
+        return startPos;
+    }
+
     UpdateStrokeStyle();
     auto fillOpaque = UpdateFillStyle();
     if (!fillOpaque) {
@@ -24,13 +34,16 @@ void rnoh::SvgTSpan::OnDraw(OH_Drawing_Canvas *canvas) {
     OH_Drawing_TypographyHandlerAddText(typographyHandler, content.c_str());
     auto typography = OH_Drawing_CreateTypography(typographyHandler);
     OH_Drawing_TypographyLayout(typography, 1e9);
-    if (!x.empty() && !y.empty()) {
-        OH_Drawing_TypographyPaint(typography, canvas, x[0], y[0]);
-    }
+    OH_Drawing_TypographyPaint(typography, canvas, x[0], y[0]);
 
+    Size textSize = {OH_Drawing_TypographyGetMaxWidth(typography), OH_Drawing_TypographyGetHeight(typography)};
+
+    LOG(INFO) << "current pos = " << textSize.ToString();
     OH_Drawing_DestroyTypography(typography);
     OH_Drawing_DestroyTypographyHandler(typographyHandler);
     OH_Drawing_DestroyFontCollection(fontCollection);
+
+    return startPos;
 }
 
 } // namespace rnoh

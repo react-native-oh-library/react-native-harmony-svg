@@ -8,19 +8,22 @@
 
 namespace rnoh {
 void SvgText::OnDraw(OH_Drawing_Canvas *canvas) {
+    Offset pos;
     for (auto const &child : children_) {
-        auto tspan = std::dynamic_pointer_cast<SvgTSpan>(child);
-        if (tspan) {
-            if (tspan->fontSize == 0) {
-                tspan->fontSize = fontSize;
-            }
-            if (tspan->x.empty()) {
-                tspan->x = x;
-            }
-            if (tspan->y.empty()) {
-                tspan->y = y;
-            }
+        auto tSpan = std::dynamic_pointer_cast<SvgTSpan>(child);
+        if (!tSpan) {
+            continue;
         }
+        if (tSpan->fontSize == 0) {
+            tSpan->fontSize = fontSize;
+        }
+        if (tSpan->x.empty()) {
+            tSpan->x = x;
+        }
+        if (tSpan->y.empty()) {
+            tSpan->y = y;
+        }
+        pos = tSpan->DrawText(canvas, pos);
     }
 }
 

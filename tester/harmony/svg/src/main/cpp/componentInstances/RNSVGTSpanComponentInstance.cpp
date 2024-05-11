@@ -30,5 +30,15 @@ void RNSVGTSpanComponentInstance::onPropsChanged(SharedConcreteProps const &prop
 }
 
 SvgArkUINode &RNSVGTSpanComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
+    void RNSVGTSpanComponentInstance::onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index){
+        auto child = std::dynamic_pointer_cast<SvgHost>(childComponentInstance);
+        if (!child) {
+            return;
+        }
+        OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(child));
+        if (auto tSpan = std::dynamic_pointer_cast<SvgTSpan>(child->GetSvgNode())) {
+            tSpan->SetParent(m_svgTSpan);
+        }
+    }
 
 } // namespace rnoh

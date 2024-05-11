@@ -29,17 +29,17 @@ public:
 
     Size size;
 
-    void setRefX(Dimension refX) { mRefX = ConvertDimensionToPx(refX, size, SvgLengthType::HORIZONTAL); }
+    void setRefX(Dimension refX) { mRefX = refX.ConvertToPx(size, SvgLengthType::HORIZONTAL); }
 
-    void setRefY(Dimension refY) { mRefY = ConvertDimensionToPx(refY, size, SvgLengthType::VERTICAL); }
+    void setRefY(Dimension refY) { mRefY = refY.ConvertToPx(size, SvgLengthType::VERTICAL); }
 
     void setMarkerWidth(Dimension markerWidth) {
-        mMarkerWidth = ConvertDimensionToPx(markerWidth, size, SvgLengthType::HORIZONTAL);
+        mMarkerWidth = markerWidth.ConvertToPx(size, SvgLengthType::HORIZONTAL);
         LOG(INFO) << "[SvgMarker] setMarkerWidth mMarkerWidth=" << mMarkerWidth;
     }
 
     void setMarkerHeight(Dimension markerHeight) {
-        mMarkerHeight = ConvertDimensionToPx(markerHeight, size, SvgLengthType::VERTICAL);
+        mMarkerHeight = markerHeight.ConvertToPx(size, SvgLengthType::VERTICAL);
     }
 
     void setMarkerUnits(std::string markerUnits) { mMarkerUnits = markerUnits; }
