@@ -1,4 +1,5 @@
 #include "SvgUse.h"
+#include "SvgSymbol.h"
 
 namespace rnoh {
 
@@ -19,10 +20,19 @@ void SvgUse::OnDraw(OH_Drawing_Canvas *canvas) {
     if (x != 0 || y != 0) {
         OH_Drawing_CanvasTranslate(canvas, x, y);
     }
-    AttributeScope scope(refSvgNode);
 
+    // AttributeScope scope(refSvgNode);
     refSvgNode->InheritUseAttr(attributes_);
-    refSvgNode->Draw(canvas);
+
+    if (auto symbol = std::dynamic_pointer_cast<SvgSymbol>(refSvgNode)) {
+        LOG(INFO) << "[SvgUse::OnDraw] : svgSymbol component ";
+        symbol->drawSymbol(canvas, width, height);
+        symbol->Draw(canvas);
+    } else {
+        LOG(INFO) << "[SvgUse::OnDraw] : normal component";
+        refSvgNode->Draw(canvas);
+    }
+
     return;
 }
 
