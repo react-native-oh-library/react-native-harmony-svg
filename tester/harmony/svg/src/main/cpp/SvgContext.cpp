@@ -2,8 +2,7 @@
 #include "SvgNode.h"
 
 namespace rnoh {
-std::shared_ptr<SvgNode> SvgContext::GetSvgNodeById(const std::string& id) const
-{
+std::shared_ptr<SvgNode> SvgContext::GetSvgNodeById(const std::string &id) const {
     auto item = idMapper_.find(id);
     if (item != idMapper_.end()) {
         return item->second;
@@ -11,9 +10,8 @@ std::shared_ptr<SvgNode> SvgContext::GetSvgNodeById(const std::string& id) const
     return nullptr;
 }
 
-void SvgContext::PushStyle(const std::string& styleName, const std::pair<std::string, std::string>& attrPair)
-{
-    const auto& arrMapIter = styleMap_.find(styleName);
+void SvgContext::PushStyle(const std::string &styleName, const std::pair<std::string, std::string> &attrPair) {
+    const auto &arrMapIter = styleMap_.find(styleName);
     if (arrMapIter == styleMap_.end()) {
         AttrMap attrMap;
         attrMap.emplace(attrPair);
@@ -26,13 +24,21 @@ void SvgContext::PushStyle(const std::string& styleName, const std::pair<std::st
     }
 }
 
-const AttrMap& SvgContext::GetAttrMap(const std::string& key) const
-{
+const AttrMap &SvgContext::GetAttrMap(const std::string &key) const {
     auto styleClassIter = styleMap_.find(key);
     if (styleClassIter != styleMap_.end()) {
         return styleClassIter->second;
     }
     static AttrMap emptyMap;
     return emptyMap;
+}
+
+const Rect &SvgContext::GetRootViewBox() const {
+    if (!rootViewBox_.IsValid()) {
+        static Rect rect;
+        rect = Rect(0, 0, svgSize_.Width(), svgSize_.Height());
+        return rect;
+    }
+    return rootViewBox_;
 }
 } // namespace rnoh
