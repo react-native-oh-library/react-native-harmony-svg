@@ -37,8 +37,7 @@ public:
                 LOG(INFO) << "[SvgDfes:AsPath] : get child path:" ;
             }
             auto childPath = child->AsPath();
-            // path.Op(path, childPath, RSPathOp::UNION);
-            path = childPath;
+            OH_Drawing_PathOp(path, childPath, PATH_OP_MODE_UNION);
         }
         return path;
     }
