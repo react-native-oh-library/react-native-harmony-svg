@@ -36,13 +36,13 @@ const basicCases: CaseParams[] = [
             {
                 width: 30,
                 height: 60,
-                viewBox: '0 0 100 100'
+                viewBox: '0 0 50 100'
             },
             {
                 width: 30,
                 height: 60,
                 fill: 'red',
-                viewBox: '0 0 50 100'
+                viewBox: '0 0 100 100'
             },
             {
                 width: 90,
