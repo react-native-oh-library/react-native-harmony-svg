@@ -94,6 +94,7 @@ ComponentJSIBinderByString rnoh::SVGPackage::createComponentJSIBinderByName() {
         {"RNSVGImage", std::make_shared<RNSVGImageJSIBinder>()},
         {"RNSVGLine", std::make_shared<RNSVGLineJSIBinder>()},
         {"RNSVGLinearGradient", std::make_shared<RNSVGLinearGradientJSIBinder>()},
+        {"RNSVGRadialGradient", std::make_shared<RNSVGRadialGradientJSIBinder>()},
         {"RNSVGMarker", std::make_shared<RNSVGMarkerJSIBinder>()},
         {"RNSVGMask", std::make_shared<RNSVGMaskJSIBinder>()},
         {"RNSVGPath", std::make_shared<RNSVGPathJSIBinder>()},

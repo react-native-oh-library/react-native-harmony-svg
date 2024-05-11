@@ -16,6 +16,8 @@
 #include <native_drawing/drawing_path_effect.h>
 #include <native_drawing/drawing_shader_effect.h>
 #include <native_drawing/drawing_point.h>
+#include <native_drawing/drawing_matrix.h>
+#include <native_drawing/drawing_types.h>
 #include <native_drawing/drawing_shader_effect.h>
 #include "utils/SvgMarkerPositionUtils.h"
 #include "SvgMarker.h"
@@ -49,61 +51,61 @@ void SvgGraphic::OnDraw(OH_Drawing_Canvas *canvas) {
 }
 // todo implement bounds
 void SvgGraphic::UpdateGradient() {
-    const auto &fillState_ = attributes_.fillState;
-    //     auto &gradient = fillState_.GetGradient();
-    std::optional<Gradient> gradient = fillState_.GetGradient();
+    auto &fillState_ = attributes_.fillState;
+    auto &gradient = fillState_.GetGradient();
     CHECK_NULL_VOID(gradient);
-    //     auto bounds = AsBounds(viewPort);
-    //     auto width = bounds.Width();
-    //     auto height = bounds.Height();
+    // objectBoundingBox - 0(DEFAULT), userSpaceOnUse - 1
+    auto nodeBounds = (gradient->GetGradientUnits() == 0) ? AsBounds() : Rect(0, 0, context_->GetSvgSize().Width(), context_->GetSvgSize().Height());
     if (gradient->GetType() == GradientType::LINEAR) {
         const auto &linearGradient = gradient->GetLinearGradient();
         auto gradientInfo = LinearGradientInfo();
-        //         auto x1 = linearGradient.x1 ? ConvertDimensionToPx(linearGradient.x1.value(), width) : 0.0;
-        //         gradientInfo.x1 = x1 + bounds.Left();
-        //         gradientInfo.x1 = x1 ;
-        //         auto y1 = linearGradient.y1 ? ConvertDimensionToPx(linearGradient.y1.value(), height) : 0.0;
-        //         gradientInfo.y1 = y1 + bounds.Top();
-        //         gradientInfo.y1 = y1 ;
-        //         auto x2 = ConvertDimensionToPx((linearGradient.x2 ? linearGradient.x2.value() : 1.0_pct), width);
-        //         gradientInfo.x2 = x2 + bounds.Left();
-        //         gradientInfo.x2 = x2 ;
-        //         auto y2 = linearGradient.y2 ? ConvertDimensionToPx(linearGradient.y2.value(), height) : 0.0;
-        //         gradientInfo.y2 = y2 + bounds.Top();
-        gradient->SetLinearGradientInfo(gradientInfo);
+        if (linearGradient.x1.value().Unit() == DimensionUnit::PERCENT) {
+            gradientInfo.x1 = nodeBounds.Left() + ConvertDimensionToPx(linearGradient.x1.value(), nodeBounds.Width());
+        } else {
+            gradientInfo.x1 = ConvertDimensionToPx(linearGradient.x1.value(), nodeBounds.Width());
+        }
+        if (linearGradient.y1.value().Unit() == DimensionUnit::PERCENT) {
+            gradientInfo.y1 = nodeBounds.Top() + ConvertDimensionToPx(linearGradient.y1.value(), nodeBounds.Height());
+        } else {
+            gradientInfo.y1 = ConvertDimensionToPx(linearGradient.y1.value(), nodeBounds.Height());
+        }
+        if (linearGradient.x2.value().Unit() == DimensionUnit::PERCENT) {
+            gradientInfo.x2 = nodeBounds.Left() + ConvertDimensionToPx(linearGradient.x2.value(), nodeBounds.Width());
+        } else {
+            gradientInfo.x2 = ConvertDimensionToPx(linearGradient.x2.value(), nodeBounds.Width());
+        }
+        if (linearGradient.y2.value().Unit() == DimensionUnit::PERCENT) {
+            gradientInfo.y2 = nodeBounds.Top() + ConvertDimensionToPx(linearGradient.y2.value(), nodeBounds.Height());
+        } else {
+            gradientInfo.y2 = ConvertDimensionToPx(linearGradient.y2.value(), nodeBounds.Height());
+        }
+       gradient->SetLinearGradientInfo(gradientInfo);
     }
     if (gradient->GetType() == GradientType::RADIAL) {
         const auto &radialGradient = gradient->GetRadialGradient();
         auto gradientInfo = RadialGradientInfo();
-        //         Dimension radialHorizontalSize = Dimension(radialGradient.radialHorizontalSize.value().Value(),
-        //                                                    radialGradient.radialHorizontalSize.value().Unit());
-        //         gradientInfo.r = ConvertDimensionToPx(radialGradient.radialHorizontalSize ? radialHorizontalSize :
-        //         0.5_pct,
-        //                                               sqrt(width * height));
-        //         Dimension radialCenterX =
-        //             Dimension(radialGradient.radialCenterX.value().Value(),
-        //             radialGradient.radialCenterX.value().Unit());
-        //         gradientInfo.cx =
-        //             ConvertDimensionToPx(radialGradient.radialCenterX ? radialCenterX : 0.5_pct, width) +
-        //             bounds.Left();
-        //         Dimension radialCenterY =
-        //             Dimension(radialGradient.radialCenterY.value().Value(),
-        //             radialGradient.radialCenterY.value().Unit());
-        //         gradientInfo.cy =
-        //             ConvertDimensionToPx(radialGradient.radialCenterY ? radialCenterY : 0.5_pct, height) +
-        //             bounds.Top();
-        //         if (radialGradient.fRadialCenterX && radialGradient.fRadialCenterX->IsValid()) {
-        //             gradientInfo.fx = ConvertDimensionToPx(radialGradient.fRadialCenterX.value(), width) +
-        //             bounds.Left();
-        //         } else {
-        //             gradientInfo.fx = gradientInfo.cx;
-        //         }
-        //         if (radialGradient.fRadialCenterY && radialGradient.fRadialCenterY->IsValid()) {
-        //             gradientInfo.fy = ConvertDimensionToPx(radialGradient.fRadialCenterY.value(), height) +
-        //             bounds.Top();
-        //         } else {
-        //             gradientInfo.fy = gradientInfo.cy;
-        //         }
+        if (radialGradient.radialCenterX.value().Unit() == DimensionUnit::PERCENT) {
+            gradientInfo.cx = nodeBounds.Left() + ConvertDimensionToPx(radialGradient.radialCenterX.value(), nodeBounds.Width());
+        } else {
+            gradientInfo.cx = ConvertDimensionToPx(radialGradient.radialCenterX.value(), nodeBounds.Width());
+        }
+        if (radialGradient.radialCenterY.value().Unit() == DimensionUnit::PERCENT) {
+            gradientInfo.cy = nodeBounds.Top() + ConvertDimensionToPx(radialGradient.radialCenterY.value(), nodeBounds.Height());
+        } else {
+            gradientInfo.cy = ConvertDimensionToPx(radialGradient.radialCenterY.value(), nodeBounds.Height());
+        }
+        if (radialGradient.fRadialCenterX.value().Unit() == DimensionUnit::PERCENT) {
+            gradientInfo.fx = nodeBounds.Left() + ConvertDimensionToPx(radialGradient.fRadialCenterX.value(), nodeBounds.Width());
+        } else {
+            gradientInfo.fx = ConvertDimensionToPx(radialGradient.fRadialCenterX.value(), nodeBounds.Width());
+        }
+        if (radialGradient.fRadialCenterY.value().Unit() == DimensionUnit::PERCENT) {
+            gradientInfo.fy = nodeBounds.Top() + ConvertDimensionToPx(radialGradient.fRadialCenterY.value(), nodeBounds.Height());
+        } else {
+            gradientInfo.fy = ConvertDimensionToPx(radialGradient.fRadialCenterY.value(), nodeBounds.Height());
+        }
+        gradientInfo.rx = ConvertDimensionToPx(radialGradient.radialHorizontalSize.value(), nodeBounds.Width());
+        gradientInfo.ry = ConvertDimensionToPx(radialGradient.radialVerticalSize.value(), nodeBounds.Height());
         gradient->SetRadialGradientInfo(gradientInfo);
     }
 }
@@ -146,34 +148,69 @@ void SvgGraphic::SetGradientStyle(double opacity) {
             OH_Drawing_PointCreate(static_cast<float>(info.x1), static_cast<float>(info.y1)),
             OH_Drawing_PointCreate(static_cast<float>(info.x2), static_cast<float>(info.y2))};
         if (gradient->IsValid()) {
-            OH_Drawing_BrushSetShaderEffect(fillBrush_,
-                                            OH_Drawing_ShaderEffectCreateLinearGradient(
-                                                pts[0], pts[1], colors.data(), pos.data(), colors.size(),
-                                                static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod())));
+            OH_Drawing_Point2D ptsPoint2D[2] = {
+                {static_cast<float>(info.x1), static_cast<float>(info.y1)},
+                {static_cast<float>(info.x2), static_cast<float>(info.y2)},
+            };
+            if (gradient->GetGradientTransform().size() == 9) {
+                OH_Drawing_Matrix* tmp = OH_Drawing_MatrixCreate();
+                OH_Drawing_MatrixSetMatrix(tmp, gradient->GetGradientTransform()[0], gradient->GetGradientTransform()[1],
+                    gradient->GetGradientTransform()[2], gradient->GetGradientTransform()[3], gradient->GetGradientTransform()[4],
+                    gradient->GetGradientTransform()[5], gradient->GetGradientTransform()[6], gradient->GetGradientTransform()[7],
+                    gradient->GetGradientTransform()[8]);
+
+                OH_Drawing_BrushSetShaderEffect(fillBrush_,
+                    OH_Drawing_ShaderEffectCreateLinearGradientWithLocalMatrix(
+                        &ptsPoint2D[0], &ptsPoint2D[1],
+                        colors.data(), pos.data(), colors.size(), static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()),
+                        tmp));
+                OH_Drawing_MatrixDestroy(tmp);
+            } else {
+                OH_Drawing_BrushSetShaderEffect(fillBrush_,
+                    OH_Drawing_ShaderEffectCreateLinearGradient(
+                        pts[0], pts[1], colors.data(), pos.data(), colors.size(),
+                        static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod())));
+            }
         }
     }
     if (gradient->GetType() == GradientType::RADIAL) {
         auto info = gradient->GetRadialGradientInfo();
         auto center = OH_Drawing_PointCreate(static_cast<float>(info.cx), static_cast<float>(info.cy));
         auto focal = OH_Drawing_PointCreate(static_cast<float>(info.fx), static_cast<float>(info.fx));
-        if (center == focal) {
-            //             fillBrush_.SetShaderEffect(
-            //                 RSRecordingShaderEffect::CreateRadialGradient(center, static_cast<RSScalar>(info.r),
-            //                 colors, pos,
-            //                                                               static_cast<RSTileMode>(gradient->GetSpreadMethod())));
+
+        // if (center == focal) {
             if (gradient->IsValid()) {
-                OH_Drawing_BrushSetShaderEffect(
-                    fillBrush_, OH_Drawing_ShaderEffectCreateRadialGradient(
-                                    center, static_cast<float>(info.r), colors.data(), pos.data(), colors.size(),
-                                    static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod())));
+                OH_Drawing_Point2D centerPoint2D = {static_cast<float>(info.cx), static_cast<float>(info.cy)};
+                if (gradient->GetGradientTransform().size() == 9) {
+                    OH_Drawing_Matrix* tmp = OH_Drawing_MatrixCreate();
+                    OH_Drawing_MatrixSetMatrix(tmp, gradient->GetGradientTransform()[0], gradient->GetGradientTransform()[1],
+                        gradient->GetGradientTransform()[2], gradient->GetGradientTransform()[3], gradient->GetGradientTransform()[4],
+                        gradient->GetGradientTransform()[5], gradient->GetGradientTransform()[6], gradient->GetGradientTransform()[7],
+                        gradient->GetGradientTransform()[8]);
+
+                    OH_Drawing_BrushSetShaderEffect(fillBrush_,
+                        OH_Drawing_ShaderEffectCreateRadialGradientWithLocalMatrix(
+                            &centerPoint2D,
+                            static_cast<float>(sqrt(info.rx * info.ry)), colors.data(), pos.data(), colors.size(),
+                            static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()),
+                            tmp));
+
+                    OH_Drawing_MatrixDestroy(tmp);
+                } else {
+                    OH_Drawing_BrushSetShaderEffect(
+                        fillBrush_, OH_Drawing_ShaderEffectCreateRadialGradient(
+                            center, static_cast<float>(sqrt(info.rx * info.ry)), colors.data(), pos.data(),
+                            colors.size(), static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod())));
+                }
             }
-        } else {
+        // } else {
+            // LOG(INFO) << "hzj [SVGGraphic] SetGradientStyle center != focal";
             // todo Two Point Gradient
-            //             RSMatrix matrix;
-            //             fillBrush_.SetShaderEffect(RSRecordingShaderEffect::CreateTwoPointConical(
-            //                 focal, 0, center, static_cast<float>(info.r), colors, pos,
-            //                 static_cast<RSTileMode>(gradient->GetSpreadMethod()), &matrix));
-        }
+                        // RSMatrix matrix;
+                        // fillBrush_.SetShaderEffect(RSRecordingShaderEffect::CreateTwoPointConical(
+                            // focal, 0, center, static_cast<float>(info.r), colors, pos,
+                            // static_cast<RSTileMode>(gradient->GetSpreadMethod()), &matrix));
+        // }
     }
 }
 

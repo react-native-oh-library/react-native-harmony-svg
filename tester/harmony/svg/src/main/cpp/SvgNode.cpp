@@ -10,11 +10,27 @@
 #include "utils/Utils.h"
 #include "utils/StringUtils.h"
 #include "utils/SvgAttributesParser.h"
+#include "SVGGradient.h"
 
 namespace rnoh {
 
 void SvgNode::InitStyle(const SvgBaseAttribute &attr) {
     InheritAttr(attr);
+    if (hrefFill_) {
+        LOG(INFO) << "[UpdateCommonProps] hrefFill_";
+        auto href = attributes_.fillState.GetHref();
+        if (!href.empty()) {
+            auto gradient = GetGradient(href);
+            if (gradient) {
+                LOG(INFO) << "[UpdateCommonProps] fill state set gradient";
+                attributes_.fillState.SetGradient(gradient.value(), true);
+            } else {
+                LOG(INFO) << "[UpdateCommonProps] no gradient";
+            }
+        } else {
+            LOG(INFO) << "[UpdateCommonProps] href empty";
+        }
+    }
     OnInitStyle();
     if (passStyle_) {
         for (auto &node : children_) {
@@ -113,6 +129,29 @@ double SvgNode::ConvertDimensionToPx(const Dimension &value, const Size &viewPor
     default:
         return vpToPx(value.Value());
     }
+}
+
+double SvgNode::ConvertDimensionToPx(const Dimension& value, double baseValue) const
+{
+    if (value.Unit() == DimensionUnit::PERCENT) {
+        return value.Value() * baseValue;
+    }
+    return vpToPx(value.Value());
+}
+
+std::optional<Gradient> SvgNode::GetGradient(const std::string& href)
+{
+    if (!context_) {
+        LOG(INFO) << "NO CONTEXT";
+        return std::nullopt;
+    }
+    auto refSvgNode = context_->GetSvgNodeById(href);
+    CHECK_NULL_RETURN(refSvgNode, std::nullopt);
+    auto svgGradient = std::dynamic_pointer_cast<SvgGradient>(refSvgNode);
+    if (svgGradient) {
+        return std::make_optional(svgGradient->GetGradient());
+    }
+    return std::nullopt;
 }
 
 void SvgNode::Draw(OH_Drawing_Canvas *canvas) {

@@ -22,6 +22,7 @@
 #include <optional>
 #include <regex>
 #include <vector>
+#include <react/renderer/graphics/Float.h>
 #include "properties/Color.h"
 #include "properties/Dimension.h"
 #include "properties/Offset.h"
@@ -115,7 +116,8 @@ struct LinearGradientInfo {
 };
 
 struct RadialGradientInfo {
-    double r = 0.0;
+    double rx = 0.0;
+    double ry = 0.0;
     double cx = 0.0;
     double cy = 0.0;
     double fx = 0.0;
@@ -410,7 +412,7 @@ public:
         spreadMethod_ = spreadMethod;
     }
 
-    void SetGradientTransform(const std::string& gradientTransform)
+    void SetGradientTransform(const std::vector<facebook::react::Float>& gradientTransform)
     {
         gradientTransform_ = gradientTransform;
     }
@@ -420,7 +422,7 @@ public:
         return spreadMethod_;
     }
 
-    const std::string& GetGradientTransform() const
+    const std::vector<facebook::react::Float>& GetGradientTransform() const
     {
         return gradientTransform_;
     }
@@ -445,6 +447,16 @@ public:
         linearGradientInfo_ = linearGradientInfo;
     }
 
+    const int& GetGradientUnits() const
+    {
+        return gradientUnits_;
+    }
+
+    void SetGradientUnits(const int& gradientUnits)
+    {
+        gradientUnits_ = gradientUnits;
+    }
+
 private:
     GradientType type_ = GradientType::LINEAR;
     bool repeat_ = false;
@@ -464,7 +476,8 @@ private:
     double innerRadius_ = 0.0;
     double outerRadius_ = 0.0;
     SpreadMethod spreadMethod_ = SpreadMethod::PAD;
-    std::string gradientTransform_;
+    int gradientUnits_ = 0;
+    std::vector<facebook::react::Float> gradientTransform_;
     LinearGradientInfo linearGradientInfo_;
     RadialGradientInfo radialGradientInfo_;
 };
