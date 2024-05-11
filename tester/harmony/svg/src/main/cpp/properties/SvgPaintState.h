@@ -11,6 +11,7 @@
 #include "properties/PaintState.h"
 #include "properties/Decoration.h"
 #include <native_drawing/drawing_path.h>
+#include <glog/logging.h>
 
 namespace rnoh {
 
@@ -357,10 +358,10 @@ public:
     }
 
     // Convert different interface values (FILL_RULE_NONZERO <===> PATH_FILL_TYPE_WINDING)
-    OH_Drawing_PathFillType GetClipRuleOfDwaw() {
-        if (clipRule_ == ClipRule::FILL_RULE_EVENODD) {
+    OH_Drawing_PathFillType GetClipRuleForDraw() {
+        if (IsEvenodd()) {
             return OH_Drawing_PathFillType::PATH_FILL_TYPE_EVEN_ODD;
-        } else{
+        } else {
             return OH_Drawing_PathFillType::PATH_FILL_TYPE_WINDING;
         }
     }
