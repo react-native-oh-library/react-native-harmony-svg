@@ -49,7 +49,7 @@ public:
 
 private:
     SvgGradientAttribute gradientAttr_;
-    double scale_ = 3.25010318;
+    double scale_ = 3.25;
 };
 
 } // namespace rnoh
