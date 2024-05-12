@@ -18,7 +18,8 @@ enum class FontWeight {
     lighter,
 };
 
-enum class TextAnchor { start, middle, end };
+// match with <native_drawing/drawing_text_typography.h>
+enum class TextAnchor { start = 4, middle = 2, end = 5 };
 
 // match with <native_drawing/drawing_text_typography.h>
 enum class TextDecoration { None = 0x0, Underline = 0x1, Overline = 0x2, LineThrough = 0x4 };
