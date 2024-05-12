@@ -32,6 +32,7 @@ const preserveAspectRatioCases: CaseParams = {
 const basicCases: CaseParams[] = [
     {
         type: 'mulKey',
+        id: 'svg1',
         values: [
             {
                 width: 30,

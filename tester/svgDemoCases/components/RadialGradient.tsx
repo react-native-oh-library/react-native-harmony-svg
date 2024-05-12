@@ -51,6 +51,14 @@ const basicCases: CaseParams[] = [
         key: 'ry',
         values: ['10%', '50%']
     },
+    {
+        key: 'gradientUnits',
+        values: ['userSpaceOnUse', 'objectBoundingBox']
+    },
+    {
+        key: 'gradientTransform',
+        values: ['skewX(20) translate(-35, 0)', 'translate(-35, 0)']
+    }
 ]
 
 const allCases = [
