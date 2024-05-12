@@ -18,16 +18,7 @@ void RNSVGTextComponentInstance::onPropsChanged(SharedConcreteProps const &props
     auto fontSize = StringUtils::FromString(propsFontSize.empty() ? "16" : propsFontSize);
     m_svgText->fontSize = fontSize.ConvertToPx();
 
-    m_svgText->x.clear();
-    for (auto const &value : props->x) {
-        auto x = StringUtils::FromString(value);
-        m_svgText->x.push_back(x.ConvertToPx());
-    }
-    m_svgText->y.clear();
-    for (auto const &value : props->y) {
-        auto y = StringUtils::FromString(value);
-        m_svgText->y.push_back(y.ConvertToPx());
-    }
+    m_svgText->UpdateTextProps(props);
 }
 
 SvgArkUINode &RNSVGTextComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }

@@ -6,20 +6,19 @@
 
 namespace rnoh {
 
-Offset SvgTSpan::DrawText(OH_Drawing_Canvas *canvas, Offset startPos) {
-    // CHECK_NULL_VOID(context_);
-    context_->pushContext(false, shared_from_this(), {}, x_, y_, dx_, dy_, rotate_);
-
+void SvgTSpan::OnDraw(OH_Drawing_Canvas *canvas) {
+    // CHECK_NULL_VOID(glyphCtx_);
     if (content.empty()) {
+        return;
         for (const auto &child : children_) {
             if (auto tSpan = std::dynamic_pointer_cast<SvgTSpan>(child); tSpan) {
-                tSpan->SetContext(context_);
-                startPos = tSpan->DrawText(canvas, startPos);
+                tSpan->SetContext(glyphCtx_);
+                // tSpan->DrawText(canvas);
             }
         }
-        return startPos;
     }
 
+    glyphCtx_->pushContext(false, shared_from_this(), {}, x_, y_, dx_, dy_, rotate_);
     UpdateStrokeStyle();
     auto fillOpaque = UpdateFillStyle();
     if (!fillOpaque) {
@@ -37,10 +36,10 @@ Offset SvgTSpan::DrawText(OH_Drawing_Canvas *canvas, Offset startPos) {
     OH_Drawing_TypographyHandlerAddText(typographyHandler, content.c_str());
     auto typography = OH_Drawing_CreateTypography(typographyHandler);
     OH_Drawing_TypographyLayout(typography, 1e9);
-    double x = context_->nextX(0);
-    double y = context_->nextY();
-    LOG(INFO) << "next X = " << x << " next y = " << y;
-    OH_Drawing_TypographyPaint(typography, canvas, x, y);
+    double dx = glyphCtx_->nextX(0);
+    double dy = glyphCtx_->nextY();
+    LOG(INFO) << "next X = " << dx << " next dy = " << dy;
+    OH_Drawing_TypographyPaint(typography, canvas, dx, dy);
 
     Size textSize = {OH_Drawing_TypographyGetMaxWidth(typography), OH_Drawing_TypographyGetHeight(typography)};
 
@@ -49,8 +48,7 @@ Offset SvgTSpan::DrawText(OH_Drawing_Canvas *canvas, Offset startPos) {
     OH_Drawing_DestroyTypographyHandler(typographyHandler);
     OH_Drawing_DestroyFontCollection(fontCollection);
 
-    context_->popContext();
-    return startPos;
+    glyphCtx_->popContext();
 }
 
 } // namespace rnoh
