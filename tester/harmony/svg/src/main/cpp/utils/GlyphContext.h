@@ -7,16 +7,16 @@
 #include <unordered_map>
 #include "properties/Dimension.h"
 #include "utils/Utils.h"
-#include "SvgText.h"
+#include "SvgNode.h"
 
 namespace rnoh {
 
 struct FontData {
-    // implementation details
+    float random = 0.0f;
+    // to be implemented
 };
 
 class GlyphContext {
-    using ReadableMap = const std::unordered_map<std::string, std::string> &;
 
 private:
     std::vector<Dimension> mXs;
@@ -24,20 +24,20 @@ private:
     std::vector<Dimension> mDXs;
     std::vector<Dimension> mDYs;
     std::vector<double> mRs;
-    int mXsIndex;
-    int mYsIndex;
-    int mDXsIndex;
-    int mDYsIndex;
-    int mRsIndex;
-    int mXIndex;
-    int mYIndex;
-    int mDXIndex;
-    int mDYIndex;
-    int mRIndex;
-    int mTop;
-    float mScale;
-    float mWidth;
-    float mHeight;
+    int mXsIndex = 0;
+    int mYsIndex = 0;
+    int mDXsIndex = 0;
+    int mDYsIndex = 0;
+    int mRsIndex = 0;
+    int mXIndex = 0;
+    int mYIndex = 0;
+    int mDXIndex = 0;
+    int mDYIndex = 0;
+    int mRIndex = 0;
+    int mTop = 0;
+    float mScale = 0.0f;
+    float mWidth = 0.0f;
+    float mHeight = 0.0f;
     std::vector<int> mXsIndices;
     std::vector<int> mYsIndices;
     std::vector<int> mDXsIndices;
@@ -55,11 +55,11 @@ private:
     std::vector<int> mRIndices;
     std::vector<FontData> mFontContext;
     FontData topFont;
-    double mX;
-    double mY;
-    double mDX;
-    double mDY;
-    double mFontSize;
+    double mX = 0.0;
+    double mY = 0.0;
+    double mDX = 0.0;
+    double mDY = 0.0;
+    double mFontSize = 0.0;
 
     void pushIndices();
 
@@ -67,7 +67,7 @@ private:
 
     FontData getFont() { return topFont; }
 
-    FontData getTopOrParentFont(std::shared_ptr<SvgGraphic> child) {
+    FontData getTopOrParentFont(const std::shared_ptr<SvgNode> &child) {
         // if (mTop > 0) {
         //     return topFont;
         // } else {
@@ -86,7 +86,8 @@ private:
         return {};
     }
 
-    void pushNodeAndFont(std::shared_ptr<SvgGraphic> node, ReadableMap font) {
+    using ReadableMap = const std::unordered_map<std::string, std::string> &;
+    void pushNodeAndFont(const std::shared_ptr<SvgNode> &node, ReadableMap font) {
         FontData parent = getTopOrParentFont(node);
         mTop++;
 
@@ -104,14 +105,14 @@ private:
 public:
     GlyphContext(float scale, float width, float height);
 
-    void pushContext(std::shared_ptr<SvgGraphic> node, ReadableMap font) {
+    void pushContext(const std::shared_ptr<SvgNode>& node, ReadableMap font) {
         pushNodeAndFont(node, font);
         pushIndices();
     }
 
-    void pushContext(bool reset, std::shared_ptr<SvgText> node, ReadableMap font, std::vector<Dimension> x,
-                     std::vector<Dimension> y, std::vector<Dimension> deltaX, std::vector<Dimension> deltaY,
-                     std::vector<Dimension> rotate);
+    using DimensionArray = const std::vector<Dimension> &;
+    void pushContext(bool reset, const std::shared_ptr<SvgNode>& node, ReadableMap font, DimensionArray x, DimensionArray y, DimensionArray deltaX,
+                     DimensionArray deltaY, DimensionArray rotate);
 
     void popContext();
 
@@ -130,6 +131,7 @@ public:
     double nextRotation();
 
     float getWidth() { return mWidth; }
+    
 
     float getHeight() { return mHeight; }
 };

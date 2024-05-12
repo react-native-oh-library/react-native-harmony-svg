@@ -3,7 +3,7 @@
 
 namespace rnoh {
 
-class SvgGroup : public SvgNode {
+class SvgGroup : virtual public SvgNode {
     
 public:
     SvgGroup() : SvgNode()

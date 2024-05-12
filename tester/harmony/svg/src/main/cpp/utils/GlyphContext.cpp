@@ -1,13 +1,13 @@
 #include "GlyphContext.h"
 namespace rnoh {
 
-void GlyphContext::pushContext(bool reset, std::shared_ptr<SvgText> node, ReadableMap font, std::vector<Dimension> x,
-                               std::vector<Dimension> y, std::vector<Dimension> deltaX, std::vector<Dimension> deltaY,
-                               std::vector<Dimension> rotate) {
+void GlyphContext::pushContext(bool reset, const std::shared_ptr<SvgNode>& node, ReadableMap font, DimensionArray x, DimensionArray y,
+                               DimensionArray deltaX, DimensionArray deltaY, DimensionArray rotate) {
     if (reset) {
         this->reset();
     }
 
+    LOG(INFO) << "GLYPH PUSHING" << " mTop = " << mTop << " node = " << node;
     pushNodeAndFont(node, font);
 
     if (!x.empty()) {
@@ -72,6 +72,7 @@ void GlyphContext::popContext() {
     int dy = mDYsIndex;
     int r = mRsIndex;
 
+    LOG(INFO) << "GLYPH mTop = " << mTop << " mXsIndices size = " << mXsIndices.size();
     topFont = mFontContext[mTop];
     mXsIndex = mXsIndices[mTop];
     mYsIndex = mYsIndices[mTop];
