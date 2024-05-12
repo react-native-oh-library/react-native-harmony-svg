@@ -1,14 +1,14 @@
 #include "GlyphContext.h"
 namespace rnoh {
 
-void GlyphContext::pushContext(bool reset, const std::shared_ptr<SvgNode>& node, ReadableMap font, DimensionArray x, DimensionArray y,
+void GlyphContext::pushContext(bool reset, const std::shared_ptr<SvgNode>& node, DimensionArray x, DimensionArray y,
                                DimensionArray deltaX, DimensionArray deltaY, DimensionArray rotate) {
     if (reset) {
         this->reset();
     }
 
     LOG(INFO) << "GLYPH PUSHING" << " mTop = " << mTop << " node = " << node;
-    pushNodeAndFont(node, font);
+    pushNode(node);
 
     if (!x.empty()) {
         mXsIndex++;
@@ -57,7 +57,6 @@ void GlyphContext::pushContext(bool reset, const std::shared_ptr<SvgNode>& node,
     pushIndices();
 }
 void GlyphContext::popContext() {
-    mFontContext.pop_back();
     mXsIndices.pop_back();
     mYsIndices.pop_back();
     mDXsIndices.pop_back();
@@ -73,7 +72,6 @@ void GlyphContext::popContext() {
     int r = mRsIndex;
 
     LOG(INFO) << "GLYPH mTop = " << mTop << " mXsIndices size = " << mXsIndices.size();
-    topFont = mFontContext[mTop];
     mXsIndex = mXsIndices[mTop];
     mYsIndex = mYsIndices[mTop];
     mDXsIndex = mDXsIndices[mTop];
@@ -185,8 +183,6 @@ GlyphContext::GlyphContext(float scale, float width, float height) : mScale(scal
     mDXIndices.push_back(mDXIndex);
     mDYIndices.push_back(mDYIndex);
     mRIndices.push_back(mRIndex);
-
-    mFontContext.push_back(topFont);
 
     pushIndices();
 }

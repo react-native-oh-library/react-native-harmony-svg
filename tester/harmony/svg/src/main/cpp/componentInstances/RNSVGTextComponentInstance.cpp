@@ -18,6 +18,7 @@ void RNSVGTextComponentInstance::onPropsChanged(SharedConcreteProps const &props
     auto fontSize = StringUtils::FromString(propsFontSize.empty() ? "16" : propsFontSize);
     m_svgText->fontSize = fontSize.ConvertToPx();
 
+    m_svgText->UpdateFontProps(props);
     m_svgText->UpdateTextProps(props);
 }
 

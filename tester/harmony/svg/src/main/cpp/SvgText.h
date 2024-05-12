@@ -4,6 +4,7 @@
 #include "utils/StringUtils.h"
 #include "utils/GlyphContext.h"
 #include <native_drawing/drawing_text_typography.h>
+#include <optional>
 
 namespace rnoh {
 
@@ -36,6 +37,11 @@ public:
         for (auto const &value : props->rotate) {
             rotate_.push_back(StringUtils::FromString(value));
         }
+        if (props->inlineSize.empty()) {
+            inlineSize_.reset();
+        } else {
+            inlineSize_ = StringUtils::FromString(props->inlineSize);
+        }
     }
 
     double fontSize;
@@ -48,6 +54,7 @@ protected:
     std::vector<Dimension> dx_;
     std::vector<Dimension> dy_;
     std::vector<Dimension> rotate_;
+    std::optional<Dimension> inlineSize_;
 
     std::shared_ptr<GlyphContext> glyphCtx_;
 };

@@ -2,8 +2,9 @@
 
 #include <memory>
 #include <native_drawing/drawing_text_typography.h>
+#include "properties/Font.h"
 
-namespace drawing {
+namespace rnoh::drawing {
 
 class TextStyle final {
 
@@ -26,13 +27,10 @@ public:
         OH_Drawing_SetTextStyleForegroundBrush(textStyle_.get(), brush);
     }
 
-    void SetFontSize(double fontSize) {
-        OH_Drawing_SetTextStyleFontSize(textStyle_.get(), fontSize);
-    }
-
+    void Update(const std::shared_ptr<FontData>& style);
 // private:
      UniqueTextStyle textStyle_;
      friend class TypographyStyle;
 };
 
-} // namespace drawing
+} // namespace rnoh::drawing

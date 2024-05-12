@@ -11,7 +11,7 @@ void SvgText::OnDraw(OH_Drawing_Canvas *canvas) {
     if (!glyphCtx_) {
         InitGlyph(canvas);
     }
-    glyphCtx_->pushContext(true, shared_from_this(), {}, x_, y_, dx_, dy_, rotate_);
+    glyphCtx_->pushContext(true, shared_from_this(), x_, y_, dx_, dy_, rotate_);
     for (auto const &child : children_) {
         auto tSpan = std::dynamic_pointer_cast<SvgTSpan>(child);
         if (!tSpan) {
