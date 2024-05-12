@@ -29,7 +29,7 @@ public:
     const Size &GetSvgSize() const { return svgSize_; }
 
 private:
-    std::unordered_map<std::string, std::shared_ptr<SvgNode>> idMapper_;
+    std::unordered_map<std::string, std::weak_ptr<SvgNode>> idMapper_;
     ClassStyleMap styleMap_;
     Rect rootViewBox_;
     Size svgSize_;
