@@ -26,6 +26,7 @@ public:
     std::string content;
 
 private:
+    void DrawWrappedText(OH_Drawing_Canvas* canvas);
     std::shared_ptr<SvgNode> parent_;
 };
 
