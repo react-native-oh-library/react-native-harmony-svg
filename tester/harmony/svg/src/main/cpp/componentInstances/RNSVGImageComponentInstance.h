@@ -30,7 +30,7 @@
 
 namespace rnoh {
 
-class RNSVGImageComponentInstance : public CppComponentInstance<facebook::react::RNSVGCircleShadowNode>, public SvgHost {
+class RNSVGImageComponentInstance : public CppComponentInstance<facebook::react::RNSVGImageShadowNode>, public SvgHost {
 
 private:
     SvgArkUINode m_svgArkUINode;
