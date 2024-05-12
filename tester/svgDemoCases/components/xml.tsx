@@ -49,7 +49,7 @@ export default function () {
                     />
                 </Item>
                 <Item text="test SvgXml">
-                    <SvgXml xml={xmlCase} width="100" height="100" { ...genAdditionalProps('SvgXml') } />
+                    <SvgXml xml={xmlCase} override={{ width: "100", height: "100" }} { ...genAdditionalProps('SvgXml') } />
                 </Item>
                 <Item text="test parse">
                     <Svg width={60} height={60}>
@@ -57,7 +57,7 @@ export default function () {
                     </Svg>
                 </Item>
                 <Item text="test SvgFromXml">
-                    <SvgFromXml xml={xmlCase} width="90" height="70" { ...genAdditionalProps('SvgFromXml') } />
+                    <SvgFromXml xml={xmlCase} override={{ width: "90", height: "70" }} { ...genAdditionalProps('SvgFromXml') } />
                 </Item>
                 <Item text="test SvgAst">
                     <SvgAst ast={parse(xmlCase)} override={{ width: "60", height: "70" }} { ...genAdditionalProps('SvgAst') } />

@@ -133,7 +133,7 @@ export function GenMain({
                             <RenderCase _case={_case}
                                 basicProps={basicProps}
                                 comName={comName}
-                                key={_case.key}
+                                key={_case.key || _case.id}
                                 renderComChildren={renderComChildren}
                                 bindFunc={bindFunc}
                                 noSvg={noSvg}
@@ -144,6 +144,30 @@ export function GenMain({
                 { children }
             </ScrollView>
         </Tester>
+    )
+}
+
+
+interface TestItemProps{
+    children: React.ReactNode,
+    desc: string
+}
+export function TestItem({ children, desc }: TestItemProps) {
+    return (
+        <TestCase
+            // <View
+            itShould={desc}
+            key={desc}
+        >
+            <View
+                style={{
+                    borderWidth: 1,
+                    // width: 100,
+                    // height: 100
+                }}
+            ></View>
+            { children }
+        </TestCase>
     )
 }
 
@@ -246,7 +270,7 @@ export function GenDefs({
                             <RenderDefCase 
                                 _case={_case}
                                 basicProps={basicProps}
-                                key={_case.key}
+                                key={_case.key || _case.id}
                                 renderComChildren={renderComChildren}
                                 bindFunc={bindFunc}
                                 noSvg={noSvg}
