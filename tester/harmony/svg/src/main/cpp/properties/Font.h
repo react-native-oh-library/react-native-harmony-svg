@@ -26,6 +26,26 @@ enum class TextDecoration { None = 0x0, Underline = 0x1, Overline = 0x2, LineThr
 
 enum class FontVariantLigatures { normal, none };
 
+enum class TextPathMethod {
+    align,
+    stretch
+};
+
+enum class TextPathMidLine {
+sharp,
+smooth
+};
+
+  enum class TextPathSide {
+    left,
+    right
+  };
+
+  enum class TextPathSpacing {
+    Auto,
+    Exact
+  };
+
 FontStyle fontStyleFromStr(const std::string& str);
 
 FontWeight fontWeightFromStr(const std::string& str);
