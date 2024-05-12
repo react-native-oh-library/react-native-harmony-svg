@@ -7,6 +7,9 @@
 namespace rnoh {
 
 void SvgTSpan::OnDraw(OH_Drawing_Canvas *canvas) {
+    if (!glyphCtx_) {
+        InitGlyph(canvas);
+    }
     // CHECK_NULL_VOID(glyphCtx_);
     if (content.empty()) {
         return;
@@ -36,14 +39,13 @@ void SvgTSpan::OnDraw(OH_Drawing_Canvas *canvas) {
     OH_Drawing_TypographyHandlerAddText(typographyHandler, content.c_str());
     auto typography = OH_Drawing_CreateTypography(typographyHandler);
     OH_Drawing_TypographyLayout(typography, 1e9);
-    double dx = glyphCtx_->nextX(0);
-    double dy = glyphCtx_->nextY();
-    LOG(INFO) << "next X = " << dx << " next dy = " << dy;
+    double dx = glyphCtx_->nextX(0) + glyphCtx_->nextDeltaX();
+    double dy = glyphCtx_->nextY() + glyphCtx_->nextDeltaY();
+    LOG(INFO) << "TEXT GLYPH next X = " << dx << " next dy = " << dy;
     OH_Drawing_TypographyPaint(typography, canvas, dx, dy);
-
     Size textSize = {OH_Drawing_TypographyGetMaxWidth(typography), OH_Drawing_TypographyGetHeight(typography)};
 
-    LOG(INFO) << "current pos = " << textSize.ToString();
+    LOG(INFO) << "TEXT GLYPH current size = " << textSize.ToString();
     OH_Drawing_DestroyTypography(typography);
     OH_Drawing_DestroyTypographyHandler(typographyHandler);
     OH_Drawing_DestroyFontCollection(fontCollection);

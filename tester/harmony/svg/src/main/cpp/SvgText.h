@@ -14,8 +14,8 @@ public:
 
     void OnDraw(OH_Drawing_Canvas *canvas) override;
 
-    template<typename T>
-    void UpdateTextProps(const std::shared_ptr<T> &props) {
+
+    template <typename T> void UpdateTextProps(const std::shared_ptr<T> &props) {
         x_.clear();
         for (auto const &value : props->x) {
             x_.push_back(StringUtils::FromString(value));
@@ -41,6 +41,8 @@ public:
     double fontSize;
 
 protected:
+    void InitGlyph(OH_Drawing_Canvas *canvas);
+
     std::vector<Dimension> x_;
     std::vector<Dimension> y_;
     std::vector<Dimension> dx_;
