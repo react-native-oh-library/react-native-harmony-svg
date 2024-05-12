@@ -3,7 +3,7 @@
 #include <native_drawing/drawing_text_typography.h>
 #include "TypographyStyle.h"
 
-namespace drawing {
+namespace rnoh::drawing {
 
 class Typography {
 

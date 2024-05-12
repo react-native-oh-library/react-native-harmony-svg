@@ -37,7 +37,11 @@ public:
         for (auto const &value : props->rotate) {
             rotate_.push_back(StringUtils::FromString(value));
         }
-        inlineSize_ = StringUtils::FromString(props->inlineSize);
+        if (props->inlineSize.empty()) {
+            inlineSize_.reset();
+        } else {
+            inlineSize_ = StringUtils::FromString(props->inlineSize);
+        }
     }
 
     double fontSize;

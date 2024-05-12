@@ -5,8 +5,9 @@
 #include <native_drawing/drawing_text_typography.h>
 
 #include "TextStyle.h"
+#include "properties/Font.h"
 
-namespace drawing {
+namespace rnoh::drawing {
 
 class TypographyStyle final {
 
@@ -17,11 +18,11 @@ public:
 
     void SetTextStyle(TextStyle textStyle);
 
-    void SetFontSize(double fontSize);
+    void Update(const std::shared_ptr<FontData>& style);
 
 // private:
      UniqueTypographyStyle typographyStyle_;
      std::optional<TextStyle> textStyle_;
 };
 
-} // namespace drawing
+} // namespace rnoh::drawing

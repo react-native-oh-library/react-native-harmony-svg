@@ -26,7 +26,7 @@ void SvgTSpan::OnDraw(OH_Drawing_Canvas *canvas) {
 }
 
 void SvgTSpan::DrawWrappedText(OH_Drawing_Canvas * canvas) {
-    glyphCtx_->pushContext(false, shared_from_this(), {}, x_, y_, dx_, dy_, rotate_);
+    glyphCtx_->pushContext(false, shared_from_this(), x_, y_, dx_, dy_, rotate_);
     UpdateStrokeStyle();
     auto fillOpaque = UpdateFillStyle();
     if (!fillOpaque) {
@@ -35,22 +35,25 @@ void SvgTSpan::DrawWrappedText(OH_Drawing_Canvas * canvas) {
     drawing::TextStyle textStyle;
     textStyle.SetForegroundBrush(fillBrush_);
     textStyle.SetForegroundPen(strokePen_);
-    textStyle.SetFontSize(fontSize);
+    textStyle.Update(font_);
+    LOG(INFO) << "fontSize = " << font_->fontSize;
     drawing::TypographyStyle typographyStyle;
     typographyStyle.SetTextStyle(std::move(textStyle));
+    typographyStyle.Update(font_);
     auto fontCollection = OH_Drawing_CreateFontCollection();
     auto typographyHandler = OH_Drawing_CreateTypographyHandler(typographyStyle.typographyStyle_.get(), fontCollection);
 
     OH_Drawing_TypographyHandlerAddText(typographyHandler, content.c_str());
     auto typography = OH_Drawing_CreateTypography(typographyHandler);
     double maxWidth = inlineSize_.value_or(Infinity<Dimension>()).ConvertToPx(OH_Drawing_CanvasGetWidth(canvas));
+    LOG(INFO) << "TEXT GLYPH maxWidth = " << maxWidth;
     OH_Drawing_TypographyLayout(typography, maxWidth);
     double dx = glyphCtx_->nextX(0) + glyphCtx_->nextDeltaX();
     double dy = glyphCtx_->nextY() + glyphCtx_->nextDeltaY();
     LOG(INFO) << "TEXT GLYPH next X = " << dx << " next dy = " << dy;
     OH_Drawing_TypographyPaint(typography, canvas, dx, dy);
 
-    LOG(INFO) << "TEXT GLYPH current size = " << textSize.ToString();
+//     LOG(INFO) << "TEXT GLYPH current size = " << textSize.ToString();
     OH_Drawing_DestroyTypography(typography);
     OH_Drawing_DestroyTypographyHandler(typographyHandler);
     OH_Drawing_DestroyFontCollection(fontCollection);
