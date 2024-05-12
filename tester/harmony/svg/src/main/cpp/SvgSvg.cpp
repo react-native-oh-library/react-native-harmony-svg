@@ -87,9 +87,9 @@ void SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
                 // the smaller.
                 // Otherwise, if align is not 'none' and meetOrSlice is 'slice', set the smaller of scale-x
                 // and scale-y to the larger.
-                if (!attr_.align.empty() && attr_.meetOrSlice == MOS_MEET) {
+                if (attr_.align != "none" && attr_.meetOrSlice == MOS_MEET) {
                     scaleX = scaleY = std::min(scaleX, scaleY);
-                } else if (!attr_.align.empty() && attr_.meetOrSlice == MOS_SLICE) {
+                } else if (attr_.align != "none" && attr_.meetOrSlice == MOS_SLICE) {
                     scaleX = scaleY = std::max(scaleX, scaleY);
                 }
 

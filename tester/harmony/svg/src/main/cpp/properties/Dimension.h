@@ -102,7 +102,7 @@ public:
 //         }
         if (unit_ == DimensionUnit::PX) {
             // TODO get densityPixels in CAPI
-            return value_ / 3.25010318;
+            return value_ / 3.25;
         }
 //         if (unit_ == DimensionUnit::FP) {
 //             return value_ * pipeline->GetFontScale();
@@ -126,11 +126,11 @@ public:
 //         CHECK_NULL_RETURN(pipeline, 0.0);
         if (unit_ == DimensionUnit::VP) {
             // TODO get densityPixels in CAPI
-            return value_ * 3.25010318;
+            return value_ * 3.25;
         }
         if (unit_ == DimensionUnit::FP) {
 //             return value_ * pipeline->GetDipScale() * pipeline->GetFontScale();
-            return value_ * 3.25010318;
+            return value_ * 3.25;
         }
 //         if (unit_ == DimensionUnit::LPX) {
 //             return value_ * pipeline->GetLogicScale();

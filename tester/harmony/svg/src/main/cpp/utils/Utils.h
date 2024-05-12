@@ -35,7 +35,7 @@ namespace rnoh {
 
 inline double vpToPx(double vp) {
     //TODO get densityPixels in CAPI
-    return vp * 3.25010318;
+    return vp * 3.25;
 }
 
 template<typename T, std::size_t N>
