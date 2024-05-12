@@ -26,32 +26,29 @@ namespace rnoh {
             markerTransform = OH_Drawing_MatrixCreate();
         }
         Point origin = position.origin;
-        OH_Drawing_MatrixTranslate(markerTransform, static_cast<float>(origin.x), static_cast<float>(origin.y));
+        OH_Drawing_MatrixTranslate(markerTransform, origin.x, origin.y);
         double markerAngle = (mOrient == "auto") ? -1 : std::atof(mOrient.c_str());
         float degrees = 180 + (markerAngle == -1 ? position.angle : static_cast<float>(markerAngle));
-        
-        LOG(INFO) << "[SvgMarker] renderMarker markerAngle=" << markerAngle << " degrees=" << degrees << " origin.x=" << origin.x << " origin.y=" << origin.y;
-        OH_Drawing_MatrixPreRotate(markerTransform, degrees, static_cast<float>(origin.x), static_cast<float>(origin.y));
+    
+        OH_Drawing_MatrixPreRotate(markerTransform, degrees, origin.x, origin.y);
 
         if(mMarkerUnits == "strokeWidth"){
-            OH_Drawing_MatrixPreScale(markerTransform, strokeWidth / mScale, strokeWidth / mScale, static_cast<float>(origin.x), static_cast<float>(origin.y));
+            OH_Drawing_MatrixPreScale(markerTransform, strokeWidth / scale_, strokeWidth / scale_, origin.x, origin.y);
         }
-        double width = relativeOnWidth(mMarkerWidth) / mScale;
-        double height = relativeOnHeight(mMarkerHeight) / mScale;
-        Rect eRect(0, 0, static_cast<float>(width), static_cast<float>(height));
-        LOG(INFO) << "[SvgMarker] renderMarker width=" << width << " height=" << height;
+        double width = mMarkerWidth;
+        double height = mMarkerHeight;
+        Rect eRect(0, 0, width, height);
         if(!mAlign.empty()){
-            Rect vbRect(mMinX * mScale, mMinY * mScale, (mMinX + mVbWidth) * mScale, (mMinY + mVbHeight) * mScale);
+            Rect vbRect(mMinX * scale_, mMinY * scale_, (mMinX + mVbWidth) * scale_, (mMinY + mVbHeight) * scale_);
             OH_Drawing_Matrix* viewBoxMatrix = rhon::ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
             float sx = OH_Drawing_MatrixGetValue(viewBoxMatrix, 0);
             float sy = OH_Drawing_MatrixGetValue(viewBoxMatrix, 4);
-            OH_Drawing_MatrixPreScale(markerTransform, sx, sy, static_cast<float>(origin.x), static_cast<float>(origin.y));
+            OH_Drawing_MatrixPreScale(markerTransform, sx, sy, origin.x, origin.y);
         }
     
-        double x = relativeOnWidth(mRefX);
-        double y = relativeOnHeight(mRefY);
-        LOG(INFO) << "[SvgMarker] renderMarker x=" << x << " y=" << y;
-        OH_Drawing_MatrixPreTranslate(markerTransform, static_cast<float>(-x), static_cast<float>(-y));
+        double x = mRefX * scale_;
+        double y = mRefY * scale_;
+        OH_Drawing_MatrixPreTranslate(markerTransform, -x, -y);
         OH_Drawing_CanvasConcatMatrix(canvas, markerTransform);
         
         OnDrawTraversed(canvas);

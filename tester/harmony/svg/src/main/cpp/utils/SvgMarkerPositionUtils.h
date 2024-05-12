@@ -172,6 +172,7 @@ namespace SvgMarkerPositionUtils{
     }
 
     inline std::vector<SvgMarkerPosition> fromPath(const std::vector<PathElement>& elements) {
+        positions_.clear();
         element_index_ = 0;
         origin_ = {0, 0};
         subpath_start_ = {0, 0};
