@@ -13,8 +13,15 @@
 namespace rnoh{
     class SvgSymbol : public SvgGraphic{
     public:
-        SvgSymbol() = default;
+        SvgSymbol() : SvgGraphic() { InitSymbolFlag(); }
         ~SvgSymbol() override = default;
+
+        void InitSymbolFlag() {
+            hrefFill_ = false;
+            hrefRender_ = false;
+            inheritStyle_ = false;
+            drawTraversed_ = false;
+        }
         float mMinX;
         float mMinY;
         float mVbWidth;

@@ -12,8 +12,9 @@
 #include <iostream>
 #include <string>
 #include <cmath>
+#include <glog/logging.h>
 
-namespace rhon{
+namespace rnoh {
 
 class ViewBox {
 private:
@@ -22,16 +23,18 @@ private:
     static const int MOS_NONE = 2;
 
 public:
-    static OH_Drawing_Matrix* getTransform(rnoh::Rect vbRect, rnoh::Rect eRect, std::string align, int meetOrSlice) {
+    static OH_Drawing_Matrix *getTransform(rnoh::Rect vbRect, rnoh::Rect eRect, std::string align, int meetOrSlice) {
         double vbX = vbRect.Left();
         double vbY = vbRect.Top();
         double vbWidth = vbRect.Width();
         double vbHeight = vbRect.Height();
-
+        LOG(INFO) << "[ViewBox] : vbX :" << vbX << " vbY:" << vbY << " vbWidth : " << vbWidth
+                  << " vbHeight : " << vbHeight;
         double eX = eRect.Left();
         double eY = eRect.Top();
         double eWidth = eRect.Width();
         double eHeight = eRect.Height();
+        LOG(INFO) << "[ViewBox] : eX :" << eX << " eY:" << eY << " eWidth : " << eWidth << " eHeight : " << eHeight;
 
         double scaleX = eWidth / vbWidth;
         double scaleY = eHeight / vbHeight;
@@ -50,9 +53,9 @@ public:
                 translateY -= (eHeight - vbHeight * scale) / 2;
             }
         } else {
-            if (!align.compare("none") && meetOrSlice == MOS_MEET) {
+            if ((align.compare("none")) && meetOrSlice == MOS_MEET) {
                 scaleX = scaleY = std::min(scaleX, scaleY);
-            } else if (!align.compare("none") && meetOrSlice == MOS_SLICE) {
+            } else if ((align.compare("none")) && meetOrSlice == MOS_SLICE) {
                 scaleX = scaleY = std::max(scaleX, scaleY);
             }
 
@@ -72,13 +75,15 @@ public:
                 translateY += (eHeight - vbHeight * scaleY);
             }
         }
-        
-        OH_Drawing_Matrix* transform = OH_Drawing_MatrixCreate();
+        LOG(INFO) << "[ViewBox] :translateX :" << translateX << " translateY:" << translateY << " scaleX : " << scaleX
+                  << " mVbHeight : " << scaleY << " scaleY : "
+                  << " align: " << align << " meetOrSlice: " << meetOrSlice;
+        OH_Drawing_Matrix *transform = OH_Drawing_MatrixCreate();
         OH_Drawing_MatrixPostTranslate(transform, static_cast<float>(translateX), static_cast<float>(translateY));
         OH_Drawing_MatrixPreScale(transform, static_cast<float>(scaleX), static_cast<float>(scaleY), 0, 0);
         return transform;
     }
 };
 
-}
-#endif //HARMONY_VIEWBOX_H
+} // namespace rhon
+#endif // HARMONY_VIEWBOX_H
