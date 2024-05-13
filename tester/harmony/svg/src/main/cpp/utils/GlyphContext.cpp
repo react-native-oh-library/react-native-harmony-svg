@@ -1,5 +1,5 @@
 #include "GlyphContext.h"
-namespace rnoh {
+ namespace rnoh {
 
 void GlyphContext::pushContext(bool reset, const std::shared_ptr<SvgNode>& node, DimensionArray x, DimensionArray y,
                                DimensionArray deltaX, DimensionArray deltaY, DimensionArray rotate) {
@@ -145,11 +145,16 @@ double GlyphContext::nextDeltaY() {
 
     return mDY;
 }
+
 double GlyphContext::nextRotation() {
     incrementIndices(mRIndices, mRsIndex);
 
     mRIndex = std::min(mRIndex + 1, static_cast<int>(mRs.size()) - 1);
 
+    if (mRIndex < 0) {
+        // LOG(INF0) << "ROTATION IS NULL";
+        return 0.0;
+    }
     return mRs[mRIndex];
 }
 double GlyphContext::nextY() {
