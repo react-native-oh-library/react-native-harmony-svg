@@ -20,6 +20,8 @@ void RNSVGImageComponentInstance::onPropsChanged(SharedConcreteProps const &prop
     svgImage->height = std::stof(props->height);
     svgImage->opacity = props->opacity;
     svgImage->src = props->src;
+    svgImage->align = props->align;
+    svgImage->meetOrSlice = props->meetOrSlice;
 }
 
 SvgArkUINode &RNSVGImageComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }

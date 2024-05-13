@@ -11,9 +11,9 @@
 
 #include <string>
 #include "SvgGraphic.h"
-#include <rawfile/raw_file.h>
-#include <rawfile/raw_file_manager.h>
-#include <native_drawing/drawing_point.h>
+// #include <rawfile/raw_file.h>
+// #include <rawfile/raw_file_manager.h>
+// #include <native_drawing/drawing_point.h>
 #include <native_drawing/drawing_image.h>
 #include <native_drawing/drawing_rect.h>
 #include <native_drawing/drawing_pixel_map.h>
@@ -34,7 +34,8 @@ public:
     float width;
     float height;
     float opacity;
-//     std::string preserveAspectRatio;
+    std::string align;
+    int meetOrSlice;
     facebook::react::ImageSource src;
     void OnDraw(OH_Drawing_Canvas *canvas) override;
 //     OH_Drawing_Path *AsPath() override;
