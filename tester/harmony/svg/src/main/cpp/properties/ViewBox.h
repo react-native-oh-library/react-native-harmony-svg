@@ -28,13 +28,10 @@ public:
         double vbY = vbRect.Top();
         double vbWidth = vbRect.Width();
         double vbHeight = vbRect.Height();
-        LOG(INFO) << "[ViewBox] : vbX :" << vbX << " vbY:" << vbY << " vbWidth : " << vbWidth
-                  << " vbHeight : " << vbHeight;
         double eX = eRect.Left();
         double eY = eRect.Top();
         double eWidth = eRect.Width();
         double eHeight = eRect.Height();
-        LOG(INFO) << "[ViewBox] : eX :" << eX << " eY:" << eY << " eWidth : " << eWidth << " eHeight : " << eHeight;
 
         double scaleX = eWidth / vbWidth;
         double scaleY = eHeight / vbHeight;
@@ -75,9 +72,6 @@ public:
                 translateY += (eHeight - vbHeight * scaleY);
             }
         }
-        LOG(INFO) << "[ViewBox] :translateX :" << translateX << " translateY:" << translateY << " scaleX : " << scaleX
-                  << " mVbHeight : " << scaleY << " scaleY : "
-                  << " align: " << align << " meetOrSlice: " << meetOrSlice;
         OH_Drawing_Matrix *transform = OH_Drawing_MatrixCreate();
         OH_Drawing_MatrixPostTranslate(transform, static_cast<float>(translateX), static_cast<float>(translateY));
         OH_Drawing_MatrixPreScale(transform, static_cast<float>(scaleX), static_cast<float>(scaleY), 0, 0);
@@ -85,5 +79,5 @@ public:
     }
 };
 
-} // namespace rhon
+} // namespace rnoh
 #endif // HARMONY_VIEWBOX_H

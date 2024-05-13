@@ -22,12 +22,12 @@ public:
         inheritStyle_ = false;
         drawTraversed_ = false;
     }
-    float mMinX;
-    float mMinY;
-    float mVbWidth;
-    float mVbHeight;
+    float mMinX = 0.0f;
+    float mMinY = 0.0f;
+    float mVbWidth = 0.0f;
+    float mVbHeight = 0.0f;
     std::string mAlign;
-    int mMeetOrSlice;
+    int mMeetOrSlice = -1;
     void InitDefsFlag();
     void drawSymbol(OH_Drawing_Canvas *canvas, float width, float height);
 };
