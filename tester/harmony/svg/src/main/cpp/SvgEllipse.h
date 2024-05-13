@@ -6,8 +6,6 @@
 // please include "napi/native_api.h".
 
 #include "SvgGraphic.h"
-#include <native_drawing/drawing_point.h>
-#include <native_drawing/drawing_types.h>
 
 namespace rnoh {
 
