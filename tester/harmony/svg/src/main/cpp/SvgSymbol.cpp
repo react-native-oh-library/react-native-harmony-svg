@@ -1,6 +1,6 @@
 #include "SvgSymbol.h"
 
-namespace rnoh{
+namespace rnoh {
 
 void SvgSymbol::drawSymbol(OH_Drawing_Canvas *canvas, float width, float height) {
     LOG(INFO) << "[SvgSymbol::SvgSymbol] : ------drawSymbol mMinX :" << mMinX << " mMinY:" << mMinY
@@ -11,10 +11,10 @@ void SvgSymbol::drawSymbol(OH_Drawing_Canvas *canvas, float width, float height)
     if (!mAlign.empty()) {
         LOG(INFO) << "[SvgSymbol::SvgSymbol] : drawSymbol start";
         Rect vbRect(mMinX * scale_, mMinY * scale_, (mMinX + mVbWidth) * scale_, (mMinY + mVbHeight) * scale_);
-        Rect eRect(0, 0, width/scale_, height/scale_);
+        Rect eRect(0, 0, width / scale_, height / scale_);
         OH_Drawing_Matrix *viewBoxMatrix = rnoh::ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
         OH_Drawing_CanvasConcatMatrix(canvas, viewBoxMatrix);
         Draw(canvas);
     }
 }
-}
+} // namespace rnoh
