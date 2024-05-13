@@ -206,7 +206,7 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
         attributes_.strokeState.SetMiterLimit(limit, set.count("strokeMiterlimit"));
     }
     attributes_.strokeState.SetOpacity(std::clamp(props->strokeOpacity, 0.0, 1.0), set.count("strokeOpacity"));
-    attributes_.clipState.SetClipRule(static_cast<ClipState::ClipRule>(props->clipRule), set.count("clipRule"));
+    attributes_.clipState.SetClipRule(static_cast<ClipState::ClipRule>(props->clipRule), true);
 }
 
 Rect SvgNode::AsBounds() {
