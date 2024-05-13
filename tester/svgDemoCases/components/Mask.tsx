@@ -6,6 +6,7 @@ import {
   Path,
   Rect,
   Mask,
+  RNSVGMask,
   Polygon,
   Defs,
   LinearGradient,
@@ -19,7 +20,6 @@ const styles = StyleSheet.create({
     height: 300,
     width: 200,
     marginBottom: 10,
-
   },
   svg: {
     flex: 1,
@@ -101,7 +101,7 @@ class MaskWithText extends Component {
               <Stop offset="0%" stopColor="#ffffff" stopOpacity={1} />
               <Stop offset="100%" stopColor="#000000" stopOpacity={1} />
             </LinearGradient>
-            <Mask id="mask4" x={0} y={0} width={200} height={100}>
+            <Mask id="mask4" x={0} y={0} width={300} height={100}>
               <Rect
                 x={0}
                 y={0}
@@ -113,12 +113,12 @@ class MaskWithText extends Component {
             </Mask>
           </Defs>
           <Text x={10} y={55} stroke="none" fill="#000000">
-            {'This text is under the rectangle'}
+            {'Under the rectangle'}
           </Text>
           <Rect
             x={1}
             y={1}
-            width={200}
+            width={300}
             height={100}
             stroke="none"
             fill="#0000ff"
@@ -145,9 +145,128 @@ const icon = (
   </Svg>
 );
 
-const samples = [SimpleMask, AnotherMask, MaskWithText];
+class SimpleRNSVGMask extends Component {
+  static title = 'Simple svg with SimpleRNSVGMask';
+  render() {
+    return (
+      <View style={styles.container}>
+        <Svg viewBox="-10 -10 120 120">
+          <Rect x={-10} y={-10} width={120} height={120} fill="blue" />
+          <RNSVGMask name="myMask" maskUnits="objectBoundingBox" maskContentUnits="userSpaceOnUse">
+            <Rect x={0} y={0} width={100} height={100} fill="white" />
+            <Path
+              d="M10,35 A20,20,0,0,1,50,35 A20,20,0,0,1,90,35 Q90,65,50,95 Q10,65,10,35 Z"
+              fill="black"
+            />
+          </RNSVGMask>
+          <Polygon points="-10,110 110,110 110,-10" fill="orange" />
+          <Circle cx={50} cy={50} r={50} fill="purple" mask="url(#myMask)" />
+        </Svg>
+      </View>
+    );
+  }
+}
 
-export { icon, samples };
+class AnotherRNSVGMask extends Component {
+  static title = 'Another svg with mask';
+  render() {
+    return (
+      <View style={styles.container}>
+        <Svg width={500} height={120}>
+          <Defs>
+            <RNSVGMask name="mask1" x={0} y={0} width={100} height={100}>
+              <Rect
+                x={0}
+                y={0}
+                width={100}
+                height={50}
+                stroke="none"
+                fill="#ffffff"
+              />
+            </RNSVGMask>
+          </Defs>
+          <Rect
+            x={1}
+            y={1}
+            width={100}
+            height={100}
+            stroke="none"
+            fill="#0000ff"
+            mask="url(#mask1)"
+          />
+          <Rect
+            x={1}
+            y={1}
+            width={100}
+            height={100}
+            stroke="#000000"
+            fill="none"
+          />
+        </Svg>
+      </View>
+    );
+  }
+}
+
+class RNSVGMaskWithText extends Component {
+  static title = 'Svg with with text and a RNSVGMask with gradient';
+  render() {
+    return (
+      <View style={styles.container}>
+        <Svg width={500} height={120}>
+          <Defs>
+            <LinearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <Stop offset="0%" stopColor="#ffffff" stopOpacity={1} />
+              <Stop offset="100%" stopColor="#000000" stopOpacity={1} />
+            </LinearGradient>
+            <RNSVGMask name="mask4" x={0} y={0} width={300} height={100}>
+              <Rect
+                x={0}
+                y={0}
+                width={200}
+                height={100}
+                stroke="none"
+                fill="url(#gradient1)"
+              />
+            </RNSVGMask>
+          </Defs>
+          <Text x={10} y={55} stroke="none" fill="#000000">
+            {'Under the rectangle'}
+          </Text>
+          <Rect
+            x={1}
+            y={1}
+            width={300}
+            height={100}
+            stroke="none"
+            fill="#0000ff"
+            mask="url(#mask4)"
+          />
+        </Svg>
+      </View>
+    );
+  }
+}
+
+const iconRNSVGMask = (
+  <Svg width="30" height="30" viewBox="-10 -10 120 120">
+    <Rect x={-10} y={-10} width={120} height={120} fill="blue" />
+    <RNSVGMask name="myMask">
+      <Rect x={0} y={0} width={100} height={100} fill="white" />
+      <Path
+        d="M10,35 A20,20,0,0,1,50,35 A20,20,0,0,1,90,35 Q90,65,50,95 Q10,65,10,35 Z"
+        fill="black"
+      />
+    </RNSVGMask>
+    <Polygon points="-10,110 110,110 110,-10" fill="orange" />
+    <Circle cx={50} cy={50} r={50} fill="purple" mask="url(#myMask)" />
+  </Svg>
+);
+
+
+const samples = [SimpleMask, AnotherMask, MaskWithText, SimpleRNSVGMask, AnotherRNSVGMask, RNSVGMaskWithText, iconRNSVGMask];
+
+export { icon, iconRNSVGMask, samples };
 
 export default function () {
   return (
@@ -156,26 +275,30 @@ export default function () {
       flexDirection: 'column'
     }}>
       <ScrollView>
-        <TestCase
-          itShould="SimpleMask"
-        >
+        <TestCase itShould="SimpleMask">
           <SimpleMask />
         </TestCase>
-
-        <TestCase
-          itShould="IconMask"
-        >
+        <TestCase itShould="IconMask">
           {icon}
         </TestCase>
-        {/* <TestCase
-          itShould="MaskWithText"
-        >
+        <TestCase itShould="MaskWithText">
           <MaskWithText />
-        </TestCase> */}
-        <TestCase
-          itShould="AnotherMask"
-        >
+        </TestCase>
+        <TestCase itShould="AnotherMask">
           <AnotherMask />
+        </TestCase>
+
+        <TestCase itShould="SimpleRNSVGMask">
+          <SimpleRNSVGMask />
+        </TestCase>
+        <TestCase itShould="IconRNSVGMask">
+          {iconRNSVGMask}
+        </TestCase>
+        <TestCase itShould="RNSVGMaskWithText">
+          <RNSVGMaskWithText />
+        </TestCase>
+        <TestCase itShould="AnotherRNSVGMask">
+          <AnotherRNSVGMask />
         </TestCase>
       </ScrollView>
     </Tester>
