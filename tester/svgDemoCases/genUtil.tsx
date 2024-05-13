@@ -255,7 +255,7 @@ export function genTouchableProps(name: string, { disabled = false } = {}) {
     }
 }
 
-export function genAccessibilityProps() {
+export function genAccessibilityProps(): CaseParams[] {
     return [
         {
             key: 'testID',
@@ -264,6 +264,14 @@ export function genAccessibilityProps() {
         {
             key: 'accessible',
             values: ['true', 'false']
+        },
+        {
+            key: 'accessibilityLabel',
+            values: ['video', 'music', 'news'],
+            othersProps: {
+                accessible: 'true'
+            },
+            showOtherProps: true
         },
     ]
 }
