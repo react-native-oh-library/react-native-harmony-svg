@@ -40,7 +40,7 @@ namespace rnoh {
         Rect eRect(0, 0, width, height);
         if(!mAlign.empty()){
             Rect vbRect(mMinX * scale_, mMinY * scale_, (mMinX + mVbWidth) * scale_, (mMinY + mVbHeight) * scale_);
-            OH_Drawing_Matrix* viewBoxMatrix = rhon::ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
+            OH_Drawing_Matrix* viewBoxMatrix = rnoh::ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
             float sx = OH_Drawing_MatrixGetValue(viewBoxMatrix, 0);
             float sy = OH_Drawing_MatrixGetValue(viewBoxMatrix, 4);
             OH_Drawing_MatrixPreScale(markerTransform, sx, sy, origin.x, origin.y);

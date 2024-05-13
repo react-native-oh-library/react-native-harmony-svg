@@ -9,23 +9,116 @@ export default function () {
         <Tester style={{ flex: 1 }}>
             <ScrollView>
                 <TestCase
-                    itShould="case 1 desc"
+                    itShould="case 1 Use href=#sym01 x=0 y=0 width=100 height=50"
                 >
                     <View
                         style={{
                             borderWidth: 1,
-                            width: 200,
-                            height: 300
+                            width: 100,
+                            height: 50
                         }}
                     >
                         <Svg>
                             <Symbol id="sym01" viewBox="0 0 100 110">
-                                <Circle cx="80" cy="50" r="40" strokeWidth="8" stroke="green" fill="red" />
-                                <Circle cx="130" cy="60" r="40" strokeWidth="8" stroke="green" fill="white" />
+                                <Circle cx="150" cy="120" r="100" strokeWidth="8" stroke="green" fill="red" />
+                                <Circle cx="200" cy="150" r="100" strokeWidth="8" stroke="green" fill="white" />
                             </Symbol>
                             <Use href="#sym01" x="0" y="0" width="100" height="50" />
-                            <Use href="#sym01" x="0" y="50" width="75" height="38" />
-                            <Use href="#sym01" x="0" y="100" width="50" height="25" />
+                        </Svg>
+                    </View>
+                </TestCase>
+                <TestCase
+                    itShould="case 2 Use href=#sym01 x=0 y=0 width=75 height=38"
+                >
+                    <View
+                        style={{
+                            borderWidth: 1,
+                            width: 100,
+                            height: 50
+                        }}
+                    >
+                        <Svg>
+                            <Symbol id="sym01" viewBox="0 0 100 110">
+                                <Circle cx="150" cy="120" r="100" strokeWidth="8" stroke="green" fill="red" />
+                                <Circle cx="200" cy="150" r="100" strokeWidth="8" stroke="green" fill="white" />
+                            </Symbol>
+                            <Use href="#sym01" x="0" y="0" width="75" height="38" />
+                        </Svg>
+                    </View>
+                </TestCase>
+                <TestCase
+                    itShould="case 3 Use href=#sym01 x=0 y=0 width=50 height=25"
+                >
+                    <View
+                        style={{
+                            borderWidth: 1,
+                            width: 100,
+                            height: 50
+                        }}
+                    >
+                        <Svg>
+                            <Symbol id="sym01" viewBox="0 0 100 110">
+                                <Circle cx="150" cy="120" r="100" strokeWidth="8" stroke="green" fill="red" />
+                                <Circle cx="200" cy="150" r="100" strokeWidth="8" stroke="green" fill="white" />
+                            </Symbol>
+                            <Use href="#sym01" x="0" y="0" width="50" height="25" />
+                        </Svg>
+                    </View>
+                </TestCase>
+                <TestCase
+                    itShould="case 4 viewBox=0 0 200 220"
+                >
+                    <View
+                        style={{
+                            borderWidth: 1,
+                            width: 100,
+                            height: 50
+                        }}
+                    >
+                        <Svg>
+                            <Symbol id="sym01" viewBox="0 0 200 220">
+                                <Circle cx="150" cy="120" r="100" strokeWidth="8" stroke="green" fill="red" />
+                                <Circle cx="200" cy="150" r="100" strokeWidth="8" stroke="green" fill="white" />
+                            </Symbol>
+                            <Use href="#sym01" x="0" y="0" width="100" height="50" />
+                        </Svg>
+                    </View>
+                </TestCase>
+                <TestCase
+                    itShould="case 5 viewBox=0 0 150 160"
+                >
+                    <View
+                        style={{
+                            borderWidth: 1,
+                            width: 100,
+                            height: 50
+                        }}
+                    >
+                        <Svg>
+                            <Symbol id="sym01" viewBox="0 0 150 160">
+                                <Circle cx="150" cy="120" r="100" strokeWidth="8" stroke="green" fill="red" />
+                                <Circle cx="200" cy="150" r="100" strokeWidth="8" stroke="green" fill="white" />
+                            </Symbol>
+                            <Use href="#sym01" x="0" y="0" width="100" height="50" />
+                        </Svg>
+                    </View>
+                </TestCase>
+                <TestCase
+                    itShould="case 6 viewBox=0 0 80 90"
+                >
+                    <View
+                        style={{
+                            borderWidth: 1,
+                            width: 100,
+                            height: 50
+                        }}
+                    >
+                        <Svg>
+                            <Symbol id="sym01" viewBox="0 0 80 90">
+                                <Circle cx="150" cy="120" r="100" strokeWidth="8" stroke="green" fill="red" />
+                                <Circle cx="200" cy="150" r="100" strokeWidth="8" stroke="green" fill="white" />
+                            </Symbol>
+                            <Use href="#sym01" x="0" y="0" width="100" height="50" />
                         </Svg>
                     </View>
                 </TestCase>
