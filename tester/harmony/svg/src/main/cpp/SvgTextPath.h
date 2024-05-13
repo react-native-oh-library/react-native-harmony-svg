@@ -1,45 +1,47 @@
 #pragma once
-#include <cmath>
+
 #include "SvgGraphic.h"
 #include "SvgText.h"
 #include <native_drawing/drawing_text_typography.h>
-#include "SvgTextPath.h"
 #include "utils/GlyphContext.h"
+#include "properties/Font.h"
 
 namespace rnoh {
 
-constexpr double tau = 2.0 * M_PI;
-constexpr double radToDeg = 360.0 / tau;
-
-class SvgTSpan : public SvgGraphic, public SvgText {
+class SvgTextPath : public SvgGraphic, public SvgText {
 public:
-    SvgTSpan() {
+    SvgTextPath() {
         hrefFill_ = true;
         hrefRender_ = true;
         passStyle_ = true;
         inheritStyle_ = true;
         drawTraversed_ = true;
     }
-    ~SvgTSpan() override = default;
+    ~SvgTextPath() override = default;
 
     void OnDraw(OH_Drawing_Canvas *canvas) override;
 
     void SetParent(std::shared_ptr<SvgNode> parent) { parent_ = parent; }
     void SetContext(std::shared_ptr<GlyphContext> context) { glyphCtx_ = context; }
+
+    OH_Drawing_Path *getTextPath() {
+        //TODO getTextPath
+        return OH_Drawing_PathCreate(); 
+    }
     
-    double getTextAnchorOffset(TextAnchor textAnchor, const double &textMeasure);
+    TextPathMidLine getMidLine() { return midLine_;}
     
-    void getLinePath(std::string line, OH_Drawing_Canvas *canvas);
-    
-    std::string content;
+    TextPathSide getSide() { return side_; }
+
+    double getStartOffset() { return startOffset_; }
 
 private:
-    void DrawText(OH_Drawing_Canvas* canvas);
-    void DrawWrappedText(OH_Drawing_Canvas* canvas);
-
     std::shared_ptr<SvgNode> parent_;
-    std::shared_ptr<SvgTextPath> textPath_;
-    
+    TextPathSide side_;
+    TextPathMidLine midLine_;
+    TextPathMethod method_{TextPathMethod::align};
+    TextPathSpacing spacing_{TextPathSpacing::Exact};
+    double startOffset_;
 };
 
 } // namespace rnoh

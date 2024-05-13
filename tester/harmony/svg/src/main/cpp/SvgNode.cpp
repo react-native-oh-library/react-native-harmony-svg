@@ -54,7 +54,7 @@ void SvgNode::OnDrawTraversed(OH_Drawing_Canvas *canvas) {
 
 const Rect &SvgNode::GetRootViewBox() const {
     if (!context_) {
-//         LOGE("Gradient failed, svgContext is null");
+        //         LOGE("Gradient failed, svgContext is null");
         static Rect empty;
         return empty;
     }
@@ -100,7 +100,8 @@ void SvgNode::OnTransform(OH_Drawing_Canvas *canvas) {
     const auto &transform = attributes_.transform;
     auto *matrix = OH_Drawing_MatrixCreate();
     /*
-    /* (OH_Drawing_Matrix* , float scaleX, float skewX, float transX, float skewY, float scaleY, float transY, float persp0, float persp1, float persp2 )
+    /* (OH_Drawing_Matrix* , float scaleX, float skewX, float transX, float skewY, float scaleY, float transY, float
+    persp0, float persp1, float persp2 )
     */
     OH_Drawing_MatrixSetMatrix(matrix, transform[0], transform[2], transform[4] * scale_, transform[1], transform[3],
                                transform[5] * scale_, 0, 0, 1.0);
@@ -108,39 +109,7 @@ void SvgNode::OnTransform(OH_Drawing_Canvas *canvas) {
     OH_Drawing_MatrixDestroy(matrix);
 }
 
-double SvgNode::ConvertDimensionToPx(const Dimension &value, const Size &viewPort, SvgLengthType type) const {
-    switch (value.Unit()) {
-    case DimensionUnit::PERCENT: {
-        if (type == SvgLengthType::HORIZONTAL) {
-            return value.Value() * viewPort.Width();
-        }
-        if (type == SvgLengthType::VERTICAL) {
-            return value.Value() * viewPort.Height();
-        }
-        if (type == SvgLengthType::OTHER) {
-            return value.Value() * sqrt(viewPort.Width() * viewPort.Height());
-        }
-        return 0.0;
-    }
-    case DimensionUnit::PX:
-        return value.Value();
-    case DimensionUnit::VP:
-        return vpToPx(value.Value());
-    default:
-        return vpToPx(value.Value());
-    }
-}
-
-double SvgNode::ConvertDimensionToPx(const Dimension& value, double baseValue) const
-{
-    if (value.Unit() == DimensionUnit::PERCENT) {
-        return value.Value() * baseValue;
-    }
-    return vpToPx(value.Value());
-}
-
-std::optional<Gradient> SvgNode::GetGradient(const std::string& href)
-{
+std::optional<Gradient> SvgNode::GetGradient(const std::string &href) {
     if (!context_) {
         LOG(INFO) << "NO CONTEXT";
         return std::nullopt;
@@ -202,17 +171,29 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
     }
 
     std::unordered_set<std::string> set;
-    for (const auto& prop : props->propList) {
+    for (const auto &prop : props->propList) {
         set.insert(prop);
     }
-    attributes_.fillState.SetColor(Color((uint32_t)*props->fill.payload), set.count("fill"));
+    if (props->fill.type == 2) {
+        Color color = Color((uint32_t)*props->fill.payload);
+        color.SetUseCurrentColor(true);
+        attributes_.fillState.SetColor(color, true);
+    } else {
+        attributes_.fillState.SetColor(Color((uint32_t)*props->fill.payload), set.count("fill"));
+    }
+    if (props->stroke.type == 2) {
+        Color color = Color((uint32_t)*props->stroke.payload);
+        color.SetUseCurrentColor(true);
+        attributes_.strokeState.SetColor(color, true);
+    } else {
+        attributes_.strokeState.SetColor(Color((uint32_t)*props->stroke.payload), set.count("stroke"));
+    }
     attributes_.fillState.SetOpacity(std::clamp(props->fillOpacity, 0.0, 1.0), set.count("fillOpacity"));
     // todo Inheritance situation
     attributes_.fillState.SetFillRule(static_cast<FillState::FillRule>(props->fillRule), true);
     attributes_.fillState.SetHref(props->fill.brushRef);
-
-    attributes_.strokeState.SetColor(Color((uint32_t)*props->stroke.payload), set.count("stroke"));
-    attributes_.strokeState.SetLineWidth(vpToPx(StringUtils::StringToDouble(props->strokeWidth)), set.count("strokeWidth"));
+    attributes_.strokeState.SetLineWidth(vpToPx(StringUtils::StringToDouble(props->strokeWidth)),
+                                         set.count("strokeWidth"));
     attributes_.strokeState.SetStrokeDashArray(StringUtils::stringVectorToDoubleVector(props->strokeDasharray),
                                                set.count("strokeDasharray"));
     attributes_.strokeState.SetStrokeDashOffset(vpToPx(props->strokeDashoffset), set.count("strokeDashoffset"));
@@ -232,9 +213,9 @@ Rect SvgNode::AsBounds() {
     auto path = AsPath();
     auto ohRect = OH_Drawing_RectCreate(0, 0, 0, 0);
     OH_Drawing_PathGetBounds(path, ohRect);
-    float  x = OH_Drawing_RectGetLeft (ohRect);
+    float x = OH_Drawing_RectGetLeft(ohRect);
     float y = OH_Drawing_RectGetTop(ohRect);
-    float width = OH_Drawing_RectGetWidth (ohRect);
+    float width = OH_Drawing_RectGetWidth(ohRect);
     float height = OH_Drawing_RectGetHeight(ohRect);
     auto rect = Rect(x, y, width, height);
     return rect;

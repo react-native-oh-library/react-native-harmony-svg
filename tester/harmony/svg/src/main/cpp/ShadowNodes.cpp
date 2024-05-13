@@ -34,6 +34,7 @@ extern const char RNSVGTextComponentName[] = "RNSVGText";
 extern const char RNSVGTextPathComponentName[] = "RNSVGTextPath";
 extern const char RNSVGTSpanComponentName[] = "RNSVGTSpan";
 extern const char RNSVGUseComponentName[] = "RNSVGUse";
+extern const char RNSVGImageComponentName[] = "RNSVGImage";
 
 } // namespace react
 } // namespace facebook

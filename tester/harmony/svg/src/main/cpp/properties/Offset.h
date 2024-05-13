@@ -79,6 +79,16 @@ public:
         deltaY_ = y;
     }
 
+    void AddX(double x)
+    {
+        deltaX_ += x;
+    }
+
+    void AddY(double y)
+    {
+        deltaY_ += y;
+    }
+
     double GetDistance() const
     {
         return std::sqrt((deltaX_ * deltaX_) + (deltaY_ * deltaY_));

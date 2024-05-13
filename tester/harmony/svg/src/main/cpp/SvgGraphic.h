@@ -17,7 +17,7 @@
 
 namespace rnoh {
 
-class SvgGraphic : public SvgNode {
+class SvgGraphic : virtual public SvgNode {
 public:
     SvgGraphic() : SvgNode() {
         fillBrush_ = OH_Drawing_BrushCreate();
@@ -106,5 +106,6 @@ private:
     void DrawMarker(OH_Drawing_Canvas *canvas);
     // TODO void UpdateColorFilter(OH_Drawing_Filter *filter);
 };
+
 
 } // namespace rnoh

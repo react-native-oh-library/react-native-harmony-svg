@@ -12,6 +12,7 @@ const basicProps = {
 const basicCases: CaseParams[] = [
     {
         type: 'mulKey',
+        id: 'circle1',
         values: [
             {
                 cx: 30,

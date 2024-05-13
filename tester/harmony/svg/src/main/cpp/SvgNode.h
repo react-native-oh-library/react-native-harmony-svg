@@ -14,12 +14,6 @@
 
 namespace rnoh {
 
-enum class SvgLengthType {
-    HORIZONTAL,
-    VERTICAL,
-    OTHER,
-};
-
 class SvgNode : public std::enable_shared_from_this<SvgNode> {
 public:
     SvgNode() = default;
@@ -55,7 +49,16 @@ public:
 
     Rect AsBounds();
 
-    void InheritAttr(const SvgBaseAttribute &parent) { attributes_.Inherit(parent); }
+    void InheritAttr(const SvgBaseAttribute &parent) { 
+        attributes_.Inherit(parent);
+        // svg color -> current color
+        if (attributes_.strokeState.GetColor().IsUseCurrentColor()) {
+            attributes_.strokeState.SetColor(context_->GetSvgColor(), true);
+        }
+        if (attributes_.fillState.GetColor().IsUseCurrentColor()) {
+            attributes_.fillState.SetColor(context_->GetSvgColor(), true);
+        }
+    }
 
     void InheritUseAttr(const SvgBaseAttribute &parent) { attributes_.InheritFromUse(parent); }
 
@@ -77,8 +80,6 @@ protected:
     void SetSmoothEdge(float edge) { attributes_.smoothEdge = edge; }
     float GetSmoothEdge() const { return attributes_.smoothEdge; }
 
-    double ConvertDimensionToPx(const Dimension &value, const Size &viewPort, SvgLengthType type) const;
-    double ConvertDimensionToPx(const Dimension& value, double baseValue) const;
     std::optional<Gradient> GetGradient(const std::string& href);
 
     void InitNoneFlag()
@@ -91,6 +92,7 @@ protected:
     }
 
     SvgBaseAttribute attributes_;
+  
     std::shared_ptr<SvgContext> context_;
 
     std::vector<std::shared_ptr<SvgNode>> children_;
@@ -98,7 +100,7 @@ protected:
     std::string hrefClipPath_;
     std::string imagePath_;
     // TODO get densityPixels in CAPI
-    double scale_ = 3.25010318;
+    double scale_ = 3.25;
 
     bool hrefFill_ = true;      // get fill attributes from reference
     bool hrefRender_ = true;    // get render attr (mask, filter, transform, opacity,

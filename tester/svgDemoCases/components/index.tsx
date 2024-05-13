@@ -24,6 +24,8 @@ import Use from './Use';
 import Svg from './Svg'
 import ClipPath from './clipPath';
 import Image from './Image';
+import Combination from './Combination';
+import ComplexDemo from './complexDemo';
 export default {
     Circle,
     Defs,
@@ -50,5 +52,7 @@ export default {
     Svg,
     Xml,
     ClipPath,
-    Image
+    Image,
+    Combination,
+    ComplexDemo
 }

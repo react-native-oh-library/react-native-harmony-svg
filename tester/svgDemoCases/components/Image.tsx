@@ -12,6 +12,7 @@ const basicProps = {
 const basicCases: CaseParams[] = [
     {
         type: 'mulKey',
+        id: 'image1',
         values: [
             {
                 width: 80,

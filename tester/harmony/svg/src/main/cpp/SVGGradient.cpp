@@ -15,6 +15,7 @@
 
 #include "SVGGradient.h"
 #include <native_drawing/drawing_shader_effect.h>
+#include "properties/Decoration.h"
 
 namespace rnoh {
 
@@ -85,7 +86,11 @@ void SvgGradient::SetAttrGradient(std::vector<Float> gradient) {
 }
 
 void SvgGradient::SetAttrGradientUnits(int gradientUnits) {
-    gradientAttr_.gradient.SetGradientUnits(gradientUnits);
+    auto unit = static_cast<Unit>(gradientUnits);
+    if (unit < Unit::objectBoundingBox || unit > Unit::userSpaceOnUse) {
+        unit = Unit::objectBoundingBox;
+    }
+    gradientAttr_.gradient.SetGradientUnits(ToUnit(gradientUnits));
 }
 
 void SvgGradient::SetAttrGradientTransforms(std::vector<Float> gradientTransforms) {

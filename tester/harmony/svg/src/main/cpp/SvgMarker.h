@@ -9,7 +9,6 @@
 
 #include "SvgQuote.h"
 #include "properties/Dimension.h"
-#include "properties/Size.h"
 #include "utils/SvgMarkerPositionUtils.h"
 #include "Props.h"
 #include <iostream>
@@ -27,19 +26,17 @@ public:
     SvgMarker() = default;
     ~SvgMarker() override = default;
 
-    Size size;
+    void setRefX(Dimension refX) { mRefX = refX.ConvertToPx(); }
 
-    void setRefX(Dimension refX) { mRefX = ConvertDimensionToPx(refX, size, SvgLengthType::HORIZONTAL); }
-
-    void setRefY(Dimension refY) { mRefY = ConvertDimensionToPx(refY, size, SvgLengthType::VERTICAL); }
+    void setRefY(Dimension refY) { mRefY = refY.ConvertToPx(); }
 
     void setMarkerWidth(Dimension markerWidth) {
-        mMarkerWidth = ConvertDimensionToPx(markerWidth, size, SvgLengthType::HORIZONTAL);
+        mMarkerWidth = markerWidth.ConvertToPx();
         LOG(INFO) << "[SvgMarker] setMarkerWidth mMarkerWidth=" << mMarkerWidth;
     }
 
     void setMarkerHeight(Dimension markerHeight) {
-        mMarkerHeight = ConvertDimensionToPx(markerHeight, size, SvgLengthType::VERTICAL);
+        mMarkerHeight = markerHeight.ConvertToPx();
     }
 
     void setMarkerUnits(std::string markerUnits) { mMarkerUnits = markerUnits; }
@@ -59,26 +56,6 @@ public:
     void setMeetOrSlice(int meetOrSlice) { mMeetOrSlice = meetOrSlice; }
 
     void renderMarker(OH_Drawing_Canvas *canvas, const SvgMarkerPosition &position, float strokeWidth);
-
-    // todo VirtualView.saveDefinition and Override
-    void saveDefinition() {
-        //         if (mName != null) {
-        //           SvgView svg = getSvgView();
-        //           svg.defineMarker(this, mName);
-        //           for (int i = 0; i < getChildCount(); i++) {
-        //             View node = getChildAt(i);
-        //             if (node instanceof VirtualView) {
-        //               ((VirtualView) node).saveDefinition();
-        //             }
-        //           }
-        //         }
-    }
-
-    // todo VirtualView.relativeOnWidth
-    double relativeOnWidth(double markerWidth) { return markerWidth; }
-
-    // todo VirtualView.relativeOnHeight
-    double relativeOnHeight(double markerHeight) { return markerHeight; }
 
     /**
      * from VirtualView.saveAndSetupCanvas
@@ -114,9 +91,7 @@ private:
     float mVbHeight;
     std::string mAlign;
     int mMeetOrSlice;
-    int mScale = 2;
-
-    // todo 父类 VirtualView 属性，暂时定义
+    
     OH_Drawing_Matrix *mCTM;
     OH_Drawing_Matrix *mMatrix;
     OH_Drawing_Matrix *mTransform;

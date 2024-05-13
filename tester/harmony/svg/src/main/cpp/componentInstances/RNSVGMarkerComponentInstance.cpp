@@ -16,8 +16,12 @@ RNSVGMarkerComponentInstance::RNSVGMarkerComponentInstance(Context context) : Cp
 
 void RNSVGMarkerComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
     CppComponentInstance::onPropsChanged(props);
-    LOG(INFO) << "liwang----->[RNSVGMarkerComponentInstance] onPropsChanged markerWidth=" << props->markerWidth << " markerHeight=" << props->markerHeight;
-    GetSvgNode()->UpdateCommonProps(props);
+    LOG(INFO) << "[RNSVGMarkerComponentInstance] onPropsChanged markerWidth=" << props->markerWidth << " markerHeight=" << props->markerHeight;
+    LOG(INFO) << "[RNSVGMarkerComponentInstance] onPropsChanged refX=" << props->refX << " refY=" << props->refY;
+    LOG(INFO) << "[RNSVGMarkerComponentInstance] onPropsChanged markerUnits=" << props->markerUnits << " orient=" << props->orient;
+    LOG(INFO) << "[RNSVGMarkerComponentInstance] onPropsChanged minX=" << props->minX << " minY=" << props->minY;
+    LOG(INFO) << "[RNSVGMarkerComponentInstance] onPropsChanged vbWidth=" << props->vbWidth << " vbHeight=" << props->vbHeight;
+    LOG(INFO) << "[RNSVGMarkerComponentInstance] onPropsChanged align=" << props->align << " meetOrSlice=" << props->meetOrSlice;
     auto svgMarker = std::dynamic_pointer_cast<SvgMarker>(GetSvgNode());
     svgMarker->setRefX(StringUtils::StringToDimensionWithUnit(props->refX));
     svgMarker->setRefY(StringUtils::StringToDimensionWithUnit(props->refY));
@@ -31,6 +35,8 @@ void RNSVGMarkerComponentInstance::onPropsChanged(SharedConcreteProps const &pro
     svgMarker->setVbHeight(props->vbHeight);
     svgMarker->setAlign(props->align);
     svgMarker->setMeetOrSlice(props->meetOrSlice);
+
+    GetSvgNode()->UpdateCommonProps(props);
 }
 
 SvgArkUINode &RNSVGMarkerComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }

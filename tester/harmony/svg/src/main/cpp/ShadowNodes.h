@@ -250,5 +250,13 @@ using RNSVGUseShadowNode = ConcreteViewShadowNode<
     RNSVGUseEventEmitter,
     RNSVGUseState>;
 
+JSI_EXPORT extern const char RNSVGImageComponentName[];
+
+/*
+ * `ShadowNode` for <RNSVGTSpan> component.
+ */
+using RNSVGImageShadowNode =
+    ConcreteViewShadowNode<RNSVGImageComponentName, RNSVGImageProps, RNSVGImageEventEmitter, RNSVGImageState>;
+
 } // namespace react
 } // namespace facebook

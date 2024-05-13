@@ -5,7 +5,7 @@ namespace rnoh {
 std::shared_ptr<SvgNode> SvgContext::GetSvgNodeById(const std::string &id) const {
     auto item = idMapper_.find(id);
     if (item != idMapper_.end()) {
-        return item->second;
+        return item->second.lock();
     }
     return nullptr;
 }

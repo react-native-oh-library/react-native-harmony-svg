@@ -10,6 +10,7 @@ const basicProps = {
 const basicCases: CaseParams[] = [
     {
         type: 'mulKey',
+        id: 'path1',
         values: [
             {
                 opacity: '0.1'

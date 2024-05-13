@@ -2,6 +2,7 @@
 #include "Props.h"
 #include <react/renderer/core/ConcreteState.h>
 #include <sstream>
+#include "SvgTSpan.h"
 
 namespace rnoh {
 
@@ -17,19 +18,20 @@ void RNSVGTextComponentInstance::onPropsChanged(SharedConcreteProps const &props
     auto fontSize = StringUtils::FromString(propsFontSize.empty() ? "16" : propsFontSize);
     m_svgText->fontSize = fontSize.ConvertToPx();
 
-    m_svgText->x.clear();
-    for (auto const &value : props->x) {
-        auto x = StringUtils::FromString(value);
-        m_svgText->x.push_back(x.ConvertToPx());
-    }
-    m_svgText->y.clear();
-    for (auto const &value : props->y) {
-        auto y = StringUtils::FromString(value);
-        m_svgText->y.push_back(y.ConvertToPx());
-    }
+    m_svgText->UpdateFontProps(props);
+    m_svgText->UpdateTextProps(props);
 }
-
 
 SvgArkUINode &RNSVGTextComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
+    void RNSVGTextComponentInstance::onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) {
+        auto child = std::dynamic_pointer_cast<SvgHost>(childComponentInstance);
+        if (!child) {
+            return;
+        }
+        OnChildInsertCommon(child);
+        if (auto tSpan = std::dynamic_pointer_cast<SvgTSpan>(child->GetSvgNode())) {
+            tSpan->SetParent(m_svgText);
+        }
+    }
 } // namespace rnoh

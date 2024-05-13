@@ -1,5 +1,6 @@
 #include "RNSVGGroupComponentInstance.h"
 #include "Props.h"
+#include <memory>
 #include <react/renderer/core/ConcreteState.h>
 #include <sstream>
 
@@ -13,7 +14,9 @@ void RNSVGGroupComponentInstance::onPropsChanged(SharedConcreteProps const &prop
     CppComponentInstance::onPropsChanged(props);
     LOG(INFO) << "[RNSVGGroupComponentInstance] props->fill.payload: " << (uint32_t)*props->fill.payload;
 
-    GetSvgNode()->UpdateCommonProps(props);
+    auto group = std::dynamic_pointer_cast<SvgGroup>(GetSvgNode());
+    group->UpdateCommonProps(props);
+    group->UpdateFontProps(props);
 }
 
 SvgArkUINode &RNSVGGroupComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }

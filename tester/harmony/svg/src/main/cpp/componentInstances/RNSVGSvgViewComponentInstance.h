@@ -25,5 +25,8 @@ public:
     SvgArkUINode &getLocalRootArkUINode() override;
     
     void onPropsChanged(SharedConcreteProps const &props) override;
+    
+    // since we can't get color correctly from props
+    std::optional<std::string> getColorFromDynamic(folly::dynamic value);
 };
 } // namespace rnoh
