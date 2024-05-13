@@ -3,27 +3,30 @@
 #include <native_drawing/drawing_text_blob.h>
 #include "SvgTSpan.h"
 #include "drawing/TextStyle.h"
-#include "drawing/TypographyStyle.h"
 #include "properties/Offset.h"
+#include "drawing/Matrix.h"
 
 namespace rnoh {
 namespace {
-const int MSCALE_X = 0; //!< use with getValues/setValues
-const int MSKEW_X = 1;  //!< use with getValues/setValues
-const int MTRANS_X = 2; //!< use with getValues/setValues
-const int MSKEW_Y = 3;  //!< use with getValues/setValues
-const int MSCALE_Y = 4; //!< use with getValues/setValues
-const int MTRANS_Y = 5; //!< use with getValues/setValues
-const int MPERSP_0 = 6; //!< use with getValues/setValues
-const int MPERSP_1 = 7; //!< use with getValues/setValues
-const int MPERSP_2 = 8; //!< use with getValues/setValues
-}
+constexpr int MSCALE_X = 0; //!< use with getValues/setValues
+constexpr int MSKEW_X = 1;  //!< use with getValues/setValues
+constexpr int MTRANS_X = 2; //!< use with getValues/setValues
+constexpr int MSKEW_Y = 3;  //!< use with getValues/setValues
+constexpr int MSCALE_Y = 4; //!< use with getValues/setValues
+constexpr int MTRANS_Y = 5; //!< use with getValues/setValues
+constexpr int MPERSP_0 = 6; //!< use with getValues/setValues
+constexpr int MPERSP_1 = 7; //!< use with getValues/setValues
+constexpr int MPERSP_2 = 8; //!< use with getValues/setValues
+
+constexpr double tau = 2.0 * M_PI;
+constexpr double radToDeg = 360.0 / tau;
+} // namespace
 
 void SvgTSpan::OnDraw(OH_Drawing_Canvas *canvas) {
     if (!glyphCtx_) {
         InitGlyph(canvas);
     }
-    if (content.empty()) {
+    if (content_.empty()) {
         for (const auto &child : children_) {
             if (auto tSpan = std::dynamic_pointer_cast<SvgTSpan>(child); tSpan) {
                 tSpan->SetContext(glyphCtx_);
@@ -31,32 +34,35 @@ void SvgTSpan::OnDraw(OH_Drawing_Canvas *canvas) {
         }
         return;
     }
-    // if (inlineSize_) {
-        DrawWrappedText(canvas);
-    // } else {
-        /* TODO: draw each character individually */
-    // }
-}
 
-void SvgTSpan::DrawWrappedText(OH_Drawing_Canvas * canvas) {
-    glyphCtx_->pushContext(false, shared_from_this(), x_, y_, dx_, dy_, rotate_);
     UpdateStrokeStyle();
     auto fillOpaque = UpdateFillStyle();
     if (!fillOpaque) {
         OH_Drawing_BrushSetColor(fillBrush_, Color::TRANSPARENT.GetValue());
     }
+
+    glyphCtx_->pushContext(false, shared_from_this(), x_, y_, dx_, dy_, rotate_);
+    if (!textPath_) {
+        DrawText(canvas);
+    } else {
+        DrawOnPath(canvas);
+    }
+    glyphCtx_->popContext();
+}
+
+void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
     drawing::TextStyle textStyle;
     textStyle.SetForegroundBrush(fillBrush_);
     textStyle.SetForegroundPen(strokePen_);
     textStyle.Update(font_);
-    LOG(INFO) << "fontSize = " << font_->fontSize;
-    drawing::TypographyStyle typographyStyle;
-    typographyStyle.SetTextStyle(std::move(textStyle));
-    typographyStyle.Update(font_);
-    auto fontCollection = OH_Drawing_CreateFontCollection();
-    auto typographyHandler = OH_Drawing_CreateTypographyHandler(typographyStyle.typographyStyle_.get(), fontCollection);
+    drawing::TypographyStyle ts;
+    ts.SetTextStyle(std::move(textStyle));
+    ts.Update(font_);
+    auto *fontCollection = OH_Drawing_CreateFontCollection();
+    LOG(INFO) << "TS = " << ts.typographyStyle_.get();
+    auto *typographyHandler = OH_Drawing_CreateTypographyHandler(ts.typographyStyle_.get(), fontCollection);
 
-    OH_Drawing_TypographyHandlerAddText(typographyHandler, content.c_str());
+    OH_Drawing_TypographyHandlerAddText(typographyHandler, content_.c_str());
     auto typography = OH_Drawing_CreateTypography(typographyHandler);
     double maxWidth = inlineSize_.value_or(Infinity<Dimension>()).ConvertToPx(OH_Drawing_CanvasGetWidth(canvas));
     LOG(INFO) << "TEXT GLYPH maxWidth = " << maxWidth;
@@ -66,12 +72,10 @@ void SvgTSpan::DrawWrappedText(OH_Drawing_Canvas * canvas) {
     LOG(INFO) << "TEXT GLYPH next X = " << dx << " next dy = " << dy;
     OH_Drawing_TypographyPaint(typography, canvas, dx, dy);
 
-//     LOG(INFO) << "TEXT GLYPH current size = " << textSize.ToString();
+    //     LOG(INFO) << "TEXT GLYPH current size = " << textSize.ToString();
     OH_Drawing_DestroyTypography(typography);
     OH_Drawing_DestroyTypographyHandler(typographyHandler);
     OH_Drawing_DestroyFontCollection(fontCollection);
-
-    glyphCtx_->popContext();
 }
 
 double SvgTSpan::getTextAnchorOffset(TextAnchor textAnchor, const double &textMeasure) {
@@ -88,203 +92,144 @@ double SvgTSpan::getTextAnchorOffset(TextAnchor textAnchor, const double &textMe
     }
 }
 
-void SvgTSpan::getLinePath(std::string line, OH_Drawing_Canvas *canvas) {
-    int length = line.size();
-    if (length == 0) {
+void SvgTSpan::DrawOnPath(OH_Drawing_Canvas *canvas) {
+    LOG(INFO) << "TEXT_PATH DRAW content = " << content_;
+    if (content_.empty()) {
         return;
     }
-    
-    double pathLength = 0;
-    bool isClosed = false;
-    bool hasTextPath = textPath_ != nullptr;
-    if (hasTextPath) {
-        pathLength = OH_Drawing_PathGetLength(textPath_->getTextPath(), false);
-        isClosed = OH_Drawing_PathIsClosed(textPath_->getTextPath(), false);
-        if (pathLength == 0) {
-            return;
-        }
+
+    OH_Drawing_Path *path = textPath_ ? textPath_->getTextPath() : nullptr;
+    double pathLength = OH_Drawing_PathGetLength(path, false);
+    if (pathLength == 0) {
+        return;
     }
+    bool isClosed = OH_Drawing_PathIsClosed(path, false);
+    LOG(INFO) << "TEXT_PATH pathLen = " << pathLength;
 
-    drawing::TextStyle textStyle;
-    textStyle.SetForegroundBrush(fillBrush_);
-    textStyle.SetForegroundPen(strokePen_);
-    textStyle.Update(font_);
-    drawing::TypographyStyle typographyStyle;
-    typographyStyle.SetTextStyle(std::move(textStyle));
-    auto fontCollection = OH_Drawing_CreateFontCollection();
-    auto typographyHandler = OH_Drawing_CreateTypographyHandler(typographyStyle.typographyStyle_.get(), fontCollection);
+    // TODO ligature
 
-    OH_Drawing_TypographyHandlerAddText(typographyHandler, line.c_str());
-    auto typography = OH_Drawing_CreateTypography(typographyHandler);
-    OH_Drawing_TypographyLayout(typography, 1e9);
-    
-    //TODO ligature
-    const char* chars = line.c_str();
-    
-    //TODO paint.getTextWidths(line, advances) no corresponding API
-    
-    //TODO TextAnchor
+    // TODO TextAnchor
     TextAnchor textAnchor = font_->textAnchor;
-//     double textMeasure = anchorRoot.getSubtreeTextChunksTotalAdvance(paint);
+    //     double textMeasure = anchorRoot.getSubtreeTextChunksTotalAdvance(paint);
     double textMeasure = 0;
     double offset = getTextAnchorOffset(textAnchor, textMeasure);
 
     int side = 1;
     double startOfRendering = 0;
     double endOfRendering = pathLength;
-    double fontSize = font_->fontSize;
     bool sharpMidLine = false;
-    if(hasTextPath) {
-        sharpMidLine = textPath_->getMidLine() == TextPathMidLine::sharp;
-        side = textPath_->getSide() == TextPathSide::right ? -1 : 1;
-//         double absoluteStartOffset = getAbsoluteStartOffset(textPath.getStartOffset(), pathLength, fontSize);
-        double absoluteStartOffset = textPath_->getStartOffset();
-        offset += absoluteStartOffset;
-        if(isClosed) {
-            double halfPathDistance = pathLength / 2;
-            startOfRendering = absoluteStartOffset + (textAnchor == TextAnchor::middle ? -halfPathDistance : 0);
-            endOfRendering = startOfRendering + pathLength;
-        }
+    sharpMidLine = textPath_->getMidLine() == TextPathMidLine::sharp;
+    side = textPath_->getSide() == TextPathSide::right ? -1 : 1;
+    double absoluteStartOffset = textPath_->getStartOffset();
+    offset += absoluteStartOffset;
+    if (isClosed) {
+        startOfRendering = absoluteStartOffset + (textAnchor == TextAnchor::middle ? -pathLength / 2.0 : 0);
+        endOfRendering = startOfRendering + pathLength;
     }
 
     double scaleSpacingAndGlyphs = 1.0;
     double scaledDirection = scaleSpacingAndGlyphs * side;
-    
-    //TODO textLength and lengthAdjust
-    OH_Drawing_Font_Metrics* fm;
-    OH_Drawing_TextStyleGetFontMetrics(typography, textStyle.textStyle_.get(), fm);
-    
-    double descendarDepth = fm->descent;
-    double bottom = descendarDepth + fm->leading;
-    double ascenderHeight = -fm->ascent + fm->leading;
-    double top = -fm->top;
-    //TODO destroy FontMetrics?
-    double totalHeight = top + bottom;
-    double baselineShift = 0;
-    //TODO getBaselineShift()
-    //TODO getAlignmentBaseline()
 
-    OH_Drawing_Matrix* start;
-    OH_Drawing_Matrix *mid;
-    OH_Drawing_Matrix *end;
-    std::vector<double> startPointMatrixData(9);
-    std::vector<double> endPointMatrixData(9);
-    
-    for (int index = 0; index < length; index++) {
-        auto currentChar = chars[index];
-        std::string current = std::string(1, currentChar);
-        
-        /*
-          Determine the glyph's charwidth (i.e., the amount which the current text position
-          advances horizontally when the glyph is drawn using horizontal text layout).
-      */
+    drawing::TextStyle textStyle;
+    textStyle.SetForegroundBrush(fillBrush_);
+    textStyle.SetForegroundPen(strokePen_);
+    textStyle.Update(font_);
+    drawing::TypographyStyle ts;
+    ts.SetTextStyle(std::move(textStyle));
+    ts.Update(font_);
+    auto *fontCollection = OH_Drawing_CreateFontCollection();
+    auto *typographyHandler = OH_Drawing_CreateTypographyHandler(ts.typographyStyle_.get(), fontCollection);
+    for (int i = 0; i < content_.size(); i++) {
+        std::string current = content_.substr(i, 1);
+
+        OH_Drawing_TypographyHandlerAddText(typographyHandler, current.c_str());
+        auto *typography = OH_Drawing_CreateTypography(typographyHandler);
+        OH_Drawing_TypographyLayout(typography, 1e9);
+        double charWidth = OH_Drawing_TypographyGetLineWidth(typography, 0);
+
         bool alreadyRenderedGraphemeCluster = false;
         bool hasLigature = false;
-        OH_Drawing_Font* textFont;
-        auto textBlob =
-            OH_Drawing_TextBlobCreateFromString(&currentChar, textFont, TEXT_ENCODING_UTF8);
 
-        OH_Drawing_Rect* textBounds;
-        OH_Drawing_TextBlobGetBounds(textBlob, textBounds);
-        double charWidth = OH_Drawing_RectGetWidth(textBounds);
-        OH_Drawing_TextBlobDestroy(textBlob);
-        OH_Drawing_RectDestroy(textBounds);
-        //TODO double charWidth = paint.measureText(current) * scaleSpacingAndGlyphs;
-
-        bool isWordSeparator = currentChar == ' ';
+        bool isWordSeparator = current[0] == ' ';
         double wordSpace = isWordSeparator ? font_->wordSpacing : 0;
         double spacing = wordSpace + font_->letterSpacing;
         double advance = charWidth + spacing;
-        
+
         double x = glyphCtx_->nextX(alreadyRenderedGraphemeCluster ? 0 : advance);
         double y = glyphCtx_->nextY();
         double dx = glyphCtx_->nextDeltaX();
         double dy = glyphCtx_->nextDeltaY();
         double r = glyphCtx_->nextRotation();
-        
+
         advance *= side;
         charWidth *= side;
         double cursor = offset + (x + dx) * side;
         double startPoint = cursor - advance;
-        
-        if (hasTextPath) {
-            double endPoint = startPoint + charWidth;
-            double halfWay = charWidth / 2;
-            double midPoint = startPoint + halfWay;
-            
-            if (midPoint > endOfRendering) {
-                continue;
-            } else if (midPoint < startOfRendering) {
-                continue;
-            }
-            if (sharpMidLine) {
-                OH_Drawing_PathGetMatrix(textPath_->getTextPath(), false, midPoint, mid, GET_POSITION_MATRIX);
+
+        drawing::Matrix mid;
+        const double endPoint = startPoint + charWidth;
+        const double halfWay = charWidth / 2;
+        const double midPoint = startPoint + halfWay;
+        if (midPoint > endOfRendering) {
+            continue;
+        } else if (midPoint < startOfRendering) {
+            continue;
+        }
+        if (sharpMidLine) {
+            OH_Drawing_PathGetMatrix(path, false, midPoint, &mid, GET_POSITION_AND_TANGENT_MATRIX);
+        } else {
+            drawing::Matrix start;
+            drawing::Matrix end;
+            if (startPoint < 0) {
+                OH_Drawing_PathGetMatrix(path, false, startPoint, &start, GET_POSITION_AND_TANGENT_MATRIX);
+                OH_Drawing_MatrixPreTranslate(&start, startPoint, 0);
             } else {
-                if (startPoint < 0) {
-                    OH_Drawing_PathGetMatrix(textPath_->getTextPath(), false, startPoint, start, GET_POSITION_MATRIX);
-                    OH_Drawing_MatrixTranslate(start, startPoint, 0);
-                } else {
-                    OH_Drawing_PathGetMatrix(textPath_->getTextPath(), false, startPoint, start, GET_POSITION_MATRIX);
-                }
-                OH_Drawing_PathGetMatrix(textPath_->getTextPath(), false, midPoint, mid, GET_POSITION_MATRIX);
-                
-                if(endPoint > pathLength) {
-                    OH_Drawing_PathGetMatrix(textPath_->getTextPath(), false, pathLength, end, GET_POSITION_MATRIX);
-                    OH_Drawing_MatrixPreTranslate(end, (endPoint - pathLength), 0);
-                } else {
-                    OH_Drawing_PathGetMatrix(textPath_->getTextPath(), false, endPoint, end, GET_POSITION_MATRIX);
-                }
-                for (int i = 0; i < 9; i++) {
-                    startPointMatrixData[i] = OH_Drawing_MatrixGetValue(start, i);
-                    endPointMatrixData[i] = OH_Drawing_MatrixGetValue(end, i);
-                }
-                
-                double startX = startPointMatrixData[MTRANS_X];
-                double startY = startPointMatrixData[MTRANS_Y];
-                double endX = endPointMatrixData[MTRANS_X];
-                double endY = endPointMatrixData[MTRANS_Y];
-
-                // line through the startpoint-on-the-path and the endpoint-on-the-path
-                double lineX = endX - startX;
-                double lineY = endY - startY;
-
-                double glyphMidlineAngle = std::atan2(lineY, lineX);
-                OH_Drawing_MatrixPreRotate(mid, (glyphMidlineAngle * radToDeg * side), 0, 0);
+                OH_Drawing_PathGetMatrix(path, false, startPoint, &start, GET_POSITION_MATRIX);
             }
-            /*
-            Align the glyph vertically relative to the midpoint-on-the-path based on property
-            alignment-baseline and any specified values for attribute ‘dy’ on a ‘tspan’ element.
-        */
-            OH_Drawing_MatrixPreTranslate(mid, -halfWay, (dy + baselineShift));
-            OH_Drawing_MatrixPreScale(mid, scaledDirection, side, 0, 0);
-            OH_Drawing_MatrixPostTranslate(mid, 0, y);
-        } else {
-            OH_Drawing_MatrixTranslate(mid, startPoint, (y + dy + baselineShift));
+            bool res = OH_Drawing_PathGetMatrix(path, true, midPoint, &mid, GET_POSITION_AND_TANGENT_MATRIX);
+            res = OH_Drawing_PathGetMatrix(path, true, 50, &mid, GET_POSITION_AND_TANGENT_MATRIX);
+            LOG(INFO) << "TEXT_PATH MATRIX midPoint = " << midPoint << " totalLen = " << pathLength << " res = " << res
+                      << " mid x = " << OH_Drawing_MatrixGetValue(&mid, MTRANS_X)
+                      << " mid y = " << OH_Drawing_MatrixGetValue(&mid, MTRANS_Y);
+
+            for (int i = 0; i < 9; ++i) {
+                LOG(INFO) << "TEXT_PATH MATRIX mid data POINT[[[]]] = " << i << " = "
+                          << OH_Drawing_MatrixGetValue(&mid, i);
+            }
+
+            if (endPoint > pathLength) {
+                OH_Drawing_PathGetMatrix(path, false, pathLength, &end, GET_POSITION_AND_TANGENT_MATRIX);
+                OH_Drawing_MatrixPreTranslate(&end, (endPoint - pathLength), 0);
+            } else {
+                OH_Drawing_PathGetMatrix(path, false, endPoint, &end, GET_POSITION_MATRIX);
+            }
+
+            double startX = OH_Drawing_MatrixGetValue(&start, MTRANS_X);
+            double startY = OH_Drawing_MatrixGetValue(&start, MTRANS_Y);
+            double endX = OH_Drawing_MatrixGetValue(&end, MTRANS_X);
+            double endY = OH_Drawing_MatrixGetValue(&end, MTRANS_Y);
+
+            double lineX = endX - startX;
+            double lineY = endY - startY;
+
+            double glyphMidlineAngle = std::atan2(lineY, lineX);
+            OH_Drawing_MatrixPreRotate(&mid, (glyphMidlineAngle * radToDeg * side), 0, 0);
         }
-        OH_Drawing_MatrixPreRotate(mid, r, 0, 0);
-        OH_Drawing_Path* glyph;
-        if(hasLigature) {
-            // TODO hasLigature
-        } else {
-            
-        }
-        OH_Drawing_Rect* bounds; 
-        OH_Drawing_PathGetBounds(glyph, bounds);
-        float width = OH_Drawing_RectGetWidth(bounds);
-        if (width == 0) {
-            //TODO Render unicode emoji
-        } else {
-            //TODO Transform Canvas and Draw
-        }
-        
-        OH_Drawing_RectDestroy(bounds);
+
+        OH_Drawing_MatrixPreTranslate(&mid, -halfWay, dy);
+        OH_Drawing_MatrixPreScale(&mid, scaledDirection, side, 0, 0);
+        OH_Drawing_MatrixPostTranslate(&mid, 0, y);
+        OH_Drawing_MatrixPreRotate(&mid, r, 0, 0);
+        OH_Drawing_CanvasSave(canvas);
+        OH_Drawing_CanvasConcatMatrix(canvas, &mid);
+
+        OH_Drawing_TypographyPaint(typography, canvas, 0, 0);
+        OH_Drawing_CanvasRestore(canvas);
+
+        OH_Drawing_DestroyTypography(typography);
     }
-    OH_Drawing_DestroyTypography(typography);
-    OH_Drawing_DestroyTypographyHandler(typographyHandler);
     OH_Drawing_DestroyFontCollection(fontCollection);
-    OH_Drawing_MatrixDestroy(start);
-    OH_Drawing_MatrixDestroy(mid);
-    OH_Drawing_MatrixDestroy(end);
+    OH_Drawing_DestroyTypographyHandler(typographyHandler);
 }
 
 } // namespace rnoh

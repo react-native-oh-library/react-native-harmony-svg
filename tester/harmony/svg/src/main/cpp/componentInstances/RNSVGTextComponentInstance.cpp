@@ -30,8 +30,5 @@ SvgArkUINode &RNSVGTextComponentInstance::getLocalRootArkUINode() { return m_svg
             return;
         }
         OnChildInsertCommon(child);
-        if (auto tSpan = std::dynamic_pointer_cast<SvgTSpan>(child->GetSvgNode())) {
-            tSpan->SetParent(m_svgText);
-        }
     }
 } // namespace rnoh
