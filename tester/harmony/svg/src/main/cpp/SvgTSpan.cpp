@@ -51,16 +51,23 @@ void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
     auto *typographyHandler = OH_Drawing_CreateTypographyHandler(ts.typographyStyle_.get(), fontCollection);
 
     OH_Drawing_TypographyHandlerAddText(typographyHandler, content_.c_str());
-    auto typography = OH_Drawing_CreateTypography(typographyHandler);
+    auto* typography = OH_Drawing_CreateTypography(typographyHandler);
     double maxWidth = inlineSize_.value_or(Infinity<Dimension>()).ConvertToPx(OH_Drawing_CanvasGetWidth(canvas));
     LOG(INFO) << "TEXT GLYPH maxWidth = " << maxWidth;
     OH_Drawing_TypographyLayout(typography, maxWidth);
     double dx = glyphCtx_->nextX(0) + glyphCtx_->nextDeltaX();
     double dy = glyphCtx_->nextY() + glyphCtx_->nextDeltaY();
     LOG(INFO) << "TEXT GLYPH next X = " << dx << " next dy = " << dy;
-    OH_Drawing_TypographyPaint(typography, canvas, dx, dy);
 
-    //     LOG(INFO) << "TEXT GLYPH current size = " << textSize.ToString();
+    double r = glyphCtx_->nextRotation();
+    drawing::Matrix mat;
+    OH_Drawing_MatrixPreRotate(&mat, r, dx, dy);
+
+    OH_Drawing_CanvasSave(canvas);
+    OH_Drawing_CanvasConcatMatrix(canvas, &mat);
+    OH_Drawing_TypographyPaint(typography, canvas, dx, dy);
+    OH_Drawing_CanvasRestore(canvas);
+
     OH_Drawing_DestroyTypography(typography);
     OH_Drawing_DestroyTypographyHandler(typographyHandler);
     OH_Drawing_DestroyFontCollection(fontCollection);
@@ -98,7 +105,6 @@ drawing::TypographyStyle SvgTSpan::PrepareTypoStyle() {
 }
 
 void SvgTSpan::DrawOnPath(OH_Drawing_Canvas *canvas) {
-    LOG(INFO) << "TEXT_PATH DRAW content = " << content_;
     if (content_.empty()) {
         return;
     }
@@ -109,7 +115,6 @@ void SvgTSpan::DrawOnPath(OH_Drawing_Canvas *canvas) {
         return;
     }
     bool isClosed = OH_Drawing_PathIsClosed(path, false);
-    LOG(INFO) << "TEXT_PATH pathLen = " << pathLength;
 
     drawing::TypographyStyle ts = PrepareTypoStyle();
     auto *fontCollection = OH_Drawing_CreateFontCollection();
