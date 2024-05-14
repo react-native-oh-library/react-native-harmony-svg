@@ -34,6 +34,12 @@ const basicCases: CaseParams[] = [
                 height: 60,
                 fill: 'green'
             },
+            {
+                width:90,
+                height: 60,
+                fill: 'red',
+                xlinkHref: "https://img.icons8.com/2266EE/search"
+            }
         ]
     }
 ]
