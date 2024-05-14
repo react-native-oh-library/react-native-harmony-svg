@@ -14,7 +14,9 @@
  */
 #include "SvgGraphic.h"
 #include <native_drawing/drawing_bitmap.h>
+#include <native_drawing/drawing_filter.h>
 #include <native_drawing/drawing_image.h>
+#include <native_drawing/drawing_mask_filter.h>
 #include <native_drawing/drawing_path_effect.h>
 #include <native_drawing/drawing_sampling_options.h>
 #include <native_drawing/drawing_shader_effect.h>
@@ -47,6 +49,61 @@ void SvgGraphic::OnDraw(OH_Drawing_Canvas *canvas) {
         DrawMarker(canvas);
     }
 }
+void SvgGraphic::OnGraphicFill(OH_Drawing_Canvas *canvas) {
+    auto smoothEdge = GetSmoothEdge();
+    if (GreatNotEqual(smoothEdge, 0.0f)) {
+        LOG(INFO) << "[svg] OnGraphicFill1";
+        auto *filter = OH_Drawing_FilterCreate();
+        auto *maskFilter =
+            OH_Drawing_MaskFilterCreateBlur(OH_Drawing_BlurType::NORMAL, static_cast<double>(smoothEdge), false);
+        OH_Drawing_FilterSetMaskFilter(filter, maskFilter);
+
+        /* copy constructor missing */
+        auto tmpFillBrush = fillBrush_;
+        OH_Drawing_BrushSetFilter(tmpFillBrush, filter);
+        OH_Drawing_CanvasAttachBrush(canvas, tmpFillBrush);
+        OH_Drawing_CanvasDrawPath(canvas, path_);
+        OH_Drawing_CanvasDetachBrush(canvas);
+
+        OH_Drawing_FilterDestroy(filter);
+        OH_Drawing_MaskFilterDestroy(maskFilter);
+        OH_Drawing_BrushDestroy(tmpFillBrush);
+    } else {
+        LOG(INFO) << "[svg] OnGraphicFill2";
+        OH_Drawing_CanvasAttachBrush(canvas, fillBrush_);
+        OH_Drawing_CanvasDrawPath(canvas, path_);
+        OH_Drawing_CanvasDetachBrush(canvas);
+    }
+}
+
+// Use Pen to draw stroke
+void SvgGraphic::OnGraphicStroke(OH_Drawing_Canvas *canvas) {
+    auto smoothEdge = GetSmoothEdge();
+    if (GreatNotEqual(smoothEdge, 0.0f)) {
+        LOG(INFO) << "[svg] OnGraphicStroke1";
+        auto *filter = OH_Drawing_FilterCreate();
+        auto *maskFilter =
+            OH_Drawing_MaskFilterCreateBlur(OH_Drawing_BlurType::NORMAL, static_cast<double>(smoothEdge), false);
+        OH_Drawing_FilterSetMaskFilter(filter, maskFilter);
+
+        /* copy constructor missing */
+        auto tmpStrokePen = strokePen_;
+        OH_Drawing_PenSetFilter(tmpStrokePen, filter);
+        OH_Drawing_CanvasAttachPen(canvas, tmpStrokePen);
+        OH_Drawing_CanvasDrawPath(canvas, path_);
+        OH_Drawing_CanvasDetachPen(canvas);
+
+        OH_Drawing_FilterDestroy(filter);
+        OH_Drawing_MaskFilterDestroy(maskFilter);
+        OH_Drawing_PenDestroy(tmpStrokePen);
+    } else {
+        LOG(INFO) << "[svg] OnGraphicStroke2";
+        OH_Drawing_CanvasAttachPen(canvas, strokePen_);
+        OH_Drawing_CanvasDrawPath(canvas, path_);
+        OH_Drawing_CanvasDetachPen(canvas);
+    }
+}
+
 // todo implement bounds
 void SvgGraphic::UpdateGradient() {
     auto &fillState_ = attributes_.fillState;
