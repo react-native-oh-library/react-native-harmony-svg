@@ -180,6 +180,8 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
         attributes_.fillState.SetColor(color, true);
     } else if (facebook::react::isColorMeaningful(props->fill.payload)) {
         attributes_.fillState.SetColor(Color((uint32_t)*props->fill.payload), set.count("fill"));
+    } else {
+        attributes_.fillState.SetColor(Color::TRANSPARENT, set.count("fill"));
     }
     if (props->stroke.type == 2) {
         Color color = Color((uint32_t)*props->stroke.payload);
@@ -187,6 +189,8 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
         attributes_.strokeState.SetColor(color, true);
     } else if (facebook::react::isColorMeaningful(props->stroke.payload)) {
         attributes_.strokeState.SetColor(Color((uint32_t)*props->stroke.payload), set.count("stroke"));
+    } else {
+        attributes_.strokeState.SetColor(Color::TRANSPARENT, set.count("stroke"));
     }
     attributes_.fillState.SetOpacity(std::clamp(props->fillOpacity, 0.0, 1.0), set.count("fillOpacity"));
     // todo Inheritance situation
