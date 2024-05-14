@@ -299,8 +299,37 @@ export function genCommonPathProps() {
     ]
 }
 
-export function genTextSpecificProps() {
-
+export function genTextSpecificProps(): CaseParams[] {
+    return [
+        {
+            key: 'alignmentBaseline',
+            values: ['baseline', 'text-bottom', 'alphabetic', 'ideographic', 'middle', 'central', 'mathematical', 'text-top', 'bottom', 'center', 'top', 'text-before-edge', 'text-after-edge', 'before-edge', 'after-edge', 'hanging']
+        },
+        {
+            key: 'baselineShift',
+            values: ['sub', 'super', 'baseline']
+        },
+        {
+            key: 'verticalAlign',
+            values: ['baseline', 'top', 'middle', 'bottom', 'sub', 'text-top']
+        },
+        {
+            key: 'lengthAdjust',
+            values: ['spacing', 'spacingAndGlyphs']
+        },
+        {
+            key: 'textLength',
+            values: ['5', '10', '150%']
+        },
+        {
+            key: 'fontData',
+            values: ['']
+        },
+        {
+            key: 'fontFeatureSettings',
+            values: ['normal', '"liga" 0', 'tnum', 'smcp']
+        },
+    ]
 }
 
 export function genFontProps(): CaseParams[] {
