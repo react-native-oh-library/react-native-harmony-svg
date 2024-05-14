@@ -4,6 +4,7 @@ import { Circle, Rect } from 'react-native-svg'
 import { GenMain } from './gen'
 import { genTransformProps, genStrokeProps, genFillProps, CaseParams } from '../genUtil'
 const basicProps = {
+    title: 'I am Svg',
     width: '70',
     height: '30',
     viewBox: '0 0 100 100'
