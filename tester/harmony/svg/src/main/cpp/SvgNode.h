@@ -8,6 +8,7 @@
 #include <vector>
 #include "SvgBaseAttribute.h"
 #include "SvgContext.h"
+#include "properties/Decoration.h"
 #include "properties/Dimension.h"
 #include "properties/Size.h"
 #include "Props.h"
@@ -81,6 +82,8 @@ protected:
     float GetSmoothEdge() const { return attributes_.smoothEdge; }
 
     std::optional<Gradient> GetGradient(const std::string& href);
+
+    std::optional<Pattern> GetPatternAttr(const std::string &href);
 
     void InitNoneFlag()
     {

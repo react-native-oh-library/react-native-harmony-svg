@@ -151,16 +151,16 @@ struct SvgLineAttribute {
     Dimension y2;
 };
 
-struct SvgPatternAttribute {
-    Dimension x; // x-axis default value
-    Dimension y; // y-axis default value
-    Dimension width; // pattern area width default value
-    Dimension height; // pattern area height default value
-    std::string patternUnits = "objectBoundingBox";
-    std::string patternContentUnits = "userSpaceOnUse";
-    std::string patternTransform;
-    Rect viewBox;
-};
+// struct SvgPatternAttribute {
+//     Dimension x; // x-axis default value
+//     Dimension y; // y-axis default value
+//     Dimension width; // pattern area width default value
+//     Dimension height; // pattern area height default value
+//     int patternUnits;
+//     int patternContentUnits;
+//     std::string patternTransform;
+//     Rect viewBox;
+// };
 
 struct SvgImageAttribute {
     Dimension x = Dimension(0, DimensionUnit::PX); // x-axis default value

@@ -11,6 +11,7 @@
 #include "utils/StringUtils.h"
 #include "utils/SvgAttributesParser.h"
 #include "SVGGradient.h"
+#include "SvgPattern.h"
 
 namespace rnoh {
 
@@ -26,6 +27,13 @@ void SvgNode::InitStyle(const SvgBaseAttribute &attr) {
                 attributes_.fillState.SetGradient(gradient.value(), true);
             } else {
                 LOG(INFO) << "[UpdateCommonProps] no gradient";
+            }
+            auto pattern = GetPatternAttr(href);
+            if (pattern) {
+                LOG(INFO) << "[UpdateCommonProps] fill state set pattern";
+                attributes_.fillState.SetPattern(pattern.value());
+            } else {
+                LOG(INFO) << "[UpdateCommonProps] no pattern";
             }
         } else {
             LOG(INFO) << "[UpdateCommonProps] href empty";
@@ -119,6 +127,20 @@ std::optional<Gradient> SvgNode::GetGradient(const std::string &href) {
     auto svgGradient = std::dynamic_pointer_cast<SvgGradient>(refSvgNode);
     if (svgGradient) {
         return std::make_optional(svgGradient->GetGradient());
+    }
+    return std::nullopt;
+}
+
+std::optional<Pattern> SvgNode::GetPatternAttr(const std::string &href) {
+    if (!context_) {
+        LOG(INFO) << "NO CONTEXT";
+        return std::nullopt;
+    }
+    auto refSvgNode = context_->GetSvgNodeById(href);
+    CHECK_NULL_RETURN(refSvgNode, std::nullopt);
+    auto svgPattern = std::dynamic_pointer_cast<SvgPattern>(refSvgNode);
+    if (svgPattern) {
+        return std::make_optional(svgPattern->GetPatternAttr());
     }
     return std::nullopt;
 }
