@@ -21,11 +21,7 @@ public:
     uint32_t colorFill;
     uint32_t strokeColor;
     uint32_t strokeWith;
-    OH_Drawing_Path *AsPath() override {
-        LOG(INFO) << "[SvgEllipse] AsPath";
-        OH_Drawing_PathArcTo (path_, vpToPx(cx - rx), vpToPx(cy - ry), vpToPx(cx + rx), vpToPx(cy + ry), 0, 350);
-        return path_;
-    };
+    OH_Drawing_Path *AsPath() override;
 };
 
 } // namespace rnoh
