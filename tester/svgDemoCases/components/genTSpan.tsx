@@ -2,7 +2,7 @@ import React from "react";
 // import  from 'react-native-svg'
 import { Svg, Circle } from 'react-native-svg'
 import { GenMain } from './gen'
-import { genTransformProps, genFillProps, genStrokeProps, CaseParams, genFontProps } from '../genUtil'
+import { genTransformProps, genFillProps, genStrokeProps, CaseParams, genFontProps, genClipProps } from '../genUtil'
 const basicProps = {
     x: 10,
     y: 20
@@ -19,26 +19,49 @@ const basicCases: CaseParams[] = [
                 y: 10
             },
             {
+                x: 20,
+                y: 20
+            },
+            {
                 dx: 20,
-                dy: 30,
+                dy: 20,
                 fill: 'green'
+            },
+            {
+                dx: 30,
+                dy: 30,
+                fill: 'red'
             },
             {
                 rotate: '45',
             },
             {
-                inlineSize: '6'
+                rotate: '90',
+            },
+            {
+                inlineSize: '6',
+            },
+            {
+                inlineSize: '20',
             }
         ]
-    }
+    } 
 ]
 
 const allCases = [
     ...basicCases,
-    // ...genFillProps(),
+    ...genFillProps(),
     ...genStrokeProps(),
+    ...genClipProps(),
+    ...genTransformProps(),
+    //VectorEffectProps
+    //...genResponderProps(),
+    //...genTouchableProps(),
+    //DefinitionProps
+    //...genCommonMarkerProps(),
+    //NativeProps
+    //...genAccessibilityProps(),
     ...genFontProps(),
-    ...genTransformProps()
 ]
 
 
