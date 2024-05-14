@@ -286,19 +286,91 @@ export function genViewProps(): CaseParams[] {
                 }
             ]
         },
-        
+        {
+            key: 'hitSlop',
+            values: [
+                {
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0
+                },
+                {
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0
+                },
+                {
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0
+                },
+            ]
+        },
+        {
+            key: 'hitSlop',
+            values: []
+        },
+        {
+            key: 'hitSlop',
+            values: []
+        },
+        {
+            key: 'hitSlop',
+            values: []
+        },
+        {
+            key: 'hitSlop',
+            values: []
+        },
+        {
+            key: 'hitSlop',
+            values: []
+        },
+        {
+            key: 'hitSlop',
+            values: []
+        },
     ]
 }
 
-export function genCommonPathProps() {
+export function genViewPropsFuncs(name: string) {
+    return {
+    }
+}
+
+export function genCommonPathProps(): CaseParams[] {
     return [
         {
             key: 'opacity',
             values: ['0.1', '0.5', '1']
-        }
+        },
+        ...genFillProps(),
+        ...genStrokeProps(),
+        ...genTransformProps(),
+        ...genAccessibilityProps()
     ]
 }
-
+`
+| 'baseline'
+| 'text-bottom'
+| 'alphabetic'
+| 'ideographic'
+| 'middle'
+| 'central'
+| 'mathematical'
+| 'text-top'
+| 'bottom'
+| 'center'
+| 'top'
+| 'text-before-edge'
+| 'text-after-edge'
+| 'before-edge'
+| 'after-edge'
+| 'hanging';
+`
 export function genTextSpecificProps(): CaseParams[] {
     return [
         {
@@ -336,7 +408,10 @@ export function genFontProps(): CaseParams[] {
     return [
         {
             key: 'fontWeight',
-            values: ['12', '16', '500']
+            values: ['normal', 'bold', 'bolder', 'lighter'],
+            othersProps: {
+                fontSize: '18'
+            }
         },
         {
             key: 'fontSize',
@@ -362,6 +437,10 @@ export function genFontProps(): CaseParams[] {
             key: 'wordSpacing',
             values: ['1', '4', '10']
         },
+        {
+            key: 'fontStyle',
+            values: ['normal', 'italic', 'oblique']
+        }
     ]
 }
 
