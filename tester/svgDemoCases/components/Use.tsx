@@ -173,6 +173,31 @@ export default function () {
                     </View>
                 </TestCase>
 
+                <TestCase
+                    itShould="case 9: Use has Rect child "
+                >
+                    <View style={{
+                                    borderWidth: 1,
+                                    width: 100,
+                                    height: 100
+                                }}
+                    >
+                        <Svg viewBox="0 0 400 400">
+                            <Circle id="shape" cx="100" cy="100" r="50" stroke="black" />
+                            <Use href="#shape" x="200">
+                                <Rect
+                                    x="25"
+                                    y="5"
+                                    width="150"
+                                    height="50"
+                                    fill="rgb(0,0,255)"
+                                    strokeWidth="3"
+                                    stroke="rgb(0,0,0)"
+                                />
+                            </Use>
+                        </Svg>
+                    </View>
+                </TestCase>
             </ScrollView>
         </Tester>
     )

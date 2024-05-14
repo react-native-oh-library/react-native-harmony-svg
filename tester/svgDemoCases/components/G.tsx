@@ -2,14 +2,15 @@ import React from "react";
 // import  from 'react-native-svg'
 import { Svg, Circle, Rect } from 'react-native-svg'
 import { GenMain } from './gen'
-import { genTransformProps, genStrokeProps, genFillProps } from '../genUtil'
+import { genTransformProps, genStrokeProps, genFillProps, commonProps } from '../genUtil'
 const basicProps = {
 }
 
 const allCases = [
     ...genFillProps(),
     ...genStrokeProps(),
-    ...genTransformProps()
+    ...genTransformProps(),
+    ...commonProps()
 ]
 
 const COMChildren = function () {
@@ -19,9 +20,6 @@ const COMChildren = function () {
             y="20"
             height="50"
             width="80"
-            // stroke="#060"
-            // strokeWidth="1"
-            // fill="#060"
           />
     )
 }
