@@ -13,7 +13,10 @@
  * limitations under the License.
  */
 #include "SvgGraphic.h"
+#include <native_drawing/drawing_bitmap.h>
+#include <native_drawing/drawing_image.h>
 #include <native_drawing/drawing_path_effect.h>
+#include <native_drawing/drawing_sampling_options.h>
 #include <native_drawing/drawing_shader_effect.h>
 #include <native_drawing/drawing_point.h>
 #include <native_drawing/drawing_matrix.h>
@@ -21,6 +24,8 @@
 #include <native_drawing/drawing_shader_effect.h>
 #include "utils/SvgMarkerPositionUtils.h"
 #include "SvgMarker.h"
+#include "SvgText.h"
+#include "properties/ViewBox.h"
 
 namespace rnoh {
 
@@ -40,13 +45,6 @@ void SvgGraphic::OnDraw(OH_Drawing_Canvas *canvas) {
     if (!attributes_.markerStart.empty() || !attributes_.markerMid.empty() || !attributes_.markerEnd.empty()) {
         LOG(INFO) << "DRaw marker";
         DrawMarker(canvas);
-    }
-    auto &fillState_ = attributes_.fillState;
-    if (!fillState_.GetHref().empty()) {
-        auto svgContext = GetContext();
-        auto refSvgNode = svgContext->GetSvgNodeById(fillState_.GetHref());
-        CHECK_NULL_VOID(refSvgNode);
-        refSvgNode->Draw(canvas);
     }
 }
 // todo implement bounds
@@ -111,7 +109,7 @@ void SvgGraphic::UpdateGradient() {
 }
 bool SvgGraphic::UpdateFillStyle(bool antiAlias) {
     const auto &fillState_ = attributes_.fillState;
-    if (fillState_.GetColor() == Color::TRANSPARENT && !fillState_.GetGradient()) {
+    if (fillState_.GetColor() == Color::TRANSPARENT && !fillState_.GetGradient() && !fillState_.GetPatternAttr()) {
         return false;
     }
     double curOpacity = fillState_.GetOpacity() * attributes_.opacity;
@@ -119,6 +117,9 @@ bool SvgGraphic::UpdateFillStyle(bool antiAlias) {
     if (fillState_.GetGradient()) {
         LOG(INFO) << "[SVGGraphic] SetGradientStyle";
         SetGradientStyle(curOpacity);
+    } else if (fillState_.GetPatternAttr()) {
+        LOG(INFO) << "[SVGGraphic] SetPatternStyle";
+        SetPatternStyle();
     } else {
         //         auto fillColor = (color) ? *color : fillState_.GetColor();
         //         fillBrush_.SetColor(fillColor.BlendOpacity(curOpacity).GetValue());
@@ -212,6 +213,105 @@ void SvgGraphic::SetGradientStyle(double opacity) {
                             // static_cast<RSTileMode>(gradient->GetSpreadMethod()), &matrix));
         // }
     }
+}
+
+void SvgGraphic::SetPatternStyle() {
+    LOG(INFO) << "[SVGGraphic pattern] SetPatternStyle";
+    const auto &fillState_ = attributes_.fillState;
+    auto pattern = fillState_.GetPatternAttr();
+    CHECK_NULL_VOID(pattern);
+    int patternUnits = pattern->getPatternUnits();
+    int patternContentUnits = pattern->getPatternContentUnits();
+
+    OH_Drawing_Canvas *canvas = OH_Drawing_CanvasCreate();
+
+    Dimension x_ = pattern->getX();
+    Dimension y_ = pattern->getY();
+    Dimension width_ = pattern->getWidth();
+    Dimension height_ = pattern->getHeight();
+    float mMinX = pattern->getmMinX();
+    float mMinY = pattern->getmMinY();
+    float mVbWidth = pattern->getmVbWidth();
+    float mVbHeight = pattern->getmVbHeight();
+    std::string mAlign = pattern->getmAlign();
+    int mMeetOrSlice = pattern->getmMeetOrSlice();
+
+    auto nodeBounds = patternUnits ? AsBounds() : GetRootViewBox();
+    float left = static_cast<float>(nodeBounds.Left() + x_.ConvertToPx(nodeBounds.Width()));
+    float top = static_cast<float>(nodeBounds.Top() + y_.ConvertToPx(nodeBounds.Height()));
+    float width = static_cast<float>(width_.ConvertToPx(nodeBounds.Width()));
+    float height = static_cast<float>(height_.ConvertToPx(nodeBounds.Height()));
+    auto Bounds_ = OH_Drawing_RectCreate(left, top, width + left, height + top);
+
+    float offsetwidth = OH_Drawing_RectGetWidth(Bounds_);
+    float offsetheight = OH_Drawing_RectGetHeight(Bounds_);
+
+    double x = GetVal(x_, offsetwidth);
+    double y = GetVal(y_, offsetheight);
+    double w = GetVal(width_, offsetwidth);
+    double h = GetVal(height_, offsetheight);
+
+    if (!(w > 1 && h > 1)) {
+        return;
+    }
+    
+    Rect vbRect(mMinX * scale_, mMinY * scale_, (mMinX + mVbWidth) * scale_, (mMinY + mVbHeight) * scale_);
+    Rect eRect = Rect(x, y, w, h);
+    if (vbRect.IsValid()) {
+        OH_Drawing_Matrix *viewBoxMatrix = rnoh::ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
+        OH_Drawing_CanvasConcatMatrix(canvas, viewBoxMatrix);
+        OH_Drawing_MatrixDestroy(viewBoxMatrix);
+    }
+
+    if (patternContentUnits) {
+        OH_Drawing_CanvasScale(canvas, offsetwidth / scale_, offsetheight / scale_);
+    }
+
+    OH_Drawing_Bitmap *bitmap = OH_Drawing_BitmapCreate();
+    OH_Drawing_BitmapFormat format = {COLOR_FORMAT_RGBA_8888, ALPHA_FORMAT_OPAQUE};
+
+    OH_Drawing_BitmapBuild(bitmap, int(w), int(h), &format);
+    OH_Drawing_CanvasBind(canvas, bitmap);
+
+    // set background color to white
+    OH_Drawing_Brush *brush = OH_Drawing_BrushCreate();
+    OH_Drawing_BrushSetColor(brush, 0xffffffff);
+    OH_Drawing_CanvasDrawBackground(canvas, brush);
+
+    // draw child node
+    if (!fillState_.GetHref().empty()) {
+        auto svgContext = GetContext();
+        auto refSvgNode = svgContext->GetSvgNodeById(fillState_.GetHref());
+        CHECK_NULL_VOID(refSvgNode);
+        refSvgNode->Draw(canvas);
+    }
+    
+    OH_Drawing_Matrix* matrix = OH_Drawing_MatrixCreate();
+    if (pattern->GetPatternTransform().size() == 9) {
+        OH_Drawing_MatrixSetMatrix(matrix, pattern->GetPatternTransform()[0], pattern->GetPatternTransform()[1],
+            pattern->GetPatternTransform()[2], pattern->GetPatternTransform()[3], pattern->GetPatternTransform()[4],
+            pattern->GetPatternTransform()[5], pattern->GetPatternTransform()[6], pattern->GetPatternTransform()[7],
+            pattern->GetPatternTransform()[8]);
+    }
+
+    // set repeat shader
+    OH_Drawing_Image *image = OH_Drawing_ImageCreate();
+    OH_Drawing_ImageBuildFromBitmap(image, bitmap);
+
+    OH_Drawing_SamplingOptions *opt = OH_Drawing_SamplingOptionsCreate(OH_Drawing_FilterMode::FILTER_MODE_LINEAR,
+                                                                       OH_Drawing_MipmapMode::MIPMAP_MODE_NONE);
+    OH_Drawing_ShaderEffect *imageShader = OH_Drawing_ShaderEffectCreateImageShader(
+        image, OH_Drawing_TileMode::REPEAT, OH_Drawing_TileMode::REPEAT, opt, matrix);
+    OH_Drawing_BrushReset(fillBrush_);
+    OH_Drawing_BrushSetShaderEffect(fillBrush_, imageShader);
+
+    OH_Drawing_CanvasDestroy(canvas);
+    OH_Drawing_BitmapDestroy(bitmap);
+    OH_Drawing_BrushDestroy(brush);
+    OH_Drawing_ImageDestroy(image);
+    OH_Drawing_SamplingOptionsDestroy(opt);
+    OH_Drawing_MatrixDestroy(matrix);
+
 }
 
 bool SvgGraphic::UpdateStrokeStyle(bool antiAlias) {
@@ -314,6 +414,16 @@ void SvgGraphic::DrawMarker(OH_Drawing_Canvas *canvas) {
         LOG(INFO) << "DRAW MARKER at " << position.origin.x << " " << position.origin.y << "] type: " << static_cast<int>(type);
         marker->renderMarker(canvas, position, attributes_.strokeState.GetLineWidth());
     }
+}
+
+double SvgGraphic::GetVal(Dimension length, double relative) {
+    if (length.Value() == 0) {
+        return 0;
+    }
+    if (length.Unit() == DimensionUnit::PERCENT) {
+        return length.Value() / 100 * relative;
+    }
+    return length.Value() * scale_;
 }
 
 } // namespace rnoh

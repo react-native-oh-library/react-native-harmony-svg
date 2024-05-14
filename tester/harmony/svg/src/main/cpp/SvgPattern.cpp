@@ -18,21 +18,88 @@
 
 namespace rnoh {
 
-SvgPattern::SvgPattern() {
-    LOG(INFO) << "[SvgPattern] init";
+SvgPattern::SvgPattern() { LOG(INFO) << "[SvgPattern] init"; }
+
+void SvgPattern::OnDrawTraversedBefore(OH_Drawing_Canvas *canvas) {
+    LOG(INFO) << "[pattern] OnDrawTraversedBefore";
+    // 1.
 }
 
-void SvgPattern::OnDrawTraversedBefore(OH_Drawing_Canvas *canvas)
-{
-    auto scaleX = OH_Drawing_CanvasGetWidth(canvas) / patternAttr_.width.ConvertToPx();
-    auto scaleY = OH_Drawing_CanvasGetHeight(canvas) / patternAttr_.height.ConvertToPx();
-    OH_Drawing_CanvasSave(canvas);
-    OH_Drawing_CanvasScale(canvas, scaleX, scaleY);
+void SvgPattern::OnDrawTraversedAfter(OH_Drawing_Canvas *canvas) {
+    LOG(INFO) << "[pattern] OnDrawTraversedAfter";
 }
 
-void SvgPattern::OnDrawTraversedAfter(OH_Drawing_Canvas *canvas)
-{
-    OH_Drawing_CanvasRestore(canvas);
+const Pattern &SvgPattern::GetPatternAttr() const { return pattern; }
+
+void SvgPattern::setPatternX(Dimension x) { 
+    pattern.setPatternX(x); 
 }
 
-} // namespace OHOS::Ace::NG
+void SvgPattern::setPatternY(Dimension y) { 
+    pattern.setPatternY(y);
+}
+
+void SvgPattern::setHeight(Dimension height) {
+    pattern.setHeight(height); 
+}
+
+void SvgPattern::setWidth(Dimension width) { 
+    pattern.setWidth(width); 
+}
+
+void SvgPattern::setPatternContentUnits(int patternContentUnits) {
+    pattern.setPatternContentUnits(patternContentUnits); 
+}
+
+void SvgPattern::setPatternUnits(int patternUnits) { 
+    pattern.setPatternUnits(patternUnits);
+}
+
+
+void SvgPattern::setViewBox(Rect viewBox) { 
+    pattern.setViewBox(viewBox);
+}
+
+void SvgPattern::setmMinX(float mMinX) { 
+    pattern.setmMinX(mMinX);
+}
+
+void SvgPattern::setmMinY(float mMinY) { 
+    pattern.setmMinY(mMinY);
+}
+
+void SvgPattern::setmVbWidth(float mVbWidth) { 
+    pattern.setmVbWidth(mVbWidth);
+}
+
+void SvgPattern::setmVbHeight(float mVbHeight) { 
+    pattern.setmVbHeight(mVbHeight);
+}
+
+void SvgPattern::setmAlign(std::string mAlign) { 
+    pattern.setmAlign(mAlign);
+}
+
+void SvgPattern::setmMeetOrSlice(int mMeetOrSlice) { 
+    pattern.setmMeetOrSlice(mMeetOrSlice);
+}
+
+void SvgPattern::setPatternTransforms(std::vector<Float> patternTransforms) {
+    std::vector<Float> newMatrix {
+        1, 0, 0,
+        0, 1, 0,
+        0, 0, 1,
+    };
+    if (patternTransforms.size() == 6) {
+        newMatrix[0] = (Float) patternTransforms[0];
+        newMatrix[1] = (Float) patternTransforms[2];
+        newMatrix[2] = (Float) patternTransforms[4] * scale_;
+        newMatrix[3] = (Float) patternTransforms[1];
+        newMatrix[4] = (Float) patternTransforms[3];
+        newMatrix[5] = (Float) patternTransforms[5] * scale_;
+        pattern.setPatternTransform(std::move(newMatrix));
+    }
+}
+
+void SvgPattern::setImage(OH_Drawing_Image* image) { pattern.setImage(image); }
+} // namespace rnoh
