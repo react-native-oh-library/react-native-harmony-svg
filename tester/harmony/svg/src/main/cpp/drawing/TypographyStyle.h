@@ -18,9 +18,11 @@ public:
     TypographyStyle();
     ~TypographyStyle() noexcept;
 
-    // can't move textStyle
-    TypographyStyle(TypographyStyle &&other) = delete;
-    TypographyStyle &operator=(TypographyStyle && other) = delete;
+    TypographyStyle(const TypographyStyle &) = delete;
+    TypographyStyle &operator=(const TypographyStyle &) = delete;
+
+    TypographyStyle(TypographyStyle &&other) = default;
+    TypographyStyle &operator=(TypographyStyle && other) = default;
 
     void SetTextStyle(TextStyle textStyle);
 
@@ -28,7 +30,7 @@ public:
 
     // private:
     UniqueTypographyStyle typographyStyle_;
-    std::optional<TextStyle> textStyle_;
+    TextStyle textStyle_;
 };
 
 } // namespace rnoh::drawing
