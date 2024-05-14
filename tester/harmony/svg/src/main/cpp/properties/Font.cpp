@@ -153,35 +153,4 @@ FontVariantLigatures fontVariantFromStr(const std::string &str) {
     }
 }
 
-TextPathMethod textPathMethodFromStr(const std::string &str) {
-    if (str == "stretch") {
-        return TextPathMethod::stretch;
-    } else {
-        return TextPathMethod::align;
-    }
-}
-
-TextPathSide textPathSideFromStr(const std::string &str) {
-    if (str == "right") {
-        return TextPathSide::right;
-    } else {
-        return TextPathSide::left;
-    }
-}
-
-TextPathMidLine textPathMidLineFromStr(const std::string &str) {
-    if (str == "sharp") {
-        return TextPathMidLine::sharp;
-    } else {
-        return TextPathMidLine::smooth;
-    }
-}
-
-TextPathSpacing textPathSpacingFromStr(const std::string &str) {
-    if (str == "auto") {
-        return TextPathSpacing::Auto;
-    } else {
-        return TextPathSpacing::Exact;
-    }
-}
 } // namespace rnoh

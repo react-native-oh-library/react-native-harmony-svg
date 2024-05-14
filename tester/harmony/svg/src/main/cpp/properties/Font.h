@@ -33,15 +33,6 @@ TextAnchor textAnchorFromStr(const std::string &str);
 TextDecoration textDecorationFromStr(const std::string &str);
 FontVariantLigatures fontVariantFromStr(const std::string &str);
 
-enum class TextPathMethod { align, stretch };
-enum class TextPathMidLine { sharp, smooth };
-enum class TextPathSide { left, right };
-enum class TextPathSpacing { Auto, Exact };
-
-TextPathMethod textPathMethodFromStr(const std::string &str);
-TextPathSide textPathSideFromStr(const std::string &str);
-TextPathMidLine textPathMidLineFromStr(const std::string &str);
-TextPathSpacing textPathSpacingFromStr(const std::string &str);
 
 // intermediate data to store in Svg nodes
 struct FontProps {
