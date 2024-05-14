@@ -49,6 +49,28 @@ class SimpleMask extends Component {
   }
 }
 
+class SimpleMaskWithUnits extends Component {
+  static title = 'Simple svg with mask but different maskContentUnits';
+  render() {
+    return (
+      <View style={styles.container}>
+        <Svg viewBox="-10 -10 120 120">
+          <Rect x={-10} y={-10} width={120} height={120} fill="blue" />
+          <Mask id="myMask" maskUnits="objectBoundingBox" maskContentUnits="objectBoundingBox">
+            <Rect x={0} y={0} width={100} height={100} fill="white" />
+            <Path
+              d="M10,35 A20,20,0,0,1,50,35 A20,20,0,0,1,90,35 Q90,65,50,95 Q10,65,10,35 Z"
+              fill="black"
+            />
+          </Mask>
+          <Polygon points="-10,110 110,110 110,-10" fill="orange" />
+          <Circle cx={50} cy={50} r={50} fill="purple" mask="url(#myMask)" />
+        </Svg>
+      </View>
+    );
+  }
+}
+
 class AnotherMask extends Component {
   static title = 'Another svg with mask';
   render() {
@@ -277,6 +299,9 @@ export default function () {
       <ScrollView>
         <TestCase itShould="SimpleMask">
           <SimpleMask />
+        </TestCase>
+        <TestCase itShould="SimpleMaskWithUnits">
+          <SimpleMaskWithUnits />
         </TestCase>
         <TestCase itShould="IconMask">
           {icon}
