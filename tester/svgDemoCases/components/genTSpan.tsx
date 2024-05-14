@@ -45,7 +45,7 @@ const basicCases: CaseParams[] = [
                 inlineSize: '20',
             }
         ]
-    } 
+    }
 ]
 
 const allCases = [
@@ -54,13 +54,6 @@ const allCases = [
     ...genStrokeProps(),
     ...genClipProps(),
     ...genTransformProps(),
-    //VectorEffectProps
-    //...genResponderProps(),
-    //...genTouchableProps(),
-    //DefinitionProps
-    //...genCommonMarkerProps(),
-    //NativeProps
-    //...genAccessibilityProps(),
     ...genFontProps(),
 ]
 
