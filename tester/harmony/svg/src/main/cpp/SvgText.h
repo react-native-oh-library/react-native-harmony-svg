@@ -55,21 +55,18 @@ public:
             align.erase(0, align.find_first_not_of(" \t\r\n"));
             align.erase(align.find_last_not_of(" \t\r\n") + 1);
             size_t i = align.find_last_of(' ');
-            // Find last space
-            size_t i = align.find_last_of(' ');
-            align = align.trim();
-            int i = align.lastIndexOf(' ');
-            align_ = align.substring(i);
-            baselineShift_ = align.substring(0, i);
+            align_ = alignmentBaselineFromStr(align.substr(i));
+            baselineShift_ = align.substr(0, i);
         } else {
-            align_ = AlignmentBaseline.baseline;
-            baselineShift_ = 0.0;
+            align_ = AlignmentBaseline::baseline;
+            baselineShift_.clear();
         }
+
         if (!props->baselineShift.empty()) {
             baselineShift_ = props->baselineShift;
         }
-        if (!props->lengthAdjust.empty()) {
-            lengthAdjust_ = textLengthAdjustFromStr(props->lengthAdjust);
+        if (!props->alignmentBaseline.empty()) {
+            align_ = alignmentBaselineFromStr(props->alignmentBaseline);
         }
 
         lengthAdjust_ = textLengthAdjustFromStr(props->lengthAdjust);
@@ -91,7 +88,7 @@ protected:
 
     std::string baselineShift_;
     TextLengthAdjust lengthAdjust_ = TextLengthAdjust::spacing;
-    AlignmentBaseline align_ = Align_::baseline;
+    AlignmentBaseline align_ = AlignmentBaseline::baseline;
 
     std::shared_ptr<GlyphContext> glyphCtx_;
 };

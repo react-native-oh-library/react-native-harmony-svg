@@ -139,7 +139,119 @@ void SvgTSpan::DrawOnPath(OH_Drawing_Canvas *canvas) {
     }
 
     double scaleSpacingAndGlyphs = 1.0;
+    if (textLength_) {
+        double author = textLength_->ConvertToPx(OH_Drawing_CanvasGetWidth(canvas));
+        switch (lengthAdjust_) {
+        default:
+        case TextLengthAdjust::spacing:
+            font_->letterSpacing += (author - textMeasure) / (content_.size() - 1);
+            break;
+        case TextLengthAdjust::spacingAndGlyphs:
+            scaleSpacingAndGlyphs = author / textMeasure;
+            break;
+        }
+    }
     double scaledDirection = scaleSpacingAndGlyphs * side;
+
+    OH_Drawing_Font_Metrics fm;
+    bool res = OH_Drawing_TextStyleGetFontMetrics(typography, ts.textStyle_.textStyle_.get(), &fm);
+    LOG(INFO) << "GET FONT METRICS = " << res;
+    const double descenderDepth = fm.descent;
+    const double bottom = descenderDepth + fm.leading;
+    const double ascenderHeight = -fm.ascent + fm.leading;
+    const double top = -fm.top;
+    const double totalHeight = top + bottom;
+    double baselineShift = 0;
+    switch (align_) {
+    // https://wiki.apache.org/xmlgraphics-fop/LineLayout/AlignmentHandling
+    default:
+    case AlignmentBaseline::baseline:
+        // Use the dominant baseline choice of the parent.
+        // Match the box’s corresponding baseline to that of its parent.
+        baselineShift = 0;
+        break;
+
+    case AlignmentBaseline::textBottom:
+    case AlignmentBaseline::afterEdge:
+    case AlignmentBaseline::textAfterEdge:
+        // Match the bottom of the box to the bottom of the parent’s content area.
+        // text-after-edge = text-bottom
+        // text-after-edge = descender depth
+        baselineShift = -descenderDepth;
+        break;
+
+    case AlignmentBaseline::alphabetic:
+        // Match the box’s alphabetic baseline to that of its parent.
+        // alphabetic = 0
+        baselineShift = 0;
+        break;
+
+    case AlignmentBaseline::ideographic:
+        baselineShift = -descenderDepth;
+        break;
+
+    case AlignmentBaseline::middle: {
+        // Rect bounds;
+        // paint.getTextBounds("x", 0, 1, &bounds);
+        // int xHeight = bounds.height();
+        // baselineShift = xHeight / 2.0;
+        break;
+    }
+    case AlignmentBaseline::central:
+        baselineShift = (ascenderHeight - descenderDepth) / 2;
+        break;
+
+    case AlignmentBaseline::mathematical:
+        baselineShift = 0.5 * ascenderHeight;
+        break;
+
+    case AlignmentBaseline::hanging:
+        baselineShift = 0.8 * ascenderHeight;
+        break;
+
+    case AlignmentBaseline::textTop:
+    case AlignmentBaseline::beforeEdge:
+    case AlignmentBaseline::textBeforeEdge:
+        baselineShift = ascenderHeight;
+        break;
+
+    case AlignmentBaseline::bottom:
+        baselineShift = bottom;
+        break;
+
+    case AlignmentBaseline::center:
+        baselineShift = totalHeight / 2;
+        break;
+
+    case AlignmentBaseline::top:
+        baselineShift = top;
+        break;
+    }
+
+    if (!baselineShift_.empty()) {
+        switch (align_) {
+        case AlignmentBaseline::top:
+        case AlignmentBaseline::bottom:
+            break;
+
+        default: 
+            break;
+//             if (baselineShift_ != "sub" && baseline ) {
+//             case "sub":
+//                 // TODO
+//                 break;
+//             case "super":
+//                 // TODO
+//                 break;
+//             case "baseline":
+//                 break;
+//             default:
+//                 baselineShift -= StringUtils::FromString(baselineShift_).ConvertToPx(scale_ * fontSize);
+//             }
+//             break;
+//                 }
+        }
+    }
 
     for (int i = 0; i < content_.size(); i++) {
         std::string current = content_.substr(i, 1);
