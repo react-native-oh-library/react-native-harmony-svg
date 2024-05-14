@@ -29,6 +29,10 @@ const basicCases: CaseParams[] = [
                 height: '25%'
             },
         ]
+    },
+    {
+        key: 'patternTransform',
+        values: ['skewX(20) translate(-35, 0)', 'translate(5, 6)', 'scale(1, 4)', 'rotate(30)', 'skewX(20)', 'skewY(20)']
     }
 ]
 
