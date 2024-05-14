@@ -16,6 +16,7 @@ enum class FontWeight {
     w800,
     w900,
     lighter,
+    unknown,
 };
 
 // match with <native_drawing/drawing_text_typography.h>
