@@ -35,11 +35,6 @@ void SvgTSpan::OnDraw(OH_Drawing_Canvas *canvas) {
         return;
     }
 
-    UpdateStrokeStyle();
-    auto fillOpaque = UpdateFillStyle();
-    if (!fillOpaque) {
-        OH_Drawing_BrushSetColor(fillBrush_, Color::TRANSPARENT.GetValue());
-    }
 
     glyphCtx_->pushContext(false, shared_from_this(), x_, y_, dx_, dy_, rotate_);
     if (!textPath_) {
@@ -51,15 +46,8 @@ void SvgTSpan::OnDraw(OH_Drawing_Canvas *canvas) {
 }
 
 void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
-    drawing::TextStyle textStyle;
-    textStyle.SetForegroundBrush(fillBrush_);
-    textStyle.SetForegroundPen(strokePen_);
-    textStyle.Update(font_);
-    drawing::TypographyStyle ts;
-    ts.SetTextStyle(std::move(textStyle));
-    ts.Update(font_);
+    drawing::TypographyStyle ts = PrepareTypoStyle();
     auto *fontCollection = OH_Drawing_CreateFontCollection();
-    LOG(INFO) << "TS = " << ts.typographyStyle_.get();
     auto *typographyHandler = OH_Drawing_CreateTypographyHandler(ts.typographyStyle_.get(), fontCollection);
 
     OH_Drawing_TypographyHandlerAddText(typographyHandler, content_.c_str());
@@ -92,6 +80,23 @@ double SvgTSpan::getTextAnchorOffset(TextAnchor textAnchor, const double &textMe
     }
 }
 
+drawing::TypographyStyle SvgTSpan::PrepareTypoStyle() {
+    UpdateStrokeStyle();
+    auto fillOpaque = UpdateFillStyle();
+    if (!fillOpaque) {
+        OH_Drawing_BrushSetColor(fillBrush_, Color::TRANSPARENT.GetValue());
+    }
+
+    drawing::TextStyle textStyle;
+    textStyle.SetForegroundBrush(fillBrush_);
+    textStyle.SetForegroundPen(strokePen_);
+    textStyle.Update(font_);
+    drawing::TypographyStyle ts;
+    ts.SetTextStyle(std::move(textStyle));
+    ts.Update(font_);
+    return std::move(ts);
+}
+
 void SvgTSpan::DrawOnPath(OH_Drawing_Canvas *canvas) {
     LOG(INFO) << "TEXT_PATH DRAW content = " << content_;
     if (content_.empty()) {
@@ -106,39 +111,30 @@ void SvgTSpan::DrawOnPath(OH_Drawing_Canvas *canvas) {
     bool isClosed = OH_Drawing_PathIsClosed(path, false);
     LOG(INFO) << "TEXT_PATH pathLen = " << pathLength;
 
-    // TODO ligature
+    drawing::TypographyStyle ts = PrepareTypoStyle();
+    auto *fontCollection = OH_Drawing_CreateFontCollection();
+    auto *typographyHandler = OH_Drawing_CreateTypographyHandler(ts.typographyStyle_.get(), fontCollection);
 
-    // TODO TextAnchor
-    TextAnchor textAnchor = font_->textAnchor;
-    //     double textMeasure = anchorRoot.getSubtreeTextChunksTotalAdvance(paint);
-    double textMeasure = 0;
-    double offset = getTextAnchorOffset(textAnchor, textMeasure);
+    OH_Drawing_TypographyHandlerAddText(typographyHandler, content_.c_str());
+    auto *typography = OH_Drawing_CreateTypography(typographyHandler);
+    OH_Drawing_TypographyLayout(typography, 1e9);
+    double textMeasure = OH_Drawing_TypographyGetLineWidth(typography, 0);
+    double offset = getTextAnchorOffset(font_->textAnchor, textMeasure);
 
-    int side = 1;
     double startOfRendering = 0;
     double endOfRendering = pathLength;
-    bool sharpMidLine = false;
-    sharpMidLine = textPath_->getMidLine() == TextPathMidLine::sharp;
-    side = textPath_->getSide() == TextPathSide::right ? -1 : 1;
+    bool sharpMidLine = textPath_->getMidLine() == TextPathMidLine::sharp;
+    int side = textPath_->getSide() == TextPathSide::right ? -1 : 1;
     double absoluteStartOffset = textPath_->getStartOffset();
     offset += absoluteStartOffset;
     if (isClosed) {
-        startOfRendering = absoluteStartOffset + (textAnchor == TextAnchor::middle ? -pathLength / 2.0 : 0);
+        startOfRendering = absoluteStartOffset + (font_->textAnchor == TextAnchor::middle ? -pathLength / 2.0 : 0);
         endOfRendering = startOfRendering + pathLength;
     }
 
     double scaleSpacingAndGlyphs = 1.0;
     double scaledDirection = scaleSpacingAndGlyphs * side;
 
-    drawing::TextStyle textStyle;
-    textStyle.SetForegroundBrush(fillBrush_);
-    textStyle.SetForegroundPen(strokePen_);
-    textStyle.Update(font_);
-    drawing::TypographyStyle ts;
-    ts.SetTextStyle(std::move(textStyle));
-    ts.Update(font_);
-    auto *fontCollection = OH_Drawing_CreateFontCollection();
-    auto *typographyHandler = OH_Drawing_CreateTypographyHandler(ts.typographyStyle_.get(), fontCollection);
     for (int i = 0; i < content_.size(); i++) {
         std::string current = content_.substr(i, 1);
 
@@ -186,16 +182,7 @@ void SvgTSpan::DrawOnPath(OH_Drawing_Canvas *canvas) {
             } else {
                 OH_Drawing_PathGetMatrix(path, false, startPoint, &start, GET_POSITION_MATRIX);
             }
-            bool res = OH_Drawing_PathGetMatrix(path, true, midPoint, &mid, GET_POSITION_AND_TANGENT_MATRIX);
-            res = OH_Drawing_PathGetMatrix(path, true, 50, &mid, GET_POSITION_AND_TANGENT_MATRIX);
-            LOG(INFO) << "TEXT_PATH MATRIX midPoint = " << midPoint << " totalLen = " << pathLength << " res = " << res
-                      << " mid x = " << OH_Drawing_MatrixGetValue(&mid, MTRANS_X)
-                      << " mid y = " << OH_Drawing_MatrixGetValue(&mid, MTRANS_Y);
-
-            for (int i = 0; i < 9; ++i) {
-                LOG(INFO) << "TEXT_PATH MATRIX mid data POINT[[[]]] = " << i << " = "
-                          << OH_Drawing_MatrixGetValue(&mid, i);
-            }
+            OH_Drawing_PathGetMatrix(path, true, midPoint, &mid, GET_POSITION_MATRIX);
 
             if (endPoint > pathLength) {
                 OH_Drawing_PathGetMatrix(path, false, pathLength, &end, GET_POSITION_AND_TANGENT_MATRIX);

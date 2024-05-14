@@ -10,7 +10,7 @@ TypographyStyle::~TypographyStyle() noexcept {}
 
 void TypographyStyle::SetTextStyle(TextStyle textStyle) {
     textStyle_ = std::move(textStyle);
-    OH_Drawing_SetTypographyTextStyle(typographyStyle_.get(), textStyle_->textStyle_.get());
+    OH_Drawing_SetTypographyTextStyle(typographyStyle_.get(), textStyle_.textStyle_.get());
 }
 
 void TypographyStyle::Update(const std::shared_ptr<FontData> &style) {

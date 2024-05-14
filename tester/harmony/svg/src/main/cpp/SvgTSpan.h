@@ -32,6 +32,8 @@ private:
     void DrawOnPath(OH_Drawing_Canvas* canvas);
     void DrawText(OH_Drawing_Canvas* canvas);
 
+    drawing::TypographyStyle PrepareTypoStyle();
+
     std::shared_ptr<SvgTextPath> textPath_;
     
 };
