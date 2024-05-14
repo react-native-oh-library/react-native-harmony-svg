@@ -25,14 +25,14 @@ public:
 
     OH_Drawing_Path *getTextPath();
 
-    TextPathMidLine getMidLine() { return midLine_; }
+    TextPathMidLine getMidLine() const { return midLine_; }
 
-    TextPathSide getSide() { return side_; }
+    TextPathSide getSide() const { return side_; }
 
-    double getStartOffset() { return startOffset_; }
+    double getStartOffset() const { return startOffset_; }
 
-    TextPathSide side_;
-    TextPathMidLine midLine_;
+    TextPathSide side_{TextPathSide::left};
+    TextPathMidLine midLine_{TextPathMidLine::sharp};
     TextPathMethod method_{TextPathMethod::align};
     TextPathSpacing spacing_{TextPathSpacing::Exact};
     double startOffset_;
