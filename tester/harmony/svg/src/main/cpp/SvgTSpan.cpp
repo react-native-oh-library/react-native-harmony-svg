@@ -56,7 +56,7 @@ void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
     OH_Drawing_TypographyLayout(typography, maxWidth);
     double actualWidth = OH_Drawing_TypographyGetLongestLine(typography);
     LOG(INFO) << "TEXT GLYPH maxWidth = " << maxWidth << " ACTUAL width = " << actualWidth;
-    double dx = glyphCtx_->nextX(actualWidth) + glyphCtx_->nextDeltaX();
+    double dx = glyphCtx_->nextX(actualWidth) - actualWidth + glyphCtx_->nextDeltaX();
     double dy = glyphCtx_->nextY() + glyphCtx_->nextDeltaY();
     LOG(INFO) << "TEXT GLYPH next X = " << dx << " next dy = " << dy;
 
