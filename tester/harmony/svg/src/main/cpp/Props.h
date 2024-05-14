@@ -87,21 +87,21 @@ struct RNSVGPaintStruct {
     SharedColor payload;
     std::string brushRef;
 };
-static inline void fromRawValue(const PropsParserContext& context, const RawValue &value, RNSVGPaintStruct &result) {
-  auto map = (butter::map<std::string, RawValue>)value;
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value, RNSVGPaintStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
 
-  auto tmp_type = map.find("type");
-  if (tmp_type != map.end()) {
-    fromRawValue(context, tmp_type->second, result.type);
-  }
-  auto tmp_payload = map.find("payload");
-  if (tmp_payload != map.end()) {
-    fromRawValue(context, tmp_payload->second, result.payload);
-  }
-  auto tmp_brushRef = map.find("brushRef");
-  if (tmp_brushRef != map.end()) {
-    fromRawValue(context, tmp_brushRef->second, result.brushRef);
-  }
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
 }
 
 static inline std::string toString(const RNSVGSvgViewAndroidNativeForegroundAndroidStruct &value) {
@@ -233,7 +233,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -332,7 +332,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -349,7 +349,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -364,7 +364,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -466,7 +466,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -568,7 +568,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -586,7 +586,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -629,7 +629,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -650,7 +650,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -749,7 +749,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -858,7 +858,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -882,7 +882,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -979,7 +979,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -1010,7 +1010,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -1033,7 +1033,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -1134,7 +1134,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -1229,7 +1229,16 @@ static inline void fromRawValue(const PropsParserContext &context, const RawValu
     }
 }
 
-static inline std::string toString(const RNSVGTextFontStruct &value) { return "[Object RNSVGTextFontStruct]"; }
+static inline std::string toString(const RNSVGTextFontStruct &value) {
+    return "fontSTyle = " + value.fontStyle + " fontVariant = " + value.fontVariant +
+           " fontWeight = " + value.fontWeight + " fontStretch = " + value.fontStretch +
+           " fontSize = " + value.fontSize + " fontFamily = " + value.fontFamily + " textAnchor = " + value.textAnchor +
+           " textDecoration = " + value.textDecoration + " letterSpacing = " + value.letterSpacing +
+           " wordSpacing = " + value.wordSpacing + " kerning = " + value.kerning +
+           " fontFeatureSettings = " + value.fontFeatureSettings +
+           " fontVariantLigatures = " + value.fontVariantLigatures +
+           " fontVariationSettings = " + value.fontVariationSettings;
+}
 class JSI_EXPORT RNSVGTextProps final : public RNSVGCommonProps {
 public:
     RNSVGTextProps() = default;
@@ -1237,7 +1246,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -1347,7 +1356,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -1462,7 +1471,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};
@@ -1492,7 +1501,7 @@ public:
 
 #pragma mark - Props
 
-    
+
     bool responsible{false};
     std::string display{};
     // std::string pointerEvents{};

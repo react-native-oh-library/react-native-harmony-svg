@@ -115,10 +115,9 @@ double GlyphContext::nextX(double advance) {
         mX = string.ConvertToPx(mWidth);
     }
 
-    double res = mX;
     mX += advance;
 
-    return res;
+    return mX;
 }
 double GlyphContext::nextDeltaX() {
     incrementIndices(mDXIndices, mDXsIndex);
