@@ -296,48 +296,40 @@ export function genViewProps(): CaseParams[] {
                     right: 0
                 },
                 {
-                    top: 0,
-                    left: 0,
-                    bottom: 0,
-                    right: 0
+                    top: 10,
+                    left: 10,
+                    bottom: 10,
+                    right: 10
                 },
                 {
-                    top: 0,
-                    left: 0,
+                    top: 30,
+                    left: 30,
                     bottom: 0,
                     right: 0
                 },
             ]
         },
         {
-            key: 'hitSlop',
-            values: []
+            key: 'pointerEvents', // 'box-none' | 'none' | 'box-only' | 'auto' | undefined;
+            values: ['box-none', 'none', 'box-only', 'auto', 'undefined']
         },
         {
-            key: 'hitSlop',
-            values: []
+            key: 'removeClippedSubviews',
+            values: ['true', 'false']
         },
+        // testID nativeID
         {
-            key: 'hitSlop',
-            values: []
-        },
-        {
-            key: 'hitSlop',
-            values: []
-        },
-        {
-            key: 'hitSlop',
-            values: []
-        },
-        {
-            key: 'hitSlop',
-            values: []
-        },
+            key: 'shouldRasterizeIOS',
+            values: ['true', 'false']
+        }
     ]
 }
 
 export function genViewPropsFuncs(name: string) {
     return {
+        onLayout () {
+            console.log(`Triggered onLayout of the ${name}`)
+        }
     }
 }
 
@@ -463,10 +455,88 @@ export function genAdditionalProps(name: string) {
     }
 }
 
-export function genPointerEvents() {
-
+export function genPointerEvents(name: string) {
+    return {
+        onPointerEnter() {
+            console.log(`Triggered onPointerEnter of the ${name}`)
+        },
+        onPointerEnterCapture() {
+            console.log(`Triggered onPointerEnterCapture of the ${name}`)
+        },
+        onPointerLeave() {
+            console.log(`Triggered onPointerLeave of the ${name}`)
+        },
+        onPointerLeaveCapture() {
+            console.log(`Triggered onPointerLeaveCapture of the ${name}`)
+        },
+        onPointerMove() {
+            console.log(`Triggered onPointerMove of the ${name}`)
+        },
+        onPointerMoveCapture() {
+            console.log(`Triggered onPointerMoveCapture of the ${name}`)
+        },
+        onPointerEonPointerCancelnter() {
+            console.log(`Triggered onPointerCancel of the ${name}`)
+        },
+        onPointerCancelCapture() {
+            console.log(`Triggered onPointerCancelCapture of the ${name}`)
+        },
+        onPointerDown() {
+            console.log(`Triggered onPointerDown of the ${name}`)
+        },
+        onPointerDownCapture() {
+            console.log(`Triggered onPointerDownCapture of the ${name}`)
+        },
+        onPointerUp() {
+            console.log(`Triggered onPointerUp of the ${name}`)
+        },
+        onPointerUpCapture() {
+            console.log(`Triggered onPointerUpCapture of the ${name}`)
+        },
+    }
 }
 
 export function genCommonMarkerProps() {
 
+}
+
+export function genGestureResponderHandlers(name: string) {
+    return {
+        onStartShouldSetResponder() {
+            console.log(`Triggered onStartShouldSetResponder of the ${name}`)
+        },
+        onMoveShouldSetResponder() {
+            console.log(`Triggered onMoveShouldSetResponder of the ${name}`)
+        },
+        onResponderEnd () {
+            console.log(`Triggered onResponderEnd of the ${name}`)
+        },
+        onResponderGrant() {
+            console.log(`Triggered onResponderGrant of the ${name}`)
+        },
+        onResponderReject() {
+            console.log(`Triggered onResponderReject of the ${name}`)
+        },  
+        onResponderMove() {
+            console.log(`Triggered onResponderMove of the ${name}`)
+        },
+        onResponderRelease() {
+            console.log(`Triggered onResponderRelease of the ${name}`)
+        },
+        onResponderStart() {
+            console.log(`Triggered onResponderStart of the ${name}`)
+        },
+        onResponderTerminationRequest() {
+            console.log(`Triggered onResponderTerminationRequest of the ${name}`)
+        },
+        onResponderTerminate() {
+            console.log(`Triggered onResponderTerminate of the ${name}`)
+        },
+        onStartShouldSetResponderCapture() {
+            console.log(`Triggered onStartShouldSetResponderCapture of the ${name}`)
+        },
+        onMoveShouldSetResponderCapture() {
+            console.log(`Triggered onMoveShouldSetResponderCapture of the ${name}`)
+        }
+    }
 }
