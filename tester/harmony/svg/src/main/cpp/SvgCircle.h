@@ -16,7 +16,6 @@
 #pragma once
 
 #include "SvgGraphic.h"
-#include <native_drawing/drawing_point.h>
 
 namespace rnoh {
 
