@@ -4,6 +4,7 @@
 #include <native_drawing/drawing_point.h>
 #include <native_drawing/drawing_canvas.h>
 #include <native_drawing/drawing_path.h>
+#include "SvgSymbol.h"
 
 namespace rnoh {
 

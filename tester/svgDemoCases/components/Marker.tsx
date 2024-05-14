@@ -25,9 +25,11 @@ class LineExample extends Component {
         <Defs>
           <Marker
             id="selection"
+            viewBox="0 0 2 1"
             markerUnits="userSpaceOnUse"
             refX="-15"
             refY="10"
+            preserveAspectRatio="xMinYMax slice"
             orient="auto">
             <Polygon
               points="0,0 -5,20 10,30"

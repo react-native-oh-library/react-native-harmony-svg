@@ -21,27 +21,24 @@ public:
 
     void OnDraw(OH_Drawing_Canvas *canvas) override;
 
-    void SetParent(std::shared_ptr<SvgNode> parent) { parent_ = parent; }
     void SetContext(std::shared_ptr<GlyphContext> context) { glyphCtx_ = context; }
 
-    OH_Drawing_Path *getTextPath() {
-        //TODO getTextPath
-        return OH_Drawing_PathCreate(); 
-    }
-    
-    TextPathMidLine getMidLine() { return midLine_;}
-    
-    TextPathSide getSide() { return side_; }
+    OH_Drawing_Path *getTextPath();
 
-    double getStartOffset() { return startOffset_; }
+    TextPathMidLine getMidLine() const { return midLine_; }
 
-private:
-    std::shared_ptr<SvgNode> parent_;
-    TextPathSide side_;
-    TextPathMidLine midLine_;
+    TextPathSide getSide() const { return side_; }
+
+    double getStartOffset() const { return startOffset_; }
+
+    TextPathSide side_{TextPathSide::left};
+    TextPathMidLine midLine_{TextPathMidLine::sharp};
     TextPathMethod method_{TextPathMethod::align};
     TextPathSpacing spacing_{TextPathSpacing::Exact};
     double startOffset_;
+    std::string href_;
+
+private:
 };
 
 } // namespace rnoh

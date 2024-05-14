@@ -178,15 +178,19 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
         Color color = Color((uint32_t)*props->fill.payload);
         color.SetUseCurrentColor(true);
         attributes_.fillState.SetColor(color, true);
-    } else {
+    } else if (facebook::react::isColorMeaningful(props->fill.payload)) {
         attributes_.fillState.SetColor(Color((uint32_t)*props->fill.payload), set.count("fill"));
+    } else {
+        attributes_.fillState.SetColor(Color::TRANSPARENT, set.count("fill"));
     }
     if (props->stroke.type == 2) {
         Color color = Color((uint32_t)*props->stroke.payload);
         color.SetUseCurrentColor(true);
         attributes_.strokeState.SetColor(color, true);
-    } else {
+    } else if (facebook::react::isColorMeaningful(props->stroke.payload)) {
         attributes_.strokeState.SetColor(Color((uint32_t)*props->stroke.payload), set.count("stroke"));
+    } else {
+        attributes_.strokeState.SetColor(Color::TRANSPARENT, set.count("stroke"));
     }
     attributes_.fillState.SetOpacity(std::clamp(props->fillOpacity, 0.0, 1.0), set.count("fillOpacity"));
     // todo Inheritance situation
@@ -206,7 +210,7 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
         attributes_.strokeState.SetMiterLimit(limit, set.count("strokeMiterlimit"));
     }
     attributes_.strokeState.SetOpacity(std::clamp(props->strokeOpacity, 0.0, 1.0), set.count("strokeOpacity"));
-    attributes_.clipState.SetClipRule(static_cast<ClipState::ClipRule>(props->clipRule), set.count("clipRule"));
+    attributes_.clipState.SetClipRule(static_cast<ClipState::ClipRule>(props->clipRule), true);
 }
 
 Rect SvgNode::AsBounds() {

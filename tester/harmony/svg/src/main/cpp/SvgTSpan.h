@@ -5,12 +5,9 @@
 #include <native_drawing/drawing_text_typography.h>
 #include "SvgTextPath.h"
 #include "utils/GlyphContext.h"
+#include "drawing/TypographyStyle.h"
 
 namespace rnoh {
-
-constexpr double tau = 2.0 * M_PI;
-constexpr double radToDeg = 360.0 / tau;
-
 class SvgTSpan : public SvgGraphic, public SvgText {
 public:
     SvgTSpan() {
@@ -24,20 +21,19 @@ public:
 
     void OnDraw(OH_Drawing_Canvas *canvas) override;
 
-    void SetParent(std::shared_ptr<SvgNode> parent) { parent_ = parent; }
     void SetContext(std::shared_ptr<GlyphContext> context) { glyphCtx_ = context; }
+    void SetTextPathRef(std::shared_ptr<SvgTextPath> textPath) { textPath_ = textPath; }
     
     double getTextAnchorOffset(TextAnchor textAnchor, const double &textMeasure);
     
-    void getLinePath(std::string line, OH_Drawing_Canvas *canvas);
-    
-    std::string content;
+    std::string content_;
 
 private:
+    void DrawOnPath(OH_Drawing_Canvas* canvas);
     void DrawText(OH_Drawing_Canvas* canvas);
-    void DrawWrappedText(OH_Drawing_Canvas* canvas);
 
-    std::shared_ptr<SvgNode> parent_;
+    drawing::TypographyStyle PrepareTypoStyle();
+
     std::shared_ptr<SvgTextPath> textPath_;
     
 };

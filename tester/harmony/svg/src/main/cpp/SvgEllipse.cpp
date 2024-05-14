@@ -12,3 +12,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+#include "SvgEllipse.h"
+
+namespace rnoh {
+
+OH_Drawing_Path *SvgEllipse::AsPath() {
+    LOG(INFO) << "[SvgEllipse] AsPath";
+
+    auto rect = OH_Drawing_RectCreate(vpToPx(cx - rx), vpToPx(cy - ry), vpToPx(cx + rx), vpToPx(cy + ry));
+    OH_Drawing_PathAddOval(path_, rect, PATH_DIRECTION_CW);
+    return path_;
+};
+} // namespace rnoh

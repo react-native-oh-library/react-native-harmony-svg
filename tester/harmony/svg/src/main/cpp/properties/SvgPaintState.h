@@ -342,8 +342,8 @@ private:
 class ClipState {
 public:
     enum class ClipRule {
-        FILL_RULE_NONZERO = 0,
-        FILL_RULE_EVENODD
+        CLIP_RULE_EVENODD = 0,
+        CLIP_RULE_NONZERO
     };
 
     void SetClipRule(const ClipState::ClipRule clipRule, bool isSelf)
@@ -368,7 +368,7 @@ public:
 
     bool IsEvenodd() const
     {
-        return clipRule_ == ClipRule::FILL_RULE_EVENODD;
+        return clipRule_ == ClipRule::CLIP_RULE_EVENODD;
     }
 
     void SetHref(const std::string& href, bool isSelf)
@@ -393,7 +393,7 @@ public:
     }
 
 private:
-    ClipState::ClipRule clipRule_ = ClipState::ClipRule::FILL_RULE_NONZERO;
+    ClipState::ClipRule clipRule_ = ClipState::ClipRule::CLIP_RULE_NONZERO;
     std::string href_;
     bool hasClipRule_ = false;
     bool hasHref_ = false;

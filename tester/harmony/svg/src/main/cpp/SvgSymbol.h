@@ -1,50 +1,35 @@
 #pragma once
 
-#include <string>
-#include "SvgNode.h"
+//
+// Created on 2024/5/12.
+//
+// Node APIs are not fully supported. To solve the compilation error of the interface cannot be found,
+// please include "napi/native_api.h".
+
+#ifndef HARMONY_SVGSYMBOL_H
+#define HARMONY_SVGSYMBOL_H
 #include "SvgGraphic.h"
-#include "properties/Rect.h"
 #include "properties/ViewBox.h"
-#include <native_drawing/drawing_canvas.h>
-
 namespace rnoh {
-
-class SvgSymbol : public SvgNode {
-
+class SvgSymbol : public SvgGraphic {
 public:
-    SvgSymbol() : SvgNode()
-    {
-        InitSymbolFlag();
-
-    }
+    SvgSymbol() : SvgGraphic() { InitSymbolFlag(); }
     ~SvgSymbol() override = default;
 
-    void InitSymbolFlag()
-    {
-        // hrefFill_ = false;
-        // hrefRender_ = false;
-        // inheritStyle_ = false;
-        // drawTraversed_ = true;
+    void InitSymbolFlag() {
+        hrefFill_ = false;
+        hrefRender_ = false;
+        inheritStyle_ = false;
+        drawTraversed_ = false;
     }
-
-    float mMinX;
-    float mMinY;
-    float mVbWidth;
-    float mVbHeight;
+    float mMinX = 0.0f;
+    float mMinY = 0.0f;
+    float mVbWidth = 0.0f;
+    float mVbHeight = 0.0f;
     std::string mAlign;
-    int mMeetOrSlice;
-
-    void drawSymbol(OH_Drawing_Canvas *canvas, float width, float height) {
-        LOG(INFO) << "[SvgUse::SvgSymbol] : drawSymbol width :<< "<< width << " height:"<< height;
-        if (!mAlign.empty()) {
-            LOG(INFO) << "[SvgUse::SvgSymbol] : drawSymbol start" ;
-            Rect vbRect(mMinX * scale_, mMinY * scale_, (mMinX + mVbWidth) * scale_, (mMinY + mVbHeight) * scale_);
-            Rect eRect(0, 0, vpToPx(width), vpToPx(height));
-            OH_Drawing_Matrix *viewBoxMatrix = rhon::ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
-            OH_Drawing_CanvasConcatMatrix(canvas, viewBoxMatrix);
-            // Draw(canvas);
-        }
-    }
+    int mMeetOrSlice = -1;
+    void InitDefsFlag();
+    void drawSymbol(OH_Drawing_Canvas *canvas, float width, float height);
 };
-
-}
+} // namespace rnoh
+#endif // HARMONY_SVGSYMBOL_H

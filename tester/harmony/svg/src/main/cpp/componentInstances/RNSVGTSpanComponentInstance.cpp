@@ -13,7 +13,7 @@ RNSVGTSpanComponentInstance::RNSVGTSpanComponentInstance(Context context) : CppC
 void RNSVGTSpanComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
      CppComponentInstance::onPropsChanged(props);
      GetSvgNode()->UpdateCommonProps(props);
-    m_svgTSpan->content = props->content;
+    m_svgTSpan->content_ = props->content;
     auto fontSize = StringUtils::FromString(props->font.fontSize);
     m_svgTSpan->fontSize = fontSize.ConvertToPx();
 
@@ -28,9 +28,6 @@ SvgArkUINode &RNSVGTSpanComponentInstance::getLocalRootArkUINode() { return m_sv
             return;
         }
         OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(child));
-        if (auto tSpan = std::dynamic_pointer_cast<SvgTSpan>(child->GetSvgNode())) {
-            tSpan->SetParent(m_svgTSpan);
-        }
     }
 
 } // namespace rnoh

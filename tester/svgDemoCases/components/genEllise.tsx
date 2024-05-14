@@ -2,7 +2,7 @@ import React from "react";
 // import  from 'react-native-svg'
 import { Svg, Circle } from 'react-native-svg'
 import { GenMain } from './gen'
-import { genTransformProps, genFillProps, CaseParams } from '../genUtil'
+import { genTransformProps, genFillProps, CaseParams, genAccessibilityProps } from '../genUtil'
 const basicProps = {
     cx: 50,
     cy: 50,
@@ -49,7 +49,8 @@ const basicCases: CaseParams[] = [
 const allCases = [
     ...basicCases,
     ...genFillProps(),
-    ...genTransformProps()
+    ...genTransformProps(),
+    ...genAccessibilityProps()
 ]
 
 export default function () {
