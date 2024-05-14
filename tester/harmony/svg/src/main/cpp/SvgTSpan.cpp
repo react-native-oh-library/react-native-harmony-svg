@@ -106,20 +106,15 @@ void SvgTSpan::DrawOnPath(OH_Drawing_Canvas *canvas) {
     bool isClosed = OH_Drawing_PathIsClosed(path, false);
     LOG(INFO) << "TEXT_PATH pathLen = " << pathLength;
 
-    // TODO ligature
-
     // TODO TextAnchor
     TextAnchor textAnchor = font_->textAnchor;
-    //     double textMeasure = anchorRoot.getSubtreeTextChunksTotalAdvance(paint);
     double textMeasure = 0;
     double offset = getTextAnchorOffset(textAnchor, textMeasure);
 
-    int side = 1;
     double startOfRendering = 0;
     double endOfRendering = pathLength;
-    bool sharpMidLine = false;
-    sharpMidLine = textPath_->getMidLine() == TextPathMidLine::sharp;
-    side = textPath_->getSide() == TextPathSide::right ? -1 : 1;
+    bool sharpMidLine = textPath_->getMidLine() == TextPathMidLine::sharp;
+    int side = textPath_->getSide() == TextPathSide::right ? -1 : 1;
     double absoluteStartOffset = textPath_->getStartOffset();
     offset += absoluteStartOffset;
     if (isClosed) {
@@ -186,16 +181,7 @@ void SvgTSpan::DrawOnPath(OH_Drawing_Canvas *canvas) {
             } else {
                 OH_Drawing_PathGetMatrix(path, false, startPoint, &start, GET_POSITION_MATRIX);
             }
-            bool res = OH_Drawing_PathGetMatrix(path, true, midPoint, &mid, GET_POSITION_AND_TANGENT_MATRIX);
-            res = OH_Drawing_PathGetMatrix(path, true, 50, &mid, GET_POSITION_AND_TANGENT_MATRIX);
-            LOG(INFO) << "TEXT_PATH MATRIX midPoint = " << midPoint << " totalLen = " << pathLength << " res = " << res
-                      << " mid x = " << OH_Drawing_MatrixGetValue(&mid, MTRANS_X)
-                      << " mid y = " << OH_Drawing_MatrixGetValue(&mid, MTRANS_Y);
-
-            for (int i = 0; i < 9; ++i) {
-                LOG(INFO) << "TEXT_PATH MATRIX mid data POINT[[[]]] = " << i << " = "
-                          << OH_Drawing_MatrixGetValue(&mid, i);
-            }
+            OH_Drawing_PathGetMatrix(path, true, midPoint, &mid, GET_POSITION_MATRIX);
 
             if (endPoint > pathLength) {
                 OH_Drawing_PathGetMatrix(path, false, pathLength, &end, GET_POSITION_AND_TANGENT_MATRIX);

@@ -18,6 +18,10 @@ void RNSVGTextPathComponentInstance::onPropsChanged(SharedConcreteProps const &p
     m_svgTP->UpdateTextProps(props);
     m_svgTP->href_ = props->href;
     m_svgTP->startOffset_ = StringUtils::FromString(props->startOffset).ConvertToPx();
+    m_svgTP->spacing_ = textPathSpacingFromStr(props->spacing);
+    m_svgTP->midLine_ = textPathMidLineFromStr(props->midLine);
+    m_svgTP->side_ = textPathSideFromStr(props->side);
+    m_svgTP->method_ = textPathMethodFromStr(props->method);
 }
 
     void RNSVGTextPathComponentInstance::onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) {
