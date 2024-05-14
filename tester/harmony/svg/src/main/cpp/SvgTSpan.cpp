@@ -51,11 +51,12 @@ void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
     auto *typographyHandler = OH_Drawing_CreateTypographyHandler(ts.typographyStyle_.get(), fontCollection);
 
     OH_Drawing_TypographyHandlerAddText(typographyHandler, content_.c_str());
-    auto* typography = OH_Drawing_CreateTypography(typographyHandler);
+    auto *typography = OH_Drawing_CreateTypography(typographyHandler);
     double maxWidth = inlineSize_.value_or(Infinity<Dimension>()).ConvertToPx(OH_Drawing_CanvasGetWidth(canvas));
-    LOG(INFO) << "TEXT GLYPH maxWidth = " << maxWidth;
     OH_Drawing_TypographyLayout(typography, maxWidth);
-    double dx = glyphCtx_->nextX(0) + glyphCtx_->nextDeltaX();
+    double actualWidth = OH_Drawing_TypographyGetLongestLine(typography);
+    LOG(INFO) << "TEXT GLYPH maxWidth = " << maxWidth << " ACTUAL width = " << actualWidth;
+    double dx = glyphCtx_->nextX(actualWidth) + glyphCtx_->nextDeltaX();
     double dy = glyphCtx_->nextY() + glyphCtx_->nextDeltaY();
     LOG(INFO) << "TEXT GLYPH next X = " << dx << " next dy = " << dy;
 
