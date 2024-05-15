@@ -373,10 +373,10 @@ export function genTextSpecificProps(): CaseParams[] {
             key: 'baselineShift',
             values: ['sub', 'super', 'baseline']
         },
-        {
-            key: 'verticalAlign',
-            values: ['baseline', 'top', 'middle', 'bottom', 'sub', 'text-top']
-        },
+        // {
+        //     key: 'verticalAlign',
+        //     values: ['baseline', 'top', 'middle', 'bottom', 'sub', 'text-top']
+        // },
         {
             key: 'lengthAdjust',
             values: ['spacing', 'spacingAndGlyphs']
@@ -385,10 +385,10 @@ export function genTextSpecificProps(): CaseParams[] {
             key: 'textLength',
             values: ['5', '10', '150%']
         },
-        {
-            key: 'fontData',
-            values: ['']
-        },
+        // {
+        //     key: 'fontData',
+        //     values: ['']
+        // },
         {
             key: 'fontFeatureSettings',
             values: ['normal', '"liga" 0', 'tnum', 'smcp']

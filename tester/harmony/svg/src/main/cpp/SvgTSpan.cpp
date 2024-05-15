@@ -45,9 +45,18 @@ void SvgTSpan::DrawWrappedText(OH_Drawing_Canvas *canvas) {
     double maxWidth = inlineSize_.value_or(Infinity<Dimension>()).ConvertToPx(OH_Drawing_CanvasGetWidth(canvas));
     OH_Drawing_TypographyLayout(typography, maxWidth);
     double actualWidth = OH_Drawing_TypographyGetLongestLine(typography);
-    LOG(INFO) << "TEXT GLYPH maxWidth = " << maxWidth << " ACTUAL width = " << actualWidth;
+
+    double scaleSpacingAndGlyphs = 1.0;
+    if (AdjustSpacing(canvas, actualWidth, scaleSpacingAndGlyphs)) {
+        OH_Drawing_SetTextStyleLetterSpacing(ts.textStyle_.get(), font_->letterSpacing);
+    }
+
+
+    OH_Drawing_Font_Metrics fm;
+    OH_Drawing_TextStyleGetFontMetrics(typography, ts.textStyle_.get(), &fm);
     double dx = glyphCtx_->nextX(actualWidth) - actualWidth + glyphCtx_->nextDeltaX();
-    double dy = glyphCtx_->nextY() + glyphCtx_->nextDeltaY();
+    double dy =
+        glyphCtx_->nextY() + glyphCtx_->nextDeltaY() + CalcBaselineShift(typographyHandler, ts.textStyle_.get(), fm);
     LOG(INFO) << "TEXT GLYPH next X = " << dx << " next dy = " << dy;
 
     double r = glyphCtx_->nextRotation();
@@ -95,6 +104,22 @@ drawing::TypographyStyle SvgTSpan::PrepareTypoStyle() {
     return std::move(ts);
 }
 
+bool SvgTSpan::AdjustSpacing(OH_Drawing_Canvas *canvas, double textMeasure, double &scaleSpacingAndGlyphs) {
+    if (textLength_) {
+        double author = textLength_->ConvertToPx(OH_Drawing_CanvasGetWidth(canvas));
+        switch (lengthAdjust_) {
+        default:
+        case TextLengthAdjust::spacing:
+            font_->letterSpacing += (author - textMeasure) / (content_.size() - 1);
+            return true;
+        case TextLengthAdjust::spacingAndGlyphs:
+            scaleSpacingAndGlyphs = author / textMeasure;
+            break;
+        }
+    }
+    return false;
+}
+
 void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
     if (content_.empty()) {
         return;
@@ -118,17 +143,8 @@ void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
     offset += ph.GetStartOffset();
 
     double scaleSpacingAndGlyphs = 1.0;
-    if (textLength_) {
-        double author = textLength_->ConvertToPx(OH_Drawing_CanvasGetWidth(canvas));
-        switch (lengthAdjust_) {
-        default:
-        case TextLengthAdjust::spacing:
-            font_->letterSpacing += (author - textMeasure) / (content_.size() - 1);
-            break;
-        case TextLengthAdjust::spacingAndGlyphs:
-            scaleSpacingAndGlyphs = author / textMeasure;
-            break;
-        }
+    if (AdjustSpacing(canvas, textMeasure, scaleSpacingAndGlyphs)) {
+        OH_Drawing_SetTextStyleLetterSpacing(ts.textStyle_.get(), font_->letterSpacing);
     }
     ph.SetScaleSpacingAndGlyphs(scaleSpacingAndGlyphs);
 
