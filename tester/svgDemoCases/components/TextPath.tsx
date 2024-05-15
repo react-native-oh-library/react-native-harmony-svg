@@ -1,5 +1,5 @@
 import React from "react";
-import { Svg, Text, TextPath, Path, Defs, G } from 'react-native-svg'
+import { Svg, Text, TextPath, Path, Defs, G, TSpan } from 'react-native-svg'
 import { ScrollView, View } from 'react-native'
 import { GenMain } from './gen'
 import { genTransformProps, genStrokeProps, genFillProps, CaseParams } from '../genUtil'
@@ -27,7 +27,7 @@ export default function () {
                                     d="M10,90 Q90,90 90,45 Q90,10 50,10 Q10,10 10,40 Q10,70 45,70 Q70,70 75,50" />
 
                                 <Text stroke="blue" fill="blue" fontVariant="small-caps" fontStretch="ultra-expanded" fontVariationSettings={"XHGT 0.7"}>
-                                <TextPath stroke="blue" fill="blue" href="#MyPath">Quick brown fox jumps over the lazy dog.</TextPath>
+                                <TextPath stroke="blue" fill="blue" href="#MyPath">Quick <TSpan kerning="10">brown</TSpan> fox jumps over <TSpan kerning="1">the</TSpan> lazy dog.</TextPath>
                                 </Text>
                             </G>
                         </Svg >

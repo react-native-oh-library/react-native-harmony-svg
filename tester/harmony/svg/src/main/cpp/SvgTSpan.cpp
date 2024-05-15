@@ -1,6 +1,7 @@
 #include <native_drawing/drawing_font_collection.h>
 #include <native_drawing/drawing_matrix.h>
 #include <native_drawing/drawing_text_blob.h>
+#include <vector>
 #include "SvgTSpan.h"
 #include "drawing/TextStyle.h"
 #include "properties/Offset.h"
@@ -152,6 +153,7 @@ void SvgTSpan::DrawOnPath(OH_Drawing_Canvas *canvas) {
         }
     }
     double scaledDirection = scaleSpacingAndGlyphs * side;
+    std::vector<bool> ligature(content_.size(), false);
 
     OH_Drawing_Font_Metrics fm;
     bool res = OH_Drawing_TextStyleGetFontMetrics(typography, ts.textStyle_.textStyle_.get(), &fm);
@@ -264,12 +266,34 @@ void SvgTSpan::DrawOnPath(OH_Drawing_Canvas *canvas) {
         bool alreadyRenderedGraphemeCluster = false;
         bool hasLigature = false;
 
+        if (alreadyRenderedGraphemeCluster) {
+            current = "";
+        } else {
+            int nextIndex = i;
+            while (++nextIndex < content_.size()) {
+                float nextWidth = charWidth;
+                if (nextWidth > 0) {
+                    break;
+                }
+                std::string nextLigature = current + current[nextIndex];
+                ligature[nextIndex] = true;
+                current = nextLigature;
+                hasLigature = true;
+            }
+        }
+        bool autoKerning = !font_->manualKerning;
+        double kerning = font_->kerning;
+        if (autoKerning) {
+            double kerned = charWidth * scaleSpacingAndGlyphs;
+            kerning = kerned - charWidth;
+        }
+
         bool isWordSeparator = current[0] == ' ';
         double wordSpace = isWordSeparator ? font_->wordSpacing : 0;
         double spacing = wordSpace + font_->letterSpacing;
         double advance = charWidth + spacing;
 
-        double x = glyphCtx_->nextX(alreadyRenderedGraphemeCluster ? 0 : advance);
+        double x = glyphCtx_->nextX(alreadyRenderedGraphemeCluster ? 0 : kerning + advance);
         double y = glyphCtx_->nextY();
         double dx = glyphCtx_->nextDeltaX();
         double dy = glyphCtx_->nextDeltaY();
