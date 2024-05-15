@@ -40,6 +40,14 @@ public:
 
     virtual void AppendChild(const std::shared_ptr<SvgNode> &child) { children_.emplace_back(child); }
 
+    virtual void removeChild(const std::shared_ptr<SvgNode> &child) {
+        auto it = std::find(children_.begin(), children_.end(), child);
+        if (it != children_.end()) {
+            auto child = std::move(*it);
+            children_.erase(it);
+        }
+    }
+
     using ConcreteProps = std::shared_ptr<const facebook::react::RNSVGCommonProps>;
     void UpdateCommonProps(const ConcreteProps &props);
 

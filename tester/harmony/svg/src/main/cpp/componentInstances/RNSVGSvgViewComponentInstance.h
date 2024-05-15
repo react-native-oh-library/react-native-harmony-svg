@@ -22,7 +22,9 @@ public:
     }
     
     // TODO get SvgNode and delete it from svg tree
-    void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override {}
+    void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override {
+        OnChildRemoveCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
+    }
     
     SvgArkUINode &getLocalRootArkUINode() override;
     
