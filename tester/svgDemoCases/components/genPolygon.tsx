@@ -21,22 +21,19 @@ export default function () {
                 basicProps={basicProps}
                 comName='Polygon'
             >
-                <TestItem desc="test setNativeProps1" width="100" height="100">
+                <TestItem desc="test setNativeProps1">
                         <View style={{
                             height: 30
                         }}>
                             <QText
                                 onPress={() => {
-                                    const newFill = 'red';
                                     console.log("======setNativeProps====");
                                     (polyRef.current)?.setNativeProps({
-                                        // fill: newFill,
-                                        // opacity: 0.1,
                                         points:"40,5 70,80 100,95"
                                     })
                                 }}
                             >
-                                set fill red
+                                press here to set points="40,5 70,80 100,95"
                             </QText>
                         </View>
                     <View

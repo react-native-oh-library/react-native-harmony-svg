@@ -2,7 +2,7 @@ import React from "react";
 // import  from 'react-native-svg'
 import { Svg, Circle } from 'react-native-svg'
 import { GenMain } from './gen'
-import { genTransformProps, genFillProps, CaseParams, genAccessibilityProps } from '../genUtil'
+import { genTransformProps, genFillProps, CaseParams, genAccessibilityProps, genViewProps, genPointerEvents, genGestureResponderHandlers, genViewPropsFuncs} from '../genUtil'
 const basicProps = {
     cx: 50,
     cy: 50,
@@ -53,10 +53,17 @@ const allCases = [
     ...genAccessibilityProps()
 ]
 
+const bindFunc = {
+    ...genPointerEvents('Ellipse'),
+    ...genGestureResponderHandlers('Ellipse'),
+    ...genViewPropsFuncs('Ellipse')
+}
+
 export default function () {
     return <GenMain
                 cases={allCases}
                 basicProps={basicProps}
                 comName='Ellipse'
+                bindFunc={bindFunc}
             />
 }
