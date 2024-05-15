@@ -22,10 +22,12 @@ const NavigationContext = React.createContext<
 
 export function NavigationContainer({
   initialPage = 'INDEX',
+  hasHeader = true,
   children,
 }: {
   initialPage?: string;
   children: any;
+  hasHeader?: boolean
 }) {
   const [currentPageName, setCurrentPageName] = React.useState(initialPage);
   const [registeredPageNames, setRegisteredPageNames] = React.useState<
@@ -49,7 +51,7 @@ export function NavigationContainer({
       }}>
       <View style={{width: '100%', height: '100%', flexDirection: 'column'}}>
         <Page name="INDEX">
-          <IndexPage />
+        <IndexPage hasHeader={hasHeader} />
         </Page>
         {children}
       </View>
@@ -90,14 +92,14 @@ export function Page({name, children}: {name: string; children: any}) {
   ) : null;
 }
 
-export function IndexPage() {
+export function IndexPage({ hasHeader }: { hasHeader: boolean }) {
   const {navigateTo, registeredPageNames} = useNavigation();
 
   return (
     <FlatList
       data={registeredPageNames}
       ListHeaderComponent={
-        <View
+        hasHeader ? <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -116,12 +118,13 @@ export function IndexPage() {
               fontWeight: 'bold',
               padding: 16,
             }}>
-            RN Tester
+            RN Svg Capi Tester
             {'rnohArchitecture' in Platform.constants
               ? (` (${Platform.constants.rnohArchitecture})` as string)
               : ''}
           </Text>
         </View>
+        : null
       }
       renderItem={({item}) => {
         return (
