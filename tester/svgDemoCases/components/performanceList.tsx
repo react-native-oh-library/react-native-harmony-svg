@@ -9,8 +9,8 @@ import {
 import {NavigationContainer, Page} from '../Navigation';
 import {PortalProvider} from '@gorhom/portal';
 import { Circle, Svg, Ellipse, Path, Polygon, Polyline, Mask, Symbol, Text, Use, LinearGradient, RadialGradient, 
-    TSpan, Image, G, Defs, ClipPath, Rect, Line, TextPath, Stop } from 'react-native-svg'
-const testCount = 100
+    TSpan, Image, G, Defs, ClipPath, Rect, Line, TextPath, Stop, Pattern } from 'react-native-svg'
+const testCount = 1500
 
 function repeat(com: React.ReactElement, repeatCount: number) {
     const cases = []
@@ -186,6 +186,22 @@ const SymbolCase = (
     </Svg>
 )
 
+const PatternCase = (
+    <Svg viewBox="0 0 100 100" width={width} height={height}>
+        <Pattern
+            id="p1"
+            patternUnits="userSpaceOnUse"
+            width="20"
+            height="20"
+            patternTransform="rotate(20)
+                      skewX(30)
+                      scale(1 0.5)"
+        >
+            <Circle cx="10" cy="10" r="10" fill={'red'}/>
+        </Pattern>
+        <Rect x="10" y="10" width="80" height="80" fill="url(#p1)" />
+    </Svg>
+)
 
 interface ComInfo{
     name: string,
@@ -257,6 +273,10 @@ const comList: ComInfo[] = [
     {
         name: 'Symbol',
         com: SymbolCase
+    },
+    {
+        name: 'Pattern',
+        com: PatternCase
     }
 ]
 // @ts-ignore
