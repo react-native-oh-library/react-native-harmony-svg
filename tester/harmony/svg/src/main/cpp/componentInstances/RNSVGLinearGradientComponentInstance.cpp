@@ -2,7 +2,7 @@
 #include "Props.h"
 #include <react/renderer/core/ConcreteState.h>
 #include <sstream>
-#include "SVGGradient.h"
+#include "SvgGradient.h"
 #include "./utils/StringUtils.h"
 
 namespace rnoh {

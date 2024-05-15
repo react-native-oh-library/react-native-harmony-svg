@@ -30,7 +30,7 @@ public:
 
     // private:
     UniqueTypographyStyle typographyStyle_;
-    TextStyle::UniqueTextStyle textStyle_ = nullptr;
+    TextStyle::UniqueTextStyle textStyle_ = {nullptr, OH_Drawing_DestroyTextStyle};
 };
 
 } // namespace rnoh::drawing
