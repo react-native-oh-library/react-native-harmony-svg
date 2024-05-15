@@ -6,9 +6,11 @@
 #include "SvgTextPath.h"
 #include "utils/GlyphContext.h"
 #include "drawing/TypographyStyle.h"
+#include "TextBase.h"
+#include "FontHolderBase.h"
 
 namespace rnoh {
-class SvgTSpan : public SvgGraphic, public SvgText {
+class SvgTSpan : public SvgGraphic, public TextBase, public FontHolderBase {
 public:
     SvgTSpan() {
         hrefFill_ = true;
@@ -21,7 +23,6 @@ public:
 
     void OnDraw(OH_Drawing_Canvas *canvas) override;
 
-    void SetContext(std::shared_ptr<GlyphContext> context) { glyphCtx_ = context; }
     void SetTextPathRef(std::shared_ptr<SvgTextPath> textPath) { textPath_ = textPath; }
     
     double getTextAnchorOffset(TextAnchor textAnchor, const double &textMeasure);
@@ -29,8 +30,8 @@ public:
     std::string content_;
 
 private:
+    void DrawTextPath(OH_Drawing_Canvas* canvas);
     void DrawText(OH_Drawing_Canvas* canvas);
-    void DrawWrappedText(OH_Drawing_Canvas* canvas);
 
     drawing::TypographyStyle PrepareTypoStyle();
 

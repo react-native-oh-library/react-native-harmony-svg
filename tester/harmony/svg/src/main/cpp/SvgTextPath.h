@@ -1,14 +1,15 @@
 #pragma once
 
-#include "SvgGraphic.h"
+#include "SvgGroup.h"
 #include "SvgText.h"
 #include <native_drawing/drawing_text_typography.h>
 #include "utils/GlyphContext.h"
 #include "properties/Font.h"
+#include "TextBase.h"
 
 namespace rnoh {
 
-class SvgTextPath : public SvgGraphic, public SvgText {
+class SvgTextPath : public SvgGroup, public TextBase {
 public:
     SvgTextPath() {
         hrefFill_ = true;
@@ -37,8 +38,6 @@ public:
     TextPathSpacing spacing_{TextPathSpacing::Exact};
     double startOffset_;
     std::string href_;
-
-private:
 };
 
 } // namespace rnoh

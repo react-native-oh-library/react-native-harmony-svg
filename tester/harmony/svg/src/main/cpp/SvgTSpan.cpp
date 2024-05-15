@@ -13,12 +13,15 @@ namespace rnoh {
 
 void SvgTSpan::OnDraw(OH_Drawing_Canvas *canvas) {
     if (!glyphCtx_) {
-        InitGlyph(canvas);
+        InitGlyph(canvas, scale_);
+    }
+    if (!font_) {
+        InitFont(scale_);
     }
     if (content_.empty()) {
         for (const auto &child : children_) {
             if (auto tSpan = std::dynamic_pointer_cast<SvgTSpan>(child); tSpan) {
-                tSpan->SetContext(glyphCtx_);
+                tSpan->SetGlyphContext(glyphCtx_);
             }
         }
         return;
@@ -27,15 +30,14 @@ void SvgTSpan::OnDraw(OH_Drawing_Canvas *canvas) {
 
     glyphCtx_->pushContext(false, shared_from_this(), x_, y_, dx_, dy_, rotate_);
     if (!textPath_) {
-        DrawWrappedText(canvas);
-    } else {
-        // TODO: draw tSpan with this function
         DrawText(canvas);
+    } else {
+        DrawTextPath(canvas);
     }
     glyphCtx_->popContext();
 }
 
-void SvgTSpan::DrawWrappedText(OH_Drawing_Canvas *canvas) {
+void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
     drawing::TypographyStyle ts = PrepareTypoStyle();
     auto *fontCollection = OH_Drawing_CreateFontCollection();
     auto *typographyHandler = OH_Drawing_CreateTypographyHandler(ts.typographyStyle_.get(), fontCollection);
@@ -120,13 +122,13 @@ bool SvgTSpan::AdjustSpacing(OH_Drawing_Canvas *canvas, double textMeasure, doub
     return false;
 }
 
-void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
+void SvgTSpan::DrawTextPath(OH_Drawing_Canvas *canvas) {
     if (content_.empty()) {
         return;
     }
 
     TextPathHelper ph(textPath_, font_->textAnchor);
-    if (textPath_ && !ph.Valid()) {
+    if (!ph.Valid()) {
         return;
     }
 
@@ -144,6 +146,7 @@ void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
 
     double scaleSpacingAndGlyphs = 1.0;
     if (AdjustSpacing(canvas, textMeasure, scaleSpacingAndGlyphs)) {
+        LOG(INFO) << "adjust spacing to " << font_->letterSpacing;
         OH_Drawing_SetTextStyleLetterSpacing(ts.textStyle_.get(), font_->letterSpacing);
     }
     ph.SetScaleSpacingAndGlyphs(scaleSpacingAndGlyphs);
@@ -203,21 +206,15 @@ void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
             // But, make sure to increment index positions by making gc.next() calls.
             continue;
         }
-        int side = textPath_ ? ph.GetSide() : 1;
+        int side = ph.GetSide();
         advance *= side;
         charWidth *= side;
         double cursor = offset + (x + dx) * side;
         double startPoint = cursor - advance;
 
         drawing::Matrix mid;
-        if (textPath_) {
-            if (!ph.GetMatrixOnPath({charWidth, startPoint, y, dy + baselineShift}, mid)) {
-                continue;
-            }
-        } else {
-            LOG(INFO) << "paint text " << current << " x = " << x << " y = " << y << " dx = " << dx << " dy = " << dy
-                      << " r = " << r << " baselineShift = " << baselineShift;
-            OH_Drawing_MatrixTranslate(&mid, startPoint, y + dy + baselineShift);
+        if (!ph.GetMatrixOnPath({charWidth, startPoint, y, dy + baselineShift}, mid)) {
+            continue;
         }
         OH_Drawing_MatrixPreRotate(&mid, r, 0, 0);
 

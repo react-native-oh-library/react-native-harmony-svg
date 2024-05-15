@@ -33,15 +33,9 @@ public:
         return nullptr;
     };
 
-    SvgBaseAttribute GetBaseAttributes() const
-    {
-        return attributes_;
-    }
+    SvgBaseAttribute GetBaseAttributes() const { return attributes_; }
 
-    void SetBaseAttributes(const SvgBaseAttribute& attr)
-    {
-        attributes_ = attr;
-    }
+    void SetBaseAttributes(const SvgBaseAttribute &attr) { attributes_ = attr; }
 
     virtual void AppendChild(const std::shared_ptr<SvgNode> &child) { children_.emplace_back(child); }
 
@@ -50,7 +44,9 @@ public:
 
     Rect AsBounds();
 
-    void InheritAttr(const SvgBaseAttribute &parent) { 
+    double GetScale() const { return scale_; }
+
+    void InheritAttr(const SvgBaseAttribute &parent) {
         attributes_.Inherit(parent);
         // svg color -> current color
         if (attributes_.strokeState.GetColor().IsUseCurrentColor()) {
@@ -81,12 +77,11 @@ protected:
     void SetSmoothEdge(float edge) { attributes_.smoothEdge = edge; }
     float GetSmoothEdge() const { return attributes_.smoothEdge; }
 
-    std::optional<Gradient> GetGradient(const std::string& href);
+    std::optional<Gradient> GetGradient(const std::string &href);
 
     std::shared_ptr<PatternAttr> GetPatternAttr(const std::string &href);
 
-    void InitNoneFlag()
-    {
+    void InitNoneFlag() {
         hrefFill_ = false;
         hrefRender_ = false;
         passStyle_ = false;
@@ -95,7 +90,7 @@ protected:
     }
 
     SvgBaseAttribute attributes_;
-  
+
     std::shared_ptr<SvgContext> context_;
 
     std::vector<std::shared_ptr<SvgNode>> children_;
