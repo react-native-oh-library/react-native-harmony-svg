@@ -11,5 +11,5 @@ void FontHolderBase::InheritFont(const std::shared_ptr<FontData> &parent, double
     }
 }
 
-} // namespace rnoh
+} // namespace svg
 } // namespace rnoh

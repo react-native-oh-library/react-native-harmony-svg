@@ -235,6 +235,7 @@ Rect SvgNode::AsBounds() {
     float width = OH_Drawing_RectGetWidth(ohRect);
     float height = OH_Drawing_RectGetHeight(ohRect);
     auto rect = Rect(x, y, width, height);
+    OH_Drawing_RectDestroy(ohRect);
     return rect;
 }
 

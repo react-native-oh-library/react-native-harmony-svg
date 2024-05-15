@@ -400,8 +400,8 @@ void SvgGraphic::UpdateLineDash() {
             intervals[i] = static_cast<float>(lineDashState[i]);
         }
         float phase = static_cast<float>(strokeState.GetStrokeDashOffset());
-        auto *DashPathEffect = OH_Drawing_CreateDashPathEffect(intervals, lineDashState.size(), phase);
-        OH_Drawing_PenSetPathEffect(strokePen_, DashPathEffect);
+        dashPathEffect_ = OH_Drawing_CreateDashPathEffect(intervals, lineDashState.size(), phase);
+        OH_Drawing_PenSetPathEffect(strokePen_, dashPathEffect_);
     }
 }
 
