@@ -21,7 +21,7 @@ public:
     }
     
     void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override{
-        
+        OnChildRemoveCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
     }
     
     SvgArkUINode &getLocalRootArkUINode() override;

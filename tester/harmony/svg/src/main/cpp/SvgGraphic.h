@@ -2,6 +2,7 @@
 
 #pragma once
 #include <native_drawing/drawing_brush.h>
+#include <native_drawing/drawing_path_effect.h>
 #include <native_drawing/drawing_pen.h>
 #include "SvgNode.h"
 #include "RNOH/CppComponentInstance.h"
@@ -23,6 +24,7 @@ public:
         OH_Drawing_BrushDestroy(fillBrush_);
         OH_Drawing_PenDestroy(strokePen_);
         OH_Drawing_PathDestroy(path_);
+        OH_Drawing_PathEffectDestroy(dashPathEffect_);
     }
 
 
@@ -31,6 +33,7 @@ protected:
     OH_Drawing_Path *path_;
     OH_Drawing_Brush *fillBrush_;
     OH_Drawing_Pen *strokePen_;
+    OH_Drawing_PathEffect *dashPathEffect_;
 
     // Use Brush to draw fill
     void OnGraphicFill(OH_Drawing_Canvas *canvas);
