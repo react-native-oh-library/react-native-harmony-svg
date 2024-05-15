@@ -232,11 +232,11 @@ void SvgGraphic::SetGradientStyle(double opacity) {
         OH_Drawing_Point2D center = {static_cast<float>(info.cx), static_cast<float>(info.cy)};
         OH_Drawing_Matrix *concatMatrix = OH_Drawing_MatrixCreate();
         OH_Drawing_MatrixConcat(concatMatrix, scaleMatrix, transMatrix);
-        OH_Drawing_BrushSetShaderEffect(fillBrush_, OH_Drawing_ShaderEffectCreateTwoPointConicalGradient(
-                                                        &focal, 0, &center, info.rx > info.ry ? info.rx : info.ry,
-                                                        colors.data(), pos.data(), colors.size(),
-                                                        static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()),
-                                                        concatMatrix));
+//         OH_Drawing_BrushSetShaderEffect(fillBrush_, OH_Drawing_ShaderEffectCreateTwoPointConicalGradient(
+//                                                         &focal, 0, &center, info.rx > info.ry ? info.rx : info.ry,
+//                                                         colors.data(), pos.data(), colors.size(),
+//                                                         static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()),
+//                                                         concatMatrix));
         OH_Drawing_MatrixDestroy(concatMatrix);
         OH_Drawing_MatrixDestroy(scaleMatrix);
     }
