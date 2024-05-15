@@ -110,6 +110,8 @@ FontWeight fontWeightFromStr(const std::string &str) {
         return FontWeight::w900;
     } else if (str == "lighter") {
         return FontWeight::lighter;
+    } else if (str == "bolder") {
+        return FontWeight::bolder;
     }
     return FontWeight::unknown;
 }

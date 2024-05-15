@@ -15,6 +15,7 @@ enum class FontWeight {
     bold,
     w800,
     w900,
+    bolder,
     lighter,
     unknown,
 };
@@ -107,7 +108,7 @@ private:
     static const int absoluteFontWeights[];
 
     static int from(FontWeight fontWeight, const FontData &parent) {
-        if (fontWeight == FontWeight::bold) {
+        if (fontWeight == FontWeight::bolder) {
             return WeightToBolder(parent.absoluteFontWeight);
         } else if (fontWeight == FontWeight::lighter) {
             return lighter(parent.absoluteFontWeight);
