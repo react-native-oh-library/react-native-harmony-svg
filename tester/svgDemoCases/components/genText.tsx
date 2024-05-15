@@ -2,7 +2,7 @@ import React from "react";
 // import  from 'react-native-svg'
 import { Svg, TSpan } from 'react-native-svg'
 import { GenMain } from './gen'
-import { genTransformProps, genFillProps , genStrokeProps, CaseParams } from '../genUtil'
+import { genTransformProps, genFillProps , genStrokeProps, CaseParams, commonProps, genTextSpecificProps, genFontProps } from '../genUtil'
 const basicProps = {
     x: 10,
     y: 20
@@ -28,15 +28,24 @@ const basicCases: CaseParams[] = [
                 dx: 10,
                 dy: 30
             },
+            {
+                rotate: '45',
+            },
+            {
+                inlineSize: '6',
+            }
         ]
     }
 ]
 
 const allCases = [
     ...basicCases,
+    ...commonProps(),
+    ...genTextSpecificProps(),
     ...genFillProps(),
     ...genStrokeProps(),
-    ...genTransformProps()
+    ...genTransformProps(),
+    ...genFontProps(),
 ]
 
 
@@ -45,7 +54,7 @@ export default function () {
                 cases={allCases}
                 basicProps={basicProps}
                 comName='Text'
-                renderComChildren={<TSpan>Test Text</TSpan>}
+                renderComChildren={<TSpan>Test text with svg</TSpan>}
             >
             </GenMain>
 }

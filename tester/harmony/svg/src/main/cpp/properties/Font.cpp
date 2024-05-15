@@ -1,5 +1,6 @@
 #include "Font.h"
 #include "utils/StringUtils.h"
+#include <algorithm>
 namespace rnoh {
 
 double FontData::toAbsolute(const std::string &value, double scale, double fontSize, double relative) {
@@ -22,7 +23,7 @@ void FontData::handleNumericWeight(const FontData &parent, double number) {
     }
 }
 
-FontData::FontData(const FontProps &props, const FontData&parent, double scale) {
+FontData::FontData(const FontProps &props, const FontData &parent, double scale) {
     double parentFontSize = parent.fontSize;
 
     if (!props.fontSize.empty()) {
@@ -32,14 +33,12 @@ FontData::FontData(const FontProps &props, const FontData&parent, double scale) 
     }
 
     if (!props.fontWeight.empty()) {
-        if (props.fontWeight == "bold") {
-            absoluteFontWeight = from(FontWeight::bold, parent);
-            fontWeight = nearestFontWeight(absoluteFontWeight);
-        } else if (props.fontWeight == "lighter") {
-            absoluteFontWeight = from(FontWeight::lighter, parent);
+        fontWeight = fontWeightFromStr(props.fontWeight);
+        if (fontWeight != FontWeight::unknown) {
+            absoluteFontWeight = from(fontWeight, parent);
             fontWeight = nearestFontWeight(absoluteFontWeight);
         } else {
-            handleNumericWeight(parent, std::stod(props.fontWeight));
+            handleNumericWeight(parent, StringUtils::FromString(props.fontWeight).Value());
         }
     } else {
         setInheritedWeight(parent);
@@ -111,10 +110,8 @@ FontWeight fontWeightFromStr(const std::string &str) {
         return FontWeight::w900;
     } else if (str == "lighter") {
         return FontWeight::lighter;
-    } else {
-        // Default case
-        return FontWeight::normal;
     }
+    return FontWeight::unknown;
 }
 
 TextAnchor textAnchorFromStr(const std::string &str) {
@@ -156,35 +153,4 @@ FontVariantLigatures fontVariantFromStr(const std::string &str) {
     }
 }
 
-TextPathMethod textPathMethodFromStr(const std::string& str) {
-    if (str == "stretch") {
-        return TextPathMethod::stretch;
-    } else {
-        return TextPathMethod::align;
-    }
-}
-
-TextPathSide textPathSideFromStr(const std::string& str) {
-    if (str == "right") {
-        return TextPathSide::right;
-    } else {
-        return TextPathSide::left;
-    }
-}
-
-TextPathMidLine textPathMidLineFromStr(const std::string& str) {
-    if (str == "sharp") {
-        return TextPathMidLine::sharp;
-    } else {
-        return TextPathMidLine::smooth;
-    }
-}
-
-TextPathSpacing textPathSpacingFromStr(const std::string& str) {
-    if (str == "auto") {
-        return TextPathSpacing::Auto;
-    } else {
-        return TextPathSpacing::Exact;
-    }
-}
 } // namespace rnoh
