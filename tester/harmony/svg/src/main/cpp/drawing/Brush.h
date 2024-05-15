@@ -12,8 +12,8 @@ class Brush final {
 public:
     Brush();
 
-    Brush(Brush const &) = delete;
-    Brush &operator=(Brush const &) = delete;
+    Brush(Brush const &);
+    Brush &operator=(Brush const &);
 
     Brush(Brush &&) = default;
     Brush &operator=(Brush &&) = default;

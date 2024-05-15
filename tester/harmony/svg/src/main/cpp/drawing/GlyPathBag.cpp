@@ -5,4 +5,6 @@ int drawing::GlyPathBag::getIndex(char ch) {
     return it == data.end() ? 0 : it->second;
 }
 
-OH_Drawing_Path* drawing::GlyPathBag::getOrCreateAndCache(const char &ch, const std::string &current) {}
+drawing::Path drawing::GlyPathBag::getOrCreateAndCache(const char &ch, const std::string &current) {
+    return drawing::Path();
+}

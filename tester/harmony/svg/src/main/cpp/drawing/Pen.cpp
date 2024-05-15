@@ -4,6 +4,13 @@ namespace drawing {
 
 Pen::Pen() : pen_(UniqueNativePen(OH_Drawing_PenCreate(), &OH_Drawing_PenDestroy)) {}
 
+Pen::Pen(Pen const &other) : pen_(UniqueNativePen(OH_Drawing_PenCopy(other.pen_.get()), &OH_Drawing_PenDestroy)) {}
+
+Pen &Pen::operator=(Pen const &) {
+    pen_ = UniqueNativePen(OH_Drawing_PenCopy(pen_.get()), &OH_Drawing_PenDestroy);
+    return *this;
+}
+
 void Pen::SetAntiAlias(bool antiAlias) { OH_Drawing_PenSetAntiAlias(pen_.get(), antiAlias); }
 
 void Pen::SetColor(uint32_t color) { OH_Drawing_PenSetColor(pen_.get(), color); }

@@ -65,6 +65,11 @@ std::optional<Matrix> Matrix::Invert() const {
 
 float Matrix::GetValue(int index) const { return OH_Drawing_MatrixGetValue(matrix_.get(), index); }
 
+void Matrix::SetMatrix(float scaleX, float skewX, float transX, float skewY, float scaleY, float transY, float persp0,
+                       float persp1, float persp2) {
+    OH_Drawing_MatrixSetMatrix(matrix_.get(), scaleX, skewX, transX, skewY, scaleY, transY, persp0, persp1, persp2);
+}
+
 void Matrix::Reset() { OH_Drawing_MatrixReset(matrix_.get()); }
 
 

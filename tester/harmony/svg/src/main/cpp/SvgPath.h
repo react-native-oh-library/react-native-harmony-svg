@@ -10,7 +10,7 @@ public:
     
     std::string d;
     
-    OH_Drawing_Path *AsPath() override;
+    drawing::Path AsPath() override;
 };
 
 } // namespace svg

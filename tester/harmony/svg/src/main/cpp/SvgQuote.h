@@ -7,32 +7,30 @@ namespace svg {
 
 class SvgQuote : public SvgNode {
  public:
-  SvgQuote() : SvgNode() {
-    InitHrefFlag();
-  }
+  SvgQuote() : SvgNode() { InitHrefFlag(); }
   ~SvgQuote() override = default;
 
-  OH_Drawing_Path *getClipPath(OH_Drawing_Path *path) {
+  drawing::Path getClipPath(drawing::Path path) {
       LOG(INFO) << "[SvgQuote] getClipPath";
       for (const auto &child : children_) {
-          auto *childPath = child->AsPath();
-          OH_Drawing_PathAddPath(path, childPath, nullptr);
+          auto childPath = child->AsPath();
+          OH_Drawing_PathAddPath(path.get(), childPath.get(), nullptr);
       }
       return path;
   }
 
-  OH_Drawing_Path *getClipPath(OH_Drawing_Path *path, OH_Drawing_PathOpMode op) {
+  drawing::Path getClipPath(drawing::Path path, OH_Drawing_PathOpMode op) {
       LOG(INFO) << "[SvgQuote] getClipPath with op, op = " << op;
       for (const auto &child : children_) {
-          auto *childPath = child->AsPath();
-          OH_Drawing_PathOp(path, childPath, op);
+          auto childPath = child->AsPath();
+          OH_Drawing_PathOp(path.get(), childPath.get(), op);
       }
       return path;
   }
 
-  OH_Drawing_Path* AsPath() override {
+  drawing::Path AsPath() override {
     LOG(INFO) << "[SvgQuote] AsPath";
-    auto *path = OH_Drawing_PathCreate();
+    drawing::Path path;
 
     if (attributes_.clipState.IsEvenodd()) {
         return getClipPath(path);
@@ -41,7 +39,7 @@ class SvgQuote : public SvgNode {
     }
   }
 
-  void Draw(OH_Drawing_Canvas* canvas) override {
+  void Draw(OH_Drawing_Canvas *canvas) override {
     // render composition on other svg tags
     LOG(INFO) << "[SvgQuote] Draw";
     OnDrawTraversedBefore(canvas);
@@ -50,8 +48,8 @@ class SvgQuote : public SvgNode {
   }
 
  protected:
-  virtual void OnDrawTraversedBefore(OH_Drawing_Canvas* canvas) {}
-  virtual void OnDrawTraversedAfter(OH_Drawing_Canvas* canvas) {}
+    virtual void OnDrawTraversedBefore(OH_Drawing_Canvas *canvas) {}
+    virtual void OnDrawTraversedAfter(OH_Drawing_Canvas *canvas) {}
 
   // mask/pattern/filter/clipPath
   void InitHrefFlag() {

@@ -15,8 +15,8 @@ public:
 
     Pen();
 
-    Pen(Pen const &) = delete;
-    Pen &operator=(Pen const &) = delete;
+    Pen(Pen const &);
+    Pen &operator=(Pen const &);
 
     Pen(Pen &&) = default;
     Pen &operator=(Pen &&) = default;

@@ -94,12 +94,12 @@ drawing::TypographyStyle SvgTSpan::PrepareTypoStyle() {
     UpdateStrokeStyle();
     auto fillOpaque = UpdateFillStyle();
     if (!fillOpaque) {
-        OH_Drawing_BrushSetColor(fillBrush_, Color::TRANSPARENT.GetValue());
+        fillBrush_.SetColor(Color::TRANSPARENT.GetValue());
     }
 
     drawing::TextStyle textStyle;
-    textStyle.SetForegroundBrush(fillBrush_);
-    textStyle.SetForegroundPen(strokePen_);
+    textStyle.SetForegroundBrush(fillBrush_.get());
+    textStyle.SetForegroundPen(strokePen_.get());
     textStyle.Update(font_);
     drawing::TypographyStyle ts;
     ts.SetTextStyle(std::move(textStyle));

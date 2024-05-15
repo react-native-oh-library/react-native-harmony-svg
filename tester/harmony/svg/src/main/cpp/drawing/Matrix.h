@@ -38,10 +38,12 @@ public:
 
     float GetValue(int index) const;
 
+    void SetMatrix(float scaleX, float skewX, float transX, float skewY, float scaleY, float transY, float persp0,
+                   float persp1, float persp2);
+
     void Reset();
 
-    OH_Drawing_Matrix *get() const {
-        return matrix_.get(); }
+    OH_Drawing_Matrix *get() const { return matrix_.get(); }
 
 private:
     Matrix(OH_Drawing_Matrix *rawMatrix) : matrix_(UniqueNativeMatrix(rawMatrix, &OH_Drawing_MatrixDestroy)) {}

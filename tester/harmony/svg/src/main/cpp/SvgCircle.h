@@ -29,7 +29,7 @@ public:
     float r;
     float opacity;
     uint32_t colorFill;
-    OH_Drawing_Path *AsPath() override;
+    drawing::Path AsPath() override;
 };
 
 } // namespace svg

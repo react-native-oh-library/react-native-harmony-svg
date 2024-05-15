@@ -18,11 +18,11 @@
 namespace rnoh {
 namespace svg {
 
-OH_Drawing_Path *SvgEllipse::AsPath() {
+drawing::Path SvgEllipse::AsPath() {
     LOG(INFO) << "[SvgEllipse] AsPath";
 
     auto rect = OH_Drawing_RectCreate(vpToPx(cx - rx), vpToPx(cy - ry), vpToPx(cx + rx), vpToPx(cy + ry));
-    OH_Drawing_PathAddOval(path_, rect, PATH_DIRECTION_CW);
+    OH_Drawing_PathAddOval(path_.get(), rect, PATH_DIRECTION_CW);
     return path_;
 };
 
