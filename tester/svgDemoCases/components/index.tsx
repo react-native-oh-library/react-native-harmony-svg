@@ -26,7 +26,7 @@ import ClipPath from './clipPath';
 import Image from './Image';
 import Combination from './Combination';
 import ComplexDemo from './complexDemo';
-import PerformanceList from './PerformanceList';
+import PerformanceList from './performanceList';
 export default {
     Circle,
     Defs,
