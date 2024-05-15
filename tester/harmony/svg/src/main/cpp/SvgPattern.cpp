@@ -29,59 +29,59 @@ void SvgPattern::OnDrawTraversedAfter(OH_Drawing_Canvas *canvas) {
     LOG(INFO) << "[pattern] OnDrawTraversedAfter";
 }
 
-const Pattern &SvgPattern::GetPatternAttr() const { return pattern; }
+std::shared_ptr<PatternAttr> SvgPattern::GetPatternAttr() { return patternAttr; }
 
 void SvgPattern::setPatternX(Dimension x) { 
-    pattern.setPatternX(x); 
+    patternAttr->setPatternX(x); 
 }
 
 void SvgPattern::setPatternY(Dimension y) { 
-    pattern.setPatternY(y);
+    patternAttr->setPatternY(y);
 }
 
 void SvgPattern::setHeight(Dimension height) {
-    pattern.setHeight(height); 
+    patternAttr->setHeight(height); 
 }
 
 void SvgPattern::setWidth(Dimension width) { 
-    pattern.setWidth(width); 
+    patternAttr->setWidth(width); 
 }
 
 void SvgPattern::setPatternContentUnits(int patternContentUnits) {
-    pattern.setPatternContentUnits(patternContentUnits); 
+    patternAttr->setPatternContentUnits(patternContentUnits); 
 }
 
 void SvgPattern::setPatternUnits(int patternUnits) { 
-    pattern.setPatternUnits(patternUnits);
+    patternAttr->setPatternUnits(patternUnits);
 }
 
 
 void SvgPattern::setViewBox(Rect viewBox) { 
-    pattern.setViewBox(viewBox);
+    patternAttr->setViewBox(viewBox);
 }
 
 void SvgPattern::setmMinX(float mMinX) { 
-    pattern.setmMinX(mMinX);
+    patternAttr->setmMinX(mMinX);
 }
 
 void SvgPattern::setmMinY(float mMinY) { 
-    pattern.setmMinY(mMinY);
+    patternAttr->setmMinY(mMinY);
 }
 
 void SvgPattern::setmVbWidth(float mVbWidth) { 
-    pattern.setmVbWidth(mVbWidth);
+    patternAttr->setmVbWidth(mVbWidth);
 }
 
 void SvgPattern::setmVbHeight(float mVbHeight) { 
-    pattern.setmVbHeight(mVbHeight);
+    patternAttr->setmVbHeight(mVbHeight);
 }
 
 void SvgPattern::setmAlign(std::string mAlign) { 
-    pattern.setmAlign(mAlign);
+    patternAttr->setmAlign(mAlign);
 }
 
 void SvgPattern::setmMeetOrSlice(int mMeetOrSlice) { 
-    pattern.setmMeetOrSlice(mMeetOrSlice);
+    patternAttr->setmMeetOrSlice(mMeetOrSlice);
 }
 
 void SvgPattern::setPatternTransforms(std::vector<Float> patternTransforms) {
@@ -97,9 +97,9 @@ void SvgPattern::setPatternTransforms(std::vector<Float> patternTransforms) {
         newMatrix[3] = (Float) patternTransforms[1];
         newMatrix[4] = (Float) patternTransforms[3];
         newMatrix[5] = (Float) patternTransforms[5] * scale_;
-        pattern.setPatternTransform(std::move(newMatrix));
+        patternAttr->setPatternTransform(std::move(newMatrix));
     }
 }
 
-void SvgPattern::setImage(OH_Drawing_Image* image) { pattern.setImage(image); }
+void SvgPattern::setImage(OH_Drawing_Image* image) { patternAttr->setImage(image); }
 } // namespace rnoh

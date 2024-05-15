@@ -17,7 +17,7 @@ public:
     virtual void OnDrawTraversedAfter(OH_Drawing_Canvas *canvas) override;
     void SaveDefinition(OH_Drawing_Canvas *canvas);
     void ConcatMatrix(OH_Drawing_Canvas *canvas);
-    const Pattern &GetPatternAttr() const;
+    std::shared_ptr<PatternAttr> GetPatternAttr();
 
     void setPatternX(Dimension x);
 
@@ -49,7 +49,7 @@ public:
 
     void setPatternTransforms(std::vector<Float> gradientTransforms);
 private:
-    Pattern pattern;
+    std::shared_ptr<PatternAttr> patternAttr = std::make_shared<PatternAttr>();
     double scale_ = 3.25010318;
   };
 }

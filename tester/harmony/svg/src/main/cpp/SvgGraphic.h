@@ -42,7 +42,6 @@ protected:
     void SetGradientStyle(double opacity);
     void SetPatternStyle();
     void UpdateLineDash();
-    double GetVal(Dimension length, double relative);
 
     std::vector<PathElement> elements_;
 

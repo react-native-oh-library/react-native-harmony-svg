@@ -395,7 +395,7 @@ private:
 };
 
 
-class Pattern final {
+class PatternAttr final {
 public:
     void setPatternX(Dimension x) { x_ = x; }
 

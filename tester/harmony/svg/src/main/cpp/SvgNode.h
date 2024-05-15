@@ -83,7 +83,7 @@ protected:
 
     std::optional<Gradient> GetGradient(const std::string& href);
 
-    std::optional<Pattern> GetPatternAttr(const std::string &href);
+    std::shared_ptr<PatternAttr> GetPatternAttr(const std::string &href);
 
     void InitNoneFlag()
     {

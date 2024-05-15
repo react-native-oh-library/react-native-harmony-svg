@@ -303,10 +303,10 @@ void SvgGraphic::SetPatternStyle() {
     float offsetwidth = OH_Drawing_RectGetWidth(Bounds_);
     float offsetheight = OH_Drawing_RectGetHeight(Bounds_);
 
-    double x = GetVal(x_, offsetwidth);
-    double y = GetVal(y_, offsetheight);
-    double w = GetVal(width_, offsetwidth);
-    double h = GetVal(height_, offsetheight);
+    double x = x_.ConvertToPx(offsetwidth);
+    double y = y_.ConvertToPx(offsetheight);
+    double w = width_.ConvertToPx(offsetwidth);
+    double h = height_.ConvertToPx(offsetheight);
 
     if (!(w > 1 && h > 1)) {
         return;
@@ -471,16 +471,6 @@ void SvgGraphic::DrawMarker(OH_Drawing_Canvas *canvas) {
         LOG(INFO) << "DRAW MARKER at " << position.origin.x << " " << position.origin.y << "] type: " << static_cast<int>(type);
         marker->renderMarker(canvas, position, attributes_.strokeState.GetLineWidth());
     }
-}
-
-double SvgGraphic::GetVal(Dimension length, double relative) {
-    if (length.Value() == 0) {
-        return 0;
-    }
-    if (length.Unit() == DimensionUnit::PERCENT) {
-        return length.Value() / 100 * relative;
-    }
-    return length.Value() * scale_;
 }
 
 } // namespace rnoh

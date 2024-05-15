@@ -31,7 +31,7 @@ void SvgNode::InitStyle(const SvgBaseAttribute &attr) {
             auto pattern = GetPatternAttr(href);
             if (pattern) {
                 LOG(INFO) << "[UpdateCommonProps] fill state set pattern";
-                attributes_.fillState.SetPattern(pattern.value());
+                attributes_.fillState.SetPattern(pattern);
             } else {
                 LOG(INFO) << "[UpdateCommonProps] no pattern";
             }
@@ -131,18 +131,18 @@ std::optional<Gradient> SvgNode::GetGradient(const std::string &href) {
     return std::nullopt;
 }
 
-std::optional<Pattern> SvgNode::GetPatternAttr(const std::string &href) {
+std::shared_ptr<PatternAttr> SvgNode::GetPatternAttr(const std::string &href) {
     if (!context_) {
         LOG(INFO) << "NO CONTEXT";
-        return std::nullopt;
+        return nullptr;
     }
     auto refSvgNode = context_->GetSvgNodeById(href);
-    CHECK_NULL_RETURN(refSvgNode, std::nullopt);
+    CHECK_NULL_RETURN(refSvgNode, nullptr);
     auto svgPattern = std::dynamic_pointer_cast<SvgPattern>(refSvgNode);
     if (svgPattern) {
-        return std::make_optional(svgPattern->GetPatternAttr());
+        return svgPattern->GetPatternAttr();
     }
-    return std::nullopt;
+    return nullptr;
 }
 
 void SvgNode::Draw(OH_Drawing_Canvas *canvas) {
