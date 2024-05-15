@@ -1,3 +1,4 @@
+#pragma once
 #include <native_drawing/drawing_matrix.h>
 #include <memory>
 namespace rnoh::drawing {

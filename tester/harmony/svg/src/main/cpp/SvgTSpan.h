@@ -29,8 +29,8 @@ public:
     std::string content_;
 
 private:
-    void DrawOnPath(OH_Drawing_Canvas* canvas);
     void DrawText(OH_Drawing_Canvas* canvas);
+    void DrawWrappedText(OH_Drawing_Canvas* canvas);
 
     drawing::TypographyStyle PrepareTypoStyle();
 
