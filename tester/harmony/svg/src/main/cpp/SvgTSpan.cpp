@@ -13,12 +13,15 @@ namespace rnoh {
 
 void SvgTSpan::OnDraw(OH_Drawing_Canvas *canvas) {
     if (!glyphCtx_) {
-        InitGlyph(canvas);
+        InitGlyph(canvas, scale_);
+    }
+    if (!font_) {
+        InitFont(scale_);
     }
     if (content_.empty()) {
         for (const auto &child : children_) {
             if (auto tSpan = std::dynamic_pointer_cast<SvgTSpan>(child); tSpan) {
-                tSpan->SetContext(glyphCtx_);
+                tSpan->SetGlyphContext(glyphCtx_);
             }
         }
         return;

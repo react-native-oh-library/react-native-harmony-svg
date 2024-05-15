@@ -10,21 +10,13 @@ void SvgGroup::InitGroupFlag() {
 
 void SvgGroup::OnInitStyle() {
     if (!font_) {
-        font_ = std::make_shared<FontData>(fp_, FontData{}, scale_);
+        InitFont(scale_);
     }
     for (auto &child : children_) {
-        if (auto childG = std::dynamic_pointer_cast<SvgGroup>(child)) {
-            childG->InheritFont(font_);
+        if (auto childG = std::dynamic_pointer_cast<FontHolderBase>(child)) {
+            childG->InheritFont(font_, child->GetScale());
         }
     }
 }
 
-void SvgGroup::InheritFont(const std::shared_ptr<FontData> &parent) {
-    if (fp_.Empty()) {
-        // share parent font to save memory
-        font_ = parent;
-    } else {
-        font_ = std::make_shared<FontData>(fp_, *parent, scale_);
-    }
-}
 } // namespace rnoh
