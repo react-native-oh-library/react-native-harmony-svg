@@ -5,6 +5,7 @@
 #include <SvgTSpan.h>
 
 namespace rnoh {
+namespace svg {
 
 RNSVGTSpanComponentInstance::RNSVGTSpanComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
     SetSvgNode(m_svgTSpan);
@@ -28,4 +29,5 @@ SvgArkUINode &RNSVGTSpanComponentInstance::getLocalRootArkUINode() { return m_sv
         OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(child));
     }
 
+} // namespace svg
 } // namespace rnoh

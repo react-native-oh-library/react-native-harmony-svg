@@ -7,6 +7,7 @@
 #include <vector>
 
 namespace rnoh {
+namespace svg {
 
 const char VALUE_NONE[] = "none";
 
@@ -147,4 +148,5 @@ struct SvgBaseAttribute : Attribute {
 //     bool SetPresentationAttr(const std::pair<std::string, std::string>& attr);
 // };
 
+} // namespace svg
 } // namespace rnoh

@@ -10,6 +10,7 @@
 #include "utils/TextPathHelper.h"
 
 namespace rnoh {
+namespace svg {
 
 void SvgTSpan::OnDraw(OH_Drawing_Canvas *canvas) {
     if (!glyphCtx_) {
@@ -321,4 +322,6 @@ double SvgTSpan::CalcBaselineShift(OH_Drawing_TypographyCreate *handler, OH_Draw
     }
     return baselineShift;
 }
+
+} // namespace svg
 } // namespace rnoh

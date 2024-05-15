@@ -16,6 +16,7 @@
 #include "SvgMask.h"
 
 namespace rnoh {
+namespace svg {
 
 void SvgMask::OnDrawTraversedBefore(OH_Drawing_Canvas* canvas)
 {
@@ -83,6 +84,8 @@ void SvgMask::OnInitStyle()
        }
        return attr.Value();
  }
+
+ } // namespace svg
  } // namespace rnoh
 
 

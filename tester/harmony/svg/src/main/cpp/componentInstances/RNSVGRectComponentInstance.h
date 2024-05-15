@@ -7,6 +7,7 @@
 #include "SvgRect.h"
 
 namespace rnoh {
+namespace svg {
 
 class RNSVGRectComponentInstance : public CppComponentInstance<facebook::react::RNSVGRectShadowNode>, public SvgHost {
 
@@ -24,4 +25,6 @@ public:
 
     void onPropsChanged(SharedConcreteProps const &props) override;
 };
+
+} // namespace svg
 } // namespace rnoh

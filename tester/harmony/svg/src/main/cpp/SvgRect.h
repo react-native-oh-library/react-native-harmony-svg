@@ -6,6 +6,7 @@
 #include <native_drawing/drawing_round_rect.h>
 
 namespace rnoh {
+namespace svg {
 
 class SvgRect : public SvgGraphic {
 public:
@@ -19,15 +20,8 @@ public:
     Float rx;
     Float ry;
     
-    
-    OH_Drawing_Path *AsPath() override {
-        LOG(INFO) << "[SvgRect] AsPath";
-        //TODO implement ConvertDimensionToPx
-        auto rect = OH_Drawing_RectCreate(vpToPx(x), vpToPx(y), vpToPx(x + width), vpToPx(y + height));
-        auto roundRect = OH_Drawing_RoundRectCreate(rect,vpToPx(rx),vpToPx(ry));
-        OH_Drawing_PathAddRoundRect(path_, roundRect, PATH_DIRECTION_CW);
-        return path_;
-    };
+    OH_Drawing_Path *AsPath() override;
 };
 
+} // namespace svg
 } // namespace rnoh

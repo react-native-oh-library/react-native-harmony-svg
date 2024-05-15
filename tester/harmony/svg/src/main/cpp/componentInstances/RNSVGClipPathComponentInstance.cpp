@@ -5,6 +5,7 @@
 #include "SvgClipPath.h"
 
 namespace rnoh {
+namespace svg {
 
 RNSVGClipPathComponentInstance::RNSVGClipPathComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgClipPath>());
@@ -18,4 +19,5 @@ void RNSVGClipPathComponentInstance::onPropsChanged(SharedConcreteProps const &p
 
 SvgArkUINode &RNSVGClipPathComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
+} // namespace svg
 } // namespace rnoh

@@ -5,6 +5,7 @@
 #include "utils/StringUtils.h"
 
 namespace rnoh {
+namespace svg {
 
 RNSVGPatternComponentInstance::RNSVGPatternComponentInstance(Context context)
     : CppComponentInstance(std::move(context)) {
@@ -45,4 +46,5 @@ void RNSVGPatternComponentInstance::onPropsChanged(SharedConcreteProps const &pr
 
 SvgArkUINode &RNSVGPatternComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
+} // namespace svg
 } // namespace rnoh

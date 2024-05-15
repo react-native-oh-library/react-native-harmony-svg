@@ -50,6 +50,7 @@
 
 using namespace rnoh;
 using namespace facebook;
+using namespace svg;
 
 namespace rnoh {
 
@@ -137,4 +138,5 @@ public:
 
     ComponentJSIBinderByString createComponentJSIBinderByName() override;
 };
+
 } // namespace rnoh

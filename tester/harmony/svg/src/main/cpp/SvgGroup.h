@@ -4,6 +4,7 @@
 #include "FontHolderBase.h"
 
 namespace rnoh {
+namespace svg {
 
 class SvgGroup : public SvgNode, public FontHolderBase {
 
@@ -18,4 +19,5 @@ private:
     void OnInitStyle() override;
 };
 
+} // namespace svg
 } // namespace rnoh

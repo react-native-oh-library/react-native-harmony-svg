@@ -5,6 +5,7 @@
 #include "arkui/native_node.h"
 
 namespace rnoh {
+namespace svg {
 
 struct UserCallback {
     std::function<void(ArkUI_NodeCustomEvent *event)> callback;
@@ -31,4 +32,6 @@ public:
         
     }
 };
+
+} // namespace svg
 } // namespace rnoh

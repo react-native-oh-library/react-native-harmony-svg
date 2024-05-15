@@ -27,6 +27,7 @@
 #include "properties/Rect.h"
 
 namespace rnoh {
+namespace svg {
 
 class SvgMask : public SvgQuote {
 public:
@@ -66,4 +67,5 @@ private:
     int canvasLayerCount_ = -1;
 };
 
+} // namespace svg
 } // namespace rnoh

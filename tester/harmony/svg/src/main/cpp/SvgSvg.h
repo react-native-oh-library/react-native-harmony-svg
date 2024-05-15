@@ -6,6 +6,8 @@
 #include "utils/SvgAttributesParser.h"
 
 namespace rnoh {
+namespace svg {
+
 class SvgSvg : public SvgGroup {
 public:
     SvgSvg();
@@ -25,4 +27,5 @@ private:
     void FitCanvas(OH_Drawing_Canvas *canvas);
 };
 
+} // namespace svg
 } // namespace rnoh

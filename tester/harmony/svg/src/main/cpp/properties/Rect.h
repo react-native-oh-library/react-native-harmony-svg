@@ -9,6 +9,7 @@
 #include "utils/Utils.h"
 
 namespace rnoh {
+namespace svg {
 
 class Rect {
 public:
@@ -399,5 +400,5 @@ private:
     double height_ = 0.0;
 };
 
+} // namespace svg
 } // namespace rnoh
-

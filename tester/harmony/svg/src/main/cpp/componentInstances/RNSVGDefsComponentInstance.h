@@ -6,6 +6,7 @@
 #include "SvgDefs.h"
 
 namespace rnoh {
+namespace svg {
 
 class RNSVGDefsComponentInstance : public CppComponentInstance<facebook::react::RNSVGDefsShadowNode>, public SvgHost {
 
@@ -25,4 +26,6 @@ public:
     
     void onPropsChanged(SharedConcreteProps const &props) override;
 };
+
+} // namespace svg
 } // namespace rnoh

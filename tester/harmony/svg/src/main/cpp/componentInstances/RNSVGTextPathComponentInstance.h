@@ -6,6 +6,7 @@
 #include "SvgTextPath.h"
 
 namespace rnoh {
+namespace svg {
 
 class RNSVGTextPathComponentInstance : public CppComponentInstance<facebook::react::RNSVGTextPathShadowNode>,
                                        public SvgHost {
@@ -27,4 +28,6 @@ public:
 
     void onPropsChanged(SharedConcreteProps const &props) override;
 };
+
+} // namespace svg
 } // namespace rnoh

@@ -18,6 +18,7 @@
 #include "properties/Decoration.h"
 
 namespace rnoh {
+namespace svg {
 
 SvgGradient::SvgGradient(GradientType gradientType)
 {
@@ -115,4 +116,5 @@ const Gradient& SvgGradient::GetGradient() const
     return gradientAttr_.gradient;
 }
 
+} // namespace svg
 } // namespace rnoh

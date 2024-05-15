@@ -10,6 +10,8 @@
 #include "FontHolderBase.h"
 
 namespace rnoh {
+namespace svg {
+
 class SvgTSpan : public SvgGraphic, public TextBase, public FontHolderBase {
 public:
     SvgTSpan() {
@@ -45,4 +47,5 @@ private:
     std::shared_ptr<SvgTextPath> textPath_;
 };
 
+} // namespace svg
 } // namespace rnoh

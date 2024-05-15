@@ -6,6 +6,7 @@
 #include "SvgGraphic.h"
 
 namespace rnoh {
+namespace svg {
 
 class SvgDefs : public SvgNode {
 
@@ -43,4 +44,5 @@ public:
     }
 };
 
+} // namespace svg
 } // namespace rnoh

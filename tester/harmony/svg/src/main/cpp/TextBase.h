@@ -6,6 +6,7 @@
 #include "properties/TextProperties.h"
 #include "TextBase.h"
 namespace rnoh {
+namespace svg {
 
 class TextBase {
 public:
@@ -84,4 +85,6 @@ protected:
 
     std::shared_ptr<GlyphContext> glyphCtx_;
 };
+
+} // namespace svg
 } // namespace rnoh

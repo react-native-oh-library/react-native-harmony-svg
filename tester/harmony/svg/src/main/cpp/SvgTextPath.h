@@ -8,6 +8,7 @@
 #include "TextBase.h"
 
 namespace rnoh {
+namespace svg {
 
 class SvgTextPath : public SvgGroup, public TextBase {
 public:
@@ -40,4 +41,5 @@ public:
     std::string href_;
 };
 
+} // namespace svg
 } // namespace rnoh

@@ -30,6 +30,7 @@
 #include <glog/logging.h>
 
 namespace rnoh {
+namespace svg {
 
 class RNSVGClipPathComponentInstance : public CppComponentInstance<facebook::react::RNSVGClipPathShadowNode>,
                                        public SvgHost {
@@ -49,4 +50,6 @@ public:
 
     void onPropsChanged(SharedConcreteProps const &props) override;
 };
+
+} // namespace svg
 } // namespace rnoh

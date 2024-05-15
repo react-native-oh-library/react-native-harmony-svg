@@ -1,5 +1,8 @@
 #include "SvgGroup.h"
+
 namespace rnoh {
+namespace svg {
+
 void SvgGroup::InitGroupFlag() {
     hrefFill_ = true;
     hrefRender_ = true;
@@ -19,4 +22,5 @@ void SvgGroup::OnInitStyle() {
     }
 }
 
+} // namespace svg
 } // namespace rnoh

@@ -5,6 +5,8 @@
 #include <cstring>
 
 namespace rnoh {
+namespace svg {
+
 template<typename T>
 struct LinearMapNode {
     const char* key;
@@ -42,4 +44,5 @@ int64_t BinarySearchFindIndex(const LinearEnumMapNode<K, V>* vec, size_t length,
         return it - vec;
     }
 }
+} // namespace svg
 } // namespace rnoh

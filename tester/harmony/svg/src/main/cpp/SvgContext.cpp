@@ -2,6 +2,7 @@
 #include "SvgNode.h"
 
 namespace rnoh {
+namespace svg {
 std::shared_ptr<SvgNode> SvgContext::GetSvgNodeById(const std::string &id) const {
     auto item = idMapper_.find(id);
     if (item != idMapper_.end()) {
@@ -41,4 +42,6 @@ const Rect &SvgContext::GetRootViewBox() const {
     }
     return rootViewBox_;
 }
+
+} // namespace svg
 } // namespace rnoh

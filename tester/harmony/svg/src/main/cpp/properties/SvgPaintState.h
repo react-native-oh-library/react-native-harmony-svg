@@ -15,6 +15,7 @@
 #include <glog/logging.h>
 
 namespace rnoh {
+namespace svg {
 
 const char ATTR_NAME_FILL[] = "fill";
 const char ATTR_NAME_STROKE[] = "stroke";
@@ -409,4 +410,5 @@ private:
     bool hasHref_ = false;
 };
 
+} // namespace svg
 } // namespace rnoh

@@ -5,6 +5,7 @@
 #include "SvgTSpan.h"
 
 namespace rnoh {
+namespace svg {
 
 RNSVGTextComponentInstance::RNSVGTextComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
     SetSvgNode(m_svgText);
@@ -27,4 +28,6 @@ SvgArkUINode &RNSVGTextComponentInstance::getLocalRootArkUINode() { return m_svg
         }
         OnChildInsertCommon(child);
     }
+
+} // namespace svg
 } // namespace rnoh

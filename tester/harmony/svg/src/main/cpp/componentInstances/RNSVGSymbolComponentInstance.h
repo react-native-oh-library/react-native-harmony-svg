@@ -9,6 +9,7 @@
 #include "SvgSymbol.h"
 
 namespace rnoh {
+namespace svg {
 class RNSVGSymbolComponentInstance : public CppComponentInstance<facebook::react::RNSVGSymbolShadowNode>, public SvgHost {
 
 private:
@@ -28,4 +29,6 @@ public:
     void onPropsChanged(SharedConcreteProps const &props) override;
 
 };
+
+} // namespace svg
 } // namespace rnoh

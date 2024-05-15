@@ -18,6 +18,7 @@
 #include "SvgGraphic.h"
 
 namespace rnoh {
+namespace svg {
 
 class SvgCircle : public SvgGraphic {
 public:
@@ -29,4 +30,5 @@ public:
     OH_Drawing_Path *AsPath() override;
 };
 
+} // namespace svg
 } // namespace rnoh

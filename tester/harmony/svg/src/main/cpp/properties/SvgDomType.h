@@ -1,5 +1,7 @@
 
 namespace rnoh {
+namespace svg {
+
 const char DOM_CLIP_PATH[] = "clipPath";
 // svg
 const char DOM_SVG_ID[] = "svgId";
@@ -107,4 +109,6 @@ const char DOM_SVG_FE_K2[] = "k2";
 const char DOM_SVG_FE_K3[] = "k3";
 const char DOM_SVG_FE_K4[] = "k4";
 const char DOM_SVG_FE_OPERATOR_TYPE[] = "operator";
-}
+
+} // namespace svg
+} // namespace rnoh

@@ -4,6 +4,7 @@
 #include <sstream>
 
 namespace rnoh {
+namespace svg {
 
 RNSVGCircleComponentInstance::RNSVGCircleComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgCircle>());
@@ -31,4 +32,5 @@ void RNSVGCircleComponentInstance::onPropsChanged(SharedConcreteProps const &pro
 
 SvgArkUINode &RNSVGCircleComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
+} // namespace svg
 } // namespace rnoh

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 #include "SvgGraphic.h"
 #include <native_drawing/drawing_bitmap.h>
 #include <native_drawing/drawing_filter.h>
@@ -29,9 +30,11 @@
 #include "properties/ViewBox.h"
 
 namespace rnoh {
+namespace svg {
 
 void SvgGraphic::OnDraw(OH_Drawing_Canvas *canvas) {
-    LOG(INFO) << "[SVGGraphic] onDraw marker = " << attributes_.markerStart << " " << attributes_.markerMid << " " << attributes_.markerEnd;
+    LOG(INFO) << "[SVGGraphic] onDraw marker = " << attributes_.markerStart << " " << attributes_.markerMid << " "
+              << attributes_.markerEnd;
     //     OH_Drawing_BrushReset(fillBrush_);
     //     OH_Drawing_PenReset(strokePen_);
     // 获取子类的绘制路径。
@@ -109,7 +112,9 @@ void SvgGraphic::UpdateGradient() {
     auto &gradient = fillState_.GetGradient();
     CHECK_NULL_VOID(gradient);
     // objectBoundingBox - 0(DEFAULT), userSpaceOnUse - 1
-    auto nodeBounds = (gradient->GetGradientUnits() == Unit::objectBoundingBox) ? AsBounds() : Rect(0, 0, context_->GetSvgSize().Width(), context_->GetSvgSize().Height());
+    auto nodeBounds = (gradient->GetGradientUnits() == Unit::objectBoundingBox)
+                          ? AsBounds()
+                          : Rect(0, 0, context_->GetSvgSize().Width(), context_->GetSvgSize().Height());
     if (gradient->GetType() == GradientType::LINEAR) {
         const auto &linearGradient = gradient->GetLinearGradient();
         auto gradientInfo = LinearGradientInfo();
@@ -133,7 +138,7 @@ void SvgGraphic::UpdateGradient() {
         } else {
             gradientInfo.y2 = linearGradient.y2->ConvertToPx(nodeBounds.Height());
         }
-       gradient->SetLinearGradientInfo(gradientInfo);
+        gradient->SetLinearGradientInfo(gradientInfo);
     }
     if (gradient->GetType() == GradientType::RADIAL) {
         const auto &radialGradient = gradient->GetRadialGradient();
@@ -180,7 +185,7 @@ bool SvgGraphic::UpdateFillStyle(bool antiAlias) {
         //         auto fillColor = (color) ? *color : fillState_.GetColor();
         //         fillBrush_.SetColor(fillColor.BlendOpacity(curOpacity).GetValue());
         OH_Drawing_BrushSetColor(fillBrush_, fillState_.GetColor().BlendOpacity(curOpacity).GetValue());
-        OH_Drawing_PathSetFillType(path_,fillState_.GetFillRuleForDraw());
+        OH_Drawing_PathSetFillType(path_, fillState_.GetFillRuleForDraw());
     }
     return true;
 }
@@ -199,13 +204,13 @@ void SvgGraphic::SetGradientStyle(double opacity) {
         colors.push_back(
             gradientColor.GetColor().BlendOpacity(gradientColor.GetOpacity()).BlendOpacity(opacity).GetValue());
     }
-    OH_Drawing_Matrix* transMatrix = OH_Drawing_MatrixCreate();
+    OH_Drawing_Matrix *transMatrix = OH_Drawing_MatrixCreate();
     if (gradient->GetGradientTransform().size() == 9) {
         OH_Drawing_MatrixSetMatrix(transMatrix, gradient->GetGradientTransform()[0],
-            gradient->GetGradientTransform()[1], gradient->GetGradientTransform()[2],
-            gradient->GetGradientTransform()[3], gradient->GetGradientTransform()[4],
-            gradient->GetGradientTransform()[5], gradient->GetGradientTransform()[6],
-            gradient->GetGradientTransform()[7], gradient->GetGradientTransform()[8]);
+                                   gradient->GetGradientTransform()[1], gradient->GetGradientTransform()[2],
+                                   gradient->GetGradientTransform()[3], gradient->GetGradientTransform()[4],
+                                   gradient->GetGradientTransform()[5], gradient->GetGradientTransform()[6],
+                                   gradient->GetGradientTransform()[7], gradient->GetGradientTransform()[8]);
     }
     if (gradient->GetType() == GradientType::LINEAR && gradient->IsValid()) {
         auto info = gradient->GetLinearGradientInfo();
@@ -213,23 +218,25 @@ void SvgGraphic::SetGradientStyle(double opacity) {
             {static_cast<float>(info.x1), static_cast<float>(info.y1)},
             {static_cast<float>(info.x2), static_cast<float>(info.y2)},
         };
-        OH_Drawing_BrushSetShaderEffect(fillBrush_,
-            OH_Drawing_ShaderEffectCreateLinearGradientWithLocalMatrix(&ptsPoint2D[0], &ptsPoint2D[1], colors.data(),
-            pos.data(), colors.size(), static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()), transMatrix));
+        OH_Drawing_BrushSetShaderEffect(
+            fillBrush_, OH_Drawing_ShaderEffectCreateLinearGradientWithLocalMatrix(
+                            &ptsPoint2D[0], &ptsPoint2D[1], colors.data(), pos.data(), colors.size(),
+                            static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()), transMatrix));
     }
     if (gradient->GetType() == GradientType::RADIAL && gradient->IsValid()) {
         auto info = gradient->GetRadialGradientInfo();
-        OH_Drawing_Matrix* scaleMatrix = info.ry < info.rx ?
-            OH_Drawing_MatrixCreateScale(1, info.ry / info.rx, info.cx, info.cy) :
-            OH_Drawing_MatrixCreateScale(info.rx / info.ry, 1, info.cx, info.cy);
+        OH_Drawing_Matrix *scaleMatrix = info.ry < info.rx
+                                             ? OH_Drawing_MatrixCreateScale(1, info.ry / info.rx, info.cx, info.cy)
+                                             : OH_Drawing_MatrixCreateScale(info.rx / info.ry, 1, info.cx, info.cy);
         OH_Drawing_Point2D focal = {static_cast<float>(info.fx), static_cast<float>(info.fy)};
         OH_Drawing_Point2D center = {static_cast<float>(info.cx), static_cast<float>(info.cy)};
-        OH_Drawing_Matrix* concatMatrix = OH_Drawing_MatrixCreate();
+        OH_Drawing_Matrix *concatMatrix = OH_Drawing_MatrixCreate();
         OH_Drawing_MatrixConcat(concatMatrix, scaleMatrix, transMatrix);
-        OH_Drawing_BrushSetShaderEffect(fillBrush_,
-            OH_Drawing_ShaderEffectCreateTwoPointConicalGradient(
-                &focal, 0, &center, info.rx > info.ry ? info.rx : info.ry, colors.data(), pos.data(),
-                colors.size(), static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()), concatMatrix));
+        OH_Drawing_BrushSetShaderEffect(fillBrush_, OH_Drawing_ShaderEffectCreateTwoPointConicalGradient(
+                                                        &focal, 0, &center, info.rx > info.ry ? info.rx : info.ry,
+                                                        colors.data(), pos.data(), colors.size(),
+                                                        static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()),
+                                                        concatMatrix));
         OH_Drawing_MatrixDestroy(concatMatrix);
         OH_Drawing_MatrixDestroy(scaleMatrix);
     }
@@ -275,11 +282,11 @@ void SvgGraphic::SetPatternStyle() {
     if (!(w > 1 && h > 1)) {
         return;
     }
-    
+
     Rect vbRect(mMinX * scale_, mMinY * scale_, (mMinX + mVbWidth) * scale_, (mMinY + mVbHeight) * scale_);
     Rect eRect = Rect(x, y, w, h);
     if (vbRect.IsValid()) {
-        OH_Drawing_Matrix *viewBoxMatrix = rnoh::ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
+        OH_Drawing_Matrix *viewBoxMatrix = ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
         OH_Drawing_CanvasConcatMatrix(canvas, viewBoxMatrix);
         OH_Drawing_MatrixDestroy(viewBoxMatrix);
     }
@@ -306,13 +313,14 @@ void SvgGraphic::SetPatternStyle() {
         CHECK_NULL_VOID(refSvgNode);
         refSvgNode->Draw(canvas);
     }
-    
-    OH_Drawing_Matrix* matrix = OH_Drawing_MatrixCreate();
+
+    OH_Drawing_Matrix *matrix = OH_Drawing_MatrixCreate();
     if (pattern->GetPatternTransform().size() == 9) {
         OH_Drawing_MatrixSetMatrix(matrix, pattern->GetPatternTransform()[0], pattern->GetPatternTransform()[1],
-            pattern->GetPatternTransform()[2], pattern->GetPatternTransform()[3], pattern->GetPatternTransform()[4],
-            pattern->GetPatternTransform()[5], pattern->GetPatternTransform()[6], pattern->GetPatternTransform()[7],
-            pattern->GetPatternTransform()[8]);
+                                   pattern->GetPatternTransform()[2], pattern->GetPatternTransform()[3],
+                                   pattern->GetPatternTransform()[4], pattern->GetPatternTransform()[5],
+                                   pattern->GetPatternTransform()[6], pattern->GetPatternTransform()[7],
+                                   pattern->GetPatternTransform()[8]);
     }
 
     // set repeat shader
@@ -332,7 +340,6 @@ void SvgGraphic::SetPatternStyle() {
     OH_Drawing_ImageDestroy(image);
     OH_Drawing_SamplingOptionsDestroy(opt);
     OH_Drawing_MatrixDestroy(matrix);
-
 }
 
 bool SvgGraphic::UpdateStrokeStyle(bool antiAlias) {
@@ -432,9 +439,11 @@ void SvgGraphic::DrawMarker(OH_Drawing_Canvas *canvas) {
         if (!marker) {
             continue;
         }
-        LOG(INFO) << "DRAW MARKER at " << position.origin.x << " " << position.origin.y << "] type: " << static_cast<int>(type);
+        LOG(INFO) << "DRAW MARKER at " << position.origin.x << " " << position.origin.y
+                  << "] type: " << static_cast<int>(type);
         marker->renderMarker(canvas, position, attributes_.strokeState.GetLineWidth());
     }
 }
 
+} // namespace svg
 } // namespace rnoh

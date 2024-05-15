@@ -1,5 +1,7 @@
 #include <string>
 namespace rnoh {
+namespace svg {
+
 enum class AlignmentBaseline {
     baseline,
     textBottom,
@@ -40,4 +42,6 @@ TextPathMethod textPathMethodFromStr(const std::string &str);
 TextPathSide textPathSideFromStr(const std::string &str);
 TextPathMidLine textPathMidLineFromStr(const std::string &str);
 TextPathSpacing textPathSpacingFromStr(const std::string &str);
+
+} // namespace svg
 } // namespace rnoh

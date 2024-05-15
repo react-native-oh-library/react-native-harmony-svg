@@ -1,6 +1,7 @@
 #include "Dimension.h"
 #include "Size.h"
 namespace rnoh {
+namespace svg {
 
 double Dimension::ConvertToPx(double baseLen) const {
     switch (Unit()) {
@@ -29,4 +30,6 @@ double Dimension::ConvertToPx(const Size &viewPort, SvgLengthType type) const {
         return 0.0;
     }
 }
+
+} // namespace svg
 } // namespace rnoh

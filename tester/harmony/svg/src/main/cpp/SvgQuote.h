@@ -3,6 +3,7 @@
 #include <native_drawing/drawing_path.h>
 
 namespace rnoh {
+namespace svg {
 
 class SvgQuote : public SvgNode {
  public:
@@ -62,4 +63,5 @@ class SvgQuote : public SvgNode {
   }
 };
 
+} // namespace svg
 } // namespace rnoh

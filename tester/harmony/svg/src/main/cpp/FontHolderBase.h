@@ -1,7 +1,10 @@
 #pragma once
 #include <memory>
 #include "properties/Font.h"
+
 namespace rnoh {
+namespace svg {
+
 class FontHolderBase {
 public:
     template <typename T> void UpdateFontProps(const std::shared_ptr<T> &props) {
@@ -32,4 +35,6 @@ protected:
 private:
     FontProps fp_; // save intermediate font properties here because tree is not ready during onPropsChanged
 };
+
+} // namespace svg
 } // namespace rnoh

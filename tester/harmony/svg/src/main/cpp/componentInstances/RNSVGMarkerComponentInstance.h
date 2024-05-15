@@ -30,6 +30,7 @@
 #include "ShadowNodes.h"
 
 namespace rnoh {
+namespace svg {
 
 class RNSVGMarkerComponentInstance : public CppComponentInstance<facebook::react::RNSVGMarkerShadowNode>, public SvgHost {
 
@@ -49,4 +50,6 @@ public:
     
     void onPropsChanged(SharedConcreteProps const &props) override;
 };
+
+} // namespace svg
 } // namespace rnoh

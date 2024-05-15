@@ -5,6 +5,7 @@
 #include "properties/Color.h"
 
 namespace rnoh {
+namespace svg {
 
 RNSVGLineComponentInstance::RNSVGLineComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgLine>());
@@ -34,4 +35,5 @@ void RNSVGLineComponentInstance::onPropsChanged(SharedConcreteProps const &props
 
 SvgArkUINode &RNSVGLineComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
+} // namespace svg
 } // namespace rnoh

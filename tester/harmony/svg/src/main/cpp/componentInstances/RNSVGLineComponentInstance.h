@@ -7,6 +7,7 @@
 #include "SvgLine.h"
 
 namespace rnoh {
+namespace svg {
 
 class RNSVGLineComponentInstance : public CppComponentInstance<facebook::react::RNSVGLineShadowNode>, public SvgHost {
 
@@ -24,4 +25,6 @@ public:
 
     void onPropsChanged(SharedConcreteProps const &props) override;
 };
+
+} // namespace svg
 } // namespace rnoh

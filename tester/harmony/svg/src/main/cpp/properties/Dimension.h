@@ -7,6 +7,8 @@
 #define NEAR_ZERO(value) ((value > 0.0) ? ((value - 0.0) <= 0.000001f) : ((0.0 - value) <= 0.000001f))
 
 namespace rnoh {
+namespace svg {
+
 enum class DimensionUnit {
     /*
      * Unit is invalid.
@@ -234,5 +236,5 @@ inline constexpr Dimension operator""_fp(long double value) {
 inline constexpr Dimension operator""_pct(long double value) {
     return Dimension(static_cast<double>(value), DimensionUnit::PERCENT);
 }
-
+} // namespace svg
 } // namespace rnoh

@@ -14,6 +14,7 @@
 #include "Props.h"
 
 namespace rnoh {
+namespace svg {
 
 class SvgNode : public std::enable_shared_from_this<SvgNode> {
 public:
@@ -110,4 +111,5 @@ protected:
     bool drawTraversed_ = true; // enable OnDraw, TAGS mask/defs/pattern/filter = false
 };
 
+} // namespace svg
 } // namespace rnoh

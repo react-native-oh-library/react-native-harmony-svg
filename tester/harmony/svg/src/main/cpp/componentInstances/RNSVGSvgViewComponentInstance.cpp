@@ -5,6 +5,7 @@
 #include "SvgSvg.h"
 
 namespace rnoh {
+namespace svg {
 
 RNSVGSvgViewComponentInstance::RNSVGSvgViewComponentInstance(Context context)
     : CppComponentInstance(std::move(context)) {
@@ -52,4 +53,5 @@ std::optional<std::string> RNSVGSvgViewComponentInstance::getColorFromDynamic(fo
     return rawPropsColor;
 }
 
+} // namespace svg
 } // namespace rnoh

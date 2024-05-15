@@ -17,6 +17,7 @@
 #include <native_drawing/drawing_matrix.h>
 
 namespace rnoh {
+namespace svg {
 
 OH_Drawing_Path *SvgPath::AsPath() {
     auto *matrix = OH_Drawing_MatrixCreate();
@@ -34,5 +35,5 @@ OH_Drawing_Path *SvgPath::AsPath() {
     return OH_Drawing_PathCreate();
 }
 
-
+} // namespace svg
 } // namespace rnoh

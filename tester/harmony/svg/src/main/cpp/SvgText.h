@@ -4,6 +4,7 @@
 #include "TextBase.h"
 
 namespace rnoh {
+namespace svg {
 
 class SvgText : public SvgGroup, public TextBase {
 public:
@@ -16,4 +17,5 @@ private:
     void GlyphTraversal(OH_Drawing_Canvas *canvas);
 };
 
+} // namespace svg
 } // namespace rnoh

@@ -5,6 +5,7 @@
 #include "utils/SvgAttributesParser.h"
 
 namespace rnoh {
+namespace svg {
 
 class SvgPattern : public SvgQuote {
 
@@ -52,4 +53,6 @@ private:
     std::shared_ptr<PatternAttr> patternAttr = std::make_shared<PatternAttr>();
     double scale_ = 3.25010318;
   };
-}
+
+} // namespace svg
+} // namespace rnoh

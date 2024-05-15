@@ -5,6 +5,7 @@
 #include "SvgTSpan.h"
 
 namespace rnoh {
+namespace svg {
 
 RNSVGTextPathComponentInstance::RNSVGTextPathComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
     SetSvgNode(m_svgTP);
@@ -32,4 +33,6 @@ void RNSVGTextPathComponentInstance::onPropsChanged(SharedConcreteProps const &p
         OnChildInsertCommon(child);
         LOG(INFO) << "TEXT_PATH insert child";
     }
+
+} // namespace svg
 } // namespace rnoh

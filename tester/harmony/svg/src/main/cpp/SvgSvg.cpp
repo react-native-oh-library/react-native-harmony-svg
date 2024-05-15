@@ -11,6 +11,8 @@
 #include "utils/Utils.h"
 
 namespace rnoh {
+namespace svg {
+
 namespace {
 const char DOM_SVG_SRC_VIEW_BOX[] = "viewBox";
 const int MOS_MEET = 0;
@@ -140,5 +142,7 @@ void SvgSvg::Draw(OH_Drawing_Canvas *canvas) {
     SvgNode::Draw(canvas);
     OH_Drawing_CanvasRestore(canvas);
 };
+
+} // namespace svg
 } // namespace rnoh
 

@@ -4,6 +4,7 @@
 // This file was generated.
 
 namespace rnoh {
+namespace svg {
 using namespace facebook;
 
 RNSVGRenderableModule::RNSVGRenderableModule(const ArkTSTurboModule::Context ctx, const std::string name) : ArkTSTurboModule(ctx, name) {
@@ -19,4 +20,5 @@ RNSVGRenderableModule::RNSVGRenderableModule(const ArkTSTurboModule::Context ctx
     };
 }
 
+} // namespace svg
 } // namespace rnoh

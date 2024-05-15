@@ -32,6 +32,7 @@
     } while (0)
 
 namespace rnoh {
+namespace svg {
 
 inline double vpToPx(double vp) {
     //TODO get densityPixels in CAPI
@@ -207,5 +208,5 @@ inline float CalculateFriction(float gamma)
     return SCROLL_RATIO * static_cast<float>(std::pow(1.0 - gamma, 2));
 }
 
-
+} // namespace svg
 } // namespace rnoh
