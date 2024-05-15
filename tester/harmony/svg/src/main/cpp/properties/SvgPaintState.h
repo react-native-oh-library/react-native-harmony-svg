@@ -54,19 +54,19 @@ public:
 
     std::optional<Gradient> &GetGradient() { return gradient_; }
 
-    std::optional<Pattern> &GetPatternAttr() { return pattern_; }
+    std::shared_ptr<PatternAttr> &GetPatternAttr() { return patternAttr_; }
 
     const std::optional<Gradient> &GetGradient() const { return gradient_; }
 
-    const std::optional<Pattern> &GetPatternAttr() const { return pattern_; }
+    const std::shared_ptr<PatternAttr> &GetPatternAttr() const { return patternAttr_; }
 
     void SetGradient(const Gradient &gradient, bool isSelf) {
         gradient_ = std::make_optional(gradient);
         hasGradient_ = isSelf;
     }
 
-    void SetPattern(Pattern &pattern) {
-        pattern_ = std::make_optional(pattern);
+    void SetPattern(std::shared_ptr<PatternAttr> patternAttr) {
+        patternAttr_ = patternAttr;
     }
 
     void SetOpacity(double opacity, bool isSelf) {
@@ -121,7 +121,7 @@ protected:
     double opacity_ = double(1.0);
     FillState::FillRule fillRule_;
     std::optional<Gradient> gradient_;
-    std::optional<Pattern> pattern_;
+    std::shared_ptr<PatternAttr> patternAttr_;
     bool hasColor_ = false;
     bool hasOpacity_ = false;
     bool hasFillRule_ = false;
