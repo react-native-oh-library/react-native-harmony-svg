@@ -72,8 +72,6 @@ public:
         lengthAdjust_ = textLengthAdjustFromStr(props->lengthAdjust);
     }
 
-    double fontSize;
-
 protected:
     void GlyphTraversal(OH_Drawing_Canvas *canvas);
     void InitGlyph(OH_Drawing_Canvas *canvas);

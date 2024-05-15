@@ -14,8 +14,6 @@ void RNSVGTSpanComponentInstance::onPropsChanged(SharedConcreteProps const &prop
      CppComponentInstance::onPropsChanged(props);
      GetSvgNode()->UpdateCommonProps(props);
     m_svgTSpan->content_ = props->content;
-    auto fontSize = StringUtils::FromString(props->font.fontSize);
-    m_svgTSpan->fontSize = fontSize.ConvertToPx();
 
     m_svgTSpan->UpdateFontProps(props);
     m_svgTSpan->UpdateTextProps(props);

@@ -16,12 +16,6 @@ void SvgText::GlyphTraversal(OH_Drawing_Canvas *canvas) {
         if (!tSpan) {
             continue;
         }
-        // if (tSpan->x.empty()) {
-        //     tSpan->x = x;
-        // }
-        // if (tSpan->y.empty()) {
-        //     tSpan->y = y;
-        // }
         tSpan->SetContext(glyphCtx_);
     }
 }
