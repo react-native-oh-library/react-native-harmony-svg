@@ -30,6 +30,7 @@
 #include "SvgTSpan.h"
 
 namespace rnoh {
+namespace svg {
 
 class RNSVGTSpanComponentInstance : public CppComponentInstance<facebook::react::RNSVGTSpanShadowNode>, public SvgHost {
 
@@ -49,4 +50,6 @@ public:
     
     void onPropsChanged(SharedConcreteProps const &props) override;
 };
+
+} // namespace svg
 } // namespace rnoh

@@ -3,6 +3,7 @@
 #include "SvgQuote.h"
 
 namespace rnoh {
+namespace svg {
 
     class SvgClipPath : public SvgQuote {
 
@@ -10,4 +11,6 @@ namespace rnoh {
         SvgClipPath() = default;
         ~SvgClipPath() override = default;
     };
-}
+    
+} // namespace svg
+} // namespace rnoh

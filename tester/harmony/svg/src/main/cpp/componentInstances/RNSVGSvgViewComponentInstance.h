@@ -6,6 +6,8 @@
 #include "ShadowNodes.h"
 
 namespace rnoh {
+namespace svg {
+
 class RNSVGSvgViewComponentInstance : public CppComponentInstance<facebook::react::RNSVGSvgViewShadowNode>,
                                       public SvgHost {
 private:
@@ -29,4 +31,6 @@ public:
     // since we can't get color correctly from props
     std::optional<std::string> getColorFromDynamic(folly::dynamic value);
 };
+
+} // namespace svg
 } // namespace rnoh

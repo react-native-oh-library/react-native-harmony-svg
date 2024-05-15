@@ -11,6 +11,8 @@
 #include "properties/Decoration.h"
 
 namespace rnoh {
+namespace svg {
+
 class SvgAttributesParser {
 public:
     static Color GetColor(const std::string& str);
@@ -226,4 +228,5 @@ struct SvgGradientAttribute {
     Gradient gradient = Gradient();
 };
 
+} // namespace svg
 } // namespace rnoh

@@ -33,6 +33,7 @@
 #include "SvgEllipse.h"
 
 namespace rnoh {
+namespace svg {
 
 class RNSVGEllipseComponentInstance : public CppComponentInstance<facebook::react::RNSVGEllipseShadowNode>, public SvgHost {
 
@@ -50,4 +51,6 @@ public:
     
     void onPropsChanged(SharedConcreteProps const &props) override;
 };
+
+} // namespace svg
 } // namespace rnoh

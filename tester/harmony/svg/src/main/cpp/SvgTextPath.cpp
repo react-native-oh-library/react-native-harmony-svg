@@ -1,6 +1,8 @@
 #include "SvgTextPath.h"
 #include "SvgTSpan.h"
 namespace rnoh {
+namespace svg {
+
 void SvgTextPath::OnDraw(OH_Drawing_Canvas *canvas) {
     if (!glyphCtx_) {
         InitGlyph(canvas, scale_);
@@ -21,4 +23,6 @@ OH_Drawing_Path *SvgTextPath::getTextPath() {
     LOG(INFO) << "TEXT_PATH ref node missing, href = " << href_;
     return nullptr;
 }
+
+} //namespace svg
 } // namespace rnoh

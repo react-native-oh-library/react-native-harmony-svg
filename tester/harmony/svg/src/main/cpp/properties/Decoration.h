@@ -30,6 +30,7 @@
 #include "properties/Offset.h"
 
 namespace rnoh {
+namespace svg {
 
 constexpr double CENTER_OFFSET = 50.0;
 constexpr double FULL_IMG_SIZE = 100.0;
@@ -476,5 +477,6 @@ private:
     OH_Drawing_Image* image_;
 };
 
+} // namespace svg
 } // namespace rnoh
 #endif // FOUNDATION_ACE_FRAMEWORKS_CORE_COMPONENTS_BASE_PROPERTIES_DECORATION_H

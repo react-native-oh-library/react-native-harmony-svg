@@ -3,10 +3,11 @@
 #include <native_drawing/drawing_path.h>
 #include "SvgTextPath.h"
 namespace rnoh {
+namespace svg {
 
 class TextPathHelper {
     public:
-    TextPathHelper(const std::shared_ptr<SvgTextPath>& textPath, TextAnchor anchor);
+    TextPathHelper(const std::shared_ptr<svg::SvgTextPath>& textPath, svg::TextAnchor anchor);
 
     double GetStartOffset() const {
         return absoluteStartOffset_;
@@ -48,4 +49,6 @@ private:
     bool sharpMidLine_ = false;
     bool isClosed_ = false;
 };
+
+} // namespace svg
 } // namespace rnoh

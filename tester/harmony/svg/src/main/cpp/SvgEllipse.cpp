@@ -16,6 +16,7 @@
 #include "SvgEllipse.h"
 
 namespace rnoh {
+namespace svg {
 
 OH_Drawing_Path *SvgEllipse::AsPath() {
     LOG(INFO) << "[SvgEllipse] AsPath";
@@ -24,4 +25,6 @@ OH_Drawing_Path *SvgEllipse::AsPath() {
     OH_Drawing_PathAddOval(path_, rect, PATH_DIRECTION_CW);
     return path_;
 };
+
+} // namespace svg
 } // namespace rnoh

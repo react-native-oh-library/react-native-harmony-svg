@@ -16,6 +16,7 @@
 #include "SvgCircle.h"
 
 namespace rnoh {
+namespace svg {
 
  OH_Drawing_Path* SvgCircle:: AsPath()  {
      LOG(INFO) << "[SvgCircle] AsPath";
@@ -24,4 +25,5 @@ namespace rnoh {
      return path_;
  }
 
+} // namespace svg
 } // namespace rnoh

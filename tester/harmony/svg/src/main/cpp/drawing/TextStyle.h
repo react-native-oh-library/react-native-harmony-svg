@@ -27,7 +27,7 @@ public:
         OH_Drawing_SetTextStyleForegroundBrush(textStyle_.get(), brush);
     }
 
-    void Update(const std::shared_ptr<FontData>& style);
+    void Update(const std::shared_ptr<svg::FontData>& style);
 // private:
      UniqueTextStyle textStyle_;
      friend class TypographyStyle;

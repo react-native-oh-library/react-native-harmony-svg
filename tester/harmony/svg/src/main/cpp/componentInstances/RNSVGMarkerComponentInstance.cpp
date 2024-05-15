@@ -9,6 +9,7 @@
 
 
 namespace rnoh {
+namespace svg {
 
 RNSVGMarkerComponentInstance::RNSVGMarkerComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgMarker>());
@@ -41,4 +42,5 @@ void RNSVGMarkerComponentInstance::onPropsChanged(SharedConcreteProps const &pro
 
 SvgArkUINode &RNSVGMarkerComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
+} // namespace svg
 } // namespace rnoh

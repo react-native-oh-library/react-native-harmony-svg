@@ -26,7 +26,7 @@ public:
 
     void SetTextStyle(TextStyle textStyle);
 
-    void Update(const std::shared_ptr<FontData> &style);
+    void Update(const std::shared_ptr<svg::FontData> &style);
 
     // private:
     UniqueTypographyStyle typographyStyle_;

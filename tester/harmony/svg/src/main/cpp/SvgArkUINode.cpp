@@ -11,6 +11,7 @@
 #include <sstream>
 
 namespace rnoh {
+namespace svg {
 namespace {
 
 class ArkUI_NativeModule {
@@ -70,4 +71,5 @@ void SvgArkUINode::OnDraw(ArkUI_NodeCustomEvent *event) {
     root_->Draw(drawingHandle);
 }
 
-}; // namespace rnoh
+} // namespace svg
+} // namespace rnoh

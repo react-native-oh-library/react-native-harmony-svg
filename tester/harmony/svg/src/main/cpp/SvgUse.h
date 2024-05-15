@@ -7,6 +7,7 @@
 #include "SvgSymbol.h"
 
 namespace rnoh {
+namespace svg {
 
     class SvgUse : public SvgGraphic {
     public:
@@ -33,4 +34,5 @@ namespace rnoh {
                 // SvgAttributes useAttr_;
         };
 
+} // namespace svg
 } // namespace rnoh

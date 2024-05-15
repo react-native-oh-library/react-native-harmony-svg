@@ -2,6 +2,7 @@
 #include <native_drawing/drawing_matrix.h>
 #include <native_drawing/drawing_path.h>
 namespace rnoh {
+namespace svg {
 
 namespace {
 constexpr int MSCALE_X = 0; //!< use with getValues/setValues
@@ -81,4 +82,6 @@ bool TextPathHelper::GetMatrixOnPath(const Params &p, drawing::Matrix &mid) {
     OH_Drawing_MatrixPostTranslate(&mid, 0, p.y);
     return true;
 }
+
+} // namespace svg
 } // namespace rnoh

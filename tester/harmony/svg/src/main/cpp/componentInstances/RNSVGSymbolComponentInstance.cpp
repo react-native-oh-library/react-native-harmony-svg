@@ -5,6 +5,7 @@
 #include "utils/StringUtils.h"
 
 namespace rnoh {
+namespace svg {
 
 RNSVGSymbolComponentInstance::RNSVGSymbolComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
     LOG(INFO) << "[RNSVGSymbolComponentInstance] init" ;
@@ -38,4 +39,5 @@ void RNSVGSymbolComponentInstance::onPropsChanged(SharedConcreteProps const &pro
 
 SvgArkUINode &RNSVGSymbolComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
+} // namespace svg
 } // namespace rnoh

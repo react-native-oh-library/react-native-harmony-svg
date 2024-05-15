@@ -2,6 +2,7 @@
 #include "SvgGraphic.h"
 
 namespace rnoh {
+namespace svg {
 class SvgPath : public SvgGraphic {
 public:
     SvgPath() = default;
@@ -12,4 +13,5 @@ public:
     OH_Drawing_Path *AsPath() override;
 };
 
+} // namespace svg
 } // namespace rnoh

@@ -8,6 +8,8 @@
 #include "utils/LinearMap.h"
 
 namespace rnoh {
+namespace svg {
+
 namespace {
 const char LINECAP_ROUND[] = "round";
 const char LINECAP_SQUARE[] = "square";
@@ -213,4 +215,5 @@ double SvgAttributesParser::ParseDouble(const std::string& value)
     return StringUtils::StringToDouble(value);
 }
 
+} // namespace svg
 } // namespace rnoh

@@ -10,7 +10,7 @@ static std::string fontWeightTag = "wght";
 
 TextStyle::TextStyle() : textStyle_(UniqueTextStyle(OH_Drawing_CreateTextStyle(), OH_Drawing_DestroyTextStyle)) {}
 
-void TextStyle::Update(const std::shared_ptr<FontData> &style) {
+void TextStyle::Update(const std::shared_ptr<svg::FontData> &style) {
     auto *ts = textStyle_.get();
     OH_Drawing_SetTextStyleFontSize(ts, style->fontSize);
     OH_Drawing_SetTextStyleDecoration(ts, static_cast<int>(style->textDecoration));
@@ -25,7 +25,7 @@ void TextStyle::Update(const std::shared_ptr<FontData> &style) {
     OH_Drawing_TextStyleAddFontFeature(ts, style->fontFeatureSettings.c_str(), 1);
 
     const bool allowOptionalLigatures =
-        style->letterSpacing == 0 && style->fontVariantLigatures == FontVariantLigatures::normal;
+        style->letterSpacing == 0 && style->fontVariantLigatures == svg::FontVariantLigatures::normal;
     if (allowOptionalLigatures) {
         for (const auto &key : additionalLigatures) {
             OH_Drawing_TextStyleAddFontFeature(ts, key.c_str(), 1);

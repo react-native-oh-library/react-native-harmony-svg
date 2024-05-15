@@ -3,6 +3,8 @@
 #include <string>
 #include <unordered_map>
 namespace rnoh {
+namespace svg {
+
 enum class FontStyle { normal, italic, oblique };
 
 enum class FontWeight {
@@ -141,4 +143,5 @@ private:
     }
 };
 
+} // namespace svg
 } // namespace rnoh

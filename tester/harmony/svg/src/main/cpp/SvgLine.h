@@ -5,6 +5,7 @@
 #include <native_drawing/drawing_rect.h>
 
 namespace rnoh {
+namespace svg {
 
 class SvgLine : public SvgGraphic {
 public:
@@ -19,4 +20,5 @@ public:
     OH_Drawing_Path *AsPath() override;
 };
 
+} // namespace svg
 } // namespace rnoh

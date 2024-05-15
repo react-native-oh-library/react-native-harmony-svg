@@ -11,6 +11,8 @@
 #include "SvgGraphic.h"
 #include "properties/ViewBox.h"
 namespace rnoh {
+namespace svg {
+
 class SvgSymbol : public SvgGraphic {
 public:
     SvgSymbol() : SvgGraphic() { InitSymbolFlag(); }
@@ -31,5 +33,7 @@ public:
     void InitDefsFlag();
     void drawSymbol(OH_Drawing_Canvas *canvas, float width, float height);
 };
+
+} // namespace svg
 } // namespace rnoh
 #endif // HARMONY_SVGSYMBOL_H

@@ -14,6 +14,7 @@
 #include "SvgPattern.h"
 
 namespace rnoh {
+namespace svg {
 
 void SvgNode::InitStyle(const SvgBaseAttribute &attr) {
     InheritAttr(attr);
@@ -246,4 +247,6 @@ void SvgNode::ContextTraversal() {
         child->ContextTraversal();
     }
 }
+
+} // namespace svg
 } // namespace rnoh

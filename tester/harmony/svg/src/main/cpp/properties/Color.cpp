@@ -6,6 +6,8 @@
 #include "utils/StringUtils.h"
 #include "utils/LinearMap.h"
 namespace rnoh {
+namespace svg {
+
 namespace {
 
 constexpr uint32_t COLOR_ALPHA_OFFSET = 24;
@@ -448,4 +450,6 @@ bool Color::IsOpacityValid(double value)
 {
     return value >= MIN_RGBA_OPACITY && value <= MAX_RGBA_OPACITY;
 }
-}
+
+} // namespace svg
+} // namespace rnoh

@@ -24,6 +24,7 @@
 #include "utils/Utils.h"
 
 namespace rnoh {
+namespace svg {
 
 class Offset {
 public:
@@ -168,6 +169,8 @@ private:
     double deltaX_ = 0.0;
     double deltaY_ = 0.0;
 };
+
+} // namespace svg
 } // namespace rnoh
 
 #endif // FOUNDATION_ACE_FRAMEWORKS_BASE_GEOMETRY_OFFSET_H

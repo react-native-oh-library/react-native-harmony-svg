@@ -2,6 +2,7 @@
 #include "utils/StringUtils.h"
 #include <algorithm>
 namespace rnoh {
+namespace svg {
 
 double FontData::toAbsolute(const std::string &value, double scale, double fontSize, double relative) {
     auto val = StringUtils::FromString(value);
@@ -153,4 +154,5 @@ FontVariantLigatures fontVariantFromStr(const std::string &str) {
     }
 }
 
+} // namespace svg
 } // namespace rnoh

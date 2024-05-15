@@ -1,7 +1,7 @@
 #include "SvgUse.h"
 
 namespace rnoh {
-
+namespace svg {
 
 void SvgUse::OnDraw(OH_Drawing_Canvas *canvas) {
     LOG(INFO) << "[SvgUse::OnDraw] : start";
@@ -47,4 +47,5 @@ SvgUse::AttributeScope::~AttributeScope()
     node_->SetBaseAttributes(attributes_);
 }
 
-}
+} // namespace svg
+} // namespace rnoh

@@ -9,6 +9,7 @@
 #include "SvgNode.h"
 
 namespace rnoh {
+namespace svg {
 
 class GlyphContext {
 
@@ -95,4 +96,6 @@ public:
 
     float getHeight() { return mHeight; }
 };
+
+} // namespace svg
 } // namespace rnoh

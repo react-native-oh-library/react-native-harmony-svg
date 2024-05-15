@@ -5,6 +5,7 @@
 #include <sstream>
 
 namespace rnoh {
+namespace svg {
 
 RNSVGGroupComponentInstance::RNSVGGroupComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgGroup>());
@@ -21,4 +22,5 @@ void RNSVGGroupComponentInstance::onPropsChanged(SharedConcreteProps const &prop
 
 SvgArkUINode &RNSVGGroupComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
+} // namespace svg
 } // namespace rnoh

@@ -3,6 +3,8 @@
 #include <memory>
 #include "SvgNode.h"
 namespace rnoh {
+namespace svg {
+
 class SvgHost {
  public:
   void SetSvgNode(const std::shared_ptr<SvgNode>& svgNode) {
@@ -17,4 +19,6 @@ class SvgHost {
  private:
   std::shared_ptr<SvgNode> m_svgNode;
 };
+
+} // namespace svg
 } // namespace rnoh

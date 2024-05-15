@@ -6,6 +6,7 @@
 #include "utils/StringUtils.h"
 
 namespace rnoh {
+namespace svg {
 
 RNSVGMaskComponentInstance::RNSVGMaskComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
     LOG(INFO) << "[RNSVGMaskComponentInstance] RNSVGMaskComponentInstance: ";
@@ -37,4 +38,5 @@ void RNSVGMaskComponentInstance::onPropsChanged(SharedConcreteProps const &props
 
 SvgArkUINode &RNSVGMaskComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
+} // namespace svg
 } // namespace rnoh

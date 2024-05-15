@@ -20,6 +20,7 @@
 #include "utils/SvgAttributesParser.h"
 
 namespace rnoh {
+namespace svg {
 
 class SvgGradient : public SvgGraphic {
 public:
@@ -52,4 +53,5 @@ private:
     double scale_ = 3.25;
 };
 
+} // namespace svg
 } // namespace rnoh

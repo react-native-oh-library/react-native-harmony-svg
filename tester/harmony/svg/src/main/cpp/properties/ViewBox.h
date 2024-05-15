@@ -15,6 +15,7 @@
 #include <glog/logging.h>
 
 namespace rnoh {
+namespace svg {
 
 class ViewBox {
 private:
@@ -23,7 +24,7 @@ private:
     static const int MOS_NONE = 2;
 
 public:
-    static OH_Drawing_Matrix *getTransform(rnoh::Rect vbRect, rnoh::Rect eRect, std::string align, int meetOrSlice) {
+    static OH_Drawing_Matrix *getTransform(Rect vbRect, Rect eRect, std::string align, int meetOrSlice) {
         double vbX = vbRect.Left();
         double vbY = vbRect.Top();
         double vbWidth = vbRect.Width();
@@ -79,5 +80,6 @@ public:
     }
 };
 
+} // namespace svg
 } // namespace rnoh
 #endif // HARMONY_VIEWBOX_H

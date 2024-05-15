@@ -31,6 +31,7 @@
 #include "SvgPath.h"
 
 namespace rnoh {
+namespace svg {
 
 class RNSVGPathComponentInstance : public CppComponentInstance<facebook::react::RNSVGPathShadowNode>, public SvgHost {
 
@@ -49,4 +50,6 @@ public:
     
     void onPropsChanged(SharedConcreteProps const &props) override;
 };
+
+} // namespace svg
 } // namespace rnoh

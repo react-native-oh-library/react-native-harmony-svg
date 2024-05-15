@@ -4,6 +4,7 @@
 #include <sstream>
 
 namespace rnoh {
+namespace svg {
 
 RNSVGEllipseComponentInstance::RNSVGEllipseComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgEllipse>());
@@ -27,4 +28,5 @@ void RNSVGEllipseComponentInstance::onPropsChanged(SharedConcreteProps const &pr
 
 SvgArkUINode &RNSVGEllipseComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
+} // namespace svg
 } // namespace rnoh

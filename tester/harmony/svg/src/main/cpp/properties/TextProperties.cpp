@@ -1,5 +1,7 @@
 #include "TextProperties.h"
 namespace rnoh {
+namespace svg {
+
 TextPathMethod textPathMethodFromStr(const std::string &str) {
     if (str == "stretch") {
         return TextPathMethod::stretch;
@@ -78,4 +80,6 @@ AlignmentBaseline alignmentBaselineFromStr(const std::string &str) {
         return AlignmentBaseline::baseline;
     }
 }
-}
+
+} // namespace svg
+} // namespace rnoh

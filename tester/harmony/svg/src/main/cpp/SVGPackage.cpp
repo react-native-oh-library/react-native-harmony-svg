@@ -50,6 +50,7 @@
 
 using namespace rnoh;
 using namespace facebook;
+using namespace svg;
 
 std::vector<react::ComponentDescriptorProvider> SVGPackage::createComponentDescriptorProviders() {
     return {
@@ -77,12 +78,12 @@ std::vector<react::ComponentDescriptorProvider> SVGPackage::createComponentDescr
     };
 }
 
-ComponentNapiBinderByString rnoh::SVGPackage::createComponentNapiBinderByName()
+ComponentNapiBinderByString SVGPackage::createComponentNapiBinderByName()
 {
     return {};
 }
 
-ComponentJSIBinderByString rnoh::SVGPackage::createComponentJSIBinderByName() {
+ComponentJSIBinderByString SVGPackage::createComponentJSIBinderByName() {
     return {
         {"RNSVGCircle", std::make_shared<RNSVGCircleJSIBinder>()},
         {"RNSVGClipPath", std::make_shared<RNSVGClipPathJSIBinder>()},

@@ -30,6 +30,7 @@
 #include "ShadowNodes.h"
 
 namespace rnoh {
+namespace svg {
 class RNSVGLinearGradientComponentInstance : public CppComponentInstance<facebook::react::RNSVGLinearGradientShadowNode>, public SvgHost {
 
 private:
@@ -46,4 +47,6 @@ public:
     
     void onPropsChanged(SharedConcreteProps const &props) override;
 };
+
+} // namespace svg
 } // namespace rnoh

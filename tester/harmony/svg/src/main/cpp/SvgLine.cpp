@@ -7,6 +7,7 @@
 #include "SvgLine.h"
 
 namespace rnoh {
+namespace svg {
 
 OH_Drawing_Path *SvgLine::AsPath() {
     LOG(INFO) << "[SvgLine] AsPath";
@@ -20,4 +21,6 @@ OH_Drawing_Path *SvgLine::AsPath() {
                  PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x2, y2)})};
     return path_;
 };
+
+} // namespace svg
 } // namespace rnoh

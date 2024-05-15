@@ -1,5 +1,6 @@
 #include "GlyphContext.h"
- namespace rnoh {
+namespace rnoh {
+namespace svg {
 
 void GlyphContext::pushContext(bool reset, const std::shared_ptr<SvgNode>& node, DimensionArray x, DimensionArray y,
                                DimensionArray deltaX, DimensionArray deltaY, DimensionArray rotate) {
@@ -203,4 +204,6 @@ void GlyphContext::reset() {
     mXIndex = mYIndex = mDXIndex = mDYIndex = mRIndex = -1;
     mX = mY = mDX = mDY = 0;
 }
+
+} // namespace svg
 } // namespace rnoh

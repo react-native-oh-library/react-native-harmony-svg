@@ -9,6 +9,7 @@
 #include "utils/SvgMarkerPositionUtils.h"
 
 namespace rnoh {
+namespace svg {
 
 class SvgGraphic : virtual public SvgNode {
 public:
@@ -50,5 +51,5 @@ private:
     // TODO void UpdateColorFilter(OH_Drawing_Filter *filter);
 };
 
-
+} // namespace svg
 } // namespace rnoh

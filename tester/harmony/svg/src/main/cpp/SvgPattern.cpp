@@ -17,6 +17,7 @@
 #include "SvgPattern.h"
 
 namespace rnoh {
+namespace svg {
 
 SvgPattern::SvgPattern() { LOG(INFO) << "[SvgPattern] init"; }
 
@@ -102,4 +103,6 @@ void SvgPattern::setPatternTransforms(std::vector<Float> patternTransforms) {
 }
 
 void SvgPattern::setImage(OH_Drawing_Image* image) { patternAttr->setImage(image); }
+
+} // namespace svg
 } // namespace rnoh

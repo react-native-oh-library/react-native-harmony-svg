@@ -31,6 +31,7 @@
 #include "SvgMask.h"
 
 namespace rnoh {
+namespace svg {
 
 class RNSVGMaskComponentInstance : public CppComponentInstance<facebook::react::RNSVGMaskShadowNode>, public SvgHost {
 
@@ -51,4 +52,6 @@ public:
     
     void onPropsChanged(SharedConcreteProps const &props) override;
 };
+
+} // namespace svg
 } // namespace rnoh

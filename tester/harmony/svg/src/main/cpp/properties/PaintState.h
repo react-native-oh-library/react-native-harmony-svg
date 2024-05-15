@@ -11,6 +11,7 @@
 
 
 namespace rnoh {
+namespace svg {
 
 struct BezierCurveParam {
     double cp1x = 0.0; // first bezier point x
@@ -417,5 +418,5 @@ private:
 //     Shadow shadow;
 // };
 
+} // namespace svg
 } // namespace rnoh
-

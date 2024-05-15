@@ -7,6 +7,8 @@
 #include "SvgTSpan.h"
 
 namespace rnoh {
+namespace svg {
+
 void SvgText::GlyphTraversal(OH_Drawing_Canvas *canvas) {
     if (!glyphCtx_) {
         InitGlyph(canvas, scale_);
@@ -22,4 +24,5 @@ void SvgText::OnDraw(OH_Drawing_Canvas *canvas) {
     glyphCtx_->pushContext(true, shared_from_this(), x_, y_, dx_, dy_, rotate_);
 }
 
+} // namespace svg
 } // namespace rnoh

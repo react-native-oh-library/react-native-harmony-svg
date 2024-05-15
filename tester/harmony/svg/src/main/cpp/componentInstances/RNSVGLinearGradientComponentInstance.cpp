@@ -6,6 +6,7 @@
 #include "./utils/StringUtils.h"
 
 namespace rnoh {
+namespace svg {
 
 RNSVGLinearGradientComponentInstance::RNSVGLinearGradientComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgGradient>(GradientType::LINEAR));
@@ -27,4 +28,5 @@ void RNSVGLinearGradientComponentInstance::onPropsChanged(SharedConcreteProps co
 
 SvgArkUINode &RNSVGLinearGradientComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
+} // namespace svg
 } // namespace rnoh

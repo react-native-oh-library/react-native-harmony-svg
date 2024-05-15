@@ -29,6 +29,7 @@
 #include "ShadowNodes.h"
 
 namespace rnoh {
+namespace svg {
 
 class RNSVGImageComponentInstance : public CppComponentInstance<facebook::react::RNSVGCircleShadowNode>, public SvgHost {
 
@@ -46,4 +47,6 @@ public:
     
     void onPropsChanged(SharedConcreteProps const &props) override;
 };
+
+} // namespace svg
 } // namespace rnoh
