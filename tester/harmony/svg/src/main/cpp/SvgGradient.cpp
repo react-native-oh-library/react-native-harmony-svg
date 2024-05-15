@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-#include "SVGGradient.h"
+#include "SvgGradient.h"
 #include <native_drawing/drawing_shader_effect.h>
 #include "properties/Decoration.h"
 

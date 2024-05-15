@@ -10,7 +10,7 @@
 #include "utils/Utils.h"
 #include "utils/StringUtils.h"
 #include "utils/SvgAttributesParser.h"
-#include "SVGGradient.h"
+#include "SvgGradient.h"
 #include "SvgPattern.h"
 
 namespace rnoh {
@@ -180,16 +180,6 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
         // clipPath
         attributes_.clipPath = props->clipPath;
         hrefClipPath_ = props->clipPath;
-    }
-
-    if (hrefFill_) {
-        // auto href = attributes_.fillState.GetHref();
-        // if (!href.empty()) {
-        //   auto gradient = GetGradient(href);
-        //   if (gradient) {
-        //     attributes_.fillState.SetGradient(gradient.value());
-        //   }
-        // }
     }
 
     std::unordered_set<std::string> set;

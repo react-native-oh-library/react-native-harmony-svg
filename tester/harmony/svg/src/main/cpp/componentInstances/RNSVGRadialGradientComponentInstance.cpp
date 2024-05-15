@@ -3,7 +3,7 @@
 #include <native_drawing/drawing_shader_effect.h>
 #include <react/renderer/core/ConcreteState.h>
 #include <sstream>
-#include "SVGGradient.h"
+#include "SvgGradient.h"
 #include "./utils/StringUtils.h"
 
 namespace rnoh {

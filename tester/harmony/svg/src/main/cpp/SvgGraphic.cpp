@@ -23,7 +23,6 @@
 #include <native_drawing/drawing_point.h>
 #include <native_drawing/drawing_matrix.h>
 #include <native_drawing/drawing_types.h>
-#include <native_drawing/drawing_shader_effect.h>
 #include "utils/SvgMarkerPositionUtils.h"
 #include "SvgMarker.h"
 #include "SvgText.h"
@@ -200,76 +199,41 @@ void SvgGraphic::SetGradientStyle(double opacity) {
         colors.push_back(
             gradientColor.GetColor().BlendOpacity(gradientColor.GetOpacity()).BlendOpacity(opacity).GetValue());
     }
-    if (gradient->GetType() == GradientType::LINEAR) {
+    OH_Drawing_Matrix* transMatrix = OH_Drawing_MatrixCreate();
+    if (gradient->GetGradientTransform().size() == 9) {
+        OH_Drawing_MatrixSetMatrix(transMatrix, gradient->GetGradientTransform()[0],
+            gradient->GetGradientTransform()[1], gradient->GetGradientTransform()[2],
+            gradient->GetGradientTransform()[3], gradient->GetGradientTransform()[4],
+            gradient->GetGradientTransform()[5], gradient->GetGradientTransform()[6],
+            gradient->GetGradientTransform()[7], gradient->GetGradientTransform()[8]);
+    }
+    if (gradient->GetType() == GradientType::LINEAR && gradient->IsValid()) {
         auto info = gradient->GetLinearGradientInfo();
-        std::array<OH_Drawing_Point *, 2> pts = {
-            OH_Drawing_PointCreate(static_cast<float>(info.x1), static_cast<float>(info.y1)),
-            OH_Drawing_PointCreate(static_cast<float>(info.x2), static_cast<float>(info.y2))};
-        if (gradient->IsValid()) {
-            OH_Drawing_Point2D ptsPoint2D[2] = {
-                {static_cast<float>(info.x1), static_cast<float>(info.y1)},
-                {static_cast<float>(info.x2), static_cast<float>(info.y2)},
-            };
-            if (gradient->GetGradientTransform().size() == 9) {
-                OH_Drawing_Matrix* tmp = OH_Drawing_MatrixCreate();
-                OH_Drawing_MatrixSetMatrix(tmp, gradient->GetGradientTransform()[0], gradient->GetGradientTransform()[1],
-                    gradient->GetGradientTransform()[2], gradient->GetGradientTransform()[3], gradient->GetGradientTransform()[4],
-                    gradient->GetGradientTransform()[5], gradient->GetGradientTransform()[6], gradient->GetGradientTransform()[7],
-                    gradient->GetGradientTransform()[8]);
-
-                OH_Drawing_BrushSetShaderEffect(fillBrush_,
-                    OH_Drawing_ShaderEffectCreateLinearGradientWithLocalMatrix(
-                        &ptsPoint2D[0], &ptsPoint2D[1],
-                        colors.data(), pos.data(), colors.size(), static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()),
-                        tmp));
-                OH_Drawing_MatrixDestroy(tmp);
-            } else {
-                OH_Drawing_BrushSetShaderEffect(fillBrush_,
-                    OH_Drawing_ShaderEffectCreateLinearGradient(
-                        pts[0], pts[1], colors.data(), pos.data(), colors.size(),
-                        static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod())));
-            }
-        }
+        OH_Drawing_Point2D ptsPoint2D[2] = {
+            {static_cast<float>(info.x1), static_cast<float>(info.y1)},
+            {static_cast<float>(info.x2), static_cast<float>(info.y2)},
+        };
+        OH_Drawing_BrushSetShaderEffect(fillBrush_,
+            OH_Drawing_ShaderEffectCreateLinearGradientWithLocalMatrix(&ptsPoint2D[0], &ptsPoint2D[1], colors.data(),
+            pos.data(), colors.size(), static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()), transMatrix));
     }
-    if (gradient->GetType() == GradientType::RADIAL) {
+    if (gradient->GetType() == GradientType::RADIAL && gradient->IsValid()) {
         auto info = gradient->GetRadialGradientInfo();
-        auto center = OH_Drawing_PointCreate(static_cast<float>(info.cx), static_cast<float>(info.cy));
-        auto focal = OH_Drawing_PointCreate(static_cast<float>(info.fx), static_cast<float>(info.fx));
-
-        // if (center == focal) {
-            if (gradient->IsValid()) {
-                OH_Drawing_Point2D centerPoint2D = {static_cast<float>(info.cx), static_cast<float>(info.cy)};
-                if (gradient->GetGradientTransform().size() == 9) {
-                    OH_Drawing_Matrix* tmp = OH_Drawing_MatrixCreate();
-                    OH_Drawing_MatrixSetMatrix(tmp, gradient->GetGradientTransform()[0], gradient->GetGradientTransform()[1],
-                        gradient->GetGradientTransform()[2], gradient->GetGradientTransform()[3], gradient->GetGradientTransform()[4],
-                        gradient->GetGradientTransform()[5], gradient->GetGradientTransform()[6], gradient->GetGradientTransform()[7],
-                        gradient->GetGradientTransform()[8]);
-
-                    OH_Drawing_BrushSetShaderEffect(fillBrush_,
-                        OH_Drawing_ShaderEffectCreateRadialGradientWithLocalMatrix(
-                            &centerPoint2D,
-                            static_cast<float>(sqrt(info.rx * info.ry)), colors.data(), pos.data(), colors.size(),
-                            static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()),
-                            tmp));
-
-                    OH_Drawing_MatrixDestroy(tmp);
-                } else {
-                    OH_Drawing_BrushSetShaderEffect(
-                        fillBrush_, OH_Drawing_ShaderEffectCreateRadialGradient(
-                            center, static_cast<float>(sqrt(info.rx * info.ry)), colors.data(), pos.data(),
-                            colors.size(), static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod())));
-                }
-            }
-        // } else {
-            // LOG(INFO) << "hzj [SVGGraphic] SetGradientStyle center != focal";
-            // todo Two Point Gradient
-                        // RSMatrix matrix;
-                        // fillBrush_.SetShaderEffect(RSRecordingShaderEffect::CreateTwoPointConical(
-                            // focal, 0, center, static_cast<float>(info.r), colors, pos,
-                            // static_cast<RSTileMode>(gradient->GetSpreadMethod()), &matrix));
-        // }
+        OH_Drawing_Matrix* scaleMatrix = info.ry < info.rx ?
+            OH_Drawing_MatrixCreateScale(1, info.ry / info.rx, info.cx, info.cy) :
+            OH_Drawing_MatrixCreateScale(info.rx / info.ry, 1, info.cx, info.cy);
+        OH_Drawing_Point2D focal = {static_cast<float>(info.fx), static_cast<float>(info.fy)};
+        OH_Drawing_Point2D center = {static_cast<float>(info.cx), static_cast<float>(info.cy)};
+        OH_Drawing_Matrix* concatMatrix = OH_Drawing_MatrixCreate();
+        OH_Drawing_MatrixConcat(concatMatrix, scaleMatrix, transMatrix);
+        OH_Drawing_BrushSetShaderEffect(fillBrush_,
+            OH_Drawing_ShaderEffectCreateTwoPointConicalGradient(
+                &focal, 0, &center, info.rx > info.ry ? info.rx : info.ry, colors.data(), pos.data(),
+                colors.size(), static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()), concatMatrix));
+        OH_Drawing_MatrixDestroy(concatMatrix);
+        OH_Drawing_MatrixDestroy(scaleMatrix);
     }
+    OH_Drawing_MatrixDestroy(transMatrix);
 }
 
 void SvgGraphic::SetPatternStyle() {
