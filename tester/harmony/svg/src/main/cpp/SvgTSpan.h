@@ -34,8 +34,9 @@ private:
 
     drawing::TypographyStyle PrepareTypoStyle();
 
+    double CalcBaselineShift(OH_Drawing_TypographyCreate* handler, OH_Drawing_TextStyle* style, const OH_Drawing_Font_Metrics& fm);
+
     std::shared_ptr<SvgTextPath> textPath_;
-    
 };
 
 } // namespace rnoh
