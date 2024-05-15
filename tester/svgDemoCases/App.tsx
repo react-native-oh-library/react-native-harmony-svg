@@ -7,12 +7,9 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-// import * as exampleByName from './components';
 import {NavigationContainer, Page} from './Navigation';
-// import {Benchmarker, DeepTree, SierpinskiTriangle} from './benchmarks';
-import {PortalHost, PortalProvider} from '@gorhom/portal';
+import {PortalProvider} from '@gorhom/portal';
 import testSuiteByName from './components';
-import {Tester} from '@rnoh/testerino';
 
 
 const comList = Object.keys(testSuiteByName).map(testSuiteName => {
@@ -38,12 +35,8 @@ function App() {
                 return (
                   <Page
                     key={com.name}
-                    name={`${com.name.replace('Test', '')}`}>
-                    {/* <Tester style={{flex: 1}}>
-                      <ScrollView style={{flex: 1}}> */}
+                    name={`${com.name}`}>
                         <TestSuite key={com.name} />
-                      {/* </ScrollView>
-                    </Tester> */}
                   </Page>
                 );
               })}
