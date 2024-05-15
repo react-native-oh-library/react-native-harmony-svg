@@ -34,6 +34,11 @@ private:
 
     drawing::TypographyStyle PrepareTypoStyle();
 
+    /**
+     * @return true if spacing needs to be adjusted.
+     */
+    bool AdjustSpacing(OH_Drawing_Canvas *canvas, double textMeasure, double& scaleSpacingAndGlyphs);
+
     double CalcBaselineShift(OH_Drawing_TypographyCreate* handler, OH_Drawing_TextStyle* style, const OH_Drawing_Font_Metrics& fm);
 
     std::shared_ptr<SvgTextPath> textPath_;
