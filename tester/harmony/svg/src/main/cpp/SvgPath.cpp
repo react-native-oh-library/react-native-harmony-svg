@@ -15,24 +15,25 @@
 
 #include "SvgPath.h"
 #include <native_drawing/drawing_matrix.h>
+#include "drawing/Matrix.h"
 
 namespace rnoh {
 namespace svg {
 
-OH_Drawing_Path *SvgPath::AsPath() {
-    auto *matrix = OH_Drawing_MatrixCreate();
+drawing::Path SvgPath::AsPath() {
+    drawing::Matrix matrix;
     /*
     /* (OH_Drawing_Matrix* , float scaleX, float skewX, float transX, float skewY, float scaleY, float transY, float
     persp0, float persp1, float persp2 )
     */
     //TODO scale canvas? need to pass canvas in AsPath()
-    OH_Drawing_MatrixSetMatrix(matrix, scale_, 0, 0, 0, scale_, 0, 0, 0, 1.0);
-    auto isSuccessful =  OH_Drawing_PathBuildFromSvgString(path_, d.c_str());
+    matrix.SetMatrix(scale_, 0, 0, 0, scale_, 0, 0, 0, 1.0);
+    auto isSuccessful =  OH_Drawing_PathBuildFromSvgString(path_.get(), d.c_str());
     if (isSuccessful) {
-        OH_Drawing_PathTransform(path_, matrix);
+        OH_Drawing_PathTransform(path_.get(), matrix.get());
         return path_;
     }
-    return OH_Drawing_PathCreate();
+    return drawing::Path();
 }
 
 } // namespace svg

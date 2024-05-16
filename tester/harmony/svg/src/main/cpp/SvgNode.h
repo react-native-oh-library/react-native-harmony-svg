@@ -12,6 +12,7 @@
 #include "properties/Dimension.h"
 #include "properties/Size.h"
 #include "Props.h"
+#include "drawing/Path.h"
 
 namespace rnoh {
 namespace svg {
@@ -29,9 +30,9 @@ public:
 
     virtual void Draw(OH_Drawing_Canvas *canvas);
 
-    virtual OH_Drawing_Path *AsPath() {
+    virtual drawing::Path AsPath() {
         LOG(INFO) << "[SVGNode] AsPath";
-        return nullptr;
+        return drawing::Path();
     };
 
     SvgBaseAttribute GetBaseAttributes() const { return attributes_; }

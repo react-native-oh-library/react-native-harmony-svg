@@ -81,15 +81,17 @@ void SvgNode::OnClipPath(OH_Drawing_Canvas *canvas) {
         LOG(WARNING) << "[SvgNode] OnClipPath: SvgNode is null!";
         return;
     };
-    auto *clipPath = refSvgNode->AsPath();
-    if (!clipPath) {
-        LOG(WARNING) << "[SvgNode] OnClipPath: Path is null!";
-        return;
-    };
+    auto clipPath = refSvgNode->AsPath();
+    
+    // TODO: maybe return optional from AsPath?
+    // if (!clipPath) {
+    //     LOG(WARNING) << "[SvgNode] OnClipPath: Path is null!";
+    //     return;
+    // };
+
     // Set clipRule through Drawing API
-    OH_Drawing_PathSetFillType(clipPath, attributes_.clipState.GetClipRuleForDraw());
-    OH_Drawing_CanvasClipPath(canvas, clipPath, OH_Drawing_CanvasClipOp::INTERSECT, true);
-    OH_Drawing_PathDestroy(clipPath);
+    OH_Drawing_PathSetFillType(clipPath.get(), attributes_.clipState.GetClipRuleForDraw());
+    OH_Drawing_CanvasClipPath(canvas, clipPath.get(), OH_Drawing_CanvasClipOp::INTERSECT, true);
 }
 
 void SvgNode::OnMask(OH_Drawing_Canvas *canvas) {
@@ -232,7 +234,7 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
 Rect SvgNode::AsBounds() {
     auto path = AsPath();
     auto ohRect = OH_Drawing_RectCreate(0, 0, 0, 0);
-    OH_Drawing_PathGetBounds(path, ohRect);
+    OH_Drawing_PathGetBounds(path.get(), ohRect);
     float x = OH_Drawing_RectGetLeft(ohRect);
     float y = OH_Drawing_RectGetTop(ohRect);
     float width = OH_Drawing_RectGetWidth(ohRect);

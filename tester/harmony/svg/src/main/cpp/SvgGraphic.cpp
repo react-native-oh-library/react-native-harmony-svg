@@ -35,8 +35,8 @@ namespace svg {
 void SvgGraphic::OnDraw(OH_Drawing_Canvas *canvas) {
     LOG(INFO) << "[SVGGraphic] onDraw marker = " << attributes_.markerStart << " " << attributes_.markerMid << " "
               << attributes_.markerEnd;
-    //     OH_Drawing_BrushReset(fillBrush_);
-    //     OH_Drawing_PenReset(strokePen_);
+    //     OH_Drawing_BrushReset(fillBrush_.get());
+    //     OH_Drawing_PenReset(strokePen_.get());
     // 获取子类的绘制路径。
     path_ = AsPath();
     UpdateGradient();
@@ -62,18 +62,17 @@ void SvgGraphic::OnGraphicFill(OH_Drawing_Canvas *canvas) {
 
         /* copy constructor missing */
         auto tmpFillBrush = fillBrush_;
-        OH_Drawing_BrushSetFilter(tmpFillBrush, filter);
-        OH_Drawing_CanvasAttachBrush(canvas, tmpFillBrush);
-        OH_Drawing_CanvasDrawPath(canvas, path_);
+        OH_Drawing_BrushSetFilter(tmpFillBrush.get(), filter);
+        OH_Drawing_CanvasAttachBrush(canvas, tmpFillBrush.get());
+        OH_Drawing_CanvasDrawPath(canvas, path_.get());
         OH_Drawing_CanvasDetachBrush(canvas);
 
         OH_Drawing_FilterDestroy(filter);
         OH_Drawing_MaskFilterDestroy(maskFilter);
-        OH_Drawing_BrushDestroy(tmpFillBrush);
     } else {
         LOG(INFO) << "[svg] OnGraphicFill2";
-        OH_Drawing_CanvasAttachBrush(canvas, fillBrush_);
-        OH_Drawing_CanvasDrawPath(canvas, path_);
+        OH_Drawing_CanvasAttachBrush(canvas, fillBrush_.get());
+        OH_Drawing_CanvasDrawPath(canvas, path_.get());
         OH_Drawing_CanvasDetachBrush(canvas);
     }
 }
@@ -90,18 +89,17 @@ void SvgGraphic::OnGraphicStroke(OH_Drawing_Canvas *canvas) {
 
         /* copy constructor missing */
         auto tmpStrokePen = strokePen_;
-        OH_Drawing_PenSetFilter(tmpStrokePen, filter);
-        OH_Drawing_CanvasAttachPen(canvas, tmpStrokePen);
-        OH_Drawing_CanvasDrawPath(canvas, path_);
+        OH_Drawing_PenSetFilter(tmpStrokePen.get(), filter);
+        OH_Drawing_CanvasAttachPen(canvas, tmpStrokePen.get());
+        OH_Drawing_CanvasDrawPath(canvas, path_.get());
         OH_Drawing_CanvasDetachPen(canvas);
 
         OH_Drawing_FilterDestroy(filter);
         OH_Drawing_MaskFilterDestroy(maskFilter);
-        OH_Drawing_PenDestroy(tmpStrokePen);
     } else {
         LOG(INFO) << "[svg] OnGraphicStroke2";
-        OH_Drawing_CanvasAttachPen(canvas, strokePen_);
-        OH_Drawing_CanvasDrawPath(canvas, path_);
+        OH_Drawing_CanvasAttachPen(canvas, strokePen_.get());
+        OH_Drawing_CanvasDrawPath(canvas, path_.get());
         OH_Drawing_CanvasDetachPen(canvas);
     }
 }
@@ -174,7 +172,7 @@ bool SvgGraphic::UpdateFillStyle(bool antiAlias) {
         return false;
     }
     double curOpacity = fillState_.GetOpacity() * attributes_.opacity;
-    OH_Drawing_BrushSetAntiAlias(fillBrush_, antiAlias);
+    fillBrush_.SetAntiAlias(antiAlias);
     if (fillState_.GetGradient()) {
         LOG(INFO) << "[SVGGraphic] SetGradientStyle";
         SetGradientStyle(curOpacity);
@@ -182,10 +180,8 @@ bool SvgGraphic::UpdateFillStyle(bool antiAlias) {
         LOG(INFO) << "[SVGGraphic] SetPatternStyle";
         SetPatternStyle();
     } else {
-        //         auto fillColor = (color) ? *color : fillState_.GetColor();
-        //         fillBrush_.SetColor(fillColor.BlendOpacity(curOpacity).GetValue());
-        OH_Drawing_BrushSetColor(fillBrush_, fillState_.GetColor().BlendOpacity(curOpacity).GetValue());
-        OH_Drawing_PathSetFillType(path_, fillState_.GetFillRuleForDraw());
+        fillBrush_.SetColor(fillState_.GetColor().BlendOpacity(curOpacity).GetValue());
+        OH_Drawing_PathSetFillType(path_.get(), fillState_.GetFillRuleForDraw());
     }
     return true;
 }
@@ -219,7 +215,7 @@ void SvgGraphic::SetGradientStyle(double opacity) {
             {static_cast<float>(info.x2), static_cast<float>(info.y2)},
         };
         OH_Drawing_BrushSetShaderEffect(
-            fillBrush_, OH_Drawing_ShaderEffectCreateLinearGradientWithLocalMatrix(
+            fillBrush_.get(), OH_Drawing_ShaderEffectCreateLinearGradientWithLocalMatrix(
                             &ptsPoint2D[0], &ptsPoint2D[1], colors.data(), pos.data(), colors.size(),
                             static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()), transMatrix));
     }
@@ -232,7 +228,7 @@ void SvgGraphic::SetGradientStyle(double opacity) {
         OH_Drawing_Point2D center = {static_cast<float>(info.cx), static_cast<float>(info.cy)};
         OH_Drawing_Matrix *concatMatrix = OH_Drawing_MatrixCreate();
         OH_Drawing_MatrixConcat(concatMatrix, scaleMatrix, transMatrix);
-//         OH_Drawing_BrushSetShaderEffect(fillBrush_, OH_Drawing_ShaderEffectCreateTwoPointConicalGradient(
+//         OH_Drawing_BrushSetShaderEffect(fillBrush_.get(), OH_Drawing_ShaderEffectCreateTwoPointConicalGradient(
 //                                                         &focal, 0, &center, info.rx > info.ry ? info.rx : info.ry,
 //                                                         colors.data(), pos.data(), colors.size(),
 //                                                         static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()),
@@ -331,8 +327,8 @@ void SvgGraphic::SetPatternStyle() {
                                                                        OH_Drawing_MipmapMode::MIPMAP_MODE_NONE);
     OH_Drawing_ShaderEffect *imageShader = OH_Drawing_ShaderEffectCreateImageShader(
         image, OH_Drawing_TileMode::REPEAT, OH_Drawing_TileMode::REPEAT, opt, matrix);
-    OH_Drawing_BrushReset(fillBrush_);
-    OH_Drawing_BrushSetShaderEffect(fillBrush_, imageShader);
+    OH_Drawing_BrushReset(fillBrush_.get());
+    OH_Drawing_BrushSetShaderEffect(fillBrush_.get(), imageShader);
 
     OH_Drawing_CanvasDestroy(canvas);
     OH_Drawing_BitmapDestroy(bitmap);
@@ -353,38 +349,27 @@ bool SvgGraphic::UpdateStrokeStyle(bool antiAlias) {
     }
 
     double curOpacity = strokeState.GetOpacity() * attributes_.opacity;
-    //     strokePen_.SetColor(strokeState.GetColor().BlendOpacity(curOpacity).GetValue());
-    OH_Drawing_PenSetColor(strokePen_, strokeState.GetColor().BlendOpacity(curOpacity).GetValue());
+    strokePen_.SetColor(strokeState.GetColor().BlendOpacity(curOpacity).GetValue());
     LOG(INFO) << "[svg] strokeState.GetLineCap(): " << static_cast<int>(strokeState.GetLineCap());
     if (strokeState.GetLineCap() == LineCapStyle::ROUND) {
-        //             strokePen_.SetCapStyle(RSPen::CapStyle::ROUND_CAP);
-        OH_Drawing_PenSetCap(strokePen_, LINE_ROUND_CAP);
+        strokePen_.SetLineCap(LINE_ROUND_CAP);
     } else if (strokeState.GetLineCap() == LineCapStyle::SQUARE) {
-        //             strokePen_.SetCapStyle(RSPen::CapStyle::SQUARE_CAP);
-        OH_Drawing_PenSetCap(strokePen_, LINE_SQUARE_CAP);
+        strokePen_.SetLineCap(LINE_SQUARE_CAP);
     } else {
-        //             strokePen_.SetCapStyle(RSPen::CapStyle::FLAT_CAP);
-        OH_Drawing_PenSetCap(strokePen_, LINE_FLAT_CAP);
+        strokePen_.SetLineCap(LINE_FLAT_CAP);
     }
     LOG(INFO) << "[svg] strokeState.GetLineJoin(): " << static_cast<int>(strokeState.GetLineJoin());
     if (strokeState.GetLineJoin() == LineJoinStyle::ROUND) {
-        OH_Drawing_PenSetJoin(strokePen_, LINE_ROUND_JOIN);
+        strokePen_.SetLineJoin(LINE_ROUND_JOIN);
     } else if (strokeState.GetLineJoin() == LineJoinStyle::BEVEL) {
-        OH_Drawing_PenSetJoin(strokePen_, LINE_BEVEL_JOIN);
+        strokePen_.SetLineJoin(LINE_BEVEL_JOIN);
     } else {
-        OH_Drawing_PenSetJoin(strokePen_, LINE_MITER_JOIN);
+        strokePen_.SetLineJoin(LINE_MITER_JOIN);
     }
-
-    //     strokePen_.SetWidth(static_cast<RSScalar>(strokeState.GetLineWidth().Value()));
     LOG(INFO) << "[SvgRect] OH_Drawing_PenSetWidth: " << strokeState.GetLineWidth();
-    OH_Drawing_PenSetWidth(strokePen_, strokeState.GetLineWidth());
-
-    //     strokePen_.SetMiterLimit(static_cast<float>(strokeState.GetMiterLimit()));
-    OH_Drawing_PenSetMiterLimit(strokePen_, strokeState.GetMiterLimit());
-
-    //     strokePen_.SetAntiAlias(antiAlias);
-    OH_Drawing_PenSetAntiAlias(strokePen_, antiAlias);
-    //
+    strokePen_.SetWidth(strokeState.GetLineWidth());
+    strokePen_.SetMiterLimit(strokeState.GetMiterLimit());
+    strokePen_.SetAntiAlias(antiAlias);
     //     auto filter = strokePen_.GetFilter();
     //     UpdateColorFilter(filter);
     //     strokePen_.SetFilter(filter);
@@ -400,15 +385,15 @@ void SvgGraphic::UpdateLineDash() {
             intervals[i] = static_cast<float>(lineDashState[i]);
         }
         float phase = static_cast<float>(strokeState.GetStrokeDashOffset());
-        dashPathEffect_ = OH_Drawing_CreateDashPathEffect(intervals, lineDashState.size(), phase);
-        OH_Drawing_PenSetPathEffect(strokePen_, dashPathEffect_);
+        auto *DashPathEffect = OH_Drawing_CreateDashPathEffect(intervals, lineDashState.size(), phase);
+        OH_Drawing_PenSetPathEffect(strokePen_.get(), DashPathEffect);
     }
 }
 
 void SvgGraphic::DrawMarker(OH_Drawing_Canvas *canvas) {
-    auto markerStart = dynamic_pointer_cast<SvgMarker>(context_->GetSvgNodeById(attributes_.markerStart));
-    auto markerMid = dynamic_pointer_cast<SvgMarker>(context_->GetSvgNodeById(attributes_.markerMid));
-    auto markerEnd = dynamic_pointer_cast<SvgMarker>(context_->GetSvgNodeById(attributes_.markerEnd));
+    auto markerStart = std::dynamic_pointer_cast<SvgMarker>(context_->GetSvgNodeById(attributes_.markerStart));
+    auto markerMid = std::dynamic_pointer_cast<SvgMarker>(context_->GetSvgNodeById(attributes_.markerMid));
+    auto markerEnd = std::dynamic_pointer_cast<SvgMarker>(context_->GetSvgNodeById(attributes_.markerEnd));
     if (!markerStart && !markerMid && !markerEnd) {
         LOG(WARNING) << "NO MARKER";
         return;

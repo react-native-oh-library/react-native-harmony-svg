@@ -22,7 +22,7 @@ public:
     uint32_t colorFill;
     uint32_t strokeColor;
     uint32_t strokeWith;
-    OH_Drawing_Path *AsPath() override;
+    drawing::Path AsPath() override;
 };
 
 } // namespace svg

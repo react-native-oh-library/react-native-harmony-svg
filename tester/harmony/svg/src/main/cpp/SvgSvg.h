@@ -13,7 +13,7 @@ public:
     SvgSvg();
     ~SvgSvg() override = default;
 
-    OH_Drawing_Path *AsPath() override;
+    drawing::Path AsPath() override;
 
     Size GetSize() const;
     
