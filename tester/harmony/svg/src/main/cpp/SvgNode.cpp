@@ -245,6 +245,10 @@ Rect SvgNode::AsBounds() {
 }
 
 void SvgNode::ContextTraversal() {
+    if (!context_) {
+        LOG(INFO) << "NO CONTEXT";
+        return;
+    }
     if (!attributes_.id.empty()) {
         context_->Push(attributes_.id, shared_from_this());
     }
