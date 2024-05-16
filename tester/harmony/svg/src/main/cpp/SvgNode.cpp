@@ -234,12 +234,11 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
 Rect SvgNode::AsBounds() {
     auto path = AsPath();
     auto ohRect = path.GetBounds();
-    float x = OH_Drawing_RectGetLeft(ohRect);
-    float y = OH_Drawing_RectGetTop(ohRect);
-    float width = OH_Drawing_RectGetWidth(ohRect);
-    float height = OH_Drawing_RectGetHeight(ohRect);
+    float x = ohRect.GetLeft();
+    float y = ohRect.GetTop();
+    float width = ohRect.GetWidth();
+    float height = ohRect.GetHeight();
     auto rect = Rect(x, y, width, height);
-    OH_Drawing_RectDestroy(ohRect);
     return rect;
 }
 

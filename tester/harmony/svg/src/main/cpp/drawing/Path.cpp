@@ -58,22 +58,22 @@ void Path::AddRect(float left, float top, float right, float bottom, Direction d
     OH_Drawing_PathAddRect(get(), left, top, right, bottom, direction);
 }
 
-void Path::AddRectWithInitialCorner(const OH_Drawing_Rect *rect, Direction direction, uint32_t start) {
-    OH_Drawing_PathAddRectWithInitialCorner(get(), rect, direction, start);
+void Path::AddRectWithInitialCorner(const Rect &rect, Direction direction, uint32_t start) {
+    OH_Drawing_PathAddRectWithInitialCorner(get(), rect.get(), direction, start);
 }
 
-void Path::AddRoundRect(const OH_Drawing_RoundRect *roundRect, Direction direction) {
-    OH_Drawing_PathAddRoundRect(get(), roundRect, direction);
+void Path::AddRoundRect(const RoundRect &roundRect, Direction direction) {
+    OH_Drawing_PathAddRoundRect(get(), roundRect.get(), direction);
 }
 
-void Path::AddOvalWithInitialPoint(const OH_Drawing_Rect *rect, uint32_t start, Direction direction) {
-    OH_Drawing_PathAddOvalWithInitialPoint(get(), rect, start, direction);
+void Path::AddOvalWithInitialPoint(const Rect &rect, uint32_t start, Direction direction) {
+    OH_Drawing_PathAddOvalWithInitialPoint(get(), rect.get(), start, direction);
 }
 
-void Path::AddOval(const OH_Drawing_Rect *rect, Direction direction) { OH_Drawing_PathAddOval(get(), rect, direction); }
+void Path::AddOval(const Rect &rect, Direction direction) { OH_Drawing_PathAddOval(get(), rect.get(), direction); }
 
-void Path::AddArc(const OH_Drawing_Rect *rect, float startAngle, float sweepAngle) {
-    OH_Drawing_PathAddArc(get(), rect, startAngle, sweepAngle);
+void Path::AddArc(const Rect &rect, float startAngle, float sweepAngle) {
+    OH_Drawing_PathAddArc(get(), rect.get(), startAngle, sweepAngle);
 }
 
 void Path::AddPath(const Path &src) {
@@ -123,9 +123,9 @@ void Path::SetFillType(FillType fillType) { OH_Drawing_PathSetFillType(get(), fi
 
 float Path::GetLength(bool forceClosed) { return OH_Drawing_PathGetLength(get(), forceClosed); }
 
-OH_Drawing_Rect *Path::GetBounds() {
-    auto *bounds = OH_Drawing_RectCreate(0, 0, 0, 0);
-    OH_Drawing_PathGetBounds(get(), bounds);
+Rect Path::GetBounds() {
+    Rect bounds;
+    OH_Drawing_PathGetBounds(get(), bounds.get());
     return bounds;
 }
 
