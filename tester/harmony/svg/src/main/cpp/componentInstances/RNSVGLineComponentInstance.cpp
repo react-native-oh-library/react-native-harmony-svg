@@ -12,6 +12,12 @@ RNSVGLineComponentInstance::RNSVGLineComponentInstance(Context context) : CppCom
 
 void RNSVGLineComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
     CppComponentInstance::onPropsChanged(props);
+    // TODO: move ArkUINode to base class and use template function
+    if (!props->responsible) {
+        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::None);
+    } else {
+        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::Auto);
+    }
     LOG(INFO) << "[RNSVGLineComponentInstance] Props->fill.payload: "
               << Color((uint32_t)*props->fill.payload).ToString();
     LOG(INFO) << "[RNSVGLineComponentInstance] Props->stroke.payload: "

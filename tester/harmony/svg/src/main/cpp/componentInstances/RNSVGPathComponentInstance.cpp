@@ -11,6 +11,12 @@ RNSVGPathComponentInstance::RNSVGPathComponentInstance(Context context) : CppCom
 
 void RNSVGPathComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
      CppComponentInstance::onPropsChanged(props);
+    // TODO: move ArkUINode to base class and use template function
+    if (!props->responsible) {
+        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::None);
+    } else {
+        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::Auto);
+    }
     LOG(INFO) << "[RNSVGPathComponentInstance] d: " << props->d;
     auto svgPath = std::dynamic_pointer_cast<SvgPath>(GetSvgNode());
     svgPath->d = props->d;

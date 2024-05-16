@@ -12,6 +12,12 @@ RNSVGTextPathComponentInstance::RNSVGTextPathComponentInstance(Context context) 
 
 void RNSVGTextPathComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
     CppComponentInstance::onPropsChanged(props);
+    // TODO: move ArkUINode to base class and use template function
+    if (!props->responsible) {
+        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::None);
+    } else {
+        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::Auto);
+    }
     GetSvgNode()->UpdateCommonProps(props);
 
     m_svgTP->UpdateFontProps(props);

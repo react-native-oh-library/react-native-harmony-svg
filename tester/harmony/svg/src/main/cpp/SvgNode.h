@@ -100,6 +100,8 @@ protected:
     // TODO get densityPixels in CAPI
     double scale_ = 3.25;
 
+    bool display_ = true;
+
     bool hrefFill_ = true;      // get fill attributes from reference
     bool hrefRender_ = true;    // get render attr (mask, filter, transform, opacity,
                                 // clip path) from reference

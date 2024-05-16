@@ -12,6 +12,12 @@ RNSVGGroupComponentInstance::RNSVGGroupComponentInstance(Context context) : CppC
 
 void RNSVGGroupComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
     CppComponentInstance::onPropsChanged(props);
+    // TODO: move ArkUINode to base class and use template function
+    if (!props->responsible) {
+        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::None);
+    } else {
+        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::Auto);
+    }
     LOG(INFO) << "[RNSVGGroupComponentInstance] props->fill.payload: " << (uint32_t)*props->fill.payload;
 
     auto group = std::dynamic_pointer_cast<SvgGroup>(GetSvgNode());
