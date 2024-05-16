@@ -19,6 +19,7 @@ void RNSVGPathComponentInstance::onPropsChanged(SharedConcreteProps const &props
               << facebook::react::isColorMeaningful(props->fill.payload);
     auto svgPath = std::dynamic_pointer_cast<SvgPath>(GetSvgNode());
     svgPath->d = props->d;
+    svgPath->setD(props->d);
 
     svgPath->UpdateCommonProps(props);
 }

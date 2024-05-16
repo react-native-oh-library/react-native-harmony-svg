@@ -14,10 +14,25 @@
  */
 
 #include "SvgPath.h"
+#include "utils/PathParserUtils.h"
 #include <native_drawing/drawing_matrix.h>
 
 namespace rnoh {
 namespace svg {
+
+void SvgPath::setD(std::string _d) {
+    d = _d;
+    PathParserUtils::mScale = scale_;
+    // only parser "d" to record the point info
+    PathParserUtils::parse(d.c_str());
+    elements_ = PathParserUtils::elements;
+    for (PathElement elem : elements_) {
+        for (Point &point : elem.points) {
+            point.x *= scale_;
+            point.y *= scale_;
+        }
+    }
+}
 
 OH_Drawing_Path *SvgPath::AsPath() {
     auto *matrix = OH_Drawing_MatrixCreate();
