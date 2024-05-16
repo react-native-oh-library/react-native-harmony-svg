@@ -52,12 +52,12 @@ SvgArkUINode::SvgArkUINode()
             break;
         }
     };
-    //
     nativeModule_->registerNodeCustomEvent(m_nodeHandle, ARKUI_NODE_CUSTOM_EVENT_ON_DRAW, 0, userCallback_);
 }
 SvgArkUINode::~SvgArkUINode() {
     nativeModule_->unregisterNodeCustomEvent(m_nodeHandle, ARKUI_NODE_CUSTOM_EVENT_ON_DRAW);
     delete userCallback_;
+    userCallback_ = nullptr;
 }
 
 void SvgArkUINode::OnDraw(ArkUI_NodeCustomEvent *event) {
