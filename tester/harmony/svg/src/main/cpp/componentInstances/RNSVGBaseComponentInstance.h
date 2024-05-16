@@ -11,13 +11,6 @@ public:
     RNSVGBaseComponentInstance(ComponentInstance::Context context) : CppComponentInstance<T>(std::move(context)) {}
 
     void onPropsChanged(typename CppComponentInstance<T>::SharedConcreteProps const &props) override {
-        CppComponentInstance<T>::onPropsChanged(props);
-        if (!props->responsible) {
-            m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::None);
-        } else {
-            m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::Auto);
-        }
-
         GetSvgNode()->UpdateCommonProps(props);
         UpdateSpecialProps(props);
     }
@@ -26,13 +19,15 @@ public:
     void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override {
         OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
     }
+    
+    void setLayout(facebook::react::LayoutMetrics layoutMetrics) override {};
 
 protected:
     virtual void UpdateSpecialProps(typename CppComponentInstance<T>::SharedConcreteProps const &props) = 0;
-    SvgArkUINode &getLocalRootArkUINode() override { return m_svgArkUINode; }
+    SvgArkUINode &getLocalRootArkUINode() override { return *m_svgArkUINode.lock().get(); }
 
 private:
-    SvgArkUINode m_svgArkUINode;
+    std::weak_ptr<SvgArkUINode> m_svgArkUINode;
 };
 
 } // namespace svg
