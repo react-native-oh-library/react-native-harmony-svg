@@ -23,6 +23,12 @@ OH_Drawing_Path *SvgEllipse::AsPath() {
 
     auto rect = OH_Drawing_RectCreate(vpToPx(cx - rx), vpToPx(cy - ry), vpToPx(cx + rx), vpToPx(cy + ry));
     OH_Drawing_PathAddOval(path_, rect, PATH_DIRECTION_CW);
+    
+    elements_ = {PathElement(ElementType::kCGPathElementMoveToPoint, {Point(cx, cy - ry)}),
+                 PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(cx, cy - ry), Point(cx + rx, cy)}),
+                 PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(cx + rx, cy), Point(cx, cy + ry)}),
+                 PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(cx, cy + ry), Point(cx - rx, cy)}),
+                 PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(cx - rx, cy), Point(cx, cy - ry)})};
     return path_;
 };
 

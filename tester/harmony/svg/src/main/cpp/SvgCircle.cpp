@@ -22,7 +22,13 @@ namespace svg {
      LOG(INFO) << "[SvgCircle] AsPath";
      // TODO implement ConvertDimensionToPx
           OH_Drawing_PathAddCircle(path_, vpToPx(x), vpToPx(y), vpToPx(r), PATH_DIRECTION_CW);
-     return path_;
+
+          elements_ = {PathElement(ElementType::kCGPathElementMoveToPoint, {Point(x, y - r)}),
+                       PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x, y - r), Point(x + r, y)}),
+                       PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x + r, y), Point(x, y + r)}),
+                       PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x, y + r), Point(x - r, y)}),
+                       PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x - r, y), Point(x, y - r)})};
+          return path_;
  }
 
 } // namespace svg
