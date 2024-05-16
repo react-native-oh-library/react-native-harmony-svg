@@ -3,7 +3,7 @@
 #include <memory>
 #include <native_drawing/drawing_pen.h>
 
-namespace drawing {
+namespace rnoh::drawing {
 
 class Pen final {
 
@@ -39,4 +39,4 @@ private:
     UniqueNativePen pen_;
 };
 
-} // namespace drawing
+} // namespace rnoh::drawing

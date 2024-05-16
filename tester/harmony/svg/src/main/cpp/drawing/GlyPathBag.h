@@ -3,7 +3,8 @@
 #include <vector>
 #include "drawing/Path.h"
 #include "drawing/Pen.h"
-namespace drawing {
+namespace rnoh::drawing {
+
 class GlyPathBag {
     private:
         int getIndex(char ch);
@@ -18,5 +19,6 @@ class GlyPathBag {
     drawing::Path getOrCreateAndCache(const char &ch, const std::string &current);
     
 };
-}
+
+} // namespace rnoh::drawing
 

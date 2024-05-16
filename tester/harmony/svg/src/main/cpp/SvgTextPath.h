@@ -25,7 +25,7 @@ public:
 
     void SetContext(std::shared_ptr<GlyphContext> context) { glyphCtx_ = context; }
 
-    ::drawing::Path getTextPath();
+    drawing::Path getTextPath();
 
     TextPathMidLine getMidLine() const { return midLine_; }
 

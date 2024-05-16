@@ -1,7 +1,7 @@
 #include "Path.h"
 
 
-namespace drawing {
+namespace rnoh::drawing {
 
 Path::Path() : path_(UniqueNativePath(OH_Drawing_PathCreate(), &OH_Drawing_PathDestroy)) {}
 
@@ -19,4 +19,4 @@ void Path::Reset() {
     OH_Drawing_PathReset(path_.get());
 }
 
-} // namespace drawing
+} // namespace rnoh::drawing

@@ -3,7 +3,7 @@
 #include <memory>
 #include <native_drawing/drawing_brush.h>
 
-namespace drawing {
+namespace rnoh::drawing {
 
 class Brush final {
 
@@ -32,4 +32,4 @@ private:
     UniqueNativeBrush brush_;
 };
 
-} // namespace drawing
+} // namespace rnoh::drawing

@@ -1,6 +1,6 @@
 #include "Pen.h"
 
-namespace drawing {
+namespace rnoh::drawing {
 
 Pen::Pen() : pen_(UniqueNativePen(OH_Drawing_PenCreate(), &OH_Drawing_PenDestroy)) {}
 
@@ -27,4 +27,4 @@ void Pen::SetLineJoin(LineJoinStyle lineJoin) { OH_Drawing_PenSetJoin(pen_.get()
 
 void Pen::Reset() {}
 
-} // namespace drawing
+} // namespace rnoh::drawing

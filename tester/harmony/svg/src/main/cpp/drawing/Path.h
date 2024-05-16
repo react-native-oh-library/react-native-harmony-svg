@@ -3,7 +3,7 @@
 #include <memory>
 #include <native_drawing/drawing_path.h>
 
-namespace drawing {
+namespace rnoh::drawing {
 
 class Path final {
     using UniqueNativePath = std::unique_ptr<OH_Drawing_Path, decltype(&OH_Drawing_PathDestroy)>;
@@ -27,4 +27,4 @@ private:
     UniqueNativePath path_;
 };
 
-} // namespace drawing
+} // namespace rnoh::drawing

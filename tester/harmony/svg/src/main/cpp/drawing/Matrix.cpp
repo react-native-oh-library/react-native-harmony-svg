@@ -1,6 +1,6 @@
 #include "Matrix.h"
 
-namespace drawing {
+namespace rnoh::drawing {
 
 Matrix::Matrix() : matrix_(UniqueNativeMatrix(OH_Drawing_MatrixCreate(), &OH_Drawing_MatrixDestroy)) {}
 
@@ -73,4 +73,4 @@ void Matrix::SetMatrix(float scaleX, float skewX, float transX, float skewY, flo
 void Matrix::Reset() { OH_Drawing_MatrixReset(matrix_.get()); }
 
 
-} // namespace drawing
+} // namespace rnoh::drawing

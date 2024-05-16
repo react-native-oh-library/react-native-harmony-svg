@@ -23,9 +23,9 @@ public:
 
     void OnDraw(OH_Drawing_Canvas *canvas) override;
 protected:
-    ::drawing::Path path_ {};
-    ::drawing::Brush fillBrush_ {};
-    ::drawing::Pen strokePen_ {};
+    drawing::Path path_ {};
+    drawing::Brush fillBrush_ {};
+    drawing::Pen strokePen_ {};
 
     // Use Brush to draw fill
     void OnGraphicFill(OH_Drawing_Canvas *canvas);
