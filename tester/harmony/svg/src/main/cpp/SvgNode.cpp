@@ -147,8 +147,10 @@ std::shared_ptr<PatternAttr> SvgNode::GetPatternAttr(const std::string &href) {
 }
 
 void SvgNode::Draw(OH_Drawing_Canvas *canvas) {
+    if (!display_) {
+        return;
+    }
     // mask and filter create extra layers, need to record initial layer count
-    LOG(INFO) << "[SvgNode] Draw enter";
     const auto count = OH_Drawing_CanvasGetSaveCount(canvas);
     OH_Drawing_CanvasSave(canvas);
     if (!hrefClipPath_.empty()) {
@@ -170,6 +172,7 @@ void SvgNode::Draw(OH_Drawing_Canvas *canvas) {
 
 void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
     attributes_.id = props->name;
+    display_ = props->display != "none";
 
     if (hrefRender_) {
         attributes_.transform = props->matrix;

@@ -224,6 +224,8 @@ public:
     Float strokeDashoffset{0.0};
     Float strokeMiterlimit{0.0};
     std::vector<std::string> propList{};
+    std::string display{};
+    bool responsible{false};
 };
 
 class JSI_EXPORT RNSVGCircleProps final : public RNSVGCommonProps {
@@ -234,8 +236,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string cx{};
@@ -333,8 +334,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
@@ -350,8 +350,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
 };
 
@@ -365,8 +364,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string cx{};
@@ -467,8 +465,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
@@ -569,8 +566,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
@@ -587,8 +583,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string x{};
@@ -630,8 +625,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     std::string x1{};
     std::string y1{};
@@ -651,8 +645,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string x1{};
@@ -750,8 +743,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
@@ -859,8 +851,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
@@ -883,8 +874,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string d{};
@@ -980,8 +970,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
@@ -1011,8 +1000,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     std::string fx{};
     std::string fy{};
@@ -1034,8 +1022,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string x{};
@@ -1135,8 +1122,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
@@ -1247,8 +1233,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
@@ -1357,8 +1342,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
@@ -1472,8 +1456,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string fontSize{};
@@ -1502,8 +1485,7 @@ public:
 #pragma mark - Props
 
 
-    bool responsible{false};
-    std::string display{};
+
     // std::string pointerEvents{};
     int vectorEffect{0};
     std::string href{};

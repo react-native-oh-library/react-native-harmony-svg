@@ -14,6 +14,12 @@ RNSVGClipPathComponentInstance::RNSVGClipPathComponentInstance(Context context) 
 void RNSVGClipPathComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
     LOG(INFO) << "[RNSVGClipPathComponentInstance] onPropsChanged props name = " << props->name;
     CppComponentInstance::onPropsChanged(props);
+    // TODO: move ArkUINode to base class and use template function
+    if (!props->responsible) {
+        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::None);
+    } else {
+        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::Auto);
+    }
     GetSvgNode()->UpdateCommonProps(props);
 }
 

@@ -17,6 +17,12 @@ RNSVGMarkerComponentInstance::RNSVGMarkerComponentInstance(Context context) : Cp
 
 void RNSVGMarkerComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
     CppComponentInstance::onPropsChanged(props);
+    // TODO: move ArkUINode to base class and use template function
+    if (!props->responsible) {
+        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::None);
+    } else {
+        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::Auto);
+    }
     LOG(INFO) << "[RNSVGMarkerComponentInstance] onPropsChanged markerWidth=" << props->markerWidth << " markerHeight=" << props->markerHeight;
     LOG(INFO) << "[RNSVGMarkerComponentInstance] onPropsChanged refX=" << props->refX << " refY=" << props->refY;
     LOG(INFO) << "[RNSVGMarkerComponentInstance] onPropsChanged markerUnits=" << props->markerUnits << " orient=" << props->orient;

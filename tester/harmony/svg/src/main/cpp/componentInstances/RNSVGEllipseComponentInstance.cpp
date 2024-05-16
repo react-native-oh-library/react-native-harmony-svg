@@ -12,6 +12,12 @@ RNSVGEllipseComponentInstance::RNSVGEllipseComponentInstance(Context context) : 
 
 void RNSVGEllipseComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
      CppComponentInstance::onPropsChanged(props);
+    // TODO: move ArkUINode to base class and use template function
+    if (!props->responsible) {
+        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::None);
+    } else {
+        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::Auto);
+    }
     LOG(INFO) << "[SvgEllipse] cx: " << props->cx;
     LOG(INFO) << "[SvgEllipse] cy: " << props->cy;
     LOG(INFO) << "[SvgEllipse] rx: " << props->rx;

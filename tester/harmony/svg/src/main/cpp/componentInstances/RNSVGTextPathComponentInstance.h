@@ -13,6 +13,7 @@ class RNSVGTextPathComponentInstance : public CppComponentInstance<facebook::rea
 
 private:
     std::shared_ptr<SvgTextPath> m_svgTP = std::make_shared<SvgTextPath>();
+    SvgArkUINode m_svgArkUINode;
 
 public:
     RNSVGTextPathComponentInstance(Context context);
@@ -22,7 +23,6 @@ public:
     void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override {}
 
     SvgArkUINode &getLocalRootArkUINode() override {
-        static SvgArkUINode m_svgArkUINode;
         return m_svgArkUINode;
     }
 

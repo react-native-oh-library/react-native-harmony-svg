@@ -12,6 +12,12 @@ RNSVGPathComponentInstance::RNSVGPathComponentInstance(Context context) : CppCom
 
 void RNSVGPathComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
      CppComponentInstance::onPropsChanged(props);
+    // TODO: move ArkUINode to base class and use template function
+    if (!props->responsible) {
+        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::None);
+    } else {
+        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::Auto);
+    }
     LOG(INFO) << "[RNSVGPathComponentInstance] d: " << props->d;
     LOG(INFO) << "[RNSVGPathComponentInstance] Props->fill.payload: " << (uint32_t)*props->fill.payload;
     LOG(INFO) << "[RNSVGPathComponentInstance] Props->fill.type: " << props->fill.type;
