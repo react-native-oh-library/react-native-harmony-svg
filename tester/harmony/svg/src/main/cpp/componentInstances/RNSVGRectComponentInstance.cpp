@@ -6,19 +6,12 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGRectComponentInstance::RNSVGRectComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
+RNSVGRectComponentInstance::RNSVGRectComponentInstance(Context context)  : RNSVGBaseCI(std::move(context)) {
     SetSvgNode(std::make_shared<SvgRect>());
 }
 
-void RNSVGRectComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
-    CppComponentInstance::onPropsChanged(props);
-    // TODO: move ArkUINode to base class and use template function
-    if (!props->responsible) {
-        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::None);
-    } else {
-        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::Auto);
-    }
-    LOG(INFO) << "[RNSVGRectComponentInstance] Props->fill.payload: " << (uint32_t)*props->fill.payload;
+void RNSVGRectComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+         LOG(INFO) << "[RNSVGRectComponentInstance] Props->fill.payload: " << (uint32_t)*props->fill.payload;
     LOG(INFO) << "[RNSVGRectComponentInstance] Props->stroke.payload: " << (uint32_t)*props->stroke.payload;
     LOG(INFO) << "[RNSVGRectComponentInstance] Props->stroke.payload meaningful: " << facebook::react::isColorMeaningful(props->stroke.payload);
     LOG(INFO) << "[RNSVGRectComponentInstance] Props->stroke.type: " << props->stroke.type;
@@ -42,10 +35,8 @@ void RNSVGRectComponentInstance::onPropsChanged(SharedConcreteProps const &props
         svgRect->ry = std::stof(props->ry);
     }
 
-    svgRect->UpdateCommonProps(props);
 }
 
-SvgArkUINode &RNSVGRectComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
 } // namespace svg
 } // namespace rnoh

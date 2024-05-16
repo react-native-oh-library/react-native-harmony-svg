@@ -7,20 +7,13 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGSymbolComponentInstance::RNSVGSymbolComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
+RNSVGSymbolComponentInstance::RNSVGSymbolComponentInstance(Context context)  : RNSVGBaseCI(std::move(context)) {
     LOG(INFO) << "[RNSVGSymbolComponentInstance] init" ;
     SetSvgNode(std::make_shared<SvgSymbol>());
 }
 
-void RNSVGSymbolComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
-    CppComponentInstance::onPropsChanged(props);
-    // TODO: move ArkUINode to base class and use template function
-    if (!props->responsible) {
-        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::None);
-    } else {
-        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::Auto);
-    }
-
+void RNSVGSymbolComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+     
     
     auto svgSymbol = std::dynamic_pointer_cast<SvgSymbol>(GetSvgNode());
     // set attribute to svgMask.
@@ -40,10 +33,9 @@ void RNSVGSymbolComponentInstance::onPropsChanged(SharedConcreteProps const &pro
     // set attribute to svgSymbol
     //auto svgSymbol = std::dynamic_pointer_cast<SvgSymbol>(GetSvgNode());
    // svgSymbol->viewBox = Rect(props->minX, props->minY, props->vbWidth, props->vbHeight);
-    GetSvgNode()->UpdateCommonProps(props);
+     
 }
 
-SvgArkUINode &RNSVGSymbolComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
 } // namespace svg
 } // namespace rnoh

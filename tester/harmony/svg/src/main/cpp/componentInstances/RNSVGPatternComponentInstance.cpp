@@ -8,20 +8,13 @@ namespace rnoh {
 namespace svg {
 
 RNSVGPatternComponentInstance::RNSVGPatternComponentInstance(Context context)
-    : CppComponentInstance(std::move(context)) {
+     : RNSVGBaseCI(std::move(context)) {
     LOG(INFO) << "[RNSVGPatternComponentInstance] init";
     SetSvgNode(std::make_shared<SvgPattern>());
 }
 
-void RNSVGPatternComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
-    CppComponentInstance::onPropsChanged(props);
-    // TODO: move ArkUINode to base class and use template function
-    if (!props->responsible) {
-        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::None);
-    } else {
-        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::Auto);
-    }
-    GetSvgNode()->UpdateCommonProps(props);
+void RNSVGPatternComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+          
     LOG(INFO) << "[RNSVGPatternComponentInstance] x: " << props->x;
     LOG(INFO) << "[RNSVGPatternComponentInstance] y: " << props->y;
     LOG(INFO) << "[RNSVGPatternComponentInstance] width: " << props->width;
@@ -50,7 +43,6 @@ void RNSVGPatternComponentInstance::onPropsChanged(SharedConcreteProps const &pr
     svgPattern->setPatternTransforms(props->patternTransform);
 }
 
-SvgArkUINode &RNSVGPatternComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
 } // namespace svg
 } // namespace rnoh

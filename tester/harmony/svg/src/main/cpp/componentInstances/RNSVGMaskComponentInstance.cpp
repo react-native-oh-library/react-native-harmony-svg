@@ -8,22 +8,13 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGMaskComponentInstance::RNSVGMaskComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
+RNSVGMaskComponentInstance::RNSVGMaskComponentInstance(Context context)  : RNSVGBaseCI(std::move(context)) {
     LOG(INFO) << "[RNSVGMaskComponentInstance] RNSVGMaskComponentInstance: ";
-//     SetSvgNode(std::make_shared<SvgQuote>());
     SetSvgNode(std::make_shared<SvgMask>());
-    m_svgArkUINode.SetSvgNode(GetSvgNode());
 }
 
-void RNSVGMaskComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
-    CppComponentInstance::onPropsChanged(props);
-    // TODO: move ArkUINode to base class and use template function
-    if (!props->responsible) {
-        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::None);
-    } else {
-        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::Auto);
-    }
-    LOG(INFO) << "[RNSVGMaskComponentInstance] onPropsChanged: " << props->x;
+void RNSVGMaskComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+         LOG(INFO) << "[RNSVGMaskComponentInstance] onPropsChanged: " << props->x;
     LOG(INFO) << "[RNSVGMaskComponentInstance] onPropsChanged: " << props->y;
     LOG(INFO) << "[RNSVGMaskComponentInstance] onPropsChanged: " << props->height;
     LOG(INFO) << "[RNSVGMaskComponentInstance] onPropsChanged: " << props->width;
@@ -38,11 +29,10 @@ void RNSVGMaskComponentInstance::onPropsChanged(SharedConcreteProps const &props
     svgMask->isDefaultMaskUnits(props->maskUnits == 0); // means objectBoundingBox
     svgMask->isDefaultMaskContentUnits(props->maskContentUnits == 1);// means userSpaceOnUse
 
-	GetSvgNode()->UpdateCommonProps(props);
+	 
   
 }
 
-SvgArkUINode &RNSVGMaskComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
 } // namespace svg
 } // namespace rnoh

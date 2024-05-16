@@ -23,9 +23,7 @@
  */
 
 #pragma once
-#include "RNOH/CppComponentInstance.h"
-#include <folly/dynamic.h>
-#include "SvgArkUINode.h"
+#include "RNSVGBaseCI.h"    
 #include "ShadowNodes.h"
 #include "properties/Dimension.h"
 #include "SvgMask.h"
@@ -33,24 +31,13 @@
 namespace rnoh {
 namespace svg {
 
-class RNSVGMaskComponentInstance : public CppComponentInstance<facebook::react::RNSVGMaskShadowNode>, public SvgHost {
+class RNSVGMaskComponentInstance : public RNSVGBaseCI<facebook::react::RNSVGMaskShadowNode> {
 
-private:
-    SvgArkUINode m_svgArkUINode;
+ 
 
 public:
     RNSVGMaskComponentInstance(Context context);
-    
-    void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override{
-        LOG(INFO) << "[RNSVGMaskComponentInstance] onChildInserted ";
-        OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
-    }
-    
-    void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override{}
-    
-    SvgArkUINode &getLocalRootArkUINode() override;
-    
-    void onPropsChanged(SharedConcreteProps const &props) override;
+                     void UpdateSpecialProps(SharedConcreteProps const &props) override;
 };
 
 } // namespace svg
