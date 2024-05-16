@@ -23,14 +23,14 @@
  */
 
 #pragma once
-#include "RNSVGBaseCI.h"    
+#include "RNSVGBaseComponentInstance.h"    
 #include "ShadowNodes.h"
 #include "SvgText.h"
 
 namespace rnoh {
 namespace svg {
 
-class RNSVGTextComponentInstance : public RNSVGBaseCI<facebook::react::RNSVGTextShadowNode> {
+class RNSVGTextComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGTextShadowNode> {
 
 
     std::shared_ptr<SvgText> m_svgText = std::make_shared<SvgText>();

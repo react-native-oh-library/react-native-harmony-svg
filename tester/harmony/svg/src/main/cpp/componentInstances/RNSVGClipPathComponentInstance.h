@@ -23,14 +23,14 @@
  */
 
 #pragma once
-#include "RNSVGBaseCI.h"
+#include "RNSVGBaseComponentInstance.h"
 #include "ShadowNodes.h"
 #include <glog/logging.h>
 
 namespace rnoh {
 namespace svg {
 
-class RNSVGClipPathComponentInstance : public RNSVGBaseCI<facebook::react::RNSVGClipPathShadowNode> {
+class RNSVGClipPathComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGClipPathShadowNode> {
 public:
     RNSVGClipPathComponentInstance(Context context);
 

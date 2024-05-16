@@ -23,7 +23,7 @@
  */
 
 #pragma once
-#include "RNSVGBaseCI.h"
+#include "RNSVGBaseComponentInstance.h"
 #include "RNOH/CppComponentInstance.h"
 // #include "SwiperNode.h"
 // #include "EventEmitters.h"
@@ -35,7 +35,7 @@
 namespace rnoh {
 namespace svg {
 
-class RNSVGEllipseComponentInstance : public RNSVGBaseCI<facebook::react::RNSVGEllipseShadowNode> {
+class RNSVGEllipseComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGEllipseShadowNode> {
 public:
     RNSVGEllipseComponentInstance(Context context);
 

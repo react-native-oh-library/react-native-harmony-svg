@@ -6,7 +6,7 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGPathComponentInstance::RNSVGPathComponentInstance(Context context)  : RNSVGBaseCI(std::move(context)) {
+RNSVGPathComponentInstance::RNSVGPathComponentInstance(Context context)  : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgPath>());
 }
 

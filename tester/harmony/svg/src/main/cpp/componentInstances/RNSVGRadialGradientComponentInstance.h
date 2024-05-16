@@ -23,12 +23,12 @@
  */
 
 #pragma once
-#include "RNSVGBaseCI.h"    
+#include "RNSVGBaseComponentInstance.h"    
 #include "ShadowNodes.h"
 
 namespace rnoh {
 namespace svg {
-class RNSVGRadialGradientComponentInstance : public RNSVGBaseCI<facebook::react::RNSVGRadialGradientShadowNode> {
+class RNSVGRadialGradientComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGRadialGradientShadowNode> {
 
  
 

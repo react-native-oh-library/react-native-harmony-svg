@@ -7,7 +7,7 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGImageComponentInstance::RNSVGImageComponentInstance(Context context)  : RNSVGBaseCI(std::move(context)) {
+RNSVGImageComponentInstance::RNSVGImageComponentInstance(Context context)  : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgCircle>());
 }
 

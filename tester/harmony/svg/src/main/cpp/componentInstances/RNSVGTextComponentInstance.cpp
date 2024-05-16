@@ -7,7 +7,7 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGTextComponentInstance::RNSVGTextComponentInstance(Context context)  : RNSVGBaseCI(std::move(context)) {
+RNSVGTextComponentInstance::RNSVGTextComponentInstance(Context context)  : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(m_svgText);
 }
 
