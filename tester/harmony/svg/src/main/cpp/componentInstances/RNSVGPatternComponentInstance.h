@@ -1,30 +1,24 @@
 #pragma once
-#include "RNOH/CppComponentInstance.h"
-#include <folly/dynamic.h>
-#include <math.h>
-#include "SvgArkUINode.h"
+#include "RNSVGBaseCI.h"  
+#include <math.h>  
 #include "ShadowNodes.h"
 #include "SvgPattern.h"
 
 namespace rnoh {
 namespace svg {
-class RNSVGPatternComponentInstance : public CppComponentInstance<facebook::react::RNSVGPatternShadowNode>, public SvgHost {
+class RNSVGPatternComponentInstance : public RNSVGBaseCI<facebook::react::RNSVGPatternShadowNode> {
 
-private:
-    SvgArkUINode m_svgArkUINode;
+ 
 
 public:
     RNSVGPatternComponentInstance(Context context);
 
-    void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override {
-        OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
-    }
 
-    void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override{}
+      
 
-    SvgArkUINode &getLocalRootArkUINode() override;
+      
 
-    void onPropsChanged(SharedConcreteProps const &props) override;
+     void UpdateSpecialProps(SharedConcreteProps const &props) override;
 
 };
 

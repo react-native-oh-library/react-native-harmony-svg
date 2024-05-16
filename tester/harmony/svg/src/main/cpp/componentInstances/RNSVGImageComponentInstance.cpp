@@ -7,23 +7,15 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGImageComponentInstance::RNSVGImageComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
+RNSVGImageComponentInstance::RNSVGImageComponentInstance(Context context)  : RNSVGBaseCI(std::move(context)) {
     SetSvgNode(std::make_shared<SvgCircle>());
 }
 
-void RNSVGImageComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
-     CppComponentInstance::onPropsChanged(props);
-    // TODO: move ArkUINode to base class and use template function
-    if (!props->responsible) {
-        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::None);
-    } else {
-        m_svgArkUINode.setHitTestMode(facebook::react::PointerEventsMode::Auto);
-    }
-
-     GetSvgNode()->UpdateCommonProps(props);
+void RNSVGImageComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+      
+      
 }
 
-SvgArkUINode &RNSVGImageComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
 } // namespace svg
 } // namespace rnoh
