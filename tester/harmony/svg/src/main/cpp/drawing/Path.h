@@ -14,6 +14,7 @@ public:
     using AddMode = OH_Drawing_PathAddMode;
     using FillType = OH_Drawing_PathFillType;
     using MeasureMatrixFlags = OH_Drawing_PathMeasureMatrixFlags;
+    using OpMode = OH_Drawing_PathOpMode;
 
     Path();
 
@@ -58,6 +59,7 @@ public:
 
     void AddArc(const OH_Drawing_Rect *, float startAngle, float sweepAngle);
 
+    void AddPath(const Path &src);
     void AddPath(const Path &src, const Matrix &);
 
     void AddPathWithMatrixAndMode(const Path &src, const Matrix &, AddMode);
@@ -68,8 +70,7 @@ public:
 
     void AddCircle(float x, float y, float radius, Direction);
 
-    bool BuildFromSvgString(const char *str);
-
+    static std::optional<Path> BuildFromSvgString(const char *str);
 
     bool Contains(float x, float y);
 
@@ -95,6 +96,8 @@ public:
     bool GetPositionTangent(bool forceClosed, float distance, OH_Drawing_Point2D *position,
                             OH_Drawing_Point2D *tangent);
 
+    bool Op(Path &source, OpMode mode);
+    
     bool Difference(Path &source);
 
     bool Intersect(Path &source);

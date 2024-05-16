@@ -76,6 +76,10 @@ void Path::AddArc(const OH_Drawing_Rect *rect, float startAngle, float sweepAngl
     OH_Drawing_PathAddArc(get(), rect, startAngle, sweepAngle);
 }
 
+void Path::AddPath(const Path &src) {
+    OH_Drawing_PathAddPath(get(), src.get(), nullptr);
+}
+
 void Path::AddPath(const Path &src, const Matrix &matrix) { OH_Drawing_PathAddPath(get(), src.get(), matrix.get()); }
 
 void Path::AddPathWithMatrixAndMode(const Path &src, const Matrix &matrix, AddMode mode) {
@@ -96,7 +100,14 @@ void Path::AddCircle(float x, float y, float radius, Direction direction) {
     OH_Drawing_PathAddCircle(get(), x, y, radius, direction);
 }
 
-bool Path::BuildFromSvgString(const char *str) { return OH_Drawing_PathBuildFromSvgString(get(), str); }
+std::optional<Path> Path::BuildFromSvgString(const char *str) { 
+    Path path;
+    if (OH_Drawing_PathBuildFromSvgString(path.get(), str)) {
+        return path;
+    } else {
+        return std::nullopt;
+    }
+ }
 
 bool Path::Contains(float x, float y) { return OH_Drawing_PathContains(get(), x, y); }
 
@@ -133,16 +144,18 @@ bool Path::GetPositionTangent(bool forceClosed, float distance, OH_Drawing_Point
     return OH_Drawing_PathGetPositionTangent(get(), forceClosed, distance, position, tangent);
 }
 
-bool Path::Difference(Path &source) { return OH_Drawing_PathOp(get(), source.get(), PATH_OP_MODE_DIFFERENCE); }
+bool Path::Op(Path &source, OpMode mode) { return OH_Drawing_PathOp(get(), source.get(), mode); }
 
-bool Path::Intersect(Path &source) { return OH_Drawing_PathOp(get(), source.get(), PATH_OP_MODE_INTERSECT); }
+bool Path::Difference(Path &source) { return Op(source, PATH_OP_MODE_DIFFERENCE); }
 
-bool Path::Union(Path &source) { return OH_Drawing_PathOp(get(), source.get(), PATH_OP_MODE_UNION); }
+bool Path::Intersect(Path &source) { return Op(source, PATH_OP_MODE_INTERSECT); }
 
-bool Path::Xor(Path &source) { return OH_Drawing_PathOp(get(), source.get(), PATH_OP_MODE_XOR); }
+bool Path::Union(Path &source) { return Op(source, PATH_OP_MODE_UNION); }
+
+bool Path::Xor(Path &source) { return Op(source, PATH_OP_MODE_XOR); }
 
 bool Path::ReverseDifference(Path &source) {
-    return OH_Drawing_PathOp(get(), source.get(), PATH_OP_MODE_REVERSE_DIFFERENCE);
+    return Op(source, PATH_OP_MODE_REVERSE_DIFFERENCE);
 }
 
 std::optional<Matrix> Path::GetMatrix(bool forceClosed, float distance, MeasureMatrixFlags flag) {

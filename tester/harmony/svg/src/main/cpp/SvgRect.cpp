@@ -8,7 +8,7 @@ drawing::Path SvgRect::AsPath() {
         //TODO implement ConvertDimensionToPx
         auto rect = OH_Drawing_RectCreate(vpToPx(x), vpToPx(y), vpToPx(x + width), vpToPx(y + height));
         auto roundRect = OH_Drawing_RoundRectCreate(rect,vpToPx(rx),vpToPx(ry));
-        OH_Drawing_PathAddRoundRect(path_.get(), roundRect, PATH_DIRECTION_CW);
+        path_.AddRoundRect(roundRect, PATH_DIRECTION_CW);
   
         elements_ = {PathElement(ElementType::kCGPathElementMoveToPoint, {Point(x, y)}),
                      PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x + width, y)}),

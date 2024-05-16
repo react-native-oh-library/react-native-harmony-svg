@@ -90,7 +90,7 @@ void SvgNode::OnClipPath(OH_Drawing_Canvas *canvas) {
     // };
 
     // Set clipRule through Drawing API
-    OH_Drawing_PathSetFillType(clipPath.get(), attributes_.clipState.GetClipRuleForDraw());
+    clipPath.SetFillType(attributes_.clipState.GetClipRuleForDraw());
     OH_Drawing_CanvasClipPath(canvas, clipPath.get(), OH_Drawing_CanvasClipOp::INTERSECT, true);
 }
 
@@ -233,8 +233,7 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
 
 Rect SvgNode::AsBounds() {
     auto path = AsPath();
-    auto ohRect = OH_Drawing_RectCreate(0, 0, 0, 0);
-    OH_Drawing_PathGetBounds(path.get(), ohRect);
+    auto ohRect = path.GetBounds();
     float x = OH_Drawing_RectGetLeft(ohRect);
     float y = OH_Drawing_RectGetTop(ohRect);
     float width = OH_Drawing_RectGetWidth(ohRect);

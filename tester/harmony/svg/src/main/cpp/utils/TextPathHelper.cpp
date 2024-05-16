@@ -24,12 +24,12 @@ TextPathHelper::TextPathHelper(const std::shared_ptr<SvgTextPath> &textPath, Tex
         return;
     }
     path_ = textPath->getTextPath(), sharpMidLine_ = textPath->getMidLine() == TextPathMidLine::sharp;
-    pathLength_ = OH_Drawing_PathGetLength(path_.get(), false);
+    pathLength_ = path_.GetLength(false);
 
     endOfRendering_ = pathLength_;
     side_ = textPath->getSide() == TextPathSide::right ? -1 : 1;
     absoluteStartOffset_ = textPath->getStartOffset();
-    isClosed_ = OH_Drawing_PathIsClosed(path_.get(), false);
+    isClosed_ = path_.IsClosed(false); 
     if (isClosed_) {
         startOfRendering_ = absoluteStartOffset_ + (anchor == TextAnchor::middle ? -pathLength_ / 2.0 : 0);
         endOfRendering_ = startOfRendering_ + pathLength_;
@@ -46,29 +46,30 @@ bool TextPathHelper::GetMatrixOnPath(const Params &p, drawing::Matrix &mid) {
         return false;
     }
     if (sharpMidLine_) {
-        OH_Drawing_PathGetMatrix(path_.get(), false, midPoint, mid.get(), GET_POSITION_AND_TANGENT_MATRIX);
+        mid = path_.GetMatrix(false, midPoint, GET_POSITION_AND_TANGENT_MATRIX).value_or(drawing::Matrix());
     } else {
         drawing::Matrix start;
         drawing::Matrix end;
         if (p.startPoint < 0) {
-            OH_Drawing_PathGetMatrix(path_.get(), false, p.startPoint, start.get(), GET_POSITION_AND_TANGENT_MATRIX);
+            start = path_.GetMatrix(false, p.startPoint, GET_POSITION_AND_TANGENT_MATRIX).value_or(drawing::Matrix());
             start.PreTranslate(p.startPoint, 0);
         } else {
-            OH_Drawing_PathGetMatrix(path_.get(), false, p.startPoint, start.get(), GET_POSITION_MATRIX);
+            start = path_.GetMatrix(false, p.startPoint, GET_POSITION_MATRIX).value_or(drawing::Matrix());
         }
-        OH_Drawing_PathGetMatrix(path_.get(), true, midPoint, mid.get(), GET_POSITION_MATRIX);
+        mid = path_.GetMatrix(true, midPoint, GET_POSITION_MATRIX).value_or(drawing::Matrix());
 
         if (endPoint > pathLength_) {
-            OH_Drawing_PathGetMatrix(path_.get(), false, pathLength_, end.get(), GET_POSITION_AND_TANGENT_MATRIX);
+            end = path_.GetMatrix(false, pathLength_, GET_POSITION_AND_TANGENT_MATRIX).value_or(drawing::Matrix());
             end.PreTranslate((endPoint - pathLength_), 0);
         } else {
-            OH_Drawing_PathGetMatrix(path_.get(), false, endPoint, end.get(), GET_POSITION_MATRIX);
+            end = path_.GetMatrix(false, pathLength_, GET_POSITION_MATRIX).value_or(drawing::Matrix());
         }
 
-        double startX = OH_Drawing_MatrixGetValue(start.get(), MTRANS_X);
-        double startY = OH_Drawing_MatrixGetValue(start.get(), MTRANS_Y);
-        double endX = OH_Drawing_MatrixGetValue(end.get(), MTRANS_X);
-        double endY = OH_Drawing_MatrixGetValue(end.get(), MTRANS_Y);
+        double startX = start.GetValue(MTRANS_X);
+        double startY = start.GetValue(MTRANS_Y);
+
+        double endX = end.GetValue(MTRANS_X); 
+        double endY = end.GetValue(MTRANS_Y); 
 
         double lineX = endX - startX;
         double lineY = endY - startY;

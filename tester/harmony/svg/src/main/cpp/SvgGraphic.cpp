@@ -180,7 +180,7 @@ bool SvgGraphic::UpdateFillStyle(bool antiAlias) {
         SetPatternStyle();
     } else {
         fillBrush_.SetColor(fillState_.GetColor().BlendOpacity(curOpacity).GetValue());
-        OH_Drawing_PathSetFillType(path_.get(), fillState_.GetFillRuleForDraw());
+        path_.SetFillType(fillState_.GetFillRuleForDraw());
     }
     return true;
 }
