@@ -3,6 +3,8 @@
 #include "ShadowNodes.h"
 #include "SvgArkUINode.h"
 #include "SvgHost.h"
+#include "RNSVGSvgViewComponentInstance.h"
+
 namespace rnoh {
 namespace svg {
 
@@ -13,6 +15,7 @@ public:
     void onPropsChanged(typename CppComponentInstance<T>::SharedConcreteProps const &props) override {
         GetSvgNode()->UpdateCommonProps(props);
         UpdateSpecialProps(props);
+        svgMarkDirty();
     }
     void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override {}
 
@@ -21,13 +24,37 @@ public:
     }
     
     void setLayout(facebook::react::LayoutMetrics layoutMetrics) override {};
+    
+    std::shared_ptr<RNSVGSvgViewComponentInstance> getParentSvgView() {
+        auto parent = CppComponentInstance<T>::getParent().lock();
+        while (parent) {
+            auto svgView = std::dynamic_pointer_cast<RNSVGSvgViewComponentInstance>(parent);
+            if (svgView) {
+                return svgView;
+            }
+            parent = parent->getParent().lock();
+        }
+        return nullptr;
+    }
+    
+    void svgMarkDirty() {
+        if (m_svgViewComponentInstance.expired()) {
+            auto svgView = getParentSvgView();
+            if (svgView != nullptr) {
+                m_svgViewComponentInstance = svgView;
+                m_svgViewComponentInstance.lock()->getLocalRootArkUINode().markDirty();
+            }
+        } else {
+            m_svgViewComponentInstance.lock()->getLocalRootArkUINode().markDirty();
+        }
+    }
 
 protected:
     virtual void UpdateSpecialProps(typename CppComponentInstance<T>::SharedConcreteProps const &props) = 0;
-    SvgArkUINode &getLocalRootArkUINode() override { return *m_svgArkUINode.lock().get(); }
+    SvgArkUINode &getLocalRootArkUINode() override { return getParentSvgView()->getLocalRootArkUINode(); }
 
 private:
-    std::weak_ptr<SvgArkUINode> m_svgArkUINode;
+    std::weak_ptr<RNSVGSvgViewComponentInstance> m_svgViewComponentInstance;
 };
 
 } // namespace svg
