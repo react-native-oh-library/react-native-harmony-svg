@@ -150,6 +150,8 @@ public:
         }
     }
 
+    double FromRelative(bool isObjectBoundingBoxUnit, double relative, double scale);
+
     bool NormalizeToPx(double vpScale, double fpScale, double lpxScale, double parentLength, double &result) const;
 
     constexpr Dimension operator*(double value) const { return Dimension(value_ * value, unit_); }

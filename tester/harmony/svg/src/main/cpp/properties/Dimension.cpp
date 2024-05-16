@@ -31,5 +31,12 @@ double Dimension::ConvertToPx(const Size &viewPort, SvgLengthType type) const {
     }
 }
 
+double Dimension::FromRelative(bool isObjectBoundingBoxUnit, double relative, double scale) {
+    if (Unit() == DimensionUnit::PERCENT) {
+        return Value() * relative;
+    }
+    double baseLen = isObjectBoundingBoxUnit ? relative : scale;
+    return Value() * baseLen;
+}
 } // namespace svg
 } // namespace rnoh

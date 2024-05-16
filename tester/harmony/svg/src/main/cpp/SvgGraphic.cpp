@@ -26,7 +26,6 @@
 #include <native_drawing/drawing_types.h>
 #include "utils/SvgMarkerPositionUtils.h"
 #include "SvgMarker.h"
-#include "SvgText.h"
 #include "properties/ViewBox.h"
 
 namespace rnoh {
@@ -244,8 +243,8 @@ void SvgGraphic::SetPatternStyle() {
     const auto &fillState_ = attributes_.fillState;
     auto pattern = fillState_.GetPatternAttr();
     CHECK_NULL_VOID(pattern);
-    int patternUnits = pattern->getPatternUnits();
-    int patternContentUnits = pattern->getPatternContentUnits();
+    Unit patternUnits = pattern->getPatternUnits();
+    Unit patternContentUnits = pattern->getPatternContentUnits();
 
     OH_Drawing_Canvas *canvas = OH_Drawing_CanvasCreate();
 
@@ -260,21 +259,33 @@ void SvgGraphic::SetPatternStyle() {
     std::string mAlign = pattern->getmAlign();
     int mMeetOrSlice = pattern->getmMeetOrSlice();
 
-    auto nodeBounds = patternUnits ? AsBounds() : GetRootViewBox();
-    float left = static_cast<float>(nodeBounds.Left() + x_.ConvertToPx(nodeBounds.Width()));
-    float top = static_cast<float>(nodeBounds.Top() + y_.ConvertToPx(nodeBounds.Height()));
-    float width = static_cast<float>(width_.ConvertToPx(nodeBounds.Width()));
-    float height = static_cast<float>(height_.ConvertToPx(nodeBounds.Height()));
+    Rect nodeBounds;
+    float left = 0;
+    float top = 0;
+    float width;
+    float height;
+    if (patternUnits == Unit::objectBoundingBox) {
+        nodeBounds = AsBounds();
+        left =nodeBounds.Left();
+        top = nodeBounds.Top();
+    } else {
+        nodeBounds = GetRootViewBox();
+    }
+    
+    width = nodeBounds.Width();
+    height = nodeBounds.Height();
+
+
     auto Bounds_ = OH_Drawing_RectCreate(left, top, width + left, height + top);
 
     float offsetwidth = OH_Drawing_RectGetWidth(Bounds_);
     float offsetheight = OH_Drawing_RectGetHeight(Bounds_);
 
-    double x = x_.ConvertToPx(offsetwidth);
-    double y = y_.ConvertToPx(offsetheight);
-    double w = width_.ConvertToPx(offsetwidth);
-    double h = height_.ConvertToPx(offsetheight);
-
+    bool isObjectBox = patternUnits == Unit::objectBoundingBox;
+    double x = x_.FromRelative(isObjectBox, offsetwidth, scale_);
+    double y = y_.FromRelative(isObjectBox, offsetheight, scale_);
+    double w = width_.FromRelative(isObjectBox, offsetwidth, scale_);
+    double h = height_.FromRelative(isObjectBox, offsetheight, scale_);
     if (!(w > 1 && h > 1)) {
         return;
     }
@@ -287,10 +298,10 @@ void SvgGraphic::SetPatternStyle() {
         OH_Drawing_MatrixDestroy(viewBoxMatrix);
     }
 
-    if (patternContentUnits) {
+    if (patternContentUnits == Unit::objectBoundingBox) {
         OH_Drawing_CanvasScale(canvas, offsetwidth / scale_, offsetheight / scale_);
     }
-
+    
     OH_Drawing_Bitmap *bitmap = OH_Drawing_BitmapCreate();
     OH_Drawing_BitmapFormat format = {COLOR_FORMAT_RGBA_8888, ALPHA_FORMAT_OPAQUE};
 
