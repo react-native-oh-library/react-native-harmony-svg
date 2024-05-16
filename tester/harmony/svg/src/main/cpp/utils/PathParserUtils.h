@@ -71,7 +71,7 @@ namespace svg {
             
             void arc(float rx, float ry, float rotation, bool outer, bool clockwise, float x, float y);
         
-            double round(double val);
+            double roundVal(double val);
             
             void skip_spaces();
             

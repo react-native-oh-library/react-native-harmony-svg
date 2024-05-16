@@ -139,7 +139,7 @@ void PathParserUtils::arcToBezier(float cx, float cy, float rx, float ry, float 
         arc -= M_PI * 2;
     }
 
-    int n = static_cast<int>(std::ceil(std::abs(round(arc / (M_PI / 2)))));
+    int n = static_cast<int>(std::ceil(std::abs(roundVal(arc / (M_PI / 2)))));
 
     float step = arc / n;
     float k = (4.0f / 3.0f) * std::tan(step / 4);
@@ -269,7 +269,7 @@ void PathParserUtils::arc(float rx, float ry, float rotation, bool outer, bool c
     arcTo(rx, ry, rotation, outer, clockwise, x + mPenX, y + mPenY);
 }
 
-double PathParserUtils::round(double val) {
+double PathParserUtils::roundVal(double val) {
     double multiplier = pow(10, 4);
     return round(val * multiplier) / multiplier;
 }
