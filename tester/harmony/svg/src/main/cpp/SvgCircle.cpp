@@ -18,10 +18,17 @@
 namespace rnoh {
 namespace svg {
 
+
 drawing::Path SvgCircle::AsPath() {
     LOG(INFO) << "[SvgCircle] AsPath";
     // TODO implement ConvertDimensionToPx
     OH_Drawing_PathAddCircle(path_.get(), vpToPx(x), vpToPx(y), vpToPx(r), PATH_DIRECTION_CW);
+    
+    elements_ = {PathElement(ElementType::kCGPathElementMoveToPoint, {Point(x, y - r)}),
+                       PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x, y - r), Point(x + r, y)}),
+                       PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x + r, y), Point(x, y + r)}),
+                       PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x, y + r), Point(x - r, y)}),
+                       PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x - r, y), Point(x, y - r)})};
     return path_;
 }
 
