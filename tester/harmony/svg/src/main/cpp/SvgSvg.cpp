@@ -120,9 +120,8 @@ void SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
             }
         }
     }
-    auto *rect = OH_Drawing_RectCreate(0.0f, 0.0f, layout.Width(), layout.Height());
-    OH_Drawing_CanvasClipRect(canvas, rect, OH_Drawing_CanvasClipOp::INTERSECT, true);
-    OH_Drawing_RectDestroy(rect);
+    drawing::Rect rect(0.0f, 0.0f, layout.Width(), layout.Height());
+    OH_Drawing_CanvasClipRect(canvas, rect.get(), OH_Drawing_CanvasClipOp::INTERSECT, true);
     // The transform applied to content contained by the element is given by
     // translate(translate-x, translate-y) scale(scale-x, scale-y).
     OH_Drawing_CanvasTranslate(canvas, tx, ty);

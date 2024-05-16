@@ -3,6 +3,8 @@
 #include <memory>
 #include <native_drawing/drawing_path.h>
 #include "Matrix.h"
+#include "Rect.h"
+#include "RoundRect.h"
 
 namespace rnoh::drawing {
 
@@ -51,13 +53,13 @@ public:
     void RCubicTo(float ctrlX1, float ctrlY1, float ctrlX2, float ctrlY2, float endX, float endY);
 
     void AddRect(float left, float top, float right, float bottom, Direction);
-    void AddRectWithInitialCorner(const OH_Drawing_Rect *, Direction, uint32_t start);
-    void AddRoundRect(const OH_Drawing_RoundRect *roundRect, Direction);
+    void AddRectWithInitialCorner(const Rect &, Direction, uint32_t start);
+    void AddRoundRect(const RoundRect &roundRect, Direction);
 
-    void AddOvalWithInitialPoint(const OH_Drawing_Rect *, uint32_t start, Direction);
-    void AddOval(const OH_Drawing_Rect *, Direction);
+    void AddOvalWithInitialPoint(const Rect &, uint32_t start, Direction);
+    void AddOval(const Rect &, Direction);
 
-    void AddArc(const OH_Drawing_Rect *, float startAngle, float sweepAngle);
+    void AddArc(const Rect &, float startAngle, float sweepAngle);
 
     void AddPath(const Path &src);
     void AddPath(const Path &src, const Matrix &);
@@ -85,7 +87,7 @@ public:
 
     float GetLength(bool forceClosed);
 
-    OH_Drawing_Rect *GetBounds();
+    Rect GetBounds();
 
     void Close();
 

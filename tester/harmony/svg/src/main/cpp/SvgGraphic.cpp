@@ -27,6 +27,7 @@
 #include "utils/SvgMarkerPositionUtils.h"
 #include "SvgMarker.h"
 #include "properties/ViewBox.h"
+#include "drawing/Rect.h"
 
 namespace rnoh {
 namespace svg {
@@ -276,10 +277,10 @@ void SvgGraphic::SetPatternStyle() {
     height = nodeBounds.Height();
 
 
-    auto Bounds_ = OH_Drawing_RectCreate(left, top, width + left, height + top);
+    drawing::Rect Bounds_(left, top, width + left, height + top);
 
-    float offsetwidth = OH_Drawing_RectGetWidth(Bounds_);
-    float offsetheight = OH_Drawing_RectGetHeight(Bounds_);
+    float offsetwidth = Bounds_.GetWidth();
+    float offsetheight = Bounds_.GetHeight();
 
     bool isObjectBox = patternUnits == Unit::objectBoundingBox;
     double x = x_.FromRelative(isObjectBox, offsetwidth, scale_);

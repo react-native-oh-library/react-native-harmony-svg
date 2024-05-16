@@ -22,6 +22,7 @@
 #include <native_drawing/drawing_path.h>
 #include <native_drawing/drawing_pen.h>
 #include <native_drawing/drawing_rect.h>
+#include "drawing/Rect.h"
 #include "properties/Dimension.h"
 #include "SvgQuote.h"
 #include "properties/Rect.h"
@@ -63,7 +64,7 @@ private:
     bool isDefaultMaskUnits_ = true;
     bool isDefaultMaskContentUnits_ = true;
 
-    OH_Drawing_Rect *maskBounds_;
+    drawing::Rect maskBounds_;
     int canvasLayerCount_ = -1;
 };
 

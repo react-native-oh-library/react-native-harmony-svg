@@ -1,4 +1,5 @@
 #include "SvgRect.h"
+#include "drawing/Rect.h"
 
 namespace rnoh {
 namespace svg {
@@ -6,8 +7,8 @@ namespace svg {
 drawing::Path SvgRect::AsPath() {
         LOG(INFO) << "[SvgRect] AsPath";
         //TODO implement ConvertDimensionToPx
-        auto rect = OH_Drawing_RectCreate(vpToPx(x), vpToPx(y), vpToPx(x + width), vpToPx(y + height));
-        auto roundRect = OH_Drawing_RoundRectCreate(rect,vpToPx(rx),vpToPx(ry));
+        drawing::Rect rect(vpToPx(x), vpToPx(y), vpToPx(x + width), vpToPx(y + height));
+        drawing::RoundRect roundRect(std::move(rect), vpToPx(rx), vpToPx(ry));
         path_.AddRoundRect(roundRect, PATH_DIRECTION_CW);
   
         elements_ = {PathElement(ElementType::kCGPathElementMoveToPoint, {Point(x, y)}),
@@ -20,5 +21,3 @@ drawing::Path SvgRect::AsPath() {
 
 } // namespace svg
 } // namespace rnoh
-
-
