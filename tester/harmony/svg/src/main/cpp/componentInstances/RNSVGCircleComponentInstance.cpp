@@ -6,17 +6,16 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGCircleComponentInstance::RNSVGCircleComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
+RNSVGCircleComponentInstance::RNSVGCircleComponentInstance(Context context) : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgCircle>());
 }
 
-void RNSVGCircleComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
-    CppComponentInstance::onPropsChanged(props);
+void RNSVGCircleComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
     LOG(INFO) << "[RNSVGCircleComponentInstance] cx: " << props->cx;
     LOG(INFO) << "[RNSVGCircleComponentInstance] cy: " << props->cy;
     LOG(INFO) << "[RNSVGCircleComponentInstance] r: " << props->r;
     LOG(INFO) << "[RNSVGCircleComponentInstance] r: " << props->opacity;
-    LOG(INFO) << "[RNSVGCircleComponentInstance] fill.payload: " << (uint32_t)*props->fill.payload ;
+    LOG(INFO) << "[RNSVGCircleComponentInstance] fill.payload: " << (uint32_t)*props->fill.payload;
     LOG(INFO) << "[RNSVGCircleComponentInstance] mask: " << props->mask;
     LOG(INFO) << "[SVG] <RNSVGCircleComponentInstance> propList size = " << props->propList.size();
     for (auto prop : props->propList) {
@@ -27,10 +26,6 @@ void RNSVGCircleComponentInstance::onPropsChanged(SharedConcreteProps const &pro
     svgCircle->x = std::stof(props->cx);
     svgCircle->y = std::stof(props->cy);
     svgCircle->r = std::stof(props->r);
-    svgCircle->UpdateCommonProps(props);
 }
-
-SvgArkUINode &RNSVGCircleComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
-
 } // namespace svg
 } // namespace rnoh

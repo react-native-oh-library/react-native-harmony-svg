@@ -17,7 +17,7 @@ public:
     Float x2;
     Float y2;
 
-    OH_Drawing_Path *AsPath() override;
+    drawing::Path AsPath() override;
 };
 
 } // namespace svg

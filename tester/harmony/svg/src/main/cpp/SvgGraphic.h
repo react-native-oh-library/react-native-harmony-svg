@@ -8,32 +8,24 @@
 #include "RNOH/CppComponentInstance.h"
 #include "utils/StringUtils.h"
 #include "utils/SvgMarkerPositionUtils.h"
+#include "drawing/Brush.h"
+#include "drawing/Path.h"
+#include "drawing/Pen.h"
 
 namespace rnoh {
 namespace svg {
 
 class SvgGraphic : virtual public SvgNode {
 public:
-    SvgGraphic() : SvgNode() {
-        fillBrush_ = OH_Drawing_BrushCreate();
-        strokePen_ = OH_Drawing_PenCreate();
-        path_ = OH_Drawing_PathCreate();
-    }
-    //     virtual ~SvgGraphic() override = default;
-    ~SvgGraphic() override {
-        OH_Drawing_BrushDestroy(fillBrush_);
-        OH_Drawing_PenDestroy(strokePen_);
-        OH_Drawing_PathDestroy(path_);
-        OH_Drawing_PathEffectDestroy(dashPathEffect_);
-    }
+     SvgGraphic() : SvgNode() {}
+    ~SvgGraphic() noexcept override = default; 
 
 
     void OnDraw(OH_Drawing_Canvas *canvas) override;
 protected:
-    OH_Drawing_Path *path_;
-    OH_Drawing_Brush *fillBrush_;
-    OH_Drawing_Pen *strokePen_;
-    OH_Drawing_PathEffect *dashPathEffect_;
+    drawing::Path path_ {};
+    drawing::Brush fillBrush_ {};
+    drawing::Pen strokePen_ {};
 
     // Use Brush to draw fill
     void OnGraphicFill(OH_Drawing_Canvas *canvas);

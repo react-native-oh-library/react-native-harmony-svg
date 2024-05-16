@@ -10,7 +10,7 @@ namespace svg {
 RNSVGSvgViewComponentInstance::RNSVGSvgViewComponentInstance(Context context)
     : CppComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgSvg>());
-    m_svgArkUINode.SetSvgNode(GetSvgNode());
+    getLocalRootArkUINode().SetSvgNode(GetSvgNode());
     GetSvgNode()->SetContext(std::make_shared<SvgContext>());
 }
 

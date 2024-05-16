@@ -7,17 +7,15 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGImageComponentInstance::RNSVGImageComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
+RNSVGImageComponentInstance::RNSVGImageComponentInstance(Context context)  : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgCircle>());
 }
 
-void RNSVGImageComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
-     CppComponentInstance::onPropsChanged(props);
-
-     GetSvgNode()->UpdateCommonProps(props);
+void RNSVGImageComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+      
+      
 }
 
-SvgArkUINode &RNSVGImageComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
 } // namespace svg
 } // namespace rnoh

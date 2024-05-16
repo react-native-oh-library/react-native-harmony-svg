@@ -9,13 +9,12 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGRadialGradientComponentInstance::RNSVGRadialGradientComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
+RNSVGRadialGradientComponentInstance::RNSVGRadialGradientComponentInstance(Context context)  : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgGradient>(GradientType::RADIAL));
 }
 
-void RNSVGRadialGradientComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
-    CppComponentInstance::onPropsChanged(props);
-
+void RNSVGRadialGradientComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+     
     auto svgGradient = std::dynamic_pointer_cast<SvgGradient>(GetSvgNode());
     svgGradient->SetAttrFx(props->fx);
     svgGradient->SetAttrFy(props->fy);
@@ -27,10 +26,6 @@ void RNSVGRadialGradientComponentInstance::onPropsChanged(SharedConcreteProps co
     svgGradient->SetAttrGradientUnits(props->gradientUnits);
     svgGradient->SetAttrGradientTransforms(props->gradientTransform);
 
-    svgGradient->UpdateCommonProps(props);
 }
-
-SvgArkUINode &RNSVGRadialGradientComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
-
 } // namespace svg
 } // namespace rnoh

@@ -7,13 +7,12 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGLineComponentInstance::RNSVGLineComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
+RNSVGLineComponentInstance::RNSVGLineComponentInstance(Context context)  : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgLine>());
 }
 
-void RNSVGLineComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
-    CppComponentInstance::onPropsChanged(props);
-    LOG(INFO) << "[RNSVGLineComponentInstance] Props->fill.payload: "
+void RNSVGLineComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+         LOG(INFO) << "[RNSVGLineComponentInstance] Props->fill.payload: "
               << Color((uint32_t)*props->fill.payload).ToString();
     LOG(INFO) << "[RNSVGLineComponentInstance] Props->stroke.payload: "
               << Color((uint32_t)*props->stroke.payload).ToString();
@@ -30,10 +29,8 @@ void RNSVGLineComponentInstance::onPropsChanged(SharedConcreteProps const &props
     svgLine->x2 = std::stod(props->x2);
     svgLine->y2 = std::stod(props->y2);
 
-    svgLine->UpdateCommonProps(props);
 }
 
-SvgArkUINode &RNSVGLineComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
 } // namespace svg
 } // namespace rnoh

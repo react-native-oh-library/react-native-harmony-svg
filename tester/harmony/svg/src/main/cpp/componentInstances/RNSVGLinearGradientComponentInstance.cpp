@@ -8,13 +8,12 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGLinearGradientComponentInstance::RNSVGLinearGradientComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
+RNSVGLinearGradientComponentInstance::RNSVGLinearGradientComponentInstance(Context context)  : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgGradient>(GradientType::LINEAR));
 }
 
-void RNSVGLinearGradientComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
-    CppComponentInstance::onPropsChanged(props);
-    auto svgGradient = std::dynamic_pointer_cast<SvgGradient>(GetSvgNode());
+void RNSVGLinearGradientComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+         auto svgGradient = std::dynamic_pointer_cast<SvgGradient>(GetSvgNode());
     svgGradient->SetAttrX1(props->x1);
     svgGradient->SetAttrY1(props->y1);
     svgGradient->SetAttrX2(props->x2);
@@ -23,10 +22,8 @@ void RNSVGLinearGradientComponentInstance::onPropsChanged(SharedConcreteProps co
     svgGradient->SetAttrGradientUnits(props->gradientUnits);
     svgGradient->SetAttrGradientTransforms(props->gradientTransform);
 
-    svgGradient->UpdateCommonProps(props);
 }
 
-SvgArkUINode &RNSVGLinearGradientComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
 } // namespace svg
 } // namespace rnoh

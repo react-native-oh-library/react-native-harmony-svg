@@ -15,13 +15,13 @@ void SvgTextPath::OnDraw(OH_Drawing_Canvas *canvas) {
     }
 }
 
-OH_Drawing_Path *SvgTextPath::getTextPath() {
+drawing::Path SvgTextPath::getTextPath() {
     auto node = context_->GetSvgNodeById(href_);
     if (node) {
         return node->AsPath();
     }
     LOG(INFO) << "TEXT_PATH ref node missing, href = " << href_;
-    return nullptr;
+    return drawing::Path();
 }
 
 } //namespace svg

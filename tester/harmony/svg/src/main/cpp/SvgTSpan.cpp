@@ -64,10 +64,10 @@ void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
 
     double r = glyphCtx_->nextRotation();
     drawing::Matrix mat;
-    OH_Drawing_MatrixPreRotate(&mat, r, dx, dy);
+    mat.PreRotate(r, dx, dy);
 
     OH_Drawing_CanvasSave(canvas);
-    OH_Drawing_CanvasConcatMatrix(canvas, &mat);
+    OH_Drawing_CanvasConcatMatrix(canvas, mat.get());
     OH_Drawing_TypographyPaint(typography, canvas, dx, dy);
     OH_Drawing_CanvasRestore(canvas);
 
@@ -94,12 +94,12 @@ drawing::TypographyStyle SvgTSpan::PrepareTypoStyle() {
     UpdateStrokeStyle();
     auto fillOpaque = UpdateFillStyle();
     if (!fillOpaque) {
-        OH_Drawing_BrushSetColor(fillBrush_, Color::TRANSPARENT.GetValue());
+        fillBrush_.SetColor(Color::TRANSPARENT.GetValue());
     }
 
     drawing::TextStyle textStyle;
-    textStyle.SetForegroundBrush(fillBrush_);
-    textStyle.SetForegroundPen(strokePen_);
+    textStyle.SetForegroundBrush(fillBrush_.get());
+    textStyle.SetForegroundPen(strokePen_.get());
     textStyle.Update(font_);
     drawing::TypographyStyle ts;
     ts.SetTextStyle(std::move(textStyle));
@@ -217,10 +217,10 @@ void SvgTSpan::DrawTextPath(OH_Drawing_Canvas *canvas) {
         if (!ph.GetMatrixOnPath({charWidth, startPoint, y, dy + baselineShift}, mid)) {
             continue;
         }
-        OH_Drawing_MatrixPreRotate(&mid, r, 0, 0);
+        mid.PreRotate(r, 0, 0);
 
         OH_Drawing_CanvasSave(canvas);
-        OH_Drawing_CanvasConcatMatrix(canvas, &mid);
+        OH_Drawing_CanvasConcatMatrix(canvas, mid.get());
         OH_Drawing_TypographyPaint(&typography, canvas, 0, 0);
         OH_Drawing_CanvasRestore(canvas);
     }

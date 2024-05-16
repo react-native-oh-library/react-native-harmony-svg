@@ -1,14 +1,54 @@
 #pragma once
-#include <native_drawing/drawing_matrix.h>
+
 #include <memory>
+#include <optional>
+#include <native_drawing/drawing_matrix.h>
+
 namespace rnoh::drawing {
-class Matrix {
+
+class Matrix final {
+    using UniqueNativeMatrix = std::unique_ptr<OH_Drawing_Matrix, decltype(&OH_Drawing_MatrixDestroy)>;
+
 public:
-    Matrix() : mat_(MatUPtr(OH_Drawing_MatrixCreate(), OH_Drawing_MatrixDestroy)) {}
-    OH_Drawing_Matrix *operator&() { return mat_.get(); }
+    Matrix();
+
+    Matrix(Matrix const &);
+    Matrix &operator=(Matrix const &);
+
+    Matrix(Matrix &&) = default;
+    Matrix &operator=(Matrix &&) = default;
+
+    ~Matrix() noexcept = default;
+
+    static Matrix CreateRotation(float deg, float x, float y);
+    static Matrix CreateScale(float sx, float sy, float px, float py);
+    static Matrix CreateTranslation(float dx, float dy);
+    void PreRotate(float degree, float px, float py);
+    void PreScale(float sx, float sy, float px, float py);
+    void PreTranslate(float dx, float dy);
+    void PostRotate(float degree, float px, float py);
+    void PostScale(float sx, float sy, float px, float py);
+    void PostTranslate(float dx, float dy);
+    void Rotate(float degree, float px, float py);
+    void Translate(float dx, float dy);
+    void Scale(float sx, float sy, float px, float py);
+
+    Matrix Concat(const Matrix &other) const;
+    std::optional<Matrix> Invert() const;
+
+    float GetValue(int index) const;
+
+    void SetMatrix(float scaleX, float skewX, float transX, float skewY, float scaleY, float transY, float persp0,
+                   float persp1, float persp2);
+
+    void Reset();
+
+    OH_Drawing_Matrix *get() const { return matrix_.get(); }
 
 private:
-    using MatUPtr = std::unique_ptr<OH_Drawing_Matrix, decltype(&OH_Drawing_MatrixDestroy)>;
-    MatUPtr mat_;
+    Matrix(OH_Drawing_Matrix *rawMatrix) : matrix_(UniqueNativeMatrix(rawMatrix, &OH_Drawing_MatrixDestroy)) {}
+
+    UniqueNativeMatrix matrix_;
 };
+
 } // namespace rnoh::drawing
