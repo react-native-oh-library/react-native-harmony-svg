@@ -31,15 +31,10 @@ namespace rnoh {
 namespace svg {
 
 class RNSVGCircleComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGCircleShadowNode> {
-
- 
-
+    
 public:
-
     RNSVGCircleComponentInstance(Context context);
-    
-                 void UpdateSpecialProps(SharedConcreteProps const &props) override;
-    
+    void UpdateSpecialProps(SharedConcreteProps const &props) override;
 };
 
 } // namespace svg

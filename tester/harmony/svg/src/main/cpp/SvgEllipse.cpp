@@ -22,7 +22,7 @@ drawing::Path SvgEllipse::AsPath() {
     LOG(INFO) << "[SvgEllipse] AsPath";
 
     auto rect = OH_Drawing_RectCreate(vpToPx(cx - rx), vpToPx(cy - ry), vpToPx(cx + rx), vpToPx(cy + ry));
-    OH_Drawing_PathAddOval(path_.get(), rect, PATH_DIRECTION_CW);
+    path_.AddOval(rect, PATH_DIRECTION_CW);
 
     elements_ = {PathElement(ElementType::kCGPathElementMoveToPoint, {Point(cx, cy - ry)}),
                  PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(cx, cy - ry), Point(cx + rx, cy)}),

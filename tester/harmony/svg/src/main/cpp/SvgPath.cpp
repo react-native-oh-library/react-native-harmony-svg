@@ -44,9 +44,10 @@ drawing::Path SvgPath::AsPath() {
     */
     //TODO scale canvas? need to pass canvas in AsPath()
     matrix.SetMatrix(scale_, 0, 0, 0, scale_, 0, 0, 0, 1.0);
-    auto isSuccessful =  OH_Drawing_PathBuildFromSvgString(path_.get(), d.c_str());
-    if (isSuccessful) {
-        OH_Drawing_PathTransform(path_.get(), matrix.get());
+    auto path = drawing::Path::BuildFromSvgString(d.c_str());
+    if (path.has_value()) {
+        path_ = std::move(path.value());
+        path_.Transform(matrix);
         return path_;
     }
     return drawing::Path();

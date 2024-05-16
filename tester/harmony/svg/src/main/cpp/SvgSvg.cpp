@@ -26,7 +26,7 @@ drawing::Path SvgSvg::AsPath() {
     drawing::Path path;
     for (const auto &child : children_) {
         auto childPath = child->AsPath();
-        OH_Drawing_PathOp(path.get(), childPath.get(), PATH_OP_MODE_UNION);
+        path.Union(childPath);
     }
     return path;
 }

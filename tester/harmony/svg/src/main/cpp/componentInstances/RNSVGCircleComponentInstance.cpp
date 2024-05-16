@@ -21,6 +21,7 @@ void RNSVGCircleComponentInstance::UpdateSpecialProps(SharedConcreteProps const 
     for (auto prop : props->propList) {
         LOG(INFO) << "[SVG] <RNSVGCircleComponentInstance> prop: " << prop;
     }
+    
     // set attribute to svgCircle.
     auto svgCircle = std::dynamic_pointer_cast<SvgCircle>(GetSvgNode());
     svgCircle->x = std::stof(props->cx);

@@ -14,16 +14,16 @@ class SvgQuote : public SvgNode {
       LOG(INFO) << "[SvgQuote] getClipPath";
       for (const auto &child : children_) {
           auto childPath = child->AsPath();
-          OH_Drawing_PathAddPath(path.get(), childPath.get(), nullptr);
+          path.AddPath(childPath);
       }
       return path;
   }
 
-  drawing::Path getClipPath(drawing::Path path, OH_Drawing_PathOpMode op) {
+  drawing::Path getClipPath(drawing::Path path, drawing::Path::OpMode op) {
       LOG(INFO) << "[SvgQuote] getClipPath with op, op = " << op;
       for (const auto &child : children_) {
           auto childPath = child->AsPath();
-          OH_Drawing_PathOp(path.get(), childPath.get(), op);
+          path.Op(childPath, op);
       }
       return path;
   }
@@ -35,7 +35,7 @@ class SvgQuote : public SvgNode {
     if (attributes_.clipState.IsEvenodd()) {
         return getClipPath(path);
     } else {
-        return getClipPath(path, OH_Drawing_PathOpMode::PATH_OP_MODE_UNION );
+        return getClipPath(path, drawing::Path::OpMode::PATH_OP_MODE_UNION );
     }
   }
 

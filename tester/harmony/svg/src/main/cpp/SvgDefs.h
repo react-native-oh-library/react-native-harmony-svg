@@ -31,7 +31,7 @@ public:
                 LOG(INFO) << "[SvgDfes:AsPath] : get child path:";
             }
             auto childPath = child->AsPath();
-            OH_Drawing_PathOp(path.get(), childPath.get(), PATH_OP_MODE_UNION);
+            path.Union(childPath);
         }
         return path;
     }
