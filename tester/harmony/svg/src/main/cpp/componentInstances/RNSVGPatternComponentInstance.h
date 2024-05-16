@@ -1,12 +1,12 @@
 #pragma once
-#include "RNSVGBaseCI.h"  
+#include "RNSVGBaseComponentInstance.h"  
 #include <math.h>  
 #include "ShadowNodes.h"
 #include "SvgPattern.h"
 
 namespace rnoh {
 namespace svg {
-class RNSVGPatternComponentInstance : public RNSVGBaseCI<facebook::react::RNSVGPatternShadowNode> {
+class RNSVGPatternComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGPatternShadowNode> {
 
  
 

@@ -8,7 +8,7 @@ namespace rnoh {
 namespace svg {
 
 RNSVGPatternComponentInstance::RNSVGPatternComponentInstance(Context context)
-     : RNSVGBaseCI(std::move(context)) {
+     : RNSVGBaseComponentInstance(std::move(context)) {
     LOG(INFO) << "[RNSVGPatternComponentInstance] init";
     SetSvgNode(std::make_shared<SvgPattern>());
 }

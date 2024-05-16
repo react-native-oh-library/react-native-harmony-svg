@@ -8,7 +8,7 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGMaskComponentInstance::RNSVGMaskComponentInstance(Context context)  : RNSVGBaseCI(std::move(context)) {
+RNSVGMaskComponentInstance::RNSVGMaskComponentInstance(Context context)  : RNSVGBaseComponentInstance(std::move(context)) {
     LOG(INFO) << "[RNSVGMaskComponentInstance] RNSVGMaskComponentInstance: ";
     SetSvgNode(std::make_shared<SvgMask>());
 }

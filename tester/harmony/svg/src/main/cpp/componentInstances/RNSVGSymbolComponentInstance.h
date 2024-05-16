@@ -1,5 +1,5 @@
 #pragma once
-#include "RNSVGBaseCI.h"
+#include "RNSVGBaseComponentInstance.h"
 #include "RNOH/CppComponentInstance.h"
 // #include "SwiperNode.h"
 // #include "EventEmitters.h"
@@ -10,7 +10,7 @@
 
 namespace rnoh {
 namespace svg {
-class RNSVGSymbolComponentInstance : public RNSVGBaseCI<facebook::react::RNSVGSymbolShadowNode> {
+class RNSVGSymbolComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGSymbolShadowNode> {
 
  
 

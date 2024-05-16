@@ -3,10 +3,12 @@
 #include "ShadowNodes.h"
 #include "SvgArkUINode.h"
 #include "SvgHost.h"
-namespace rnoh::svg {
-template <typename T> class RNSVGBaseCI : public CppComponentInstance<T>, public SvgHost {
+namespace rnoh {
+namespace svg {
+
+template <typename T> class RNSVGBaseComponentInstance : public CppComponentInstance<T>, public SvgHost {
 public:
-    RNSVGBaseCI(ComponentInstance::Context context) : CppComponentInstance<T>(std::move(context)) {}
+    RNSVGBaseComponentInstance(ComponentInstance::Context context) : CppComponentInstance<T>(std::move(context)) {}
 
     void onPropsChanged(typename CppComponentInstance<T>::SharedConcreteProps const &props) override {
         CppComponentInstance<T>::onPropsChanged(props);
@@ -32,4 +34,6 @@ protected:
 private:
     SvgArkUINode m_svgArkUINode;
 };
+
+} // namespace svg
 } // namespace rnoh

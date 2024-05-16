@@ -11,7 +11,7 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGMarkerComponentInstance::RNSVGMarkerComponentInstance(Context context) : RNSVGBaseCI(std::move(context)) {
+RNSVGMarkerComponentInstance::RNSVGMarkerComponentInstance(Context context) : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgMarker>());
 }
 

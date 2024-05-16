@@ -8,7 +8,7 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGLinearGradientComponentInstance::RNSVGLinearGradientComponentInstance(Context context)  : RNSVGBaseCI(std::move(context)) {
+RNSVGLinearGradientComponentInstance::RNSVGLinearGradientComponentInstance(Context context)  : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgGradient>(GradientType::LINEAR));
 }
 

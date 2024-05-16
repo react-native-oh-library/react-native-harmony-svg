@@ -23,7 +23,7 @@
  */
 
 #pragma once
-#include "RNSVGBaseCI.h"    
+#include "RNSVGBaseComponentInstance.h"    
 #include "ShadowNodes.h"
 #include "properties/Dimension.h"
 #include "SvgMask.h"
@@ -31,7 +31,7 @@
 namespace rnoh {
 namespace svg {
 
-class RNSVGMaskComponentInstance : public RNSVGBaseCI<facebook::react::RNSVGMaskShadowNode> {
+class RNSVGMaskComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGMaskShadowNode> {
 
  
 
