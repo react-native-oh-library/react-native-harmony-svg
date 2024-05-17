@@ -27,7 +27,7 @@ import Image from './Image';
 import Combination from './Combination';
 import ComplexDemo from './complexDemo';
 import RNSVGSvgIOS from './RNSVGSvgIOS';
-import PerformanceList from './PerformanceList';
+import PerformanceList from './performanceList';
 export default {
     Circle,
     Defs,
