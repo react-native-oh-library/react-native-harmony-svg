@@ -175,7 +175,7 @@ class SimpleRNSVGMask extends Component {
       <View style={styles.container}>
         <Svg viewBox="-10 -10 120 120">
           <Rect x={-10} y={-10} width={120} height={120} fill="blue" />
-          <RNSVGMask name="myMask" maskUnits="objectBoundingBox" maskContentUnits="userSpaceOnUse">
+          <RNSVGMask name="myMask"  x={0} y={0} width={100} height={100} >
             <Rect x={0} y={0} width={100} height={100} fill="white" />
             <Path
               d="M10,35 A20,20,0,0,1,50,35 A20,20,0,0,1,90,35 Q90,65,50,95 Q10,65,10,35 Z"
@@ -274,7 +274,7 @@ class RNSVGMaskWithText extends Component {
 const iconRNSVGMask = (
   <Svg width="30" height="30" viewBox="-10 -10 120 120">
     <Rect x={-10} y={-10} width={120} height={120} fill="blue" />
-    <RNSVGMask name="myMask">
+    <RNSVGMask name="myMask"  x={0} y={0} width={100} height={100}>
       <Rect x={0} y={0} width={100} height={100} fill="white" />
       <Path
         d="M10,35 A20,20,0,0,1,50,35 A20,20,0,0,1,90,35 Q90,65,50,95 Q10,65,10,35 Z"
