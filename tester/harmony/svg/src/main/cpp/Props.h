@@ -239,7 +239,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string cx{};
     std::string cy{};
     std::string r{};
@@ -337,7 +336,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGClipPathFontStruct font{};
@@ -367,7 +365,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string cx{};
     std::string cy{};
     std::string rx{};
@@ -468,7 +465,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGForeignObjectFontStruct font{};
@@ -569,7 +565,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGGroupFontStruct font{};
@@ -586,7 +581,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string x{};
     std::string y{};
     std::string width{};
@@ -648,7 +642,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string x1{};
     std::string y1{};
     std::string x2{};
@@ -746,7 +739,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGMarkerFontStruct font{};
@@ -854,7 +846,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGMaskFontStruct font{};
@@ -877,7 +868,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string d{};
 };
 
@@ -973,7 +963,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGPatternFontStruct font{};
@@ -1025,7 +1014,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string x{};
     std::string y{};
     std::string height{};
@@ -1125,7 +1113,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGSymbolFontStruct font{};
@@ -1236,7 +1223,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGTextFontStruct font{};
@@ -1345,7 +1331,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGTextPathFontStruct font{};
@@ -1459,7 +1444,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGTSpanFontStruct font{};
@@ -1488,7 +1472,6 @@ public:
 
 
     // std::string pointerEvents{};
-    int vectorEffect{0};
     std::string href{};
     std::string x{};
     std::string y{};
