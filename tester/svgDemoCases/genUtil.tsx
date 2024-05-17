@@ -255,7 +255,7 @@ export function genTouchableProps(name: string, { disabled = false } = {}) {
     }
 }
 
-export function genAccessibilityProps() {
+export function genAccessibilityProps(): CaseParams[] {
     return [
         {
             key: 'testID',
@@ -264,6 +264,14 @@ export function genAccessibilityProps() {
         {
             key: 'accessible',
             values: ['true', 'false']
+        },
+        {
+            key: 'accessibilityLabel',
+            values: ['video', 'music', 'news'],
+            othersProps: {
+                accessible: 'true'
+            },
+            showOtherProps: true
         },
     ]
 }
@@ -278,28 +286,124 @@ export function genViewProps(): CaseParams[] {
                 }
             ]
         },
-        
-    ]
-}
-
-export function genCommonPathProps() {
-    return [
         {
-            key: 'opacity',
-            values: ['0.1', '0.5', '1']
+            key: 'hitSlop',
+            values: [
+                {
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0
+                },
+                {
+                    top: 10,
+                    left: 10,
+                    bottom: 10,
+                    right: 10
+                },
+                {
+                    top: 30,
+                    left: 30,
+                    bottom: 0,
+                    right: 0
+                },
+            ]
+        },
+        {
+            key: 'pointerEvents', // 'box-none' | 'none' | 'box-only' | 'auto' | undefined;
+            values: ['box-none', 'none', 'box-only', 'auto', 'undefined']
+        },
+        {
+            key: 'removeClippedSubviews',
+            values: ['true', 'false']
+        },
+        // testID nativeID
+        {
+            key: 'shouldRasterizeIOS',
+            values: ['true', 'false']
         }
     ]
 }
 
-export function genTextSpecificProps() {
+export function genViewPropsFuncs(name: string) {
+    return {
+        onLayout () {
+            console.log(`Triggered onLayout of the ${name}`)
+        }
+    }
+}
 
+export function genCommonPathProps(): CaseParams[] {
+    return [
+        {
+            key: 'opacity',
+            values: ['0.1', '0.5', '1']
+        },
+        ...genFillProps(),
+        ...genStrokeProps(),
+        ...genTransformProps(),
+        ...genAccessibilityProps()
+    ]
+}
+`
+| 'baseline'
+| 'text-bottom'
+| 'alphabetic'
+| 'ideographic'
+| 'middle'
+| 'central'
+| 'mathematical'
+| 'text-top'
+| 'bottom'
+| 'center'
+| 'top'
+| 'text-before-edge'
+| 'text-after-edge'
+| 'before-edge'
+| 'after-edge'
+| 'hanging';
+`
+export function genTextSpecificProps(): CaseParams[] {
+    return [
+        {
+            key: 'alignmentBaseline',
+            values: ['baseline', 'text-bottom', 'alphabetic', 'ideographic', 'middle', 'central', 'mathematical', 'text-top', 'bottom', 'center', 'top', 'text-before-edge', 'text-after-edge', 'before-edge', 'after-edge', 'hanging']
+        },
+        {
+            key: 'baselineShift',
+            values: ['sub', 'super', 'baseline']
+        },
+        // {
+        //     key: 'verticalAlign',
+        //     values: ['baseline', 'top', 'middle', 'bottom', 'sub', 'text-top']
+        // },
+        {
+            key: 'lengthAdjust',
+            values: ['spacing', 'spacingAndGlyphs']
+        },
+        {
+            key: 'textLength',
+            values: ['5', '10', '150%']
+        },
+        // {
+        //     key: 'fontData',
+        //     values: ['']
+        // },
+        {
+            key: 'fontFeatureSettings',
+            values: ['normal', '"liga" 0', 'tnum', 'smcp']
+        },
+    ]
 }
 
 export function genFontProps(): CaseParams[] {
     return [
         {
             key: 'fontWeight',
-            values: ['12', '16', '500']
+            values: ['normal', 'bold', 'bolder', 'lighter'],
+            othersProps: {
+                fontSize: '18'
+            }
         },
         {
             key: 'fontSize',
@@ -325,6 +429,10 @@ export function genFontProps(): CaseParams[] {
             key: 'wordSpacing',
             values: ['1', '4', '10']
         },
+        {
+            key: 'fontStyle',
+            values: ['normal', 'italic', 'oblique']
+        }
     ]
 }
 
@@ -347,10 +455,88 @@ export function genAdditionalProps(name: string) {
     }
 }
 
-export function genPointerEvents() {
-
+export function genPointerEvents(name: string) {
+    return {
+        onPointerEnter() {
+            console.log(`Triggered onPointerEnter of the ${name}`)
+        },
+        onPointerEnterCapture() {
+            console.log(`Triggered onPointerEnterCapture of the ${name}`)
+        },
+        onPointerLeave() {
+            console.log(`Triggered onPointerLeave of the ${name}`)
+        },
+        onPointerLeaveCapture() {
+            console.log(`Triggered onPointerLeaveCapture of the ${name}`)
+        },
+        onPointerMove() {
+            console.log(`Triggered onPointerMove of the ${name}`)
+        },
+        onPointerMoveCapture() {
+            console.log(`Triggered onPointerMoveCapture of the ${name}`)
+        },
+        onPointerEonPointerCancelnter() {
+            console.log(`Triggered onPointerCancel of the ${name}`)
+        },
+        onPointerCancelCapture() {
+            console.log(`Triggered onPointerCancelCapture of the ${name}`)
+        },
+        onPointerDown() {
+            console.log(`Triggered onPointerDown of the ${name}`)
+        },
+        onPointerDownCapture() {
+            console.log(`Triggered onPointerDownCapture of the ${name}`)
+        },
+        onPointerUp() {
+            console.log(`Triggered onPointerUp of the ${name}`)
+        },
+        onPointerUpCapture() {
+            console.log(`Triggered onPointerUpCapture of the ${name}`)
+        },
+    }
 }
 
 export function genCommonMarkerProps() {
 
+}
+
+export function genGestureResponderHandlers(name: string) {
+    return {
+        onStartShouldSetResponder() {
+            console.log(`Triggered onStartShouldSetResponder of the ${name}`)
+        },
+        onMoveShouldSetResponder() {
+            console.log(`Triggered onMoveShouldSetResponder of the ${name}`)
+        },
+        onResponderEnd () {
+            console.log(`Triggered onResponderEnd of the ${name}`)
+        },
+        onResponderGrant() {
+            console.log(`Triggered onResponderGrant of the ${name}`)
+        },
+        onResponderReject() {
+            console.log(`Triggered onResponderReject of the ${name}`)
+        },  
+        onResponderMove() {
+            console.log(`Triggered onResponderMove of the ${name}`)
+        },
+        onResponderRelease() {
+            console.log(`Triggered onResponderRelease of the ${name}`)
+        },
+        onResponderStart() {
+            console.log(`Triggered onResponderStart of the ${name}`)
+        },
+        onResponderTerminationRequest() {
+            console.log(`Triggered onResponderTerminationRequest of the ${name}`)
+        },
+        onResponderTerminate() {
+            console.log(`Triggered onResponderTerminate of the ${name}`)
+        },
+        onStartShouldSetResponderCapture() {
+            console.log(`Triggered onStartShouldSetResponderCapture of the ${name}`)
+        },
+        onMoveShouldSetResponderCapture() {
+            console.log(`Triggered onMoveShouldSetResponderCapture of the ${name}`)
+        }
+    }
 }

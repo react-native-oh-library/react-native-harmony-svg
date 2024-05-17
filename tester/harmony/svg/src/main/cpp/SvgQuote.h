@@ -3,25 +3,43 @@
 #include <native_drawing/drawing_path.h>
 
 namespace rnoh {
+namespace svg {
 
 class SvgQuote : public SvgNode {
  public:
-  SvgQuote() : SvgNode() {
-    InitHrefFlag();
-  }
+  SvgQuote() : SvgNode() { InitHrefFlag(); }
   ~SvgQuote() override = default;
 
-  OH_Drawing_Path* AsPath() override {
-      LOG(INFO) << "[SvgQuote] AsPath";
-      auto *path = OH_Drawing_PathCreate();
+  drawing::Path getClipPath(drawing::Path path) {
+      LOG(INFO) << "[SvgQuote] getClipPath";
       for (const auto &child : children_) {
-          auto *childPath = child->AsPath();
-          OH_Drawing_PathOp(path, childPath, PATH_OP_MODE_UNION);
-    }
-    return path;
+          auto childPath = child->AsPath();
+          path.AddPath(childPath);
+      }
+      return path;
   }
 
-  void Draw(OH_Drawing_Canvas* canvas) override {
+  drawing::Path getClipPath(drawing::Path path, drawing::Path::OpMode op) {
+      LOG(INFO) << "[SvgQuote] getClipPath with op, op = " << op;
+      for (const auto &child : children_) {
+          auto childPath = child->AsPath();
+          path.Op(childPath, op);
+      }
+      return path;
+  }
+
+  drawing::Path AsPath() override {
+    LOG(INFO) << "[SvgQuote] AsPath";
+    drawing::Path path;
+
+    if (attributes_.clipState.IsEvenodd()) {
+        return getClipPath(path);
+    } else {
+        return getClipPath(path, drawing::Path::OpMode::PATH_OP_MODE_UNION );
+    }
+  }
+
+  void Draw(OH_Drawing_Canvas *canvas) override {
     // render composition on other svg tags
     LOG(INFO) << "[SvgQuote] Draw";
     OnDrawTraversedBefore(canvas);
@@ -30,8 +48,8 @@ class SvgQuote : public SvgNode {
   }
 
  protected:
-  virtual void OnDrawTraversedBefore(OH_Drawing_Canvas* canvas) {}
-  virtual void OnDrawTraversedAfter(OH_Drawing_Canvas* canvas) {}
+    virtual void OnDrawTraversedBefore(OH_Drawing_Canvas *canvas) {}
+    virtual void OnDrawTraversedAfter(OH_Drawing_Canvas *canvas) {}
 
   // mask/pattern/filter/clipPath
   void InitHrefFlag() {
@@ -43,4 +61,5 @@ class SvgQuote : public SvgNode {
   }
 };
 
+} // namespace svg
 } // namespace rnoh

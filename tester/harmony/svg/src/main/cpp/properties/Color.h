@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <string>
 namespace rnoh {
+namespace svg {
 
 constexpr uint32_t COLOR_ALPHA_MASK = 0xff000000;
 
@@ -117,4 +118,6 @@ private:
     ColorParam colorValue_{.value = 0xff000000};
     bool UseCurrentColor{false};
 };
+
+} // namespace svg
 } // namespace rnoh

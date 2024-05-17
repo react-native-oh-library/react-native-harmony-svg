@@ -1,6 +1,7 @@
 #include "Dimension.h"
 #include "Size.h"
 namespace rnoh {
+namespace svg {
 
 double Dimension::ConvertToPx(double baseLen) const {
     switch (Unit()) {
@@ -29,4 +30,13 @@ double Dimension::ConvertToPx(const Size &viewPort, SvgLengthType type) const {
         return 0.0;
     }
 }
+
+double Dimension::FromRelative(bool isObjectBoundingBoxUnit, double relative, double scale) {
+    if (Unit() == DimensionUnit::PERCENT) {
+        return Value() * relative;
+    }
+    double baseLen = isObjectBoundingBoxUnit ? relative : scale;
+    return Value() * baseLen;
+}
+} // namespace svg
 } // namespace rnoh

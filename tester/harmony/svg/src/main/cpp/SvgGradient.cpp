@@ -13,11 +13,12 @@
  * limitations under the License.
  */
 
-#include "SVGGradient.h"
+#include "SvgGradient.h"
 #include <native_drawing/drawing_shader_effect.h>
 #include "properties/Decoration.h"
 
 namespace rnoh {
+namespace svg {
 
 SvgGradient::SvgGradient(GradientType gradientType)
 {
@@ -115,4 +116,5 @@ const Gradient& SvgGradient::GetGradient() const
     return gradientAttr_.gradient;
 }
 
+} // namespace svg
 } // namespace rnoh

@@ -8,6 +8,7 @@
 #include "properties/Color.h"
 
 namespace rnoh {
+namespace svg {
 using AttrMap = std::unordered_map<std::string, std::string>;
 using ClassStyleMap = std::unordered_map<std::string, AttrMap>;
 class SvgNode;
@@ -42,4 +43,6 @@ private:
     Size svgSize_;
     Color svgColor_;
 };
+
+} // namespace svg
 } // namespace rnoh

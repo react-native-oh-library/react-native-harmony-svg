@@ -10,9 +10,11 @@
 #include "utils/Utils.h"
 #include "utils/StringUtils.h"
 #include "utils/SvgAttributesParser.h"
-#include "SVGGradient.h"
+#include "SvgGradient.h"
+#include "SvgPattern.h"
 
 namespace rnoh {
+namespace svg {
 
 void SvgNode::InitStyle(const SvgBaseAttribute &attr) {
     InheritAttr(attr);
@@ -26,6 +28,13 @@ void SvgNode::InitStyle(const SvgBaseAttribute &attr) {
                 attributes_.fillState.SetGradient(gradient.value(), true);
             } else {
                 LOG(INFO) << "[UpdateCommonProps] no gradient";
+            }
+            auto pattern = GetPatternAttr(href);
+            if (pattern) {
+                LOG(INFO) << "[UpdateCommonProps] fill state set pattern";
+                attributes_.fillState.SetPattern(pattern);
+            } else {
+                LOG(INFO) << "[UpdateCommonProps] no pattern";
             }
         } else {
             LOG(INFO) << "[UpdateCommonProps] href empty";
@@ -72,15 +81,17 @@ void SvgNode::OnClipPath(OH_Drawing_Canvas *canvas) {
         LOG(WARNING) << "[SvgNode] OnClipPath: SvgNode is null!";
         return;
     };
-    auto *clipPath = refSvgNode->AsPath();
-    if (!clipPath) {
-        LOG(WARNING) << "[SvgNode] OnClipPath: Path is null!";
-        return;
-    };
+    auto clipPath = refSvgNode->AsPath();
+    
+    // TODO: maybe return optional from AsPath?
+    // if (!clipPath) {
+    //     LOG(WARNING) << "[SvgNode] OnClipPath: Path is null!";
+    //     return;
+    // };
+
     // Set clipRule through Drawing API
-    OH_Drawing_PathSetFillType(clipPath, attributes_.clipState.GetClipRuleForDraw());
-    OH_Drawing_CanvasClipPath(canvas, clipPath, OH_Drawing_CanvasClipOp::INTERSECT, true);
-    OH_Drawing_PathDestroy(clipPath);
+    clipPath.SetFillType(attributes_.clipState.GetClipRuleForDraw());
+    OH_Drawing_CanvasClipPath(canvas, clipPath.get(), OH_Drawing_CanvasClipOp::INTERSECT, true);
 }
 
 void SvgNode::OnMask(OH_Drawing_Canvas *canvas) {
@@ -123,9 +134,25 @@ std::optional<Gradient> SvgNode::GetGradient(const std::string &href) {
     return std::nullopt;
 }
 
+std::shared_ptr<PatternAttr> SvgNode::GetPatternAttr(const std::string &href) {
+    if (!context_) {
+        LOG(INFO) << "NO CONTEXT";
+        return nullptr;
+    }
+    auto refSvgNode = context_->GetSvgNodeById(href);
+    CHECK_NULL_RETURN(refSvgNode, nullptr);
+    auto svgPattern = std::dynamic_pointer_cast<SvgPattern>(refSvgNode);
+    if (svgPattern) {
+        return svgPattern->GetPatternAttr();
+    }
+    return nullptr;
+}
+
 void SvgNode::Draw(OH_Drawing_Canvas *canvas) {
+    if (!display_) {
+        return;
+    }
     // mask and filter create extra layers, need to record initial layer count
-    LOG(INFO) << "[SvgNode] Draw enter";
     const auto count = OH_Drawing_CanvasGetSaveCount(canvas);
     OH_Drawing_CanvasSave(canvas);
     if (!hrefClipPath_.empty()) {
@@ -147,6 +174,7 @@ void SvgNode::Draw(OH_Drawing_Canvas *canvas) {
 
 void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
     attributes_.id = props->name;
+    display_ = props->display != "none";
 
     if (hrefRender_) {
         attributes_.transform = props->matrix;
@@ -160,16 +188,6 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
         hrefClipPath_ = props->clipPath;
     }
 
-    if (hrefFill_) {
-        // auto href = attributes_.fillState.GetHref();
-        // if (!href.empty()) {
-        //   auto gradient = GetGradient(href);
-        //   if (gradient) {
-        //     attributes_.fillState.SetGradient(gradient.value());
-        //   }
-        // }
-    }
-
     std::unordered_set<std::string> set;
     for (const auto &prop : props->propList) {
         set.insert(prop);
@@ -178,15 +196,19 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
         Color color = Color((uint32_t)*props->fill.payload);
         color.SetUseCurrentColor(true);
         attributes_.fillState.SetColor(color, true);
-    } else {
+    } else if (facebook::react::isColorMeaningful(props->fill.payload)) {
         attributes_.fillState.SetColor(Color((uint32_t)*props->fill.payload), set.count("fill"));
+    } else {
+        attributes_.fillState.SetColor(Color::TRANSPARENT, set.count("fill"));
     }
     if (props->stroke.type == 2) {
         Color color = Color((uint32_t)*props->stroke.payload);
         color.SetUseCurrentColor(true);
         attributes_.strokeState.SetColor(color, true);
-    } else {
+    } else if (facebook::react::isColorMeaningful(props->stroke.payload)) {
         attributes_.strokeState.SetColor(Color((uint32_t)*props->stroke.payload), set.count("stroke"));
+    } else {
+        attributes_.strokeState.SetColor(Color::TRANSPARENT, set.count("stroke"));
     }
     attributes_.fillState.SetOpacity(std::clamp(props->fillOpacity, 0.0, 1.0), set.count("fillOpacity"));
     // todo Inheritance situation
@@ -206,22 +228,25 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
         attributes_.strokeState.SetMiterLimit(limit, set.count("strokeMiterlimit"));
     }
     attributes_.strokeState.SetOpacity(std::clamp(props->strokeOpacity, 0.0, 1.0), set.count("strokeOpacity"));
-    attributes_.clipState.SetClipRule(static_cast<ClipState::ClipRule>(props->clipRule), set.count("clipRule"));
+    attributes_.clipState.SetClipRule(static_cast<ClipState::ClipRule>(props->clipRule), true);
 }
 
 Rect SvgNode::AsBounds() {
     auto path = AsPath();
-    auto ohRect = OH_Drawing_RectCreate(0, 0, 0, 0);
-    OH_Drawing_PathGetBounds(path, ohRect);
-    float x = OH_Drawing_RectGetLeft(ohRect);
-    float y = OH_Drawing_RectGetTop(ohRect);
-    float width = OH_Drawing_RectGetWidth(ohRect);
-    float height = OH_Drawing_RectGetHeight(ohRect);
+    auto ohRect = path.GetBounds();
+    float x = ohRect.GetLeft();
+    float y = ohRect.GetTop();
+    float width = ohRect.GetWidth();
+    float height = ohRect.GetHeight();
     auto rect = Rect(x, y, width, height);
     return rect;
 }
 
 void SvgNode::ContextTraversal() {
+    if (!context_) {
+        LOG(INFO) << "NO CONTEXT";
+        return;
+    }
     if (!attributes_.id.empty()) {
         context_->Push(attributes_.id, shared_from_this());
     }
@@ -230,4 +255,6 @@ void SvgNode::ContextTraversal() {
         child->ContextTraversal();
     }
 }
+
+} // namespace svg
 } // namespace rnoh

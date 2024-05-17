@@ -16,9 +16,9 @@
 #pragma once
 
 #include "SvgGraphic.h"
-#include <native_drawing/drawing_point.h>
 
 namespace rnoh {
+namespace svg {
 
 class SvgCircle : public SvgGraphic {
 public:
@@ -27,7 +27,10 @@ public:
     float x;
     float y;
     float r;
-    OH_Drawing_Path *AsPath() override;
+    float opacity;
+    uint32_t colorFill;
+    drawing::Path AsPath() override;
 };
 
+} // namespace svg
 } // namespace rnoh

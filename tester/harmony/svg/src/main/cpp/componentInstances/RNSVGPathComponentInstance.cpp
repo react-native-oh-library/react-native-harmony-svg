@@ -4,21 +4,17 @@
 #include <sstream>
 
 namespace rnoh {
+namespace svg {
 
-RNSVGPathComponentInstance::RNSVGPathComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
+RNSVGPathComponentInstance::RNSVGPathComponentInstance(Context context)  : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgPath>());
 }
 
-void RNSVGPathComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
-     CppComponentInstance::onPropsChanged(props);
-    LOG(INFO) << "[RNSVGPathComponentInstance] d: " << props->d;
+void RNSVGPathComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+          LOG(INFO) << "[RNSVGPathComponentInstance] d: " << props->d;
     auto svgPath = std::dynamic_pointer_cast<SvgPath>(GetSvgNode());
-    svgPath->d = props->d;
-
-    svgPath->UpdateCommonProps(props);
+    svgPath->setD(props->d);
 }
 
-
-SvgArkUINode &RNSVGPathComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
-
+} // namespace svg
 } // namespace rnoh

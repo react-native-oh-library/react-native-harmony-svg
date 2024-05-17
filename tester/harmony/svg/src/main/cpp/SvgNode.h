@@ -8,11 +8,14 @@
 #include <vector>
 #include "SvgBaseAttribute.h"
 #include "SvgContext.h"
+#include "properties/Decoration.h"
 #include "properties/Dimension.h"
 #include "properties/Size.h"
 #include "Props.h"
+#include "drawing/Path.h"
 
 namespace rnoh {
+namespace svg {
 
 class SvgNode : public std::enable_shared_from_this<SvgNode> {
 public:
@@ -27,29 +30,33 @@ public:
 
     virtual void Draw(OH_Drawing_Canvas *canvas);
 
-    virtual OH_Drawing_Path *AsPath() {
+    virtual drawing::Path AsPath() {
         LOG(INFO) << "[SVGNode] AsPath";
-        return nullptr;
+        return drawing::Path();
     };
 
-    SvgBaseAttribute GetBaseAttributes() const
-    {
-        return attributes_;
-    }
+    SvgBaseAttribute GetBaseAttributes() const { return attributes_; }
 
-    void SetBaseAttributes(const SvgBaseAttribute& attr)
-    {
-        attributes_ = attr;
-    }
+    void SetBaseAttributes(const SvgBaseAttribute &attr) { attributes_ = attr; }
 
     virtual void AppendChild(const std::shared_ptr<SvgNode> &child) { children_.emplace_back(child); }
+
+    virtual void removeChild(const std::shared_ptr<SvgNode> &child) {
+        auto it = std::find(children_.begin(), children_.end(), child);
+        if (it != children_.end()) {
+            auto child = std::move(*it);
+            children_.erase(it);
+        }
+    }
 
     using ConcreteProps = std::shared_ptr<const facebook::react::RNSVGCommonProps>;
     void UpdateCommonProps(const ConcreteProps &props);
 
     Rect AsBounds();
 
-    void InheritAttr(const SvgBaseAttribute &parent) { 
+    double GetScale() const { return scale_; }
+
+    void InheritAttr(const SvgBaseAttribute &parent) {
         attributes_.Inherit(parent);
         // svg color -> current color
         if (attributes_.strokeState.GetColor().IsUseCurrentColor()) {
@@ -80,10 +87,11 @@ protected:
     void SetSmoothEdge(float edge) { attributes_.smoothEdge = edge; }
     float GetSmoothEdge() const { return attributes_.smoothEdge; }
 
-    std::optional<Gradient> GetGradient(const std::string& href);
+    std::optional<Gradient> GetGradient(const std::string &href);
 
-    void InitNoneFlag()
-    {
+    std::shared_ptr<PatternAttr> GetPatternAttr(const std::string &href);
+
+    void InitNoneFlag() {
         hrefFill_ = false;
         hrefRender_ = false;
         passStyle_ = false;
@@ -92,7 +100,7 @@ protected:
     }
 
     SvgBaseAttribute attributes_;
-  
+
     std::shared_ptr<SvgContext> context_;
 
     std::vector<std::shared_ptr<SvgNode>> children_;
@@ -100,7 +108,9 @@ protected:
     std::string hrefClipPath_;
     std::string imagePath_;
     // TODO get densityPixels in CAPI
-    double scale_ = 3.25010318;
+    double scale_ = 3.25;
+
+    bool display_ = true;
 
     bool hrefFill_ = true;      // get fill attributes from reference
     bool hrefRender_ = true;    // get render attr (mask, filter, transform, opacity,
@@ -112,4 +122,5 @@ protected:
     bool drawTraversed_ = true; // enable OnDraw, TAGS mask/defs/pattern/filter = false
 };
 
+} // namespace svg
 } // namespace rnoh

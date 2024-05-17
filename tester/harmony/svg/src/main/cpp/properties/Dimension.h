@@ -7,6 +7,8 @@
 #define NEAR_ZERO(value) ((value > 0.0) ? ((value - 0.0) <= 0.000001f) : ((0.0 - value) <= 0.000001f))
 
 namespace rnoh {
+namespace svg {
+
 enum class DimensionUnit {
     /*
      * Unit is invalid.
@@ -102,7 +104,7 @@ public:
 //         }
         if (unit_ == DimensionUnit::PX) {
             // TODO get densityPixels in CAPI
-            return value_ / 3.25010318;
+            return value_ / 3.25;
         }
 //         if (unit_ == DimensionUnit::FP) {
 //             return value_ * pipeline->GetFontScale();
@@ -126,11 +128,11 @@ public:
 //         CHECK_NULL_RETURN(pipeline, 0.0);
         if (unit_ == DimensionUnit::VP) {
             // TODO get densityPixels in CAPI
-            return value_ * 3.25010318;
+            return value_ * 3.25;
         }
         if (unit_ == DimensionUnit::FP) {
 //             return value_ * pipeline->GetDipScale() * pipeline->GetFontScale();
-            return value_ * 3.25010318;
+            return value_ * 3.25;
         }
 //         if (unit_ == DimensionUnit::LPX) {
 //             return value_ * pipeline->GetLogicScale();
@@ -147,6 +149,8 @@ public:
             return ConvertToVp();
         }
     }
+
+    double FromRelative(bool isObjectBoundingBoxUnit, double relative, double scale);
 
     bool NormalizeToPx(double vpScale, double fpScale, double lpxScale, double parentLength, double &result) const;
 
@@ -213,8 +217,6 @@ public:
 
     std::string ToString() const;
 
-    static Dimension FromString(const std::string &str);
-
 private:
     double value_ = 0.0;
     DimensionUnit unit_ = DimensionUnit::PX;
@@ -236,5 +238,5 @@ inline constexpr Dimension operator""_fp(long double value) {
 inline constexpr Dimension operator""_pct(long double value) {
     return Dimension(static_cast<double>(value), DimensionUnit::PERCENT);
 }
-
+} // namespace svg
 } // namespace rnoh

@@ -1,28 +1,23 @@
 #pragma once
+#include "RNSVGBaseComponentInstance.h"
 #include "RNOH/CppComponentInstance.h"
-#include <folly/dynamic.h>
-#include "SvgArkUINode.h"
+#include "RNSVGBaseComponentInstance.h"
+#include <folly/dynamic.h>  
 #include "ShadowNodes.h"
 #include "SvgDefs.h"
 
 namespace rnoh {
+namespace svg {
 
-class RNSVGDefsComponentInstance : public CppComponentInstance<facebook::react::RNSVGDefsShadowNode>, public SvgHost {
-
-private:
-    SvgArkUINode m_svgArkUINode;
+class RNSVGDefsComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGDefsShadowNode> {
 
 public:
-    RNSVGDefsComponentInstance(Context context);
-    
-    void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override{
-        OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
+    RNSVGDefsComponentInstance(Context context) : RNSVGBaseComponentInstance(std::move(context)) {
+        SetSvgNode(std::make_shared<SvgDefs>());
     }
-    
-    void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override{}
-    
-    SvgArkUINode &getLocalRootArkUINode() override;
-    
-    void onPropsChanged(SharedConcreteProps const &props) override;
+
+    void UpdateSpecialProps(SharedConcreteProps const &props) override {}
 };
+
+} // namespace svg
 } // namespace rnoh

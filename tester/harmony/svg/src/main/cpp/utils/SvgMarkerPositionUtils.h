@@ -11,6 +11,7 @@
 #include <vector>
 
 namespace rnoh {
+namespace svg {
 
 enum class RNSVGMarkerType {
   kStartMarker,
@@ -183,6 +184,8 @@ namespace SvgMarkerPositionUtils{
         return positions_;
     }
 }
-}
+
+} // namespace svg
+} // namespace rnoh
 
 #endif //HARMONY_SVGMARKERPOSITIONUTIL_H

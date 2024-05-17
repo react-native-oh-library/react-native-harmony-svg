@@ -5,11 +5,12 @@
 #include "SvgSvg.h"
 
 namespace rnoh {
+namespace svg {
 
 RNSVGSvgViewComponentInstance::RNSVGSvgViewComponentInstance(Context context)
     : CppComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgSvg>());
-    m_svgArkUINode.SetSvgNode(GetSvgNode());
+    getLocalRootArkUINode().SetSvgNode(GetSvgNode());
     GetSvgNode()->SetContext(std::make_shared<SvgContext>());
 }
 
@@ -52,4 +53,5 @@ std::optional<std::string> RNSVGSvgViewComponentInstance::getColorFromDynamic(fo
     return rawPropsColor;
 }
 
+} // namespace svg
 } // namespace rnoh

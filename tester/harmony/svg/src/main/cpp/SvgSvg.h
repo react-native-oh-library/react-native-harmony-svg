@@ -6,12 +6,14 @@
 #include "utils/SvgAttributesParser.h"
 
 namespace rnoh {
+namespace svg {
+
 class SvgSvg : public SvgGroup {
 public:
     SvgSvg();
     ~SvgSvg() override = default;
 
-    OH_Drawing_Path *AsPath() override;
+    drawing::Path AsPath() override;
 
     Size GetSize() const;
     
@@ -25,4 +27,5 @@ private:
     void FitCanvas(OH_Drawing_Canvas *canvas);
 };
 
+} // namespace svg
 } // namespace rnoh

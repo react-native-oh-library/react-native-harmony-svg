@@ -2,6 +2,7 @@
 #pragma once
 
 namespace rnoh {
+namespace svg {
 
 enum class AttributeTag {
     COMMON_ATTR = 0,
@@ -26,4 +27,5 @@ struct Attribute {
     AttributeTag tag = AttributeTag::DEFAULT;
 };
 
-}
+} // namespace svg
+} // namespace rnoh

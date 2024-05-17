@@ -3,6 +3,8 @@
 #include <string>
 #include <unordered_map>
 namespace rnoh {
+namespace svg {
+
 enum class FontStyle { normal, italic, oblique };
 
 enum class FontWeight {
@@ -15,7 +17,9 @@ enum class FontWeight {
     bold,
     w800,
     w900,
+    bolder,
     lighter,
+    unknown,
 };
 
 // match with <native_drawing/drawing_text_typography.h>
@@ -26,35 +30,11 @@ enum class TextDecoration { None = 0x0, Underline = 0x1, Overline = 0x2, LineThr
 
 enum class FontVariantLigatures { normal, none };
 
-enum class TextPathMethod {
-    align,
-    stretch
-};
-
-enum class TextPathMidLine {
-sharp,
-smooth
-};
-
-  enum class TextPathSide {
-    left,
-    right
-  };
-
-  enum class TextPathSpacing {
-    Auto,
-    Exact
-  };
-
-FontStyle fontStyleFromStr(const std::string& str);
-
-FontWeight fontWeightFromStr(const std::string& str);
-
-TextAnchor textAnchorFromStr(const std::string& str);
-
-TextDecoration textDecorationFromStr(const std::string& str);
-
-FontVariantLigatures fontVariantFromStr(const std::string& str);
+FontStyle fontStyleFromStr(const std::string &str);
+FontWeight fontWeightFromStr(const std::string &str);
+TextAnchor textAnchorFromStr(const std::string &str);
+TextDecoration textDecorationFromStr(const std::string &str);
+FontVariantLigatures fontVariantFromStr(const std::string &str);
 
 
 // intermediate data to store in Svg nodes
@@ -85,7 +65,7 @@ struct FontProps {
 class FontData {
 public:
     FontData() = default;
-    FontData(const FontProps &props, const FontData& parent, double scale);
+    FontData(const FontProps &props, const FontData &parent, double scale);
 
     static const double DEFAULT_FONT_SIZE;
     static const double DEFAULT_KERNING;
@@ -111,11 +91,11 @@ public:
     bool manualKerning = false;
     /* -------------------- */
 
-    double toAbsolute(const std::string& value, double scale, double fontSize, double relative);
+    double toAbsolute(const std::string &value, double scale, double fontSize, double relative);
 
-    void setInheritedWeight(const FontData& parent);
+    void setInheritedWeight(const FontData &parent);
 
-    void handleNumericWeight(const FontData& parent, double number);
+    void handleNumericWeight(const FontData &parent, double number);
 
 
 private:
@@ -129,8 +109,8 @@ private:
 
     static const int absoluteFontWeights[];
 
-    static int from(FontWeight fontWeight, const FontData& parent) {
-        if (fontWeight == FontWeight::bold) {
+    static int from(FontWeight fontWeight, const FontData &parent) {
+        if (fontWeight == FontWeight::bolder) {
             return WeightToBolder(parent.absoluteFontWeight);
         } else if (fontWeight == FontWeight::lighter) {
             return lighter(parent.absoluteFontWeight);
@@ -164,4 +144,5 @@ private:
     }
 };
 
+} // namespace svg
 } // namespace rnoh

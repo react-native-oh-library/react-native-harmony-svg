@@ -5,17 +5,15 @@
 #include "SvgClipPath.h"
 
 namespace rnoh {
+namespace svg {
 
-RNSVGClipPathComponentInstance::RNSVGClipPathComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
+RNSVGClipPathComponentInstance::RNSVGClipPathComponentInstance(Context context) : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgClipPath>());
 }
 
-void RNSVGClipPathComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
+void RNSVGClipPathComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
     LOG(INFO) << "[RNSVGClipPathComponentInstance] onPropsChanged props name = " << props->name;
-    CppComponentInstance::onPropsChanged(props);
-    GetSvgNode()->UpdateCommonProps(props);
 }
 
-SvgArkUINode &RNSVGClipPathComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
-
+} // namespace svg
 } // namespace rnoh

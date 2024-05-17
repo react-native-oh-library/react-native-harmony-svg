@@ -20,6 +20,8 @@
 // #include "base/utils/utils.h"
 
 namespace rnoh {
+namespace svg {
+
 namespace StringUtils {
 extern const char DEFAULT_STRING[];
 extern const std::wstring DEFAULT_WSTRING;
@@ -735,4 +737,6 @@ inline std::vector<double> stringVectorToDoubleVector(const std::vector<std::str
     return doubleVec;
 }
 }
+
+} // namespace svg
 } // namespace rnoh

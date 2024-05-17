@@ -20,6 +20,7 @@
 #include <native_drawing/drawing_matrix.h>
 
 namespace rnoh {
+namespace svg {
 
 class SvgMarker : public SvgQuote {
 public:
@@ -98,6 +99,8 @@ private:
     OH_Drawing_Matrix *mInvCTM;
     bool mCTMInvertible;
 };
+
+} // namespace svg
 } // namespace rnoh
 
 #endif // HARMONY_SVGMARKER_H

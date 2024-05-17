@@ -6,6 +6,8 @@
 #include "ShadowNodes.h"
 
 namespace rnoh {
+namespace svg {
+
 class RNSVGSvgViewComponentInstance : public CppComponentInstance<facebook::react::RNSVGSvgViewShadowNode>,
                                       public SvgHost {
 private:
@@ -18,15 +20,19 @@ public:
     void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override {
         OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
     }
-    
+
     // TODO get SvgNode and delete it from svg tree
-    void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override {}
+    void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override {
+        OnChildRemoveCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
+    }
     
     SvgArkUINode &getLocalRootArkUINode() override;
-    
+
     void onPropsChanged(SharedConcreteProps const &props) override;
-    
+
     // since we can't get color correctly from props
     std::optional<std::string> getColorFromDynamic(folly::dynamic value);
 };
+
+} // namespace svg
 } // namespace rnoh

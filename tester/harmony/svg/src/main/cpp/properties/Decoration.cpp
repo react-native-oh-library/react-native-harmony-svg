@@ -17,6 +17,7 @@
 #include "Decoration.h"
 
 namespace rnoh {
+namespace svg {
 
 // void Decoration::SetContextAndCallback(
 //     const WeakPtr<PipelineContext>& context, const RenderNodeAnimationCallback& callback)
@@ -550,4 +551,5 @@ void Gradient::ClearColors()
 //     return str;
 // }
 
+} // namespace svg
 } // namespace rnoh

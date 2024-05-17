@@ -1,8 +1,8 @@
-import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import React, {Component} from 'react';
+import {ScrollView, Text, View, Button} from 'react-native';
 import Svg, {
   Path,
-  Mask,
+  RNSVGMask,
   Rect,
   Image,
   Circle,
@@ -15,63 +15,68 @@ import Svg, {
   Line,
 } from 'react-native-svg';
 
+class GExample extends Component {
+  static title = 'G children props inherit';
+  state = {
+    fill: 'purple',
+  };
+  render() {
+    return (
+      <View>
+        <Button
+          title="change state"
+          onPress={() => {
+            if (this.state.fill == 'purple') {
+              this.setState({
+                fill: 'green',
+              });
+            } else if (this.state.fill == 'green') {
+              this.setState({
+                fill: 'purple',
+              });
+            }
+          }}
+        />
+        <Svg height="100" width="100">
+          <G stroke="pink" strokeWidth="3">
+            <Circle cx="75" cy="75" r="11" fill={this.state.fill} />
+          </G>
+        </Svg>
+      </View>
+    );
+  }
+}
+
 const SVGDemo = () => {
   return (
     <View>
-      <Svg viewBox="0 0 600 500" width={400} height={400} color="green" preserveAspectRatio="xMinYMid slice">
-        <Mask id="myMask">
-          <Rect opacity="1.0" x="0" y="0" width="100" height="100" fill="white" />
-        </Mask>
-        <G stroke="pink" fill="pink" strokeWidth={10} opacity="0.5">
-          <Rect
-            x="50"
-            y="50"
-            width="180"
-            height="170"
-            stroke="currentColor"
-            fill="yellow"
-            strokeDashoffset={10}
-            strokeLinecap="round"
-            strokeLinejoin="bevel"
-            rx="20"
-            ry="40"
+      <View style={{height: 100}} />
+      {/* <Svg height="100" width="100">
+          <Path
+            d="M25 10 L98 65 L70 25 L16 77 L11 30 L0 4 L90 50 L50 10 L11 22 L77 95 L20 25"
+            fill="none"
+            stroke="red"
+            strokeWidth="1"
           />
-          <Circle
-            cx="50"
-            cy="50"
-            r="45"
-            stroke="blue"
-            strokeWidth="2.5"
-            fill="green"
-            mask="url(#myMask)"
-          />
-          <Line
-            x1="30"
-            y1="40"
-            x2="200"
-            y2="180"
-            stroke="grey"
-            strokeWidth={10}
-            strokeLinecap="round"
-            strokeLinejoin="bevel"
-          />
-          <Line
-            x1="30"
-            y1="70"
-            x2="300"
-            y2="70"
-            stroke="blue"
-            strokeDasharray="20 10"
-          />
-          <Line
-            x1="30"
-            y1="110"
-            x2="300"
-            y2="110"
-            stroke="blue"
-            strokeDasharray="20 10 30"
-          /></G>
-      </Svg>
+        </Svg> */}
+
+      <Svg height="200" width="200">  
+        <Path  
+          d="M110 10 L190 10 L190 90 Q170 50 150 90 Z"  
+          stroke="black"  
+          strokeWidth="10"  
+          strokeMiterlimit="2" // 斜接限制较低，可能会看到斜角连接  
+          fill="none"  
+        />  
+        <Path  
+          d="M110 120 L190 120 L190 190 Q170 150 150 190 Z"  
+          stroke="black"  
+          strokeWidth="10"  
+          strokeMiterlimit="10" // 斜接限制较高，可能会看到更长的斜接  
+          fill="none"  
+        />  
+      </Svg>  
+      {/* <GExample /> */}
     </View>
   );
 };

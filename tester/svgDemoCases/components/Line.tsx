@@ -2,7 +2,7 @@ import React from "react";
 // import  from 'react-native-svg'
 import { Svg, Circle, Rect } from 'react-native-svg'
 import { GenMain } from './gen'
-import { genTransformProps, genStrokeProps, genFillProps } from '../genUtil'
+import { genTransformProps, genStrokeProps, genFillProps, commonProps } from '../genUtil'
 const basicProps = {
     x1: "10",
     y1: "10",
@@ -15,7 +15,8 @@ const basicProps = {
 const allCases = [
     ...genFillProps(),
     ...genStrokeProps(),
-    ...genTransformProps()
+    ...genTransformProps(),
+    ...commonProps()
 ]
 
 

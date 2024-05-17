@@ -1,14 +1,16 @@
 #pragma once
 
-#include "SvgGraphic.h"
+#include "SvgGroup.h"
 #include "SvgText.h"
 #include <native_drawing/drawing_text_typography.h>
 #include "utils/GlyphContext.h"
 #include "properties/Font.h"
+#include "TextBase.h"
 
 namespace rnoh {
+namespace svg {
 
-class SvgTextPath : public SvgGraphic, public SvgText {
+class SvgTextPath : public SvgGroup, public TextBase {
 public:
     SvgTextPath() {
         hrefFill_ = true;
@@ -21,27 +23,23 @@ public:
 
     void OnDraw(OH_Drawing_Canvas *canvas) override;
 
-    void SetParent(std::shared_ptr<SvgNode> parent) { parent_ = parent; }
     void SetContext(std::shared_ptr<GlyphContext> context) { glyphCtx_ = context; }
 
-    OH_Drawing_Path *getTextPath() {
-        //TODO getTextPath
-        return OH_Drawing_PathCreate(); 
-    }
-    
-    TextPathMidLine getMidLine() { return midLine_;}
-    
-    TextPathSide getSide() { return side_; }
+    drawing::Path getTextPath();
 
-    double getStartOffset() { return startOffset_; }
+    TextPathMidLine getMidLine() const { return midLine_; }
 
-private:
-    std::shared_ptr<SvgNode> parent_;
-    TextPathSide side_;
-    TextPathMidLine midLine_;
+    TextPathSide getSide() const { return side_; }
+
+    double getStartOffset() const { return startOffset_; }
+
+    TextPathSide side_{TextPathSide::left};
+    TextPathMidLine midLine_{TextPathMidLine::sharp};
     TextPathMethod method_{TextPathMethod::align};
     TextPathSpacing spacing_{TextPathSpacing::Exact};
     double startOffset_;
+    std::string href_;
 };
 
+} // namespace svg
 } // namespace rnoh

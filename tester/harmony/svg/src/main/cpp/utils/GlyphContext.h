@@ -9,6 +9,7 @@
 #include "SvgNode.h"
 
 namespace rnoh {
+namespace svg {
 
 class GlyphContext {
 
@@ -76,6 +77,10 @@ public:
 
     static void incrementIndices(std::vector<int> &indices, int topIndex);
 
+    /**
+     * @param advance in x position by the next span.
+     * @return x position for this next span.
+     */
     double nextX(double advance);
 
     double nextY();
@@ -91,4 +96,6 @@ public:
 
     float getHeight() { return mHeight; }
 };
+
+} // namespace svg
 } // namespace rnoh

@@ -9,6 +9,7 @@
 #include "utils/Utils.h"
 
 namespace rnoh {
+namespace svg {
 
 class Size {
 public:
@@ -219,5 +220,6 @@ private:
     double width_ = 0.0;
     double height_ = 0.0;
 };
-} // namespace rnoh
 
+} // namespace svg
+} // namespace rnoh

@@ -13,6 +13,7 @@
 #include <vector>
 
 namespace rnoh {
+namespace svg {
 
     void SvgMarker::renderMarker(OH_Drawing_Canvas *canvas, const SvgMarkerPosition& position, float strokeWidth){
         LOG(INFO) << "[SvgMarker] renderMarker start";
@@ -40,7 +41,7 @@ namespace rnoh {
         Rect eRect(0, 0, width, height);
         if(!mAlign.empty()){
             Rect vbRect(mMinX * scale_, mMinY * scale_, (mMinX + mVbWidth) * scale_, (mMinY + mVbHeight) * scale_);
-            OH_Drawing_Matrix* viewBoxMatrix = rhon::ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
+            OH_Drawing_Matrix* viewBoxMatrix = ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
             float sx = OH_Drawing_MatrixGetValue(viewBoxMatrix, 0);
             float sy = OH_Drawing_MatrixGetValue(viewBoxMatrix, 4);
             OH_Drawing_MatrixPreScale(markerTransform, sx, sy, origin.x, origin.y);
@@ -56,4 +57,6 @@ namespace rnoh {
         OH_Drawing_CanvasRestoreToCount(canvas, count);
         LOG(INFO) << "[SvgMarker] renderMarker done.";
     }
-}
+
+} // namespace svg
+} // namespace rnoh

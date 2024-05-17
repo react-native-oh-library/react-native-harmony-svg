@@ -7,6 +7,7 @@
 // #include "frameworks/core/components/common/properties/decoration.h"
 // #include "frameworks/core/components/common/properties/paint_state.h"
 // #include "frameworks/core/components/common/properties/text_style.h"
+#include "Decoration.h"
 #include "properties/Color.h"
 #include "properties/PaintState.h"
 #include "properties/Decoration.h"
@@ -14,6 +15,7 @@
 #include <glog/logging.h>
 
 namespace rnoh {
+namespace svg {
 
 const char ATTR_NAME_FILL[] = "fill";
 const char ATTR_NAME_STROKE[] = "stroke";
@@ -53,11 +55,19 @@ public:
 
     std::optional<Gradient> &GetGradient() { return gradient_; }
 
+    std::shared_ptr<PatternAttr> &GetPatternAttr() { return patternAttr_; }
+
     const std::optional<Gradient> &GetGradient() const { return gradient_; }
+
+    const std::shared_ptr<PatternAttr> &GetPatternAttr() const { return patternAttr_; }
 
     void SetGradient(const Gradient &gradient, bool isSelf) {
         gradient_ = std::make_optional(gradient);
         hasGradient_ = isSelf;
+    }
+
+    void SetPattern(std::shared_ptr<PatternAttr> patternAttr) {
+        patternAttr_ = patternAttr;
     }
 
     void SetOpacity(double opacity, bool isSelf) {
@@ -112,6 +122,7 @@ protected:
     double opacity_ = double(1.0);
     FillState::FillRule fillRule_;
     std::optional<Gradient> gradient_;
+    std::shared_ptr<PatternAttr> patternAttr_;
     bool hasColor_ = false;
     bool hasOpacity_ = false;
     bool hasFillRule_ = false;
@@ -342,8 +353,8 @@ private:
 class ClipState {
 public:
     enum class ClipRule {
-        FILL_RULE_NONZERO = 0,
-        FILL_RULE_EVENODD
+        CLIP_RULE_EVENODD = 0,
+        CLIP_RULE_NONZERO
     };
 
     void SetClipRule(const ClipState::ClipRule clipRule, bool isSelf)
@@ -368,7 +379,7 @@ public:
 
     bool IsEvenodd() const
     {
-        return clipRule_ == ClipRule::FILL_RULE_EVENODD;
+        return clipRule_ == ClipRule::CLIP_RULE_EVENODD;
     }
 
     void SetHref(const std::string& href, bool isSelf)
@@ -393,10 +404,11 @@ public:
     }
 
 private:
-    ClipState::ClipRule clipRule_ = ClipState::ClipRule::FILL_RULE_NONZERO;
+    ClipState::ClipRule clipRule_ = ClipState::ClipRule::CLIP_RULE_NONZERO;
     std::string href_;
     bool hasClipRule_ = false;
     bool hasHref_ = false;
 };
 
+} // namespace svg
 } // namespace rnoh

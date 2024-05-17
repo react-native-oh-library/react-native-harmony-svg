@@ -38,6 +38,7 @@
 #include "componentInstances/RNSVGLineComponentInstance.h"
 #include "componentInstances/RNSVGDefsComponentInstance.h"
 #include "componentInstances/RNSVGTextComponentInstance.h"
+#include "componentInstances/RNSVGTextPathComponentInstance.h"
 #include "componentInstances/RNSVGTSpanComponentInstance.h"
 #include "componentInstances/RNSVGClipPathComponentInstance.h"
 #include "componentInstances/RNSVGMaskComponentInstance.h"
@@ -49,6 +50,7 @@
 
 using namespace rnoh;
 using namespace facebook;
+using namespace svg;
 
 namespace rnoh {
 
@@ -97,6 +99,9 @@ public:
         if (ctx.componentName == "RNSVGTSpan") {
             return std::make_shared<RNSVGTSpanComponentInstance>(std::move(ctx));
         }
+        if (ctx.componentName == "RNSVGTextPath") {
+            return std::make_shared<RNSVGTextPathComponentInstance>(std::move(ctx));
+        }
         if (ctx.componentName == "RNSVGClipPath") {
             return std::make_shared<RNSVGClipPathComponentInstance>(std::move(ctx));
         }
@@ -133,4 +138,5 @@ public:
 
     ComponentJSIBinderByString createComponentJSIBinderByName() override;
 };
+
 } // namespace rnoh

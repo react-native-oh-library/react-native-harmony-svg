@@ -5,13 +5,14 @@
 #include <native_drawing/drawing_text_typography.h>
 #include "SvgTextPath.h"
 #include "utils/GlyphContext.h"
+#include "drawing/TypographyStyle.h"
+#include "TextBase.h"
+#include "FontHolderBase.h"
 
 namespace rnoh {
+namespace svg {
 
-constexpr double tau = 2.0 * M_PI;
-constexpr double radToDeg = 360.0 / tau;
-
-class SvgTSpan : public SvgGraphic, public SvgText {
+class SvgTSpan : public SvgGraphic, public TextBase, public FontHolderBase {
 public:
     SvgTSpan() {
         hrefFill_ = true;
@@ -24,22 +25,27 @@ public:
 
     void OnDraw(OH_Drawing_Canvas *canvas) override;
 
-    void SetParent(std::shared_ptr<SvgNode> parent) { parent_ = parent; }
-    void SetContext(std::shared_ptr<GlyphContext> context) { glyphCtx_ = context; }
+    void SetTextPathRef(std::shared_ptr<SvgTextPath> textPath) { textPath_ = textPath; }
     
     double getTextAnchorOffset(TextAnchor textAnchor, const double &textMeasure);
     
-    void getLinePath(std::string line, OH_Drawing_Canvas *canvas);
-    
-    std::string content;
+    std::string content_;
 
 private:
+    void DrawTextPath(OH_Drawing_Canvas* canvas);
     void DrawText(OH_Drawing_Canvas* canvas);
-    void DrawWrappedText(OH_Drawing_Canvas* canvas);
 
-    std::shared_ptr<SvgNode> parent_;
+    drawing::TypographyStyle PrepareTypoStyle();
+
+    /**
+     * @return true if spacing needs to be adjusted.
+     */
+    bool AdjustSpacing(OH_Drawing_Canvas *canvas, double textMeasure, double& scaleSpacingAndGlyphs);
+
+    double CalcBaselineShift(OH_Drawing_TypographyCreate* handler, OH_Drawing_TextStyle* style, const OH_Drawing_Font_Metrics& fm);
+
     std::shared_ptr<SvgTextPath> textPath_;
-    
 };
 
+} // namespace svg
 } // namespace rnoh
