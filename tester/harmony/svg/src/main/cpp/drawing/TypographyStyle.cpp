@@ -19,7 +19,7 @@ void TypographyStyle::Update(const std::shared_ptr<svg::FontData> &style) {
     OH_Drawing_SetTypographyTextFontStyle(ts, static_cast<int>(style->fontStyle));
     OH_Drawing_SetTypographyTextFontFamily(ts, style->fontFamily.c_str());
     OH_Drawing_SetTypographyTextFontSize(ts, style->fontSize);
-    OH_Drawing_SetTypographyTextAlign(ts, static_cast<int>(style->textAnchor));
+    // OH_Drawing_SetTypographyTextAlign(ts, static_cast<int>(style->textAnchor));
 }
 
 } // namespace rnoh::drawing
