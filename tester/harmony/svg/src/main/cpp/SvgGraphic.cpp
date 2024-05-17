@@ -291,18 +291,6 @@ void SvgGraphic::SetPatternStyle() {
         return;
     }
 
-    Rect vbRect(mMinX * scale_, mMinY * scale_, (mMinX + mVbWidth) * scale_, (mMinY + mVbHeight) * scale_);
-    Rect eRect = Rect(x, y, w, h);
-    if (vbRect.IsValid()) {
-        OH_Drawing_Matrix *viewBoxMatrix = ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
-        OH_Drawing_CanvasConcatMatrix(canvas, viewBoxMatrix);
-        OH_Drawing_MatrixDestroy(viewBoxMatrix);
-    }
-
-    if (patternContentUnits == Unit::objectBoundingBox) {
-        OH_Drawing_CanvasScale(canvas, offsetwidth / scale_, offsetheight / scale_);
-    }
-    
     OH_Drawing_Bitmap *bitmap = OH_Drawing_BitmapCreate();
     OH_Drawing_BitmapFormat format = {COLOR_FORMAT_RGBA_8888, ALPHA_FORMAT_OPAQUE};
 
@@ -310,9 +298,21 @@ void SvgGraphic::SetPatternStyle() {
     OH_Drawing_CanvasBind(canvas, bitmap);
 
     // set background color to white
-    OH_Drawing_Brush *brush = OH_Drawing_BrushCreate();
-    OH_Drawing_BrushSetColor(brush, 0xffffffff);
-    OH_Drawing_CanvasDrawBackground(canvas, brush);
+    drawing::Brush brush;
+    brush.SetColor(0xffffffff);
+    OH_Drawing_CanvasDrawBackground(canvas, brush.get());
+
+    Rect vbRect(mMinX * scale_, mMinY * scale_, (mMinX + mVbWidth) * scale_, (mMinY + mVbHeight) * scale_);
+    Rect eRect = Rect(x, y, w, h);
+    if (vbRect.IsValid()) {
+        OH_Drawing_Matrix *viewBoxMatrix = ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
+        OH_Drawing_CanvasConcatMatrix(canvas, viewBoxMatrix);
+        OH_Drawing_MatrixDestroy(viewBoxMatrix);
+    }
+    
+    if (patternContentUnits == Unit::objectBoundingBox) {
+        OH_Drawing_CanvasScale(canvas, offsetwidth / scale_, offsetheight / scale_);
+    }
 
     // draw child node
     if (!fillState_.GetHref().empty()) {
@@ -344,7 +344,6 @@ void SvgGraphic::SetPatternStyle() {
 
     OH_Drawing_CanvasDestroy(canvas);
     OH_Drawing_BitmapDestroy(bitmap);
-    OH_Drawing_BrushDestroy(brush);
     OH_Drawing_ImageDestroy(image);
     OH_Drawing_SamplingOptionsDestroy(opt);
     OH_Drawing_MatrixDestroy(matrix);
