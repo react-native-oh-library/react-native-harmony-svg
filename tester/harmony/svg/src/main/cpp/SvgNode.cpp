@@ -223,6 +223,7 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
                                        set.count("strokeLinecap"));
     attributes_.strokeState.SetLineJoin(SvgAttributesParser::GetLineJoinStyle(std::to_string(props->strokeLinejoin)),
                                         set.count("strokeLinejoin"));
+    attributes_.strokeState.SetVectorEffect(props->vectorEffect);
     auto limit = vpToPx(props->strokeMiterlimit);
     if (GreatOrEqual(limit, 1.0)) {
         attributes_.strokeState.SetMiterLimit(limit, set.count("strokeMiterlimit"));
