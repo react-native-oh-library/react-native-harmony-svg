@@ -57,7 +57,8 @@ void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
 
     OH_Drawing_Font_Metrics fm;
     OH_Drawing_TextStyleGetFontMetrics(typography, ts.textStyle_.get(), &fm);
-    double dx = glyphCtx_->nextX(actualWidth) - actualWidth + glyphCtx_->nextDeltaX();
+    double dx = glyphCtx_->nextX(actualWidth) - actualWidth + glyphCtx_->nextDeltaX() +
+                getTextAnchorOffset(font_->textAnchor, actualWidth);
     double dy =
         glyphCtx_->nextY() + glyphCtx_->nextDeltaY() + CalcBaselineShift(typographyHandler, ts.textStyle_.get(), fm);
     LOG(INFO) << "TEXT GLYPH next X = " << dx << " next dy = " << dy;
