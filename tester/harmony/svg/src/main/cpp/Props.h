@@ -225,6 +225,7 @@ public:
     Float strokeMiterlimit{0.0};
     std::vector<std::string> propList{};
     std::string display{};
+    int vectorEffect{0};
     bool responsible{false};
 };
 

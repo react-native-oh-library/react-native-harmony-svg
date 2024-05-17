@@ -101,6 +101,7 @@ RNSVGCommonProps::RNSVGCommonProps(const PropsParserContext &context, const RNSV
       strokeMiterlimit(convertRawProp(context, rawProps, "strokeMiterlimit", sourceProps.strokeMiterlimit, {0.0})),
       responsible(convertRawProp(context, rawProps, "responsible", sourceProps.responsible, {false})),
       display(convertRawProp(context, rawProps, "display", sourceProps.display, {})),
+      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
       propList(convertRawProp(context, rawProps, "propList", sourceProps.propList, {})) {}
 RNSVGCircleProps::RNSVGCircleProps(const PropsParserContext &context, const RNSVGCircleProps &sourceProps,
                                    const RawProps &rawProps)

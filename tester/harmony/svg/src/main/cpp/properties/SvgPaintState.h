@@ -257,6 +257,16 @@ public:
         return color_ != Color::TRANSPARENT;
     }
 
+    void SetVectorEffect(int VectorEffect)
+    {
+        vectorEffect_ = VectorEffect;
+    }
+
+    const int GetVectorEffect() const
+    {
+        return vectorEffect_;
+    }
+
     void Inherit(const StrokeState& strokeState)
     {
         if (!hasColor_) {
@@ -338,6 +348,7 @@ private:
     std::vector<double> strokeDashArray_;
     double strokeDashOffset_;
     std::string href_;
+    int vectorEffect_ = 0;
     bool hasColor_ = false;
     bool hasOpacity_ = false;
     bool hasLineCap_ = false;
