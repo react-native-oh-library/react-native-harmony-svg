@@ -8,7 +8,7 @@ file(GLOB rnoh_svg_SRC CONFIGURE_DEPENDS
     drawing/*.cpp
     napiBinders/*.cpp
     properties/*.cpp
-    turboModule/*.cpp
+    turboModules/*.cpp
     utils/*.cpp
     )
 add_library(rnoh_svg SHARED ${rnoh_svg_SRC})

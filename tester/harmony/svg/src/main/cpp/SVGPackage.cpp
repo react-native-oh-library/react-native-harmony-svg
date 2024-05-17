@@ -47,6 +47,7 @@
 #include "componentBinders/RNSVGRadialGradientJSIBinder.h"
 #include "componentBinders/RNSVGSymbolJSIBinder.h"
 #include "componentBinders/RNSVGTextPathJSIBinder.h"
+#include "turboModules/RNSVGSvgViewModule.h"
 
 using namespace rnoh;
 using namespace facebook;
@@ -109,3 +110,17 @@ ComponentJSIBinderByString SVGPackage::createComponentJSIBinderByName() {
         {"RNSVGUse", std::make_shared<RNSVGUseJSIBinder>()},
     };
 };
+
+class SvgTurboModuleFactoryDelegate : public TurboModuleFactoryDelegate {
+public:
+    SharedTurboModule createTurboModule(Context ctx, const std::string &name) const override {
+        if (name == "RNSVGSvgViewModule") {
+            return std::make_shared<RNSVGSvgViewModule>(ctx, name);
+        }
+        return nullptr;
+    };
+};
+
+std::unique_ptr<TurboModuleFactoryDelegate> SVGPackage::createTurboModuleFactoryDelegate() {
+    return std::make_unique<SvgTurboModuleFactoryDelegate>();
+}
