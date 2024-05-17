@@ -45,12 +45,6 @@ const basicCases: CaseParams[] = [
         width: 90,
         height: 60,
         fill: 'green',
-        opacity:'0.1'
-      },
-      {
-        width: 90,
-        height: 60,
-        fill: 'green',
         rx:10,
         ry:10
       },

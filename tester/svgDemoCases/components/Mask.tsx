@@ -12,6 +12,7 @@ import {
   LinearGradient,
   Stop,
   Text,
+  Use,
 } from 'react-native-svg';
 import { Tester, Filter, TestCase, TestSuite } from '@rnoh/testerino';
 
@@ -285,8 +286,51 @@ const iconRNSVGMask = (
   </Svg>
 );
 
+class MaskMaskUnits extends Component {
+  static title = 'Svg with with text and a RNSVGMask with gradient';
+  render() {
+    return (
+      <View style={styles.container}>
+          <Svg viewBox="0 0 100 100">
+            <Mask
+              id="myMask1"
+              maskUnits="userSpaceOnUse"
+              x="20%"
+              y="20%"
+              width="60%"
+              height="60%">
+              <Rect fill="black" x="0" y="0" width="100%" height="100%" />
+              <Circle fill="white" cx="50" cy="50" r="35" />
+            </Mask>
 
-const samples = [SimpleMask, AnotherMask, MaskWithText, SimpleRNSVGMask, AnotherRNSVGMask, RNSVGMaskWithText, iconRNSVGMask];
+            <Mask
+              id="myMask2"
+              maskUnits="objectBoundingBox"
+              x="20%"
+              y="20%"
+              width="60%"
+              height="60%">
+              <Rect fill="black" x="0" y="0" width="100%" height="100%" />
+              <Circle fill="white" cx="50" cy="50" r="35" />
+            </Mask>
+
+            <Rect id="r1" x="0" y="0" width="45" height="45" />
+            <Rect id="r2" x="0" y="55" width="45" height="45" />
+            <Rect id="r3" x="55" y="55" width="45" height="45" />
+            <Rect id="r4" x="55" y="0" width="45" height="45" />
+
+            <Use mask="url(#myMask1)" href="#r1" fill="red" />
+            <Use mask="url(#myMask1)" href="#r2" fill="red" />
+            <Use mask="url(#myMask1)" href="#r3" fill="red" />
+
+            <Use mask="url(#myMask2)" href="#r4" fill="yellow" />
+          </Svg>
+      </View>
+    );
+  }
+}
+
+const samples = [SimpleMask, AnotherMask, MaskWithText, SimpleRNSVGMask, AnotherRNSVGMask, RNSVGMaskWithText, iconRNSVGMask,MaskMaskUnits];
 
 export { icon, iconRNSVGMask, samples };
 
@@ -299,9 +343,6 @@ export default function () {
       <ScrollView>
         <TestCase itShould="SimpleMask">
           <SimpleMask />
-        </TestCase>
-        <TestCase itShould="SimpleMaskWithUnits">
-          <SimpleMaskWithUnits />
         </TestCase>
         <TestCase itShould="IconMask">
           {icon}
@@ -324,6 +365,9 @@ export default function () {
         </TestCase>
         <TestCase itShould="AnotherRNSVGMask">
           <AnotherRNSVGMask />
+        </TestCase>
+        <TestCase itShould="MaskMaskUnits">
+          <MaskMaskUnits />
         </TestCase>
       </ScrollView>
     </Tester>

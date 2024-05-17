@@ -2,7 +2,7 @@ import React from "react";
 // import  from 'react-native-svg'
 import { Svg, Circle } from 'react-native-svg'
 import { GenMain } from './gen'
-import { genTransformProps, genStrokeProps, genFillProps, CaseParams } from '../genUtil'
+import { genTransformProps, genStrokeProps,genTouchableProps, genFillProps, CaseParams } from '../genUtil'
 const basicProps = {
     cx: '50',
     cy: '50',
@@ -47,13 +47,17 @@ const allCases = [
     ...genTransformProps()
 ]
 
+const bindFunc = {
+    ...genTouchableProps('Circle'),
+  };
 
 function GenCircle () {
     return <GenMain
                 cases={allCases}
                 basicProps={basicProps}
                 comName='Circle'
-            />
+                bindFunc={bindFunc}
+            />            
 }
 
 export default GenCircle
