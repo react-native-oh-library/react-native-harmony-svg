@@ -11,6 +11,7 @@ import {
   RNOHCoreContext
 } from '@rnoh/react-native-openharmony';
 import font from '@ohos.font';
+import {SvgPackage} from "@rnoh/react-native-openharmony-svg/ts"
 
 @Builder
 export function buildCustomRNComponent(ctx: ComponentBuilderContext) {
@@ -71,7 +72,9 @@ struct Index {
         }
         RNApp({
           rnInstanceConfig: {
-            createRNPackages: (ctx) => [],
+            createRNPackages: (ctx) => [
+              new SvgPackage(ctx)
+            ],
             enableNDKTextMeasuring: true,
             enableBackgroundExecutor: false,
             enableCAPIArchitecture: true,
