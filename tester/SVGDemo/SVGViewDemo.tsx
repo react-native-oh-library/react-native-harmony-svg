@@ -16,10 +16,11 @@ export default class SvgNativeMethods extends Component {
   alert = () => {
     console.log('PRESSED');
     this.root?.toDataURL((base64: string) => {
+      console.log('back');
       this.setState({
         base64,
       });
-    }, );
+    }, Object());
 
     // console.log(this.circle?.isPointInFill({x: 200, y: 100}));
     // console.log(this.circle?.isPointInStroke({x: 200, y: 100}));
@@ -39,7 +40,7 @@ export default class SvgNativeMethods extends Component {
           height="100"
           width="150"
           onPress={this.alert}
-          ref={ele => {
+          ref={(ele: Svg) => {
             this.root = ele;
           }}>
           <G x="40" onPress={this.alert}>
@@ -59,12 +60,12 @@ export default class SvgNativeMethods extends Component {
           </G>
         </Svg>
         <View style={{width: 150, height: 100, borderWidth: 1, marginTop: 5}}>
-          {this.state.base64 && (
+          {/* {this.state.base64 && (
             <Image
               source={{uri: `data:image/png;base64,${this.state.base64}`}}
               style={{width: 150, height: 100}}
             />
-          )}
+          )} */}
         </View>
       </View>
     );
