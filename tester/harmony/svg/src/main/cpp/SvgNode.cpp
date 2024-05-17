@@ -81,15 +81,17 @@ void SvgNode::OnClipPath(OH_Drawing_Canvas *canvas) {
         LOG(WARNING) << "[SvgNode] OnClipPath: SvgNode is null!";
         return;
     };
-    auto *clipPath = refSvgNode->AsPath();
-    if (!clipPath) {
-        LOG(WARNING) << "[SvgNode] OnClipPath: Path is null!";
-        return;
-    };
+    auto clipPath = refSvgNode->AsPath();
+    
+    // TODO: maybe return optional from AsPath?
+    // if (!clipPath) {
+    //     LOG(WARNING) << "[SvgNode] OnClipPath: Path is null!";
+    //     return;
+    // };
+
     // Set clipRule through Drawing API
-    OH_Drawing_PathSetFillType(clipPath, attributes_.clipState.GetClipRuleForDraw());
-    OH_Drawing_CanvasClipPath(canvas, clipPath, OH_Drawing_CanvasClipOp::INTERSECT, true);
-    OH_Drawing_PathDestroy(clipPath);
+    clipPath.SetFillType(attributes_.clipState.GetClipRuleForDraw());
+    OH_Drawing_CanvasClipPath(canvas, clipPath.get(), OH_Drawing_CanvasClipOp::INTERSECT, true);
 }
 
 void SvgNode::OnMask(OH_Drawing_Canvas *canvas) {
@@ -147,8 +149,10 @@ std::shared_ptr<PatternAttr> SvgNode::GetPatternAttr(const std::string &href) {
 }
 
 void SvgNode::Draw(OH_Drawing_Canvas *canvas) {
+    if (!display_) {
+        return;
+    }
     // mask and filter create extra layers, need to record initial layer count
-    LOG(INFO) << "[SvgNode] Draw enter";
     const auto count = OH_Drawing_CanvasGetSaveCount(canvas);
     OH_Drawing_CanvasSave(canvas);
     if (!hrefClipPath_.empty()) {
@@ -170,6 +174,7 @@ void SvgNode::Draw(OH_Drawing_Canvas *canvas) {
 
 void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
     attributes_.id = props->name;
+    display_ = props->display != "none";
 
     if (hrefRender_) {
         attributes_.transform = props->matrix;
@@ -228,17 +233,20 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
 
 Rect SvgNode::AsBounds() {
     auto path = AsPath();
-    auto ohRect = OH_Drawing_RectCreate(0, 0, 0, 0);
-    OH_Drawing_PathGetBounds(path, ohRect);
-    float x = OH_Drawing_RectGetLeft(ohRect);
-    float y = OH_Drawing_RectGetTop(ohRect);
-    float width = OH_Drawing_RectGetWidth(ohRect);
-    float height = OH_Drawing_RectGetHeight(ohRect);
+    auto ohRect = path.GetBounds();
+    float x = ohRect.GetLeft();
+    float y = ohRect.GetTop();
+    float width = ohRect.GetWidth();
+    float height = ohRect.GetHeight();
     auto rect = Rect(x, y, width, height);
     return rect;
 }
 
 void SvgNode::ContextTraversal() {
+    if (!context_) {
+        LOG(INFO) << "NO CONTEXT";
+        return;
+    }
     if (!attributes_.id.empty()) {
         context_->Push(attributes_.id, shared_from_this());
     }

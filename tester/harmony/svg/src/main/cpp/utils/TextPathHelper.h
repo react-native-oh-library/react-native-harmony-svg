@@ -39,7 +39,7 @@ class TextPathHelper {
     bool GetMatrixOnPath(const Params& p, drawing::Matrix &mat);
 
 private:
-    OH_Drawing_Path *path_ = nullptr;
+    drawing::Path path_ = drawing::Path();
     int side_ = 0;
     double pathLength_ = 0.0;
     double startOfRendering_ = 0.0;

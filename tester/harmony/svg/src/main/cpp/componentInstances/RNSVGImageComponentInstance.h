@@ -23,29 +23,20 @@
  */
 
 #pragma once
-#include "RNOH/CppComponentInstance.h"
-#include <folly/dynamic.h>
-#include "SvgArkUINode.h"
+#include "RNSVGBaseComponentInstance.h"    
 #include "ShadowNodes.h"
 
 namespace rnoh {
 namespace svg {
 
-class RNSVGImageComponentInstance : public CppComponentInstance<facebook::react::RNSVGCircleShadowNode>, public SvgHost {
+class RNSVGImageComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGCircleShadowNode> {
 
-private:
-    SvgArkUINode m_svgArkUINode;
+ 
 
 public:
     RNSVGImageComponentInstance(Context context);
-    
-    void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override{}
-    
-    void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override{}
-    
-    SvgArkUINode &getLocalRootArkUINode() override;
-    
-    void onPropsChanged(SharedConcreteProps const &props) override;
+         
+     void UpdateSpecialProps(SharedConcreteProps const &props) override;
 };
 
 } // namespace svg

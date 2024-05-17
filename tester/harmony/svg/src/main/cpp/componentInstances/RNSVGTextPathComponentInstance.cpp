@@ -7,14 +7,11 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGTextPathComponentInstance::RNSVGTextPathComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
+RNSVGTextPathComponentInstance::RNSVGTextPathComponentInstance(Context context) : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(m_svgTP);
 }
 
-void RNSVGTextPathComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
-    CppComponentInstance::onPropsChanged(props);
-    GetSvgNode()->UpdateCommonProps(props);
-
+void RNSVGTextPathComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
     m_svgTP->UpdateFontProps(props);
     m_svgTP->UpdateTextProps(props);
     m_svgTP->href_ = props->href;
@@ -24,15 +21,5 @@ void RNSVGTextPathComponentInstance::onPropsChanged(SharedConcreteProps const &p
     m_svgTP->side_ = textPathSideFromStr(props->side);
     m_svgTP->method_ = textPathMethodFromStr(props->method);
 }
-
-    void RNSVGTextPathComponentInstance::onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) {
-        auto child = std::dynamic_pointer_cast<SvgHost>(childComponentInstance);
-        if (!child) {
-            return;
-        }
-        OnChildInsertCommon(child);
-        LOG(INFO) << "TEXT_PATH insert child";
-    }
-
 } // namespace svg
 } // namespace rnoh

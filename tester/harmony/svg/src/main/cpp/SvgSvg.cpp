@@ -22,11 +22,11 @@ const int MOS_NONE = 2;
 
 SvgSvg::SvgSvg() : SvgGroup() {}
 
-OH_Drawing_Path *SvgSvg::AsPath() {
-    auto *path = OH_Drawing_PathCreate();
+drawing::Path SvgSvg::AsPath() {
+    drawing::Path path;
     for (const auto &child : children_) {
-        auto *childPath = child->AsPath();
-        // path.Op(path, childPath, RSPathOp::UNION);
+        auto childPath = child->AsPath();
+        path.Union(childPath);
     }
     return path;
 }
@@ -48,7 +48,7 @@ void SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
     float tx = 0.0;
     float ty = 0.0;
     constexpr float half = 0.5f;
-    
+
     auto viewBox = GetViewBox(); // should be viewBox attribute
     const auto svgSize = Size(OH_Drawing_CanvasGetWidth(canvas), OH_Drawing_CanvasGetHeight(canvas));
     // TODO Since OH_Drawing API return px and RN pass vp
@@ -56,14 +56,14 @@ void SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
     LOG(INFO) << "[FitCanvas] viewBox = " << viewBox.ToString() << " svgSize = " << svgSize.ToString()
               << " layout = " << layout.ToString() << " canvas = " << OH_Drawing_CanvasGetWidth(canvas) << ", "
               << OH_Drawing_CanvasGetHeight(canvas);
-    
+
     if (viewBox.IsValid()) {
         if (svgSize.IsValid() && !svgSize.IsInfinite()) {
             // Initialize scale-x to e-width/vb-width.
             scaleX = svgSize.Width() / viewBox.Width();
             // Initialize scale-y to e-height/vb-height.
             scaleY = svgSize.Height() / viewBox.Height();
-            
+
             // Initialize translate-x to e-x - (vb-x * scale-x).
             // Initialize translate-y to e-y - (vb-y * scale-y).
             tx = attr_.x.Value() - (viewBox.Left() * scaleX);
@@ -120,9 +120,8 @@ void SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
             }
         }
     }
-    auto *rect = OH_Drawing_RectCreate(0.0f, 0.0f, layout.Width(), layout.Height());
-    OH_Drawing_CanvasClipRect(canvas, rect, OH_Drawing_CanvasClipOp::INTERSECT, true);
-    OH_Drawing_RectDestroy(rect);
+    drawing::Rect rect(0.0f, 0.0f, layout.Width(), layout.Height());
+    OH_Drawing_CanvasClipRect(canvas, rect.get(), OH_Drawing_CanvasClipOp::INTERSECT, true);
     // The transform applied to content contained by the element is given by
     // translate(translate-x, translate-y) scale(scale-x, scale-y).
     OH_Drawing_CanvasTranslate(canvas, tx, ty);
@@ -145,4 +144,3 @@ void SvgSvg::Draw(OH_Drawing_Canvas *canvas) {
 
 } // namespace svg
 } // namespace rnoh
-

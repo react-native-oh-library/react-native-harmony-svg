@@ -9,5 +9,12 @@ void SvgHost::OnChildInsertCommon(const std::shared_ptr<SvgHost> &childSvgHost) 
     GetSvgNode()->AppendChild(childSvgHost->GetSvgNode());
 }
 
+void SvgHost::OnChildRemoveCommon(const std::shared_ptr<SvgHost> &childSvgHost) {
+    if (!childSvgHost) {
+        return;
+    }
+    GetSvgNode()->removeChild(childSvgHost->GetSvgNode());
+}
+
 } // namespace svg
 } // namespace rnoh

@@ -8,14 +8,13 @@ namespace rnoh {
 namespace svg {
 
 RNSVGPatternComponentInstance::RNSVGPatternComponentInstance(Context context)
-    : CppComponentInstance(std::move(context)) {
+     : RNSVGBaseComponentInstance(std::move(context)) {
     LOG(INFO) << "[RNSVGPatternComponentInstance] init";
     SetSvgNode(std::make_shared<SvgPattern>());
 }
 
-void RNSVGPatternComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
-    CppComponentInstance::onPropsChanged(props);
-    GetSvgNode()->UpdateCommonProps(props);
+void RNSVGPatternComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+          
     LOG(INFO) << "[RNSVGPatternComponentInstance] x: " << props->x;
     LOG(INFO) << "[RNSVGPatternComponentInstance] y: " << props->y;
     LOG(INFO) << "[RNSVGPatternComponentInstance] width: " << props->width;
@@ -44,7 +43,6 @@ void RNSVGPatternComponentInstance::onPropsChanged(SharedConcreteProps const &pr
     svgPattern->setPatternTransforms(props->patternTransform);
 }
 
-SvgArkUINode &RNSVGPatternComponentInstance::getLocalRootArkUINode() { return m_svgArkUINode; }
 
 } // namespace svg
 } // namespace rnoh

@@ -52,12 +52,12 @@ SvgArkUINode::SvgArkUINode()
             break;
         }
     };
-    //
     nativeModule_->registerNodeCustomEvent(m_nodeHandle, ARKUI_NODE_CUSTOM_EVENT_ON_DRAW, 0, userCallback_);
 }
 SvgArkUINode::~SvgArkUINode() {
     nativeModule_->unregisterNodeCustomEvent(m_nodeHandle, ARKUI_NODE_CUSTOM_EVENT_ON_DRAW);
     delete userCallback_;
+    userCallback_ = nullptr;
 }
 
 void SvgArkUINode::OnDraw(ArkUI_NodeCustomEvent *event) {
@@ -66,9 +66,11 @@ void SvgArkUINode::OnDraw(ArkUI_NodeCustomEvent *event) {
     auto *drawingHandle = reinterpret_cast<OH_Drawing_Canvas *>(OH_ArkUI_DrawContext_GetCanvas(drawContext));
     LOG(INFO) << "[svg] <SVGArkUINode> CanvasGetHeight: " << OH_Drawing_CanvasGetHeight(drawingHandle) / 3.25;
     LOG(INFO) << "[svg] <SVGArkUINode> CanvasGetWidth: " << OH_Drawing_CanvasGetWidth(drawingHandle) / 3.25;
-    root_->ContextTraversal();
-    root_->InitStyle({});
-    root_->Draw(drawingHandle);
+    auto root = root_.lock();
+    CHECK_NULL_VOID(root);
+    root->ContextTraversal();
+    root->InitStyle({});
+    root->Draw(drawingHandle);
 }
 
 } // namespace svg

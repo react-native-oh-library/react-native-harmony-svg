@@ -16,7 +16,7 @@ class SvgArkUINode : public ArkUINode {
 private:
     void OnDraw(ArkUI_NodeCustomEvent *event);
     
-    std::shared_ptr<SvgNode> root_;
+    std::weak_ptr<SvgNode> root_;
     ArkUI_NativeNodeAPI_1 *nativeModule_ = nullptr;
     UserCallback *userCallback_ = nullptr;
 
@@ -24,7 +24,7 @@ public:
     SvgArkUINode();
     ~SvgArkUINode() override;
 
-    void SetSvgNode(const std::shared_ptr<SvgNode>& node)
+    void SetSvgNode(const std::weak_ptr<SvgNode>& node)
     {
         root_ = node;
     }

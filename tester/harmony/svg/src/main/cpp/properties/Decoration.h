@@ -414,17 +414,17 @@ public:
 
     Dimension getWidth() { return width_; }
 
-    void setPatternUnits(int patternUnits) { patternUnits_ = patternUnits; }
+    void setPatternUnits(int patternUnits) { patternUnits_ = Unit(patternUnits); }
 
-    void setPatternContentUnits(int patternContentUnits) { patternContentUnits_ = patternContentUnits; }
+    void setPatternContentUnits(int patternContentUnits) { patternContentUnits_ = Unit(patternContentUnits); }
 
     void setViewBox(Rect viewBox) { viewBox_ = viewBox; }
 
     void setImage(OH_Drawing_Image* image) { image_ = image; }
 
-    int getPatternUnits() { return patternUnits_; }
+    Unit getPatternUnits() { return patternUnits_; }
 
-    int getPatternContentUnits() { return patternContentUnits_; }
+    Unit getPatternContentUnits() { return patternContentUnits_; }
 
     Rect getViewBox() { return viewBox_; }
 
@@ -464,8 +464,8 @@ private:
     Dimension y_; // y-axis default value
     Dimension width_; // pattern area width default value
     Dimension height_; // pattern area height default value
-    int patternUnits_;
-    int patternContentUnits_;
+    Unit patternUnits_;
+    Unit patternContentUnits_;
     Rect viewBox_;
     float mMinX_;
     float mMinY_;
