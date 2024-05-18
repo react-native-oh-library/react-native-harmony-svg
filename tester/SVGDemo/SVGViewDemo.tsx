@@ -17,25 +17,27 @@ export default class SvgNativeMethods extends Component {
     console.log('PRESSED');
     this.root?.toDataURL((base64: string) => {
       console.log('back');
+      console.log(base64);
+
       this.setState({
         base64,
       });
-    }, Object());
+    },new Object());
 
-    // console.log(this.circle?.isPointInFill({x: 200, y: 100}));
-    // console.log(this.circle?.isPointInStroke({x: 200, y: 100}));
-    // console.log(this.circle?.getTotalLength());
-    // console.log(this.circle?.getPointAtLength(25));
-    // console.log(this.circle?.getBBox({fill: true}));
-    // console.log(this.circle?.getCTM());
-    // console.log(this.circle?.getScreenCTM());
+    console.log(this.circle?.isPointInFill({x: 100, y: 100}));
+    console.log(this.circle?.isPointInStroke({x: 200, y: 100}));
+    console.log(this.circle?.getTotalLength());
+    console.log(this.circle?.getPointAtLength(25));
+    console.log(this.circle?.getBBox({fill: true}));
+    console.log(this.circle?.getCTM());
+    console.log(this.circle?.getScreenCTM());
   };
   root?: Svg | null;
   circle?: Circle | null;
 
   render() {
     return (
-      <View>
+      <View style={{margin:50}}>
         <Svg
           height="100"
           width="150"
@@ -47,7 +49,7 @@ export default class SvgNativeMethods extends Component {
             <Circle
               cx="32"
               cy="32"
-              r="4.167"
+              r="54.167"
               fill="blue"
               ref={ele => {
                 this.circle = ele;

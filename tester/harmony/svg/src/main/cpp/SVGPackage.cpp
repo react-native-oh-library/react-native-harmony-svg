@@ -48,6 +48,7 @@
 #include "componentBinders/RNSVGSymbolJSIBinder.h"
 #include "componentBinders/RNSVGTextPathJSIBinder.h"
 #include "turboModules/RNSVGSvgViewModule.h"
+#include "turboModules/RNSVGRenderableModule.h"
 
 using namespace rnoh;
 using namespace facebook;
@@ -116,6 +117,9 @@ public:
     SharedTurboModule createTurboModule(Context ctx, const std::string &name) const override {
         if (name == "RNSVGSvgViewModule") {
             return std::make_shared<RNSVGSvgViewModule>(ctx, name);
+        }
+        if (name == "RNSVGRenderableModule") {
+            return std::make_shared<RNSVGRenderableModule>(ctx, name);
         }
         return nullptr;
     };
