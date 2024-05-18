@@ -11,7 +11,7 @@ RNSVGGroupComponentInstance::RNSVGGroupComponentInstance(Context context) : RNSV
     SetSvgNode(std::make_shared<SvgGroup>());
 }
 
-void RNSVGGroupComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+void RNSVGGroupComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
     LOG(INFO) << "[RNSVGGroupComponentInstance] props->fill.payload: " << (uint32_t)*props->fill.payload;
 
     auto group = std::dynamic_pointer_cast<SvgGroup>(GetSvgNode());

@@ -14,7 +14,7 @@ public:
 
     void onPropsChanged(typename CppComponentInstance<T>::SharedConcreteProps const &props) override {
         GetSvgNode()->UpdateCommonProps(props);
-        UpdateSpecialProps(props);
+        UpdateElementProps(props);
         svgMarkDirty();
     }
     void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override {}
@@ -49,7 +49,7 @@ public:
     }
 
 protected:
-    virtual void UpdateSpecialProps(typename CppComponentInstance<T>::SharedConcreteProps const &props) = 0;
+    virtual void UpdateElementProps(typename CppComponentInstance<T>::SharedConcreteProps const &props) = 0;
     SvgArkUINode &getLocalRootArkUINode() override { return getParentSvgView()->getLocalRootArkUINode(); }
 
 private:

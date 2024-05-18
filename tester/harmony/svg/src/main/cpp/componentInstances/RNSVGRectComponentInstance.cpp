@@ -10,7 +10,7 @@ RNSVGRectComponentInstance::RNSVGRectComponentInstance(Context context)  : RNSVG
     SetSvgNode(std::make_shared<SvgRect>());
 }
 
-void RNSVGRectComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+void RNSVGRectComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
          LOG(INFO) << "[RNSVGRectComponentInstance] Props->fill.payload: " << (uint32_t)*props->fill.payload;
     LOG(INFO) << "[RNSVGRectComponentInstance] Props->stroke.payload: " << (uint32_t)*props->stroke.payload;
     LOG(INFO) << "[RNSVGRectComponentInstance] Props->stroke.payload meaningful: " << facebook::react::isColorMeaningful(props->stroke.payload);

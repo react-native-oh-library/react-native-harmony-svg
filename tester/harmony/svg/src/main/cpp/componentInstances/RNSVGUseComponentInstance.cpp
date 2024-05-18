@@ -10,7 +10,7 @@ RNSVGUseComponentInstance::RNSVGUseComponentInstance(Context context) : RNSVGBas
     SetSvgNode(std::make_shared<SvgUse>());
 }
 
-void RNSVGUseComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+void RNSVGUseComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
     LOG(INFO) << "[RNSvgUseComponentInstance] Props: ";
     LOG(INFO) << "[RNSvgUseComponentInstance] x: " << props->x;
     LOG(INFO) << "[RNSvgUseComponentInstance] y: " << props->y;

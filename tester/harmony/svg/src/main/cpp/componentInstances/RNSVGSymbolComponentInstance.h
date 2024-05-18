@@ -22,7 +22,7 @@ public:
 
       
 
-     void UpdateSpecialProps(SharedConcreteProps const &props) override;
+     void UpdateElementProps(SharedConcreteProps const &props) override;
 
 };
 

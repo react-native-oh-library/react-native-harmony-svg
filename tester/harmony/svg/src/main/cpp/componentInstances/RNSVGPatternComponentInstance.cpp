@@ -13,7 +13,7 @@ RNSVGPatternComponentInstance::RNSVGPatternComponentInstance(Context context)
     SetSvgNode(std::make_shared<SvgPattern>());
 }
 
-void RNSVGPatternComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+void RNSVGPatternComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
           
     LOG(INFO) << "[RNSVGPatternComponentInstance] x: " << props->x;
     LOG(INFO) << "[RNSVGPatternComponentInstance] y: " << props->y;

@@ -33,11 +33,9 @@ namespace svg {
 
 class RNSVGMaskComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGMaskShadowNode> {
 
- 
-
 public:
     RNSVGMaskComponentInstance(Context context);
-                     void UpdateSpecialProps(SharedConcreteProps const &props) override;
+                     void UpdateElementProps(SharedConcreteProps const &props) override;
 };
 
 } // namespace svg
