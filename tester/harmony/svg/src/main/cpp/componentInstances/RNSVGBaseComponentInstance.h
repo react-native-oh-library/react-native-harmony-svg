@@ -38,14 +38,13 @@ public:
     }
     
     void svgMarkDirty() {
-        if (m_svgViewComponentInstance.expired()) {
-            auto svgView = getParentSvgView();
-            if (svgView != nullptr) {
-                m_svgViewComponentInstance = svgView;
-                m_svgViewComponentInstance.lock()->getLocalRootArkUINode().markDirty();
-            }
-        } else {
-            m_svgViewComponentInstance.lock()->getLocalRootArkUINode().markDirty();
+        auto svgView = m_svgViewComponentInstance.lock();
+        if (svgView == nullptr) {
+            svgView = getParentSvgView();
+        }
+        if (svgView != nullptr) {
+            m_svgViewComponentInstance = svgView;
+            svgView->getLocalRootArkUINode().markDirty();
         }
     }
 
