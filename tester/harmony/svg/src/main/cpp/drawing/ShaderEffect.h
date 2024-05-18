@@ -23,6 +23,9 @@ public:
         const OH_Drawing_Point2D* startPt, float startRadius, const OH_Drawing_Point2D* endPt, float endRadius,
         const uint32_t* colors, const float* pos, uint32_t size, OH_Drawing_TileMode mode, const OH_Drawing_Matrix* mat);
 
+    void ShaderEffectCreateImageShader(OH_Drawing_Image* image, OH_Drawing_TileMode tileX, OH_Drawing_TileMode tileY,
+        const OH_Drawing_SamplingOptions* opt, const OH_Drawing_Matrix* mat);
+
     ~ShaderEffect() noexcept = default;
 
     OH_Drawing_ShaderEffect *get() const { return shaderEffect_.get(); }

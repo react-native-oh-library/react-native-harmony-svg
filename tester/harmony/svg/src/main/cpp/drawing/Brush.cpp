@@ -31,6 +31,12 @@ void Brush::SetRadialShaderEffect(const OH_Drawing_Point2D* startPt, float start
     OH_Drawing_BrushSetShaderEffect(brush_.get(), brushShaderEffect_.get());
 }
 
+void Brush::SetImageShaderEffect(OH_Drawing_Image* image, OH_Drawing_TileMode tileX,
+    OH_Drawing_TileMode tileY, const OH_Drawing_SamplingOptions* opt, const OH_Drawing_Matrix* mat) {
+    brushShaderEffect_.ShaderEffectCreateImageShader(image, tileX, tileY, opt, mat);
+    OH_Drawing_BrushSetShaderEffect(brush_.get(), brushShaderEffect_.get());
+}
+
 void Brush::Reset() { OH_Drawing_BrushReset(brush_.get()); }
 
 } // namespace rnoh::drawing

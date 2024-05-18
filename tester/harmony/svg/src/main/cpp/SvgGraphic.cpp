@@ -333,10 +333,8 @@ void SvgGraphic::SetPatternStyle() {
 
     OH_Drawing_SamplingOptions *opt = OH_Drawing_SamplingOptionsCreate(OH_Drawing_FilterMode::FILTER_MODE_LINEAR,
                                                                        OH_Drawing_MipmapMode::MIPMAP_MODE_NONE);
-    OH_Drawing_ShaderEffect *imageShader = OH_Drawing_ShaderEffectCreateImageShader(
-        image, OH_Drawing_TileMode::REPEAT, OH_Drawing_TileMode::REPEAT, opt, matrix);
     OH_Drawing_BrushReset(fillBrush_.get());
-    OH_Drawing_BrushSetShaderEffect(fillBrush_.get(), imageShader);
+    fillBrush_.SetImageShaderEffect(image, OH_Drawing_TileMode::REPEAT, OH_Drawing_TileMode::REPEAT, opt, matrix);
 
     OH_Drawing_CanvasDestroy(canvas);
     OH_Drawing_BitmapDestroy(bitmap);

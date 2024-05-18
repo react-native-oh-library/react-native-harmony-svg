@@ -19,4 +19,10 @@ void ShaderEffect::ShaderEffectCreateRadialGradient(const OH_Drawing_Point2D* st
             mode, mat), &OH_Drawing_ShaderEffectDestroy);
 }
 
+void ShaderEffect::ShaderEffectCreateImageShader(OH_Drawing_Image* image, OH_Drawing_TileMode tileX,
+    OH_Drawing_TileMode tileY, const OH_Drawing_SamplingOptions* opt, const OH_Drawing_Matrix* mat) {
+    shaderEffect_ = UniqueNativeShaderEffect(
+        OH_Drawing_ShaderEffectCreateImageShader(image, tileX, tileY, opt, mat), &OH_Drawing_ShaderEffectDestroy);
+}
+
 } // namespace rnoh::drawing
