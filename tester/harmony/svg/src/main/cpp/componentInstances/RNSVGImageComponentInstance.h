@@ -31,12 +31,11 @@ namespace svg {
 
 class RNSVGImageComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGCircleShadowNode> {
 
- 
 
 public:
     RNSVGImageComponentInstance(Context context);
          
-     void UpdateSpecialProps(SharedConcreteProps const &props) override;
+     void UpdateElementProps(SharedConcreteProps const &props) override;
 };
 
 } // namespace svg

@@ -11,7 +11,7 @@ RNSVGTextPathComponentInstance::RNSVGTextPathComponentInstance(Context context) 
     SetSvgNode(m_svgTP);
 }
 
-void RNSVGTextPathComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+void RNSVGTextPathComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
     m_svgTP->UpdateFontProps(props);
     m_svgTP->UpdateTextProps(props);
     m_svgTP->href_ = props->href;

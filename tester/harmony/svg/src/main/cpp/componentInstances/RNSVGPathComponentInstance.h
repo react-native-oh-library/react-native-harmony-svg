@@ -33,15 +33,11 @@ namespace svg {
 
 class RNSVGPathComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGPathShadowNode> {
 
- 
-
 public:
 
     RNSVGPathComponentInstance(Context context);
-    
-      
 
-                 void UpdateSpecialProps(SharedConcreteProps const &props) override;
+                 void UpdateElementProps(SharedConcreteProps const &props) override;
 };
 
 } // namespace svg

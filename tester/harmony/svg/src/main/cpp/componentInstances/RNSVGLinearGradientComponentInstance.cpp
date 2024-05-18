@@ -12,7 +12,7 @@ RNSVGLinearGradientComponentInstance::RNSVGLinearGradientComponentInstance(Conte
     SetSvgNode(std::make_shared<SvgGradient>(GradientType::LINEAR));
 }
 
-void RNSVGLinearGradientComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+void RNSVGLinearGradientComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
          auto svgGradient = std::dynamic_pointer_cast<SvgGradient>(GetSvgNode());
     svgGradient->SetAttrX1(props->x1);
     svgGradient->SetAttrY1(props->y1);

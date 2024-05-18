@@ -11,7 +11,7 @@ RNSVGLineComponentInstance::RNSVGLineComponentInstance(Context context)  : RNSVG
     SetSvgNode(std::make_shared<SvgLine>());
 }
 
-void RNSVGLineComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+void RNSVGLineComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
          LOG(INFO) << "[RNSVGLineComponentInstance] Props->fill.payload: "
               << Color((uint32_t)*props->fill.payload).ToString();
     LOG(INFO) << "[RNSVGLineComponentInstance] Props->stroke.payload: "

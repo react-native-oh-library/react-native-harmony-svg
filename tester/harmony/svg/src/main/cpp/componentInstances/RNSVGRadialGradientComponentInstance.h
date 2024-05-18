@@ -35,7 +35,7 @@ class RNSVGRadialGradientComponentInstance : public RNSVGBaseComponentInstance<f
 public:
     RNSVGRadialGradientComponentInstance(Context context);
          
-     void UpdateSpecialProps(SharedConcreteProps const &props) override;
+     void UpdateElementProps(SharedConcreteProps const &props) override;
 };
 
 } // namespace svg

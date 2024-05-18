@@ -11,7 +11,7 @@ RNSVGTSpanComponentInstance::RNSVGTSpanComponentInstance(Context context)  : RNS
     SetSvgNode(m_svgTSpan);
 }
 
-void RNSVGTSpanComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+void RNSVGTSpanComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
             
     m_svgTSpan->content_ = props->content;
 

@@ -11,7 +11,7 @@ RNSVGImageComponentInstance::RNSVGImageComponentInstance(Context context)  : RNS
     SetSvgNode(std::make_shared<SvgCircle>());
 }
 
-void RNSVGImageComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+void RNSVGImageComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
       
       
 }
