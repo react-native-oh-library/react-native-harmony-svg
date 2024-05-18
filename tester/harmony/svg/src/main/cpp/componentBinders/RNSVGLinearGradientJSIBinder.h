@@ -20,7 +20,7 @@ class RNSVGLinearGradientJSIBinder : public ViewComponentJSIBinder {
         object.setProperty(rt, "clipRule", true);
         object.setProperty(rt, "responsible", true);
         object.setProperty(rt, "display", true);
-//         object.setProperty(rt, "pointerEvents", true);
+        object.setProperty(rt, "pointerEvents", true);
         object.setProperty(rt, "x1", true);
         object.setProperty(rt, "y1", true);
         object.setProperty(rt, "x2", true);
