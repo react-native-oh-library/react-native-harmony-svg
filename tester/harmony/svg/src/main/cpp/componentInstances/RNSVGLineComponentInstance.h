@@ -14,13 +14,7 @@ class RNSVGLineComponentInstance : public RNSVGBaseComponentInstance<facebook::r
 public:
     RNSVGLineComponentInstance(Context context);
 
-    
-
-      
-
-      
-
-     void UpdateSpecialProps(SharedConcreteProps const &props) override;
+     void UpdateElementProps(SharedConcreteProps const &props) override;
 };
 
 } // namespace svg

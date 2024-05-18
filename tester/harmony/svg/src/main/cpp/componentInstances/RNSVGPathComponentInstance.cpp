@@ -10,7 +10,7 @@ RNSVGPathComponentInstance::RNSVGPathComponentInstance(Context context)  : RNSVG
     SetSvgNode(std::make_shared<SvgPath>());
 }
 
-void RNSVGPathComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+void RNSVGPathComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
           LOG(INFO) << "[RNSVGPathComponentInstance] d: " << props->d;
     auto svgPath = std::dynamic_pointer_cast<SvgPath>(GetSvgNode());
     svgPath->setD(props->d);

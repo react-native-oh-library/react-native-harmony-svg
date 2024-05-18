@@ -7,11 +7,11 @@
 namespace rnoh {
 namespace svg {
 
-RNSVGImageComponentInstance::RNSVGImageComponentInstance(Context context) : CppComponentInstance(std::move(context)) {
+RNSVGImageComponentInstance::RNSVGImageComponentInstance(Context context) : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgImage>());
 }
 
-void RNSVGImageComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
+void RNSVGImageComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
     CppComponentInstance::onPropsChanged(props);
     GetSvgNode()->UpdateCommonProps(props);
     auto svgImage = std::dynamic_pointer_cast<SvgImage>(GetSvgNode());
@@ -24,7 +24,6 @@ void RNSVGImageComponentInstance::onPropsChanged(SharedConcreteProps const &prop
     svgImage->align = props->align;
     svgImage->meetOrSlice = props->meetOrSlice;
 }
-
 
 } // namespace svg
 } // namespace rnoh

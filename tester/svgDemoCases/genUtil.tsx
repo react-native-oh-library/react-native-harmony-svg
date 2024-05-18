@@ -449,9 +449,7 @@ export function genAdditionalProps(name: string) {
         onLoad() {
             console.log(`Triggered onLoad of the ${name}`)
         },
-        fallback() {
-            return <Text>this is fallback</Text>
-        }
+        fallback: <Text>fallback:err occured</Text>
     }
 }
 

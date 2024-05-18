@@ -43,7 +43,7 @@ export default function () {
                     <SvgUri
                         width="150"
                         height="70"
-                        uri="https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/debian.svg"
+                        uri="https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/notExist.svg"
                         { ...genAdditionalProps('SvgUri') }
                     />
                 </Item>

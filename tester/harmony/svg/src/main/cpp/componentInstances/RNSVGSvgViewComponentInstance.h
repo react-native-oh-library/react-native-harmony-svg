@@ -32,6 +32,22 @@ public:
 
     // since we can't get color correctly from props
     std::optional<std::string> getColorFromDynamic(folly::dynamic value);
+
+    bool canHandleTouch() const override {
+        if (m_props != nullptr) {
+            auto props = std::dynamic_pointer_cast<const facebook::react::RNSVGSvgViewProps>(m_props);
+            return props->pointerEvents == "auto" || props->pointerEvents == "box-only" || props->pointerEvents.size() == 0;
+        }
+        return true;
+    };
+
+    bool canChildrenHandleTouch() const override {
+        if (m_props != nullptr) {
+            auto props = std::dynamic_pointer_cast<const facebook::react::RNSVGSvgViewProps>(m_props);
+            return props->pointerEvents == "auto" || props->pointerEvents == "box-none" || props->pointerEvents.size() == 0;
+        }
+        return true;
+    };
 };
 
 } // namespace svg

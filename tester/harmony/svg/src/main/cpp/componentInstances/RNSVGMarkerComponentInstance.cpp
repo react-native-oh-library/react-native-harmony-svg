@@ -15,7 +15,7 @@ RNSVGMarkerComponentInstance::RNSVGMarkerComponentInstance(Context context) : RN
     SetSvgNode(std::make_shared<SvgMarker>());
 }
 
-void RNSVGMarkerComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+void RNSVGMarkerComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
 
 
     LOG(INFO) << "[RNSVGMarkerComponentInstance] onPropsChanged markerWidth=" << props->markerWidth

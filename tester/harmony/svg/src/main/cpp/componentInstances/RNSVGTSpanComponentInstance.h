@@ -39,7 +39,7 @@ public:
 
     RNSVGTSpanComponentInstance(Context context);
     
-                      void UpdateSpecialProps(SharedConcreteProps const &props) override;
+                      void UpdateElementProps(SharedConcreteProps const &props) override;
 };
 
 } // namespace svg

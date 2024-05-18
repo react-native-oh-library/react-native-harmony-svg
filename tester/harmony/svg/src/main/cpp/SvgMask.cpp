@@ -32,9 +32,10 @@ void SvgMask::OnDrawTraversedBefore(OH_Drawing_Canvas *canvas) {
     auto width = static_cast<float>(ParseUnitsAttr(width_, nodeBounds.Width()));
     auto height = static_cast<float>(ParseUnitsAttr(height_, nodeBounds.Height()));
     drawing::Rect maskBounds(left, top, width + left, height + top);
+    maskBounds_ = maskBounds;
 
     // create mask layer
-    OH_Drawing_CanvasSaveLayer(canvas, maskBounds.get(), nullptr);
+    OH_Drawing_CanvasSaveLayer(canvas, maskBounds_.get(), nullptr);
     // ready to render mask content
     canvasLayerCount_ = OH_Drawing_CanvasGetSaveCount(canvas);
 

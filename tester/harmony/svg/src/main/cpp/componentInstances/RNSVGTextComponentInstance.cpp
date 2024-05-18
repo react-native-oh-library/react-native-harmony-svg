@@ -11,7 +11,7 @@ RNSVGTextComponentInstance::RNSVGTextComponentInstance(Context context)  : RNSVG
     SetSvgNode(m_svgText);
 }
 
-void RNSVGTextComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+void RNSVGTextComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
           
 
     m_svgText->UpdateFontProps(props);

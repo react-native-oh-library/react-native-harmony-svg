@@ -31,7 +31,7 @@ RNSVGSvgViewAndroidProps::RNSVGSvgViewAndroidProps(const PropsParserContext &con
       meetOrSlice(convertRawProp(context, rawProps, "meetOrSlice", sourceProps.meetOrSlice, {0})),
       tintColor(convertRawProp(context, rawProps, "tintColor", sourceProps.tintColor, {})),
       color(convertRawProp(context, rawProps, "color", sourceProps.color, {})),
-      // // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       hasTVPreferredFocus(
           convertRawProp(context, rawProps, "hasTVPreferredFocus", sourceProps.hasTVPreferredFocus, {false})),
       borderTopEndRadius(
@@ -101,33 +101,31 @@ RNSVGCommonProps::RNSVGCommonProps(const PropsParserContext &context, const RNSV
       strokeMiterlimit(convertRawProp(context, rawProps, "strokeMiterlimit", sourceProps.strokeMiterlimit, {0.0})),
       responsible(convertRawProp(context, rawProps, "responsible", sourceProps.responsible, {false})),
       display(convertRawProp(context, rawProps, "display", sourceProps.display, {})),
+      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
       propList(convertRawProp(context, rawProps, "propList", sourceProps.propList, {})) {}
 RNSVGCircleProps::RNSVGCircleProps(const PropsParserContext &context, const RNSVGCircleProps &sourceProps,
                                    const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       cx(convertRawProp(context, rawProps, "cx", sourceProps.cx, {})),
       cy(convertRawProp(context, rawProps, "cy", sourceProps.cy, {})),
       r(convertRawProp(context, rawProps, "r", sourceProps.r, {})) {}
 RNSVGClipPathProps::RNSVGClipPathProps(const PropsParserContext &context, const RNSVGClipPathProps &sourceProps,
                                        const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       fontSize(convertRawProp(context, rawProps, "fontSize", sourceProps.fontSize, {})),
       fontWeight(convertRawProp(context, rawProps, "fontWeight", sourceProps.fontWeight, {})),
       font(convertRawProp(context, rawProps, "font", sourceProps.font, {})) {}
 RNSVGDefsProps::RNSVGDefsProps(const PropsParserContext &context, const RNSVGDefsProps &sourceProps,
                                const RawProps &rawProps)
-    : RNSVGCommonProps(context, sourceProps, rawProps)
-// pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {}))
+    : RNSVGCommonProps(context, sourceProps, rawProps),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {}))
 {}
 RNSVGEllipseProps::RNSVGEllipseProps(const PropsParserContext &context, const RNSVGEllipseProps &sourceProps,
                                      const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       cx(convertRawProp(context, rawProps, "cx", sourceProps.cx, {})),
       cy(convertRawProp(context, rawProps, "cy", sourceProps.cy, {})),
       rx(convertRawProp(context, rawProps, "rx", sourceProps.rx, {})),
@@ -135,8 +133,7 @@ RNSVGEllipseProps::RNSVGEllipseProps(const PropsParserContext &context, const RN
 RNSVGForeignObjectProps::RNSVGForeignObjectProps(const PropsParserContext &context,
                                                  const RNSVGForeignObjectProps &sourceProps, const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       fontSize(convertRawProp(context, rawProps, "fontSize", sourceProps.fontSize, {})),
       fontWeight(convertRawProp(context, rawProps, "fontWeight", sourceProps.fontWeight, {})),
       font(convertRawProp(context, rawProps, "font", sourceProps.font, {})),
@@ -147,16 +144,14 @@ RNSVGForeignObjectProps::RNSVGForeignObjectProps(const PropsParserContext &conte
 RNSVGGroupProps::RNSVGGroupProps(const PropsParserContext &context, const RNSVGGroupProps &sourceProps,
                                  const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       fontSize(convertRawProp(context, rawProps, "fontSize", sourceProps.fontSize, {})),
       fontWeight(convertRawProp(context, rawProps, "fontWeight", sourceProps.fontWeight, {})),
       font(convertRawProp(context, rawProps, "font", sourceProps.font, {})) {}
 RNSVGImageProps::RNSVGImageProps(const PropsParserContext &context, const RNSVGImageProps &sourceProps,
                                  const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       x(convertRawProp(context, rawProps, "x", sourceProps.x, {})),
       y(convertRawProp(context, rawProps, "y", sourceProps.y, {})),
       width(convertRawProp(context, rawProps, "width", sourceProps.width, {})),
@@ -177,14 +172,14 @@ RNSVGSvgViewProps::RNSVGSvgViewProps(const PropsParserContext &context, const RN
       align(convertRawProp(context, rawProps, "align", sourceProps.align, {})),
       meetOrSlice(convertRawProp(context, rawProps, "meetOrSlice", sourceProps.meetOrSlice, {0})),
       tintColor(convertRawProp(context, rawProps, "tintColor", sourceProps.tintColor, {})),
-      color(convertRawProp(context, rawProps, "color", sourceProps.color, {}))
-// pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {}))
+      color(convertRawProp(context, rawProps, "color", sourceProps.color, {})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {}))
 {}
 RNSVGLinearGradientProps::RNSVGLinearGradientProps(const PropsParserContext &context,
                                                    const RNSVGLinearGradientProps &sourceProps,
                                                    const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       x1(convertRawProp(context, rawProps, "x1", sourceProps.x1, {})),
       y1(convertRawProp(context, rawProps, "y1", sourceProps.y1, {})),
       x2(convertRawProp(context, rawProps, "x2", sourceProps.x2, {})),
@@ -195,8 +190,7 @@ RNSVGLinearGradientProps::RNSVGLinearGradientProps(const PropsParserContext &con
 RNSVGLineProps::RNSVGLineProps(const PropsParserContext &context, const RNSVGLineProps &sourceProps,
                                const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       x1(convertRawProp(context, rawProps, "x1", sourceProps.x1, {})),
       y1(convertRawProp(context, rawProps, "y1", sourceProps.y1, {})),
       x2(convertRawProp(context, rawProps, "x2", sourceProps.x2, {})),
@@ -204,8 +198,7 @@ RNSVGLineProps::RNSVGLineProps(const PropsParserContext &context, const RNSVGLin
 RNSVGMarkerProps::RNSVGMarkerProps(const PropsParserContext &context, const RNSVGMarkerProps &sourceProps,
                                    const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       fontSize(convertRawProp(context, rawProps, "fontSize", sourceProps.fontSize, {})),
       fontWeight(convertRawProp(context, rawProps, "fontWeight", sourceProps.fontWeight, {})),
       font(convertRawProp(context, rawProps, "font", sourceProps.font, {})),
@@ -224,8 +217,7 @@ RNSVGMarkerProps::RNSVGMarkerProps(const PropsParserContext &context, const RNSV
 RNSVGMaskProps::RNSVGMaskProps(const PropsParserContext &context, const RNSVGMaskProps &sourceProps,
                                const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       fontSize(convertRawProp(context, rawProps, "fontSize", sourceProps.fontSize, {})),
       fontWeight(convertRawProp(context, rawProps, "fontWeight", sourceProps.fontWeight, {})),
       font(convertRawProp(context, rawProps, "font", sourceProps.font, {})),
@@ -238,14 +230,12 @@ RNSVGMaskProps::RNSVGMaskProps(const PropsParserContext &context, const RNSVGMas
 RNSVGPathProps::RNSVGPathProps(const PropsParserContext &context, const RNSVGPathProps &sourceProps,
                                const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       d(convertRawProp(context, rawProps, "d", sourceProps.d, {})) {}
 RNSVGPatternProps::RNSVGPatternProps(const PropsParserContext &context, const RNSVGPatternProps &sourceProps,
                                      const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       fontSize(convertRawProp(context, rawProps, "fontSize", sourceProps.fontSize, {})),
       fontWeight(convertRawProp(context, rawProps, "fontWeight", sourceProps.fontWeight, {})),
       font(convertRawProp(context, rawProps, "font", sourceProps.font, {})),
@@ -267,7 +257,7 @@ RNSVGRadialGradientProps::RNSVGRadialGradientProps(const PropsParserContext &con
                                                    const RNSVGRadialGradientProps &sourceProps,
                                                    const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       fx(convertRawProp(context, rawProps, "fx", sourceProps.fx, {})),
       fy(convertRawProp(context, rawProps, "fy", sourceProps.fy, {})),
       cx(convertRawProp(context, rawProps, "cx", sourceProps.cx, {})),
@@ -280,8 +270,7 @@ RNSVGRadialGradientProps::RNSVGRadialGradientProps(const PropsParserContext &con
 RNSVGRectProps::RNSVGRectProps(const PropsParserContext &context, const RNSVGRectProps &sourceProps,
                                const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       x(convertRawProp(context, rawProps, "x", sourceProps.x, {})),
       y(convertRawProp(context, rawProps, "y", sourceProps.y, {})),
       height(convertRawProp(context, rawProps, "height", sourceProps.height, {})),
@@ -291,8 +280,7 @@ RNSVGRectProps::RNSVGRectProps(const PropsParserContext &context, const RNSVGRec
 RNSVGSymbolProps::RNSVGSymbolProps(const PropsParserContext &context, const RNSVGSymbolProps &sourceProps,
                                    const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       fontSize(convertRawProp(context, rawProps, "fontSize", sourceProps.fontSize, {})),
       fontWeight(convertRawProp(context, rawProps, "fontWeight", sourceProps.fontWeight, {})),
       font(convertRawProp(context, rawProps, "font", sourceProps.font, {})),
@@ -305,8 +293,7 @@ RNSVGSymbolProps::RNSVGSymbolProps(const PropsParserContext &context, const RNSV
 RNSVGTextProps::RNSVGTextProps(const PropsParserContext &context, const RNSVGTextProps &sourceProps,
                                const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       fontSize(convertRawProp(context, rawProps, "fontSize", sourceProps.fontSize, {})),
       fontWeight(convertRawProp(context, rawProps, "fontWeight", sourceProps.fontWeight, {})),
       font(convertRawProp(context, rawProps, "font", sourceProps.font, {})),
@@ -324,8 +311,7 @@ RNSVGTextProps::RNSVGTextProps(const PropsParserContext &context, const RNSVGTex
 RNSVGTextPathProps::RNSVGTextPathProps(const PropsParserContext &context, const RNSVGTextPathProps &sourceProps,
                                        const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       fontSize(convertRawProp(context, rawProps, "fontSize", sourceProps.fontSize, {})),
       fontWeight(convertRawProp(context, rawProps, "fontWeight", sourceProps.fontWeight, {})),
       font(convertRawProp(context, rawProps, "font", sourceProps.font, {})),
@@ -349,8 +335,7 @@ RNSVGTextPathProps::RNSVGTextPathProps(const PropsParserContext &context, const 
 RNSVGTSpanProps::RNSVGTSpanProps(const PropsParserContext &context, const RNSVGTSpanProps &sourceProps,
                                  const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       fontSize(convertRawProp(context, rawProps, "fontSize", sourceProps.fontSize, {})),
       fontWeight(convertRawProp(context, rawProps, "fontWeight", sourceProps.fontWeight, {})),
       font(convertRawProp(context, rawProps, "font", sourceProps.font, {})),
@@ -369,8 +354,7 @@ RNSVGTSpanProps::RNSVGTSpanProps(const PropsParserContext &context, const RNSVGT
 RNSVGUseProps::RNSVGUseProps(const PropsParserContext &context, const RNSVGUseProps &sourceProps,
                              const RawProps &rawProps)
     : RNSVGCommonProps(context, sourceProps, rawProps),
-      // pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
-      vectorEffect(convertRawProp(context, rawProps, "vectorEffect", sourceProps.vectorEffect, {0})),
+      pointerEvents(convertRawProp(context, rawProps, "pointerEvents", sourceProps.pointerEvents, {})),
       href(convertRawProp(context, rawProps, "href", sourceProps.href, {})),
       x(convertRawProp(context, rawProps, "x", sourceProps.x, {})),
       y(convertRawProp(context, rawProps, "y", sourceProps.y, {})),

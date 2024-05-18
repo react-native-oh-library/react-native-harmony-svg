@@ -19,7 +19,7 @@ class RNSVGSvgViewJSIBinder : public ViewComponentJSIBinder {
         object.setProperty(rt, "meetOrSlice", true);
         object.setProperty(rt, "tintColor", true);
         object.setProperty(rt, "color", true);
-//         object.setProperty(rt, "pointerEvents", true);
+        object.setProperty(rt, "pointerEvents", true);
         return object;
     }
 

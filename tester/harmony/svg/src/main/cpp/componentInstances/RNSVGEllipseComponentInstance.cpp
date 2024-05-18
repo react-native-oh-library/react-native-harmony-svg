@@ -10,7 +10,7 @@ RNSVGEllipseComponentInstance::RNSVGEllipseComponentInstance(Context context)  :
     SetSvgNode(std::make_shared<SvgEllipse>());
 }
 
-void RNSVGEllipseComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+void RNSVGEllipseComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
           LOG(INFO) << "[SvgEllipse] cx: " << props->cx;
     LOG(INFO) << "[SvgEllipse] cy: " << props->cy;
     LOG(INFO) << "[SvgEllipse] rx: " << props->rx;

@@ -13,7 +13,7 @@ RNSVGMaskComponentInstance::RNSVGMaskComponentInstance(Context context)  : RNSVG
     SetSvgNode(std::make_shared<SvgMask>());
 }
 
-void RNSVGMaskComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+void RNSVGMaskComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
          LOG(INFO) << "[RNSVGMaskComponentInstance] onPropsChanged: " << props->x;
     LOG(INFO) << "[RNSVGMaskComponentInstance] onPropsChanged: " << props->y;
     LOG(INFO) << "[RNSVGMaskComponentInstance] onPropsChanged: " << props->height;
@@ -28,11 +28,7 @@ void RNSVGMaskComponentInstance::UpdateSpecialProps(SharedConcreteProps const &p
     svgMask->setMaskWidth(StringUtils::FromString(props->width));
     svgMask->isDefaultMaskUnits(props->maskUnits == 0); // means objectBoundingBox
     svgMask->isDefaultMaskContentUnits(props->maskContentUnits == 1);// means userSpaceOnUse
-
-	 
-  
 }
-
 
 } // namespace svg
 } // namespace rnoh

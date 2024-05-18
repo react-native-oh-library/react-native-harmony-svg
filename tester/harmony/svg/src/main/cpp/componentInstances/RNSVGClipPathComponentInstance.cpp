@@ -11,7 +11,7 @@ RNSVGClipPathComponentInstance::RNSVGClipPathComponentInstance(Context context) 
     SetSvgNode(std::make_shared<SvgClipPath>());
 }
 
-void RNSVGClipPathComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+void RNSVGClipPathComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
     LOG(INFO) << "[RNSVGClipPathComponentInstance] onPropsChanged props name = " << props->name;
 }
 

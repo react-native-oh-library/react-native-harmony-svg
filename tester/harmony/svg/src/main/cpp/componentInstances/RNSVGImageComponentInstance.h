@@ -29,12 +29,12 @@
 namespace rnoh {
 namespace svg {
 
-class RNSVGImageComponentInstance : public CppComponentInstance<facebook::react::RNSVGImageShadowNode>, public SvgHost {
+class RNSVGImageComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGImageShadowNode> {
  
 public:
     RNSVGImageComponentInstance(Context context);
          
-     void UpdateSpecialProps(SharedConcreteProps const &props) override;
+    void UpdateElementProps(SharedConcreteProps const &props) override;
 };
 
 } // namespace svg

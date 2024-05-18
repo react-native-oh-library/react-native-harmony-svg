@@ -10,11 +10,11 @@ RNSVGCircleComponentInstance::RNSVGCircleComponentInstance(Context context) : RN
     SetSvgNode(std::make_shared<SvgCircle>());
 }
 
-void RNSVGCircleComponentInstance::UpdateSpecialProps(SharedConcreteProps const &props) {
+void RNSVGCircleComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
     LOG(INFO) << "[RNSVGCircleComponentInstance] cx: " << props->cx;
     LOG(INFO) << "[RNSVGCircleComponentInstance] cy: " << props->cy;
     LOG(INFO) << "[RNSVGCircleComponentInstance] r: " << props->r;
-    LOG(INFO) << "[RNSVGCircleComponentInstance] r: " << props->opacity;
+    LOG(INFO) << "[RNSVGCircleComponentInstance] opacity: " << props->opacity;
     LOG(INFO) << "[RNSVGCircleComponentInstance] fill.payload: " << (uint32_t)*props->fill.payload;
     LOG(INFO) << "[RNSVGCircleComponentInstance] mask: " << props->mask;
     LOG(INFO) << "[SVG] <RNSVGCircleComponentInstance> propList size = " << props->propList.size();

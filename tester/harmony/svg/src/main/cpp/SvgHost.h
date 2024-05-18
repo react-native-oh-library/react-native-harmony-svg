@@ -10,7 +10,7 @@ class SvgHost {
      SvgHost() = default;
      virtual ~SvgHost() = default;
      void SetSvgNode(const std::shared_ptr<SvgNode> &svgNode) { m_svgNode = svgNode; };
-     const std::shared_ptr<SvgNode> &GetSvgNode() { return m_svgNode; };
+     const std::shared_ptr<SvgNode> &GetSvgNode() const { return m_svgNode; };
 
      void OnChildInsertCommon(const std::shared_ptr<SvgHost> &childSvgHost);
 

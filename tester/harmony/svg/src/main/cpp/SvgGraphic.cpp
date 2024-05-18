@@ -39,6 +39,7 @@ void SvgGraphic::OnDraw(OH_Drawing_Canvas *canvas) {
     //     OH_Drawing_PenReset(strokePen_.get());
     // 获取子类的绘制路径。
     path_ = AsPath();
+    if (attributes_.strokeState.GetVectorEffect()) {}
     UpdateGradient();
     if (UpdateFillStyle()) {
         OnGraphicFill(canvas);

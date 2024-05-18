@@ -2,7 +2,7 @@ import React from "react";
 // import  from 'react-native-svg'
 import { Circle, Rect } from 'react-native-svg'
 import { GenMain } from './gen'
-import { genTransformProps, genStrokeProps, genFillProps, genViewProps, CaseParams } from '../genUtil'
+import { genTransformProps, genStrokeProps, genFillProps, genViewProps, genResponderProps, genTouchableProps, CaseParams } from '../genUtil'
 const basicProps = {
     title: 'I am Svg',
     width: '70',
@@ -63,6 +63,9 @@ const allCases = [
     ...genViewProps(),
 ]
 
+const bindFunc = {
+    ...genTouchableProps('Svg'),
+  };
 
 export default function () {
     return (
@@ -71,6 +74,7 @@ export default function () {
             basicProps={basicProps}
             comName='Svg'
             noSvg={true}
+            bindFunc={bindFunc}
             renderComChildren={<Circle cx="50" cy="50" r="40" />}
         >
         </GenMain>

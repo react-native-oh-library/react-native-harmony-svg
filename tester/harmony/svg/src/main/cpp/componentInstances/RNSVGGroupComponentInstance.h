@@ -8,12 +8,11 @@ namespace rnoh {
 namespace svg {
 class RNSVGGroupComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGGroupShadowNode> {
 
- 
 
 public:
     RNSVGGroupComponentInstance(Context context);
     
-    void UpdateSpecialProps(SharedConcreteProps const &props) override;
+    void UpdateElementProps(SharedConcreteProps const &props) override;
 };
 
 } // namespace svg

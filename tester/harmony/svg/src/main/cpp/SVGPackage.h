@@ -127,6 +127,9 @@ public:
 class SVGPackage : public Package {
 public:
     explicit SVGPackage(Package::Context ctx) : Package(ctx) {}
+    
+    std::unique_ptr<TurboModuleFactoryDelegate> createTurboModuleFactoryDelegate()
+      override;
 
     ComponentInstanceFactoryDelegate::Shared createComponentInstanceFactoryDelegate() override {
         return std::make_shared<SVGPackageComponentInstanceFactoryDelegate>();

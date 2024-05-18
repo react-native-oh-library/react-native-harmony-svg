@@ -34,8 +34,7 @@ class RNSVGClipPathComponentInstance : public RNSVGBaseComponentInstance<faceboo
 public:
     RNSVGClipPathComponentInstance(Context context);
 
-
-    void UpdateSpecialProps(SharedConcreteProps const &props) override;
+    void UpdateElementProps(SharedConcreteProps const &props) override;
 };
 
 } // namespace svg

@@ -31,12 +31,11 @@ namespace rnoh {
 namespace svg {
 class RNSVGLinearGradientComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGLinearGradientShadowNode> {
 
- 
 
 public:
     RNSVGLinearGradientComponentInstance(Context context);
          
-     void UpdateSpecialProps(SharedConcreteProps const &props) override;
+     void UpdateElementProps(SharedConcreteProps const &props) override;
 };
 
 } // namespace svg
