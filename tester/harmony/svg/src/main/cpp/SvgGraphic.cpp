@@ -215,10 +215,8 @@ void SvgGraphic::SetGradientStyle(double opacity) {
             {static_cast<float>(info.x1), static_cast<float>(info.y1)},
             {static_cast<float>(info.x2), static_cast<float>(info.y2)},
         };
-        OH_Drawing_BrushSetShaderEffect(
-            fillBrush_.get(), OH_Drawing_ShaderEffectCreateLinearGradientWithLocalMatrix(
-                            &ptsPoint2D[0], &ptsPoint2D[1], colors.data(), pos.data(), colors.size(),
-                            static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()), transMatrix));
+        fillBrush_.SetLinearShaderEffect(&ptsPoint2D[0], &ptsPoint2D[1], colors.data(), pos.data(), colors.size(),
+            static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()), transMatrix);
     }
     if (gradient->GetType() == GradientType::RADIAL && gradient->IsValid()) {
         auto info = gradient->GetRadialGradientInfo();
@@ -229,11 +227,8 @@ void SvgGraphic::SetGradientStyle(double opacity) {
         OH_Drawing_Point2D center = {static_cast<float>(info.cx), static_cast<float>(info.cy)};
         OH_Drawing_Matrix *concatMatrix = OH_Drawing_MatrixCreate();
         OH_Drawing_MatrixConcat(concatMatrix, scaleMatrix, transMatrix);
-//         OH_Drawing_BrushSetShaderEffect(fillBrush_.get(), OH_Drawing_ShaderEffectCreateTwoPointConicalGradient(
-//                                                         &focal, 0, &center, info.rx > info.ry ? info.rx : info.ry,
-//                                                         colors.data(), pos.data(), colors.size(),
-//                                                         static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()),
-//                                                         concatMatrix));
+        fillBrush_.SetRadialShaderEffect(&focal, 0, &center, info.rx > info.ry ? info.rx : info.ry, colors.data(),
+            pos.data(), colors.size(), static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()), concatMatrix);
         OH_Drawing_MatrixDestroy(concatMatrix);
         OH_Drawing_MatrixDestroy(scaleMatrix);
     }
@@ -338,10 +333,8 @@ void SvgGraphic::SetPatternStyle() {
 
     OH_Drawing_SamplingOptions *opt = OH_Drawing_SamplingOptionsCreate(OH_Drawing_FilterMode::FILTER_MODE_LINEAR,
                                                                        OH_Drawing_MipmapMode::MIPMAP_MODE_NONE);
-    OH_Drawing_ShaderEffect *imageShader = OH_Drawing_ShaderEffectCreateImageShader(
-        image, OH_Drawing_TileMode::REPEAT, OH_Drawing_TileMode::REPEAT, opt, matrix);
     OH_Drawing_BrushReset(fillBrush_.get());
-    OH_Drawing_BrushSetShaderEffect(fillBrush_.get(), imageShader);
+    fillBrush_.SetImageShaderEffect(image, OH_Drawing_TileMode::REPEAT, OH_Drawing_TileMode::REPEAT, opt, matrix);
 
     OH_Drawing_CanvasDestroy(canvas);
     OH_Drawing_BitmapDestroy(bitmap);
