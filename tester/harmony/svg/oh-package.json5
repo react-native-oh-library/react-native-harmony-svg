@@ -6,6 +6,6 @@
   name: '@react-native-oh-tpl/react-native-svg',
   type: 'module',
   main: 'index.ets',
-  version: '13.14.0-0.3.6',
+  version: '13.14.0-0.3.7',
   dependencies: {},
 }
