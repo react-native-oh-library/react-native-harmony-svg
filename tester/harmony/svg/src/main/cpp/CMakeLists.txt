@@ -14,5 +14,3 @@ file(GLOB rnoh_svg_SRC CONFIGURE_DEPENDS
 add_library(rnoh_svg SHARED ${rnoh_svg_SRC})
 target_include_directories(rnoh_svg PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(rnoh_svg PUBLIC rnoh)
-target_link_libraries(rnoh_svg PUBLIC libimage_source.so)
-target_link_libraries(rnoh_svg PUBLIC libpixelmap.so)
