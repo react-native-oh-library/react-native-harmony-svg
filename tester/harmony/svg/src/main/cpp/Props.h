@@ -158,7 +158,7 @@ public:
     int meetOrSlice{0};
     SharedColor tintColor{};
     SharedColor color{};
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     bool hasTVPreferredFocus{false};
     Float borderTopEndRadius{0.0};
     Float borderBottomStartRadius{0.0};
@@ -238,7 +238,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string cx{};
     std::string cy{};
     std::string r{};
@@ -335,7 +335,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGClipPathFontStruct font{};
@@ -350,7 +350,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
 };
 
 
@@ -364,7 +364,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string cx{};
     std::string cy{};
     std::string rx{};
@@ -464,7 +464,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGForeignObjectFontStruct font{};
@@ -564,7 +564,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGGroupFontStruct font{};
@@ -580,7 +580,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string x{};
     std::string y{};
     std::string width{};
@@ -608,7 +608,7 @@ public:
     int meetOrSlice{0};
     SharedColor tintColor{};
     SharedColor color{};
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
 };
 
 class JSI_EXPORT RNSVGLinearGradientProps final : public RNSVGCommonProps {
@@ -621,7 +621,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string x1{};
     std::string y1{};
     std::string x2{};
@@ -641,7 +641,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string x1{};
     std::string y1{};
     std::string x2{};
@@ -738,7 +738,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGMarkerFontStruct font{};
@@ -845,7 +845,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGMaskFontStruct font{};
@@ -867,7 +867,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string d{};
 };
 
@@ -962,7 +962,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGPatternFontStruct font{};
@@ -991,7 +991,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string fx{};
     std::string fy{};
     std::string cx{};
@@ -1013,7 +1013,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string x{};
     std::string y{};
     std::string height{};
@@ -1112,7 +1112,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGSymbolFontStruct font{};
@@ -1222,7 +1222,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGTextFontStruct font{};
@@ -1330,7 +1330,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGTextPathFontStruct font{};
@@ -1443,7 +1443,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGTSpanFontStruct font{};
@@ -1471,7 +1471,7 @@ public:
 
 
 
-    // std::string pointerEvents{};
+    std::string pointerEvents{};
     std::string href{};
     std::string x{};
     std::string y{};

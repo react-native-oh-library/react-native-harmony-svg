@@ -20,7 +20,7 @@ class RNSVGMaskJSIBinder : public ViewComponentJSIBinder {
         object.setProperty(rt, "clipRule", true);
         object.setProperty(rt, "responsible", true);
         object.setProperty(rt, "display", true);
-//         object.setProperty(rt, "pointerEvents", true);
+        object.setProperty(rt, "pointerEvents", true);
         object.setProperty(rt, "fill", "Object");
         object.setProperty(rt, "fillOpacity", true);
         object.setProperty(rt, "fillRule", true);

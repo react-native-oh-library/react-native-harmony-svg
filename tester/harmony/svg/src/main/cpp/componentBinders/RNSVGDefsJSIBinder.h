@@ -20,7 +20,7 @@ class RNSVGDefsJSIBinder : public ViewComponentJSIBinder {
         object.setProperty(rt, "clipRule", true);
         object.setProperty(rt, "responsible", true);
         object.setProperty(rt, "display", true);
-//         object.setProperty(rt, "pointerEvents", true);
+        object.setProperty(rt, "pointerEvents", true);
         return object;
     }
 
