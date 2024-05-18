@@ -109,6 +109,8 @@ protected:
     std::string imagePath_;
     // TODO get densityPixels in CAPI
     double scale_ = 3.25;
+    
+    drawing::Matrix cTM_;
 
     bool display_ = true;
 

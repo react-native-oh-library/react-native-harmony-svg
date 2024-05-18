@@ -109,15 +109,13 @@ void SvgNode::OnMask(OH_Drawing_Canvas *canvas) {
 void SvgNode::OnTransform(OH_Drawing_Canvas *canvas) {
     // input transfrom: (float scaleX, float skewY, float skewX, float scaleY, float transX, float transY)
     const auto &transform = attributes_.transform;
-    auto *matrix = OH_Drawing_MatrixCreate();
     /*
     /* (OH_Drawing_Matrix* , float scaleX, float skewX, float transX, float skewY, float scaleY, float transY, float
     persp0, float persp1, float persp2 )
     */
-    OH_Drawing_MatrixSetMatrix(matrix, transform[0], transform[2], transform[4] * scale_, transform[1], transform[3],
-                               transform[5] * scale_, 0, 0, 1.0);
-    OH_Drawing_CanvasConcatMatrix(canvas, matrix);
-    OH_Drawing_MatrixDestroy(matrix);
+    cTM_.SetMatrix(transform[0], transform[2], transform[4] * scale_, transform[1], transform[3], transform[5] * scale_,
+                   0, 0, 1.0);
+    OH_Drawing_CanvasConcatMatrix(canvas, cTM_.get());
 }
 
 std::optional<Gradient> SvgNode::GetGradient(const std::string &href) {

@@ -736,6 +736,14 @@ inline std::vector<double> stringVectorToDoubleVector(const std::vector<std::str
     }
     return doubleVec;
 }
+
+inline std::string doubleVectorToString(const std::vector<double>& doubleVec) {
+    std::ostringstream oss;
+    for (const double &num : doubleVec) {
+            oss << num << ", "; // 将每个元素转换为字符串并拼接到流中
+    }
+    return oss.str(); // 将流中的内容转换为字符串并返回
+}
 }
 
 } // namespace svg
