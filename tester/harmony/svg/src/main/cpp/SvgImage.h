@@ -24,6 +24,7 @@
 #include <multimedia/image_framework/image_pixel_map_mdk.h>
 
 namespace rnoh {
+namespace svg {
 
 class SvgImage : public svg::SvgGraphic {
 public:
@@ -43,6 +44,7 @@ public:
 
 };
 
+} // namespace svg
 } // namespace rnoh
 
 #endif //HARMONY_SVGIMAGE_H
