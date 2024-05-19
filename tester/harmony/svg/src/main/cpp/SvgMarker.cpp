@@ -7,6 +7,7 @@
 #include "SvgMarker.h"
 #include "properties/Rect.h"
 #include "properties/ViewBox.h"
+#include "utils/Utils.h"
 #include <string>
 #include <cstdlib>
 #include <cmath>
@@ -20,35 +21,34 @@ namespace svg {
         const auto count = OH_Drawing_CanvasGetSaveCount(canvas);
         saveAndSetupCanvas(canvas, mCTM);
     
-        if(markerTransform == nullptr) {
-            markerTransform = OH_Drawing_MatrixCreate();
-        }else {
+        if(markerTransform != nullptr) {
             OH_Drawing_MatrixDestroy(markerTransform);
-            markerTransform = OH_Drawing_MatrixCreate();
         }
-        Point origin = position.origin;
+        markerTransform = OH_Drawing_MatrixCreate();
+        Point origin = {vpToPx(position.origin.x), vpToPx(position.origin.y)};//position.origin;
         OH_Drawing_MatrixTranslate(markerTransform, origin.x, origin.y);
         double markerAngle = (mOrient == "auto") ? -1 : std::atof(mOrient.c_str());
         float degrees = 180 + (markerAngle == -1 ? position.angle : static_cast<float>(markerAngle));
-    
-        OH_Drawing_MatrixPreRotate(markerTransform, degrees, origin.x, origin.y);
+        //fix me? float rad = deg2rad(angle); this code only in ios
+        //degrees = SvgMarkerPositionUtils::deg2rad(degrees);
+        OH_Drawing_MatrixPreRotate(markerTransform, degrees, 0, 0);
 
         if(mMarkerUnits == "strokeWidth"){
-            OH_Drawing_MatrixPreScale(markerTransform, strokeWidth / scale_, strokeWidth / scale_, origin.x, origin.y);
+            OH_Drawing_MatrixPreScale(markerTransform, strokeWidth / scale_, strokeWidth / scale_, 0, 0);
         }
-        double width = mMarkerWidth;
-        double height = mMarkerHeight;
-        Rect eRect(0, 0, width, height);
         if(!mAlign.empty()){
-            Rect vbRect(mMinX * scale_, mMinY * scale_, (mMinX + mVbWidth) * scale_, (mMinY + mVbHeight) * scale_);
+            double width = vpToPx(mMarkerWidth);
+            double height = vpToPx(mMarkerHeight);
+            Rect eRect(0, 0, width, height);
+            Rect vbRect(vpToPx(mMinX), vpToPx(mMinY), vpToPx(mMinX + mVbWidth), vpToPx(mMinY + mVbHeight));
             OH_Drawing_Matrix* viewBoxMatrix = ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
             float sx = OH_Drawing_MatrixGetValue(viewBoxMatrix, 0);
             float sy = OH_Drawing_MatrixGetValue(viewBoxMatrix, 4);
-            OH_Drawing_MatrixPreScale(markerTransform, sx, sy, origin.x, origin.y);
+            OH_Drawing_MatrixPreScale(markerTransform, sx, sy, 0, 0);
         }
     
-        double x = mRefX * scale_;
-        double y = mRefY * scale_;
+        double x = vpToPx(mRefX);
+        double y = vpToPx(mRefY);
         OH_Drawing_MatrixPreTranslate(markerTransform, -x, -y);
         OH_Drawing_CanvasConcatMatrix(canvas, markerTransform);
         
