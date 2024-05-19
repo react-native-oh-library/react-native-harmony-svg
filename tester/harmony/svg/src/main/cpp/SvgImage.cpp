@@ -17,6 +17,7 @@
 #include "utils/StringUtils.h"
 
 namespace rnoh {
+namespace svg {
 void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
     x = svg::vpToPx(x), y = svg::vpToPx(y), width = svg::vpToPx(width), height = svg::vpToPx(height);
     if (src.uri.size() != 0) {
@@ -116,4 +117,6 @@ void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
         OH_DecodingOptions_Release(options);
     }
 }
+
+} // namespace svg
 } // namespace rnoh
