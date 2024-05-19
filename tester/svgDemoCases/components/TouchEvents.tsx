@@ -10,7 +10,8 @@ import {
   Defs,
   ClipPath,
 } from 'react-native-svg';
-import {Alert, View} from 'react-native';
+import {Alert, View, ScrollView} from 'react-native';
+import {Tester, Filter, TestCase, TestSuite} from '@rnoh/testerino';
 
 class PressExample extends Component {
   static title =
@@ -75,7 +76,7 @@ class GroupExample extends Component {
   static title = 'Bind touch events callback on Group element with viewBox';
   render() {
     return (
-      <Svg height="120" width="120" viewBox="0 0 240 240">
+      <Svg height="240" width="240" viewBox="0 0 240 240">
         <G onPress={() => Alert.alert('Pressed on G')} scale="1.4">
           <Circle cx="80" cy="80" r="30" fill="green" x="20" scale="1.2" />
           <Text
@@ -119,10 +120,18 @@ export {icon, samples};
 
 export default function () {
   return (
-    <View>
-      <PressExample />
-      <HoverExample />
-      <GroupExample />
-    </View>
-  )
+    <Tester style={{flex: 1}}>
+      <ScrollView>
+        <TestCase itShould="Press on the red circle or long press on the blue rectangle to trigger the events">
+          <PressExample />
+        </TestCase>
+        <TestCase itShould="Hover the svg path">
+          <HoverExample />
+        </TestCase>
+        <TestCase itShould="Bind touch events callback on Group element with viewBox">
+          <GroupExample />
+        </TestCase>
+      </ScrollView>
+    </Tester>
+  );
 }
