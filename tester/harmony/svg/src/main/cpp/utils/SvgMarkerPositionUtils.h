@@ -75,6 +75,12 @@ namespace SvgMarkerPositionUtils{
 
     static bool auto_start_reverse_; // TODO
 
+    //ios only, use in renderMarker.
+    inline double deg2rad(double deg) {
+        const double RNSVG_degToRad = M_PI / 180.0;
+        return deg * RNSVG_degToRad;
+    }
+
     inline double rad2deg(double rad) {
         const double RNSVG_radToDeg = 180.0 / M_PI;
         return rad * RNSVG_radToDeg;

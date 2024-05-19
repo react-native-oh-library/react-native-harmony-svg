@@ -30,8 +30,8 @@ class EllipseExample extends Component {
             refY="0"
             orient="auto">
             <Circle
-              fill="none"
-              r={5}
+              fill="skyblue"
+              r={8}
               cx={0}
               cy={0}
               strokeWidth={1}
@@ -77,7 +77,9 @@ class EllipseExample extends Component {
           stroke="purple"
           strokeWidth="2"
           fill="yellow"
-          marker="url(#selection1)"
+          markerStart="url(#selection1)"
+          markerMid="url(#selection2)"
+          markerEnd="url(#selection3)"
         />
       </Svg>
     );
@@ -208,13 +210,13 @@ class PathPathExample extends Component {
   static title = 'Ellipse shaped marker on rect';
   render() {
     return (
-      <Svg width="400" height="200" viewBox="0 0 400 200">
+      <Svg width="400" height="200" viewBox="0 0 4000 2000">
         <Defs>
           <Marker
             id="Triangle"
-            viewBox="0 0 5 5"
-            refX="-187"
-            refY="3"
+            viewBox="0 0 10 10"
+            refX="0"
+            refY="5"
             markerUnits="strokeWidth"
             markerWidth="4"
             markerHeight="3"
@@ -225,17 +227,17 @@ class PathPathExample extends Component {
         <Rect
           x="10"
           y="10"
-          width="330"
-          height="180"
+          width="3980"
+          height="1980"
           fill="none"
           stroke="blue"
-          strokeWidth="1"
+          strokeWidth="10"
         />
         <Path
-          d="M 100 75 L 200 75 L 250 125"
+          d="M 1000 750 L 2000 750 L 2500 1250"
           fill="none"
           stroke="black"
-          strokeWidth="5"
+          strokeWidth="100"
           markerEnd="url(#Triangle)"
         />
       </Svg>
@@ -253,11 +255,11 @@ class LineExample extends Component {
         <Defs>
           <Marker
             id="selection"
-            viewBox="0 0 2 1"
+            // viewBox="0 0 2 1"
             markerUnits="userSpaceOnUse"
-            refX="-15"
-            refY="10"
-            preserveAspectRatio="xMinYMax slice"
+            // refX="-10"
+            // refY="5"
+            // preserveAspectRatio="xMinYMax slice"
             orient="auto">
             <Polygon
               points="0,0 -5,20 10,30"
@@ -285,16 +287,18 @@ class PathExample extends Component {
   static title = 'Path shaped marker on line';
   render() {
     return (
-      <Svg height="200" width="400" viewBox="0 0 300 100">
+      <Svg height="200" width="400">
         <Defs>
           <Marker
             id="arrow"
-            viewBox="0 0 6 6"
-            refX="0"
-            refY="0"
-            markerWidth="6"
-            markerHeight="6"
+            userSpaceOnUse="userSpaceOnUse"
+            // viewBox="0 0 6 6"
+            // refX="0"
+            // refY="0"
+            // markerWidth="4"
+            // markerHeight="4"
             // orient="auto-start-reverse"
+            // orient="auto"
           >
             <Path fill="blue" d="M 0 0 L 10 5 L 0 10 z" />
           </Marker>
@@ -322,16 +326,16 @@ class RNLineExample extends Component {
             <RNSVGMarker
               name="selection"
               markerUnits="userSpaceOnUse"
-              refX="-15"
-              refY="10"
-              markerWidth="3"
-              markerHeight="3"
-              minX={0}
-              minY={0}
-              vbWidth={1}
-              vbHeight={1}
-              align="xMidYMid"
-              meetOrSlice={2}
+              // refX="-15"
+              // refY="10"
+              // markerWidth="3"
+              // markerHeight="3"
+              // minX={0}
+              // minY={0}
+              // vbWidth={1}
+              // vbHeight={1}
+              // align="xMidYMid"
+              // meetOrSlice={2}
               orient="auto">
               <Polygon
                 points="0,0 -5,20 10,30"
@@ -423,7 +427,7 @@ export default function () {
     return (
         <Tester style={{flex: 1}}>
              <ScrollView>
-              <TestCase itShould="case1: Circle shaped marker on ellipse">
+                <TestCase itShould="case1: Circle shaped marker on ellipse">
                     <EllipseExample />
                 </TestCase>
                <TestCase itShould="case2: Rect shaped marker on circle">
