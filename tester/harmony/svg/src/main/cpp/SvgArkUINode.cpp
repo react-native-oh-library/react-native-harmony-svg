@@ -19,8 +19,12 @@ public:
     ArkUI_NativeModule() {
         OH_ArkUI_GetModuleInterface(ARKUI_NATIVE_NODE, ArkUI_NativeNodeAPI_1, nodeApi_);
         nodeApi_->registerNodeCustomEventReceiver([](ArkUI_NodeCustomEvent *event) {
-            auto *userData = reinterpret_cast<UserCallback *>(OH_ArkUI_NodeCustomEvent_GetUserData(event));
-            userData->callback(event);
+            if (OH_ArkUI_NodeCustomEvent_GetEventTargetId(event) == 77) {
+                auto *userData = reinterpret_cast<UserCallback *>(OH_ArkUI_NodeCustomEvent_GetUserData(event));
+                if (userData != nullptr && userData->callback != nullptr) {
+                    userData->callback(event);
+                }
+            }
         });
     }
     ~ArkUI_NativeModule() { nodeApi_->unregisterNodeCustomEventReceiver(); }
@@ -43,7 +47,6 @@ SvgArkUINode::SvgArkUINode()
     // 设置自定义回调。注册onDraw
     userCallback_->callback = [this](ArkUI_NodeCustomEvent *event) {
         auto type = OH_ArkUI_NodeCustomEvent_GetEventType(event);
-        LOG(INFO) << "type" << type;
         switch (type) {
         case ARKUI_NODE_CUSTOM_EVENT_ON_DRAW:
             OnDraw(event);
@@ -52,7 +55,7 @@ SvgArkUINode::SvgArkUINode()
             break;
         }
     };
-    nativeModule_->registerNodeCustomEvent(m_nodeHandle, ARKUI_NODE_CUSTOM_EVENT_ON_DRAW, 0, userCallback_);
+    nativeModule_->registerNodeCustomEvent(m_nodeHandle, ARKUI_NODE_CUSTOM_EVENT_ON_DRAW, 77, userCallback_);
 }
 SvgArkUINode::~SvgArkUINode() {
     nativeModule_->unregisterNodeCustomEvent(m_nodeHandle, ARKUI_NODE_CUSTOM_EVENT_ON_DRAW);
