@@ -24,9 +24,9 @@ void RNSVGCircleComponentInstance::UpdateElementProps(SharedConcreteProps const 
     
     // set attribute to svgCircle.
     auto svgCircle = std::dynamic_pointer_cast<SvgCircle>(GetSvgNode());
-    svgCircle->x = std::stof(props->cx);
-    svgCircle->y = std::stof(props->cy);
-    svgCircle->r = std::stof(props->r);
+    svgCircle->SetX(props->cx);
+    svgCircle->SetY(props->cy);
+    svgCircle->SetR(props->r);
 }
 } // namespace svg
 } // namespace rnoh

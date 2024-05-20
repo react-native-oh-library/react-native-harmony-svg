@@ -22,7 +22,22 @@ namespace svg {
 drawing::Path SvgCircle::AsPath() {
     LOG(INFO) << "[SvgCircle] AsPath";
     // TODO implement ConvertDimensionToPx
-    path_.AddCircle(vpToPx(x), vpToPx(y), vpToPx(r), PATH_DIRECTION_CW);
+    float x;
+    float y;
+    float r;
+    auto nodeBounds = GetRootViewBox();
+    if (circleAttribute_.cx.Unit() == DimensionUnit::PERCENT) {
+        x = nodeBounds.Left() + circleAttribute_.cx.ConvertToPx(nodeBounds.Width());
+    } else {
+        x = circleAttribute_.cx.ConvertToPx(nodeBounds.Width());
+    }
+    if (circleAttribute_.cy.Unit() == DimensionUnit::PERCENT) {
+        y = nodeBounds.Top() + circleAttribute_.cy.ConvertToPx(nodeBounds.Height());
+    } else {
+        y = circleAttribute_.cy.ConvertToPx(nodeBounds.Height());
+    }
+    r = circleAttribute_.r.ConvertToPx(nodeBounds.Width() > nodeBounds.Height() ? nodeBounds.Height() : nodeBounds.Width());
+    path_.AddCircle(x, y, r, PATH_DIRECTION_CW);
     
     elements_ = {PathElement(ElementType::kCGPathElementMoveToPoint, {Point(x, y - r)}),
                        PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x, y - r), Point(x + r, y)}),
@@ -30,6 +45,18 @@ drawing::Path SvgCircle::AsPath() {
                        PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x, y + r), Point(x - r, y)}),
                        PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x - r, y), Point(x, y - r)})};
     return path_;
+}
+
+void SvgCircle::SetX(const std::string& x) {
+    circleAttribute_.cx = SvgAttributesParser::ParseDimension(x, true);
+}
+
+void SvgCircle::SetY(const std::string& y) {
+    circleAttribute_.cy = SvgAttributesParser::ParseDimension(y, true);
+}
+
+void SvgCircle::SetR(const std::string& r) {
+    circleAttribute_.r = SvgAttributesParser::ParseDimension(r, true);
 }
 
 } // namespace svg
