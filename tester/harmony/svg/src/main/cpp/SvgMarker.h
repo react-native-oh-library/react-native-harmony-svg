@@ -70,16 +70,16 @@ public:
      * @param canvas the canvas to set up
      * @param ctm current transformation matrix
      */
-    void saveAndSetupCanvas(OH_Drawing_Canvas *canvas, OH_Drawing_Matrix *ctm) {
+    void saveAndSetupCanvas(OH_Drawing_Canvas *canvas, drawing::Matrix ctm) {
         OH_Drawing_CanvasSave(canvas);
-        OH_Drawing_MatrixConcat(mCTM, mMatrix, mTransform);
-        OH_Drawing_CanvasConcatMatrix(canvas, mCTM);
-        OH_Drawing_MatrixConcat(mCTM, mCTM, ctm);
-        mCTMInvertible = OH_Drawing_MatrixInvert(mCTM, mInvCTM);
+        mCTM = mMatrix.Concat(mTransform);
+        OH_Drawing_CanvasConcatMatrix(canvas, mCTM.get());
+        mCTM = mCTM.Concat(ctm);
+        mInvCTM = mCTM.Invert();
     }
 
 private:
-    OH_Drawing_Matrix *markerTransform;
+    drawing::Matrix markerTransform;
     double mRefX;
     double mRefY;
     double mMarkerWidth;
@@ -93,11 +93,10 @@ private:
     std::string mAlign;
     int mMeetOrSlice;
     
-    OH_Drawing_Matrix *mCTM;
-    OH_Drawing_Matrix *mMatrix;
-    OH_Drawing_Matrix *mTransform;
-    OH_Drawing_Matrix *mInvCTM;
-    bool mCTMInvertible;
+    drawing::Matrix mCTM;
+    drawing::Matrix mMatrix;
+    drawing::Matrix mTransform;
+    std::optional<drawing::Matrix> mInvCTM;
 };
 
 } // namespace svg
