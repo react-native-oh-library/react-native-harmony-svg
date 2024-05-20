@@ -14,6 +14,12 @@ class ShaderEffect final {
 
 public:
     ShaderEffect();
+    
+    ShaderEffect(ShaderEffect const &other) = delete;
+    ShaderEffect &operator=(ShaderEffect const &other) = delete;
+    
+    ShaderEffect(ShaderEffect &&other) = default;
+    ShaderEffect &operator=(ShaderEffect &&other) = default;
 
     void ShaderEffectCreateLinearGradient(
         const OH_Drawing_Point2D* startPt, const OH_Drawing_Point2D* endPt, const uint32_t* colors, const float* pos,

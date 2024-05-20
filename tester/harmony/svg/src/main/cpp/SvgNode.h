@@ -68,6 +68,8 @@ public:
     }
 
     void InheritUseAttr(const SvgBaseAttribute &parent) { attributes_.InheritFromUse(parent); }
+    
+    drawing::Matrix lastCanvasMatrix_;
 
 protected:
     // override as need by derived class

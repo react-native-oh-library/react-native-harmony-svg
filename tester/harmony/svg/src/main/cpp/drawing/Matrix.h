@@ -2,12 +2,14 @@
 
 #include <memory>
 #include <optional>
+#include <vector>
 #include <native_drawing/drawing_matrix.h>
 
 namespace rnoh::drawing {
 
 class Matrix final {
     using UniqueNativeMatrix = std::unique_ptr<OH_Drawing_Matrix, decltype(&OH_Drawing_MatrixDestroy)>;
+    using Point = OH_Drawing_Point2D;
 
 public:
     Matrix();
@@ -40,6 +42,9 @@ public:
 
     void SetMatrix(float scaleX, float skewX, float transX, float skewY, float scaleY, float transY, float persp0,
                    float persp1, float persp2);
+
+    Point MapPoint(const Point &point) const;
+    std::vector<Point> MapPoints(const std::vector<Point> &points) const;
 
     void Reset();
 
