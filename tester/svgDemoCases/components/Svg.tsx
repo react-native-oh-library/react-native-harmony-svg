@@ -52,6 +52,12 @@ const basicCases: CaseParams[] = [
                 fill: 'green',
                 viewBox: '0 0 200 100'
             },
+            {
+                width: 90,
+                height: 60,
+                fill: 'green',
+                viewBox: '-20 -20 200 100'
+            },
         ]
     },
     preserveAspectRatioCases

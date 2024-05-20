@@ -9,10 +9,7 @@
 
 #include "Rect.h"
 #include "drawing/Matrix.h"
-#include <native_drawing/drawing_matrix.h>
-#include <iostream>
 #include <string>
-#include <cmath>
 #include <glog/logging.h>
 
 namespace rnoh {
