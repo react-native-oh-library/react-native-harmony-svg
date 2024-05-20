@@ -34,8 +34,8 @@ drawing::Path SvgSvg::AsPath() {
 Size SvgSvg::GetSize() const { return {attr_.width.Value(), attr_.height.Value()}; }
 
 Rect SvgSvg::GetViewBox() const {
-    return Rect(vpToPx(attr_.vbX.Value()), vpToPx(attr_.vbY.Value()), vpToPx(attr_.vbX.Value() + attr_.vbWidth.Value()),
-                vpToPx(attr_.vbY.Value() + attr_.vbHeight.Value()));
+    return Rect(vpToPx(attr_.vbX.Value()), vpToPx(attr_.vbY.Value()), vpToPx(attr_.vbWidth.Value()),
+                vpToPx(attr_.vbHeight.Value()));
 }
 
 void SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
