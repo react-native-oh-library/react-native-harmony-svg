@@ -14,9 +14,9 @@ void ShaderEffect::ShaderEffectCreateLinearGradient(const OH_Drawing_Point2D* st
 void ShaderEffect::ShaderEffectCreateRadialGradient(const OH_Drawing_Point2D* startPt, float startRadius,
     const OH_Drawing_Point2D* endPt, float endRadius, const uint32_t* colors, const float* pos, uint32_t size,
     OH_Drawing_TileMode mode, const OH_Drawing_Matrix* mat) {
-//     shaderEffect_ = UniqueNativeShaderEffect(
-//         OH_Drawing_ShaderEffectCreateTwoPointConicalGradient(startPt, startRadius, endPt, endRadius, colors, pos, size,
-//             mode, mat), &OH_Drawing_ShaderEffectDestroy);
+    shaderEffect_ = UniqueNativeShaderEffect(
+        OH_Drawing_ShaderEffectCreateTwoPointConicalGradient(startPt, startRadius, endPt, endRadius, colors, pos, size,
+            mode, mat), &OH_Drawing_ShaderEffectDestroy);
 }
 
 void ShaderEffect::ShaderEffectCreateImageShader(OH_Drawing_Image* image, OH_Drawing_TileMode tileX,
