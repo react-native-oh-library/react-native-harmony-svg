@@ -21,36 +21,35 @@ namespace svg {
         const auto count = OH_Drawing_CanvasGetSaveCount(canvas);
         saveAndSetupCanvas(canvas, mCTM);
     
-        if(markerTransform != nullptr) {
-            OH_Drawing_MatrixDestroy(markerTransform);
+        if(markerTransform.get() != nullptr) {
+            markerTransform.Reset();
         }
-        markerTransform = OH_Drawing_MatrixCreate();
         Point origin = {vpToPx(position.origin.x), vpToPx(position.origin.y)};//position.origin;
-        OH_Drawing_MatrixTranslate(markerTransform, origin.x, origin.y);
+        markerTransform.Translate(origin.x, origin.y);
         double markerAngle = (mOrient == "auto") ? -1 : std::atof(mOrient.c_str());
         float degrees = 180 + (markerAngle == -1 ? position.angle : static_cast<float>(markerAngle));
         //fix me? float rad = deg2rad(angle); this code only in ios
         //degrees = SvgMarkerPositionUtils::deg2rad(degrees);
-        OH_Drawing_MatrixPreRotate(markerTransform, degrees, 0, 0);
+        markerTransform.PreRotate( degrees, 0, 0);
 
-        if(mMarkerUnits == "strokeWidth"){
-            OH_Drawing_MatrixPreScale(markerTransform, strokeWidth / scale_, strokeWidth / scale_, 0, 0);
+        if (mMarkerUnits == "strokeWidth"){
+            markerTransform.PreScale(strokeWidth / scale_, strokeWidth / scale_, 0, 0);
         }
-        if(!mAlign.empty()){
+        if (!mAlign.empty()){
             double width = vpToPx(mMarkerWidth);
             double height = vpToPx(mMarkerHeight);
             Rect eRect(0, 0, width, height);
             Rect vbRect(vpToPx(mMinX), vpToPx(mMinY), vpToPx(mMinX + mVbWidth), vpToPx(mMinY + mVbHeight));
-            OH_Drawing_Matrix* viewBoxMatrix = ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
-            float sx = OH_Drawing_MatrixGetValue(viewBoxMatrix, 0);
-            float sy = OH_Drawing_MatrixGetValue(viewBoxMatrix, 4);
-            OH_Drawing_MatrixPreScale(markerTransform, sx, sy, 0, 0);
+            drawing::Matrix viewBoxMatrix = ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
+            float sx = viewBoxMatrix.GetValue(0);
+            float sy = viewBoxMatrix.GetValue(4);
+            markerTransform.PreScale(sx, sy, 0, 0);
         }
     
         double x = vpToPx(mRefX);
         double y = vpToPx(mRefY);
-        OH_Drawing_MatrixPreTranslate(markerTransform, -x, -y);
-        OH_Drawing_CanvasConcatMatrix(canvas, markerTransform);
+        markerTransform.PreTranslate(-x, -y);
+        OH_Drawing_CanvasConcatMatrix(canvas, markerTransform.get());
         
         OnDrawTraversed(canvas);
     

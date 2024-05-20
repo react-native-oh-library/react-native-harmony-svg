@@ -12,8 +12,8 @@ void SvgSymbol::drawSymbol(OH_Drawing_Canvas *canvas, float width, float height)
     if (!mAlign.empty()) {
         Rect vbRect(vpToPx(mMinX), vpToPx(mMinY), vpToPx(mMinX + mVbWidth), vpToPx(mMinY + mVbHeight));
         Rect eRect(0, 0, vpToPx(width), vpToPx(height));
-        OH_Drawing_Matrix *viewBoxMatrix = ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
-        OH_Drawing_CanvasConcatMatrix(canvas, viewBoxMatrix);
+        drawing::Matrix viewBoxMatrix = ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
+        OH_Drawing_CanvasConcatMatrix(canvas, viewBoxMatrix.get());
         Draw(canvas);
     }
 }
