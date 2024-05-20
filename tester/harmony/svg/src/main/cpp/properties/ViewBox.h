@@ -8,6 +8,7 @@
 #define HARMONY_VIEWBOX_H
 
 #include "Rect.h"
+#include "drawing/Matrix.h"
 #include <native_drawing/drawing_matrix.h>
 #include <iostream>
 #include <string>
@@ -24,7 +25,7 @@ private:
     static const int MOS_NONE = 2;
 
 public:
-    static OH_Drawing_Matrix *getTransform(Rect vbRect, Rect eRect, std::string align, int meetOrSlice) {
+    static drawing::Matrix getTransform(Rect vbRect, Rect eRect, std::string align, int meetOrSlice) {
         double vbX = vbRect.Left();
         double vbY = vbRect.Top();
         double vbWidth = vbRect.Width();
@@ -73,9 +74,9 @@ public:
                 translateY += (eHeight - vbHeight * scaleY);
             }
         }
-        OH_Drawing_Matrix *transform = OH_Drawing_MatrixCreate();
-        OH_Drawing_MatrixPostTranslate(transform, static_cast<float>(translateX), static_cast<float>(translateY));
-        OH_Drawing_MatrixPreScale(transform, static_cast<float>(scaleX), static_cast<float>(scaleY), 0, 0);
+        drawing::Matrix transform;
+        transform.PostTranslate(static_cast<float>(translateX), static_cast<float>(translateY));
+        transform.PreScale(static_cast<float>(scaleX), static_cast<float>(scaleY), 0, 0);
         return transform;
     }
 };
