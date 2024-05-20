@@ -16,6 +16,7 @@
 #pragma once
 
 #include "SvgGraphic.h"
+#include "utils/SvgAttributesParser.h"
 
 namespace rnoh {
 namespace svg {
@@ -24,12 +25,15 @@ class SvgCircle : public SvgGraphic {
 public:
     SvgCircle() = default;
     ~SvgCircle() override = default;
-    float x;
-    float y;
-    float r;
+
+    void SetX(const std::string& x);
+    void SetY(const std::string& y);
+    void SetR(const std::string& r);
     float opacity;
     uint32_t colorFill;
     drawing::Path AsPath() override;
+private:
+    SvgCircleAttribute circleAttribute_;
 };
 
 } // namespace svg
