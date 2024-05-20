@@ -18,6 +18,7 @@
 
 namespace rnoh {
 namespace svg {
+
 void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
     x = svg::vpToPx(x), y = svg::vpToPx(y), width = svg::vpToPx(width), height = svg::vpToPx(height);
     if (src.uri.size() != 0) {
@@ -26,13 +27,10 @@ void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
         OH_DecodingOptions *options;
 
         int len = src.uri.size();
-        char *charPtr = const_cast<char *>(src.uri.c_str());
+        char *srcUri = const_cast<char *>(src.uri.c_str());
 
-        LOG(INFO) << "[SvgImage] charPtr: " << charPtr;
-        auto code2 = OH_DecodingOptions_Create(&options);
-        LOG(INFO) << "[SvgImage] code2: " << code2;
-        auto code1 = OH_ImageSourceNative_CreateFromUri(charPtr, len, &res);
-        LOG(INFO) << "[SvgImage] code1: " << code1;
+        OH_DecodingOptions_Create(&options);
+        OH_ImageSourceNative_CreateFromUri(srcUri, len, &res);
         auto code = OH_ImageSourceNative_CreatePixelmap(res, options, &pixelmap);
         LOG(INFO) << "[SvgImage] code: " << code;
 
@@ -45,8 +43,8 @@ void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
             OH_PixelmapNative_GetImageInfo(pixelmap, info);
 
             // get the resource properties: width and height
-            uint32_t *imageWidth;
-            uint32_t *imageHeight;
+            uint32_t *imageWidth = new uint32_t;
+            uint32_t *imageHeight = new uint32_t;
             OH_PixelmapImageInfo_GetWidth(info, imageWidth);
             OH_PixelmapImageInfo_GetHeight(info, imageHeight);
 
@@ -90,13 +88,14 @@ void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
 
             // set source Rect and destinaton Rect
             OH_Drawing_PixelMap *ohpixelmap = OH_Drawing_PixelMapGetFromOhPixelMapNative(pixelmap);
-            OH_Drawing_Rect *src = OH_Drawing_RectCreate(x1, y1, x2, y2);
-            OH_Drawing_Rect *dst = OH_Drawing_RectCreate(x, y, x + width, y + height);
+            drawing::Rect src(x1, y1, x2, y2);
+            drawing::Rect dst(x, y, x + width, y + height);
+
             // draw the border of the area
-            //         OH_Drawing_CanvasDrawLine(canvas, x, y, x + width, y);
-            //         OH_Drawing_CanvasDrawLine(canvas, x + width, y, x + width, y + height);
-            //         OH_Drawing_CanvasDrawLine(canvas, x + width, y + height, x, y + height);
-            //         OH_Drawing_CanvasDrawLine(canvas, x, y + height, x, y);
+            OH_Drawing_CanvasDrawLine(canvas, x, y, x + width, y);
+            OH_Drawing_CanvasDrawLine(canvas, x + width, y, x + width, y + height);
+            OH_Drawing_CanvasDrawLine(canvas, x + width, y + height, x, y + height);
+            OH_Drawing_CanvasDrawLine(canvas, x, y + height, x, y);
 
             // set SamplingOptions
             OH_Drawing_FilterMode filterMode = FILTER_MODE_NEAREST;
@@ -104,12 +103,10 @@ void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
             OH_Drawing_SamplingOptions *sampling = OH_Drawing_SamplingOptionsCreate(filterMode, mipmapMode);
 
             // Draw picture by type OH_Drawing_PixelMap
-            OH_Drawing_CanvasDrawPixelMapRect(canvas, ohpixelmap, src, dst, sampling);
+            OH_Drawing_CanvasDrawPixelMapRect(canvas, ohpixelmap, src.get(), dst.get(), sampling);
 
             // clear data
             OH_PixelmapImageInfo_Release(info);
-            OH_Drawing_RectDestroy(src);
-            OH_Drawing_RectDestroy(dst);
             OH_Drawing_SamplingOptionsDestroy(sampling);
             OH_Drawing_PixelMapDissolve(ohpixelmap);
         }
