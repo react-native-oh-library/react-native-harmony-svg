@@ -163,6 +163,8 @@ void SvgNode::Draw(OH_Drawing_Canvas *canvas) {
         OnMask(canvas);
     }
 
+    OH_Drawing_CanvasGetTotalMatrix(canvas, lastCanvasMatrix_.get());
+
     OnDraw(canvas);
     // on marker
 

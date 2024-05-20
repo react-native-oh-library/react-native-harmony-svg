@@ -70,6 +70,18 @@ void Matrix::SetMatrix(float scaleX, float skewX, float transX, float skewY, flo
     OH_Drawing_MatrixSetMatrix(matrix_.get(), scaleX, skewX, transX, skewY, scaleY, transY, persp0, persp1, persp2);
 }
 
+Matrix::Point drawing::Matrix::MapPoint(const Matrix::Point &point) const {
+    Point result;
+    OH_Drawing_MatrixMapPoints(matrix_.get(), &point, &result, 1);
+    return result;
+}
+
+std::vector<Matrix::Point> drawing::Matrix::MapPoints(const std::vector<Matrix::Point> &points) const {
+    std::vector<Matrix::Point> result(points.size());
+    OH_Drawing_MatrixMapPoints(matrix_.get(), points.data(), result.data(), points.size());
+    return result;
+}
+
 void Matrix::Reset() { OH_Drawing_MatrixReset(matrix_.get()); }
 
 

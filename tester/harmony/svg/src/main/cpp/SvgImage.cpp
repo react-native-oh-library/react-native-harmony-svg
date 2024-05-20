@@ -91,11 +91,11 @@ void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
             drawing::Rect src(x1, y1, x2, y2);
             drawing::Rect dst(x, y, x + width, y + height);
 
-            // draw the border of the area
-            OH_Drawing_CanvasDrawLine(canvas, x, y, x + width, y);
-            OH_Drawing_CanvasDrawLine(canvas, x + width, y, x + width, y + height);
-            OH_Drawing_CanvasDrawLine(canvas, x + width, y + height, x, y + height);
-            OH_Drawing_CanvasDrawLine(canvas, x, y + height, x, y);
+            // draw the border of the area for debug
+//             OH_Drawing_CanvasDrawLine(canvas, x, y, x + width, y);
+//             OH_Drawing_CanvasDrawLine(canvas, x + width, y, x + width, y + height);
+//             OH_Drawing_CanvasDrawLine(canvas, x + width, y + height, x, y + height);
+//             OH_Drawing_CanvasDrawLine(canvas, x, y + height, x, y);
 
             // set SamplingOptions
             OH_Drawing_FilterMode filterMode = FILTER_MODE_NEAREST;

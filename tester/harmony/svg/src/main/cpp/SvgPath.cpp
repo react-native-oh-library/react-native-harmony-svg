@@ -17,6 +17,7 @@
 #include "utils/PathParserUtils.h"
 #include <native_drawing/drawing_matrix.h>
 #include "drawing/Matrix.h"
+#include "utils/PathParserUtils.h"
 
 namespace rnoh {
 namespace svg {
