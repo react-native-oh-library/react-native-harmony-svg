@@ -186,7 +186,7 @@ bool SvgGraphic::UpdateFillStyle(bool antiAlias) {
         SetGradientStyle(curOpacity);
     } else if (fillState_.GetPatternAttr()) {
         LOG(INFO) << "[SVGGraphic] SetPatternStyle";
-        SetPatternStyle();
+        return SetPatternStyle();
     } else {
         fillBrush_.SetColor(fillState_.GetColor().BlendOpacity(curOpacity).GetValue());
         path_.SetFillType(fillState_.GetFillRuleForDraw());
@@ -242,11 +242,13 @@ void SvgGraphic::SetGradientStyle(double opacity) {
     }
 }
 
-void SvgGraphic::SetPatternStyle() {
+bool SvgGraphic::SetPatternStyle() {
     LOG(INFO) << "[SVGGraphic pattern] SetPatternStyle";
     const auto &fillState_ = attributes_.fillState;
     auto pattern = fillState_.GetPatternAttr();
-    CHECK_NULL_VOID(pattern);
+    if (pattern == nullptr) {
+        return false;
+    }
     Unit patternUnits = pattern->getPatternUnits();
     Unit patternContentUnits = pattern->getPatternContentUnits();
 
@@ -291,13 +293,18 @@ void SvgGraphic::SetPatternStyle() {
     double w = width_.FromRelative(isObjectBox, offsetwidth, scale_);
     double h = height_.FromRelative(isObjectBox, offsetheight, scale_);
     if (!(w > 1 && h > 1)) {
-        return;
+        return false;
     }
 
     OH_Drawing_Bitmap *bitmap = OH_Drawing_BitmapCreate();
     OH_Drawing_BitmapFormat format = {COLOR_FORMAT_RGBA_8888, ALPHA_FORMAT_OPAQUE};
 
     OH_Drawing_BitmapBuild(bitmap, int(w), int(h), &format);
+    if (OH_Drawing_BitmapGetPixels(bitmap) == nullptr) {
+        OH_Drawing_CanvasDestroy(canvas);
+        OH_Drawing_BitmapDestroy(bitmap);
+        return false;
+    }
     OH_Drawing_CanvasBind(canvas, bitmap);
 
     // set background color to white
@@ -320,7 +327,11 @@ void SvgGraphic::SetPatternStyle() {
     if (!fillState_.GetHref().empty()) {
         auto svgContext = GetContext();
         auto refSvgNode = svgContext->GetSvgNodeById(fillState_.GetHref());
-        CHECK_NULL_VOID(refSvgNode);
+        if (refSvgNode == nullptr) {
+            OH_Drawing_CanvasDestroy(canvas);
+            OH_Drawing_BitmapDestroy(bitmap);
+            return false;
+        }
         refSvgNode->Draw(canvas);
     }
 
@@ -346,6 +357,8 @@ void SvgGraphic::SetPatternStyle() {
     OH_Drawing_BitmapDestroy(bitmap);
     OH_Drawing_ImageDestroy(image);
     OH_Drawing_SamplingOptionsDestroy(opt);
+    
+    return true;
 }
 
 bool SvgGraphic::UpdateStrokeStyle(bool antiAlias) {
