@@ -20,8 +20,10 @@ public:
     Rect GetViewBox() const;
     
     void Draw(OH_Drawing_Canvas *canvas) override;
-
+    
     SvgAttributes attr_;
+    
+//     Rect canvasClipBounds_;
 
 private:
     void FitCanvas(OH_Drawing_Canvas *canvas);

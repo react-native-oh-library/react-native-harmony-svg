@@ -22,21 +22,10 @@ namespace svg {
 drawing::Path SvgCircle::AsPath() {
     LOG(INFO) << "[SvgCircle] AsPath";
     // TODO implement ConvertDimensionToPx
-    float x;
-    float y;
-    float r;
-    auto nodeBounds = GetRootViewBox();
-    if (circleAttribute_.cx.Unit() == DimensionUnit::PERCENT) {
-        x = nodeBounds.Left() + circleAttribute_.cx.ConvertToPx(nodeBounds.Width());
-    } else {
-        x = circleAttribute_.cx.ConvertToPx(nodeBounds.Width());
-    }
-    if (circleAttribute_.cy.Unit() == DimensionUnit::PERCENT) {
-        y = nodeBounds.Top() + circleAttribute_.cy.ConvertToPx(nodeBounds.Height());
-    } else {
-        y = circleAttribute_.cy.ConvertToPx(nodeBounds.Height());
-    }
-    r = circleAttribute_.r.ConvertToPx(nodeBounds.Width() > nodeBounds.Height() ? nodeBounds.Height() : nodeBounds.Width());
+    float x = relativeOnWidth(circleAttribute_.cx);
+    float y = relativeOnHeight(circleAttribute_.cy);
+    float r = relativeOnOther(circleAttribute_.r);
+    
     path_.AddCircle(x, y, r, PATH_DIRECTION_CW);
     
     elements_ = {PathElement(ElementType::kCGPathElementMoveToPoint, {Point(x, y - r)}),

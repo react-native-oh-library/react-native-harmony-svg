@@ -29,8 +29,6 @@ public:
     void SetX(const std::string& x);
     void SetY(const std::string& y);
     void SetR(const std::string& r);
-    float opacity;
-    uint32_t colorFill;
     drawing::Path AsPath() override;
 private:
     SvgCircleAttribute circleAttribute_;
