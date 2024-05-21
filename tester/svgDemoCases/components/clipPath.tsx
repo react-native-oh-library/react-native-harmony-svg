@@ -163,20 +163,20 @@ export default function () {
                     </View>
                 </TestCase>
 
-                <TestCase itShould="RNSVGClipPath: clipRule=0(L) + 1(R)">
+                <TestCase itShould="RNSVGClipPath: clipRule=nonzero(L) + evenodd(R)">
                     <View style={{
                         borderWidth: 1, width: 400, height: 120
                     }}>
                         <Svg>
-                            <RNSVGClipPath name="emptyStar13" clipRule={0}>
+                            <RNSVGClipPath name="emptyStar13" >
                                 <Path d="M50,0 21,90 98,35 2,35 79,90z" />
                             </RNSVGClipPath>
-                            <RNSVGClipPath name="emptyStar14" clipRule={1}>
+                            <RNSVGClipPath name="emptyStar14" >
                                 <Path d="M50,0 21,90 98,35 2,35 79,90z" />
                             </RNSVGClipPath>
 
-                            <Rect clipPath="url(#emptyStar13)" width="50" height="90" fill="blue" />
-                            <Rect clipPath="url(#emptyStar14)" width="50" height="90" x="50" fill="red" />
+                            <Rect clipPath="url(#emptyStar13)" width="50" height="90" fill="blue" clipRule="nonzero"/>
+                            <Rect clipPath="url(#emptyStar14)" width="50" height="90" x="50" fill="red" clipRule="evenodd"/>
                         </Svg>
                     </View>
                 </TestCase>
