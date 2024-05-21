@@ -35,13 +35,18 @@ public:
     }
 
     const Color &GetSvgColor() { return svgColor_; }
+    
+    void SetCanvasBounds(const Rect &canvasClipBounds) { canvasClipBounds_ = canvasClipBounds; }
 
+    const Rect getCanvasBounds() { return canvasClipBounds_; }
+    
 private:
     std::unordered_map<std::string, std::weak_ptr<SvgNode>> idMapper_;
     ClassStyleMap styleMap_;
     Rect rootViewBox_;
     Size svgSize_;
     Color svgColor_;
+    Rect canvasClipBounds_;
 };
 
 } // namespace svg

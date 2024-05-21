@@ -26,11 +26,9 @@ public:
     SvgCircle() = default;
     ~SvgCircle() override = default;
 
-    void SetX(const std::string& x);
-    void SetY(const std::string& y);
-    void SetR(const std::string& r);
-    float opacity;
-    uint32_t colorFill;
+    void SetX(const std::string &x) { circleAttribute_.cx = SvgAttributesParser::ParseDimension(x, true); }
+    void SetY(const std::string &y) { circleAttribute_.cy = SvgAttributesParser::ParseDimension(y, true); }
+    void SetR(const std::string &r) { circleAttribute_.r = SvgAttributesParser::ParseDimension(r, true); }
     drawing::Path AsPath() override;
 private:
     SvgCircleAttribute circleAttribute_;

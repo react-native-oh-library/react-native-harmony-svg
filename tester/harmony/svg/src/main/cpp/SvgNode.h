@@ -70,6 +70,14 @@ public:
     void InheritUseAttr(const SvgBaseAttribute &parent) { attributes_.InheritFromUse(parent); }
     
     drawing::Matrix lastCanvasMatrix_;
+    
+    double relativeOnWidth(Dimension length);
+    double relativeOnHeight(Dimension length);
+    double relativeOnOther(Dimension length);
+    
+    double getCanvasWidth();
+    double getCanvasHeight();
+    double getCanvasDiagonal();
 
 protected:
     // override as need by derived class
@@ -124,6 +132,19 @@ protected:
     bool inheritStyle_ = true;  // inherit style attributes from parent node, TAGS
                                 // mask/defs/pattern/filter = false
     bool drawTraversed_ = true; // enable OnDraw, TAGS mask/defs/pattern/filter = false
+    
+    double canvasHeight_ = -1;
+
+    double canvasWidth_ = -1;
+    
+    double canvasDiagonal_ = -1;
+    
+    /*
+      N[1/Sqrt[2], 36]
+      The inverse of the square root of 2.
+      Provide enough digits for the 128-bit IEEE quad (36 significant digits).
+  */
+    const double M_SQRT1_2l = 0.707106781186547524400844362104849039;
 };
 
 } // namespace svg

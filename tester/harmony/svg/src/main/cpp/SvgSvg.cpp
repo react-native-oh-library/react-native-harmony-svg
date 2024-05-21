@@ -131,6 +131,7 @@ void SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
 void SvgSvg::Draw(OH_Drawing_Canvas *canvas) {
     context_->SetRootViewBox(GetViewBox());
     context_->SetSvgSize(Size(OH_Drawing_CanvasGetWidth(canvas), OH_Drawing_CanvasGetHeight(canvas)));
+    context_->SetCanvasBounds(Rect(0.0f, 0.0f, OH_Drawing_CanvasGetWidth(canvas), OH_Drawing_CanvasGetHeight(canvas)));
     // apply scale
     OH_Drawing_CanvasSave(canvas);
     FitCanvas(canvas);

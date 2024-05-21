@@ -82,7 +82,7 @@ void SvgNode::OnClipPath(OH_Drawing_Canvas *canvas) {
         return;
     };
     auto clipPath = refSvgNode->AsPath();
-    
+
     // TODO: maybe return optional from AsPath?
     // if (!clipPath) {
     //     LOG(WARNING) << "[SvgNode] OnClipPath: Path is null!";
@@ -255,6 +255,40 @@ void SvgNode::ContextTraversal() {
         child->SetContext(context_);
         child->ContextTraversal();
     }
+}
+
+double SvgNode::relativeOnWidth(Dimension length) { return length.ConvertToPx(getCanvasWidth()); }
+
+double SvgNode::relativeOnHeight(Dimension length) { return length.ConvertToPx(getCanvasHeight()); }
+
+double SvgNode::relativeOnOther(Dimension length) { return length.ConvertToPx(getCanvasDiagonal()); }
+
+double SvgNode::getCanvasWidth() {
+    if (canvasWidth_ != -1) {
+        return canvasWidth_;
+    }
+    // TODO if root is text root
+    canvasWidth_ = context_->getCanvasBounds().Width();
+    return canvasWidth_;
+}
+
+double SvgNode::getCanvasHeight() {
+    if (canvasHeight_ != -1) {
+        return canvasHeight_;
+    }
+    // TODO if root is text root
+    canvasHeight_ = context_->getCanvasBounds().Height();
+    return canvasHeight_;
+}
+
+double SvgNode::getCanvasDiagonal() {
+    if (canvasDiagonal_ != -1) {
+        return canvasDiagonal_;
+    }
+    double powX = pow((getCanvasWidth()), 2);
+    double powY = pow((getCanvasHeight()), 2);
+    canvasDiagonal_ = sqrt(powX + powY) * M_SQRT1_2l;
+    return canvasDiagonal_;
 }
 
 } // namespace svg
