@@ -39,7 +39,6 @@ void SvgGraphic::OnDraw(OH_Drawing_Canvas *canvas) {
     //     OH_Drawing_PenReset(strokePen_.get());
     // 获取子类的绘制路径。
     path_ = AsPath();
-    if (attributes_.strokeState.GetVectorEffect()) {}
     UpdateGradient();
     if (UpdateFillStyle()) {
         OnGraphicFill(canvas);
@@ -99,6 +98,14 @@ void SvgGraphic::OnGraphicStroke(OH_Drawing_Canvas *canvas) {
         OH_Drawing_MaskFilterDestroy(maskFilter);
     } else {
         LOG(INFO) << "[svg] OnGraphicStroke2";
+        const auto &transform = attributes_.transform;
+        if (attributes_.strokeState.GetVectorEffect() && transform.size() > 5) {
+            auto matrix = drawing::Matrix();
+            LOG(INFO) << "[xlleng] transform " << transform[0];
+            matrix.SetMatrix(transform[0], transform[2], transform[4] * scale_, transform[1], transform[3],
+                             transform[5] * scale_, 0, 0, 1.0);
+            path_.Transform(matrix);
+        }
         OH_Drawing_CanvasAttachPen(canvas, strokePen_.get());
         OH_Drawing_CanvasDrawPath(canvas, path_.get());
         OH_Drawing_CanvasDetachPen(canvas);
