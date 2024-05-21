@@ -222,9 +222,9 @@ void SvgGraphic::SetGradientStyle(double opacity) {
         auto info = gradient->GetRadialGradientInfo();
         drawing::Matrix scaleMatrix;
         if (info.ry < info.rx) {
-            scaleMatrix.CreateScale(1, info.ry / info.rx, info.cx, info.cy);
+            scaleMatrix = drawing::Matrix::CreateScale(1, info.ry / info.rx, info.cx, info.cy);
         } else {
-            scaleMatrix.CreateScale(info.rx / info.ry, 1, info.cx, info.cy);
+            scaleMatrix = drawing::Matrix::CreateScale(info.rx / info.ry, 1, info.cx, info.cy);
         }
         OH_Drawing_Point2D focal = {static_cast<float>(info.fx), static_cast<float>(info.fy)};
         OH_Drawing_Point2D center = {static_cast<float>(info.cx), static_cast<float>(info.cy)};

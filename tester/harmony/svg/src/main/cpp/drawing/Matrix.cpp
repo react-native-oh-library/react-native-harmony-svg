@@ -51,7 +51,7 @@ void Matrix::Scale(float sx, float sy, float px, float py) { OH_Drawing_MatrixSc
 
 Matrix Matrix::Concat(const Matrix &other) const {
     Matrix result;
-    OH_Drawing_MatrixConcat(matrix_.get(), other.matrix_.get(), result.matrix_.get());
+    OH_Drawing_MatrixConcat(result.matrix_.get(), matrix_.get(), other.matrix_.get());
     return result;
 }
 
