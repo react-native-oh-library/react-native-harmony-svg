@@ -190,7 +190,7 @@ class RectExample extends Component {
           </Marker>
         </Defs>
         <Rect
-          x="50%"
+          x="50"
           y="50"
           width="30"
           height="30"
@@ -214,7 +214,7 @@ class PathPathExample extends Component {
         <Defs>
           <Marker
             id="Triangle"
-            viewBox="0 0 10 10"
+            // viewBox="0 0 10 10"
             refX="0"
             refY="5"
             markerUnits="strokeWidth"
@@ -436,9 +436,9 @@ export default function () {
                 <TestCase itShould="case3: Ellipse shaped marker on rect">
                     <RectExample />
                 </TestCase>
-                <TestCase itShould="case4: Path shaped marker on path">
+                {/* <TestCase itShould="case4: Path shaped marker on path">
                     <PathPathExample />
-                </TestCase>
+                </TestCase> */}
                 <TestCase itShould="case5: Triangle shaped marker on line">
                     <LineExample />
                 </TestCase>

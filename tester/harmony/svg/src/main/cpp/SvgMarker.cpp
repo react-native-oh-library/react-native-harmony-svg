@@ -24,7 +24,7 @@ namespace svg {
         if(markerTransform.get() != nullptr) {
             markerTransform.Reset();
         }
-        Point origin = {vpToPx(position.origin.x), vpToPx(position.origin.y)};//position.origin;
+        Point origin = { position.origin.x, position.origin.y };//position.origin;
         markerTransform.Translate(origin.x, origin.y);
         double markerAngle = (mOrient == "auto") ? -1 : std::atof(mOrient.c_str());
         float degrees = 180 + (markerAngle == -1 ? position.angle : static_cast<float>(markerAngle));
@@ -36,8 +36,8 @@ namespace svg {
             markerTransform.PreScale(strokeWidth / scale_, strokeWidth / scale_, 0, 0);
         }
         if (!mAlign.empty()){
-            double width = vpToPx(mMarkerWidth);
-            double height = vpToPx(mMarkerHeight);
+            double width = mMarkerWidth;
+            double height = mMarkerHeight;
             Rect eRect(0, 0, width, height);
             Rect vbRect(vpToPx(mMinX), vpToPx(mMinY), vpToPx(mMinX + mVbWidth), vpToPx(mMinY + mVbHeight));
             drawing::Matrix viewBoxMatrix = ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
@@ -46,8 +46,8 @@ namespace svg {
             markerTransform.PreScale(sx, sy, 0, 0);
         }
     
-        double x = vpToPx(mRefX);
-        double y = vpToPx(mRefY);
+        double x = mRefX;
+        double y = mRefY;
         markerTransform.PreTranslate(-x, -y);
         OH_Drawing_CanvasConcatMatrix(canvas, markerTransform.get());
         
