@@ -15,12 +15,12 @@ void TextStyle::Update(const std::shared_ptr<svg::FontData> &style) {
     OH_Drawing_SetTextStyleFontSize(ts, style->fontSize);
     OH_Drawing_SetTextStyleFontWeight(ts, static_cast<int>(style->fontWeight));
     OH_Drawing_SetTextStyleFontStyle(ts, static_cast<int>(style->fontStyle));
-    std::vector<const char*> ff {style->fontFamily.c_str()};
-    OH_Drawing_SetTextStyleFontFamilies(ts, 1, ff.data());
+    if (!style->fontFamily.empty()) {
+        std::vector<const char *> ff{style->fontFamily.c_str()};
+        OH_Drawing_SetTextStyleFontFamilies(ts, 1, ff.data());
+    }
     OH_Drawing_SetTextStyleDecoration(ts, static_cast<int>(style->textDecoration));
     OH_Drawing_SetTextStyleLetterSpacing(ts, style->letterSpacing);
-    LOG(INFO) << "font feature = " << style->fontFeatureSettings
-              << " fontVariationSettings = " << style->fontVariationSettings;
     OH_Drawing_SetTextStyleWordSpacing(ts, style->wordSpacing);
 
     for (const auto &key : defaultFeatures) {

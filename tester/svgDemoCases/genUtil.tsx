@@ -411,11 +411,7 @@ export function genFontProps(): CaseParams[] {
         },
         {
             key: 'fontFamily',
-            values: ['Verdana', 'Times'],
-            othersProps: {
-                fontSize: '30',
-                y: 60
-            }
+            values: ['NotoSansVai-Regular', 'HarmonyOS Sans Condensed', 'HarmonyOS_Sans_Digit_Medium', 'Noto Sans Pau Cin Hau'],
         },
         {
             key: 'textAnchor',

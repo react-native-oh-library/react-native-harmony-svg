@@ -54,7 +54,7 @@ export default function () {
                 cases={allCases}
                 basicProps={basicProps}
                 comName='Text'
-                renderComChildren={<TSpan>Test text with svg</TSpan>}
+                renderComChildren={<TSpan>Test text 012345 with svg</TSpan>}
             >
             </GenMain>
 }

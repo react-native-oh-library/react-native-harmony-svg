@@ -42,6 +42,7 @@ void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
     drawing::TypographyStyle ts = PrepareTypoStyle();
     auto *fontCollection = OH_Drawing_CreateFontCollection();
     auto *typographyHandler = OH_Drawing_CreateTypographyHandler(ts.typographyStyle_.get(), fontCollection);
+    OH_Drawing_TypographyHandlerPushTextStyle(typographyHandler, ts.textStyle_.get());
 
     OH_Drawing_TypographyHandlerAddText(typographyHandler, content_.c_str());
     auto *typography = OH_Drawing_CreateTypography(typographyHandler);
