@@ -82,7 +82,7 @@ const LineCase = (
 const TextCase = (
     <Svg height={height} width={width}>
         <Text x={10} y={10}>
-            <TSpan stroke={'pink'}>Test text with svg</TSpan>
+            <TSpan stroke={'pink'}>Test text with 012345 svg</TSpan>
         </Text>
     </Svg>
 )
