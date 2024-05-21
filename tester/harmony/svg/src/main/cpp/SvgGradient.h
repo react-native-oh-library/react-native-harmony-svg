@@ -51,6 +51,7 @@ public:
 private:
     SvgGradientAttribute gradientAttr_;
     double scale_ = 3.25;
+    DimensionUnit defaultUnit_ = DimensionUnit::VP;
 };
 
 } // namespace svg
