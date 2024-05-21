@@ -41,6 +41,10 @@ export function commonProps() {
             key: 'opacity',
             values: ['0.1', '0.5', '1']
         },
+        {
+            key: 'responsible',
+            values: ['true', 'false']
+        },
     ]
 }
 
@@ -151,6 +155,8 @@ export function genClipProps(): CaseParams[] {
         // }
     ]
 }
+
+
 export function genTransformProps(): CaseParams[] {
     return [
         {
@@ -172,6 +178,14 @@ export function genTransformProps(): CaseParams[] {
                 rotation: '45'
             },
             showOtherProps: true
+        },
+        {
+            key: 'originx',
+            values:['10', '20', '30']
+        },
+        {
+            key: 'originy',
+            values:['10', '20', '30']
         },
         {
             key: 'scale',
@@ -385,10 +399,14 @@ export function genTextSpecificProps(): CaseParams[] {
             key: 'textLength',
             values: ['5', '10', '150%']
         },
-        // {
-        //     key: 'fontData',
-        //     values: ['']
-        // },
+        {
+            key: 'fontData',
+            values: [
+                {
+                    fontSize: '100',
+                }
+            ]
+        },
         {
             key: 'fontFeatureSettings',
             values: ['normal', '"liga" 0', 'tnum', 'smcp']
@@ -432,6 +450,14 @@ export function genFontProps(): CaseParams[] {
         {
             key: 'fontStyle',
             values: ['normal', 'italic', 'oblique']
+        },
+        {
+            key: 'textDecoration',
+            values: ['none', 'underline', 'overline', 'line-through', 'blink']
+        },
+        {
+            key: 'fontVariantLigatures',
+            values: ['normal', 'no-common-ligatures', 'common-ligatures']
         }
     ]
 }
