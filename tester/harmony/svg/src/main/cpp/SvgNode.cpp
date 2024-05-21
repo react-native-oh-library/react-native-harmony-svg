@@ -257,11 +257,11 @@ void SvgNode::ContextTraversal() {
     }
 }
 
-float SvgNode::relativeOnWidth(Dimension length) { return length.ConvertToPx(getCanvasWidth()); }
+double SvgNode::relativeOnWidth(Dimension length) { return length.ConvertToPx(getCanvasWidth()); }
 
-float SvgNode::relativeOnHeight(Dimension length) { return length.ConvertToPx(getCanvasHeight()); }
+double SvgNode::relativeOnHeight(Dimension length) { return length.ConvertToPx(getCanvasHeight()); }
 
-float SvgNode::relativeOnOther(Dimension length) { return length.ConvertToPx(getCanvasDiagonal()); }
+double SvgNode::relativeOnOther(Dimension length) { return length.ConvertToPx(getCanvasDiagonal()); }
 
 double SvgNode::getCanvasWidth() {
     if (canvasWidth_ != -1) {

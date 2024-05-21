@@ -31,6 +31,8 @@ class PressExample extends Component {
           y="20%"
           width="60%"
           height="60%"
+          rx="10%"
+          ry="10%"
           fill="blue"
           onLongPress={() => Alert.alert('Long press on Rect')}
         />

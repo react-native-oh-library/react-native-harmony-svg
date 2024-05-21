@@ -20,11 +20,9 @@ namespace svg {
 
 
 drawing::Path SvgCircle::AsPath() {
-    LOG(INFO) << "[SvgCircle] AsPath";
-    // TODO implement ConvertDimensionToPx
-    float x = relativeOnWidth(circleAttribute_.cx);
-    float y = relativeOnHeight(circleAttribute_.cy);
-    float r = relativeOnOther(circleAttribute_.r);
+    double x = relativeOnWidth(circleAttribute_.cx);
+    double y = relativeOnHeight(circleAttribute_.cy);
+    double r = relativeOnOther(circleAttribute_.r);
     
     path_.AddCircle(x, y, r, PATH_DIRECTION_CW);
     
@@ -34,18 +32,6 @@ drawing::Path SvgCircle::AsPath() {
                        PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x, y + r), Point(x - r, y)}),
                        PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x - r, y), Point(x, y - r)})};
     return path_;
-}
-
-void SvgCircle::SetX(const std::string& x) {
-    circleAttribute_.cx = SvgAttributesParser::ParseDimension(x, true);
-}
-
-void SvgCircle::SetY(const std::string& y) {
-    circleAttribute_.cy = SvgAttributesParser::ParseDimension(y, true);
-}
-
-void SvgCircle::SetR(const std::string& r) {
-    circleAttribute_.r = SvgAttributesParser::ParseDimension(r, true);
 }
 
 } // namespace svg

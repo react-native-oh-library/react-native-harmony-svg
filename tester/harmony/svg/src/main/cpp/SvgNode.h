@@ -71,9 +71,9 @@ public:
     
     drawing::Matrix lastCanvasMatrix_;
     
-    float relativeOnWidth(Dimension length);
-    float relativeOnHeight(Dimension length);
-    float relativeOnOther(Dimension length);
+    double relativeOnWidth(Dimension length);
+    double relativeOnHeight(Dimension length);
+    double relativeOnOther(Dimension length);
     
     double getCanvasWidth();
     double getCanvasHeight();
