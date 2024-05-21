@@ -26,7 +26,7 @@ export default function () {
                                     stroke="red"
                                     d="M10,90 Q90,90 90,45 Q90,10 50,10 Q10,10 10,40 Q10,70 45,70 Q70,70 75,50" />
 
-                                <Text stroke="blue" fill="blue" fontVariant="small-caps" fontStretch="ultra-expanded" fontVariationSettings={"XHGT 0.7"}>
+                                <Text stroke="blue" fill="blue" fontVariant="small-caps" fontStretch="ultra-expanded">
                                 <TextPath stroke="blue" fill="blue" href="#MyPath">Quick <TSpan kerning="10">brown</TSpan> fox jumps over <TSpan kerning="1">the</TSpan> lazy dog.</TextPath>
                                 </Text>
                             </G>
@@ -51,7 +51,7 @@ export default function () {
                                     stroke="red"
                                     d="M10,90 Q90,90 90,45 Q90,10 50,10 Q10,10 10,40 Q10,70 45,70 Q70,70 75,50" />
 
-                                <Text stroke="blue" fill="blue" fontVariant="small-caps" fontStretch="ultra-expanded" fontVariationSettings={"XHGT 0.7"}>
+                                <Text stroke="blue" fill="blue" fontVariant="small-caps" fontStretch="ultra-expanded">
                                 <TextPath stroke="blue" fill="blue" href="#MyPath" startOffset="50">Quick brown fox jumps over the lazy dog.</TextPath>
                                 </Text>
                             </G>
@@ -76,7 +76,7 @@ export default function () {
                                     stroke="red"
                                     d="M10,90 Q90,90 90,45 Q90,10 50,10 Q10,10 10,40 Q10,70 45,70 Q70,70 75,50" />
 
-                                <Text stroke="blue" fill="blue" fontVariant="small-caps" fontStretch="ultra-expanded" fontVariationSettings={"XHGT 0.7"}>
+                                <Text stroke="blue" fill="blue" fontVariant="small-caps" fontStretch="ultra-expanded">
                                 <TextPath stroke="blue" fill="blue" href="#MyPath" startOffset="50%">Quick brown fox jumps over the lazy dog.</TextPath>
                                 </Text>
                             </G>
