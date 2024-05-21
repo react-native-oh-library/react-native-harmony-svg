@@ -20,9 +20,12 @@ namespace rnoh {
 namespace svg {
 
 drawing::Path SvgEllipse::AsPath() {
-    LOG(INFO) << "[SvgEllipse] AsPath";
+    double cx = relativeOnWidth(ellipseAttribute_.cx);
+    double cy = relativeOnHeight(ellipseAttribute_.cy);
+    double rx = relativeOnWidth(ellipseAttribute_.rx);
+    double ry = relativeOnHeight(ellipseAttribute_.ry);
 
-    drawing::Rect rect(vpToPx(cx - rx), vpToPx(cy - ry), vpToPx(cx + rx), vpToPx(cy + ry));
+    drawing::Rect rect(cx - rx, cy - ry, cx + rx, cy + ry);
     path_.AddOval(rect, PATH_DIRECTION_CW);
 
     elements_ = {PathElement(ElementType::kCGPathElementMoveToPoint, {Point(cx, cy - ry)}),
