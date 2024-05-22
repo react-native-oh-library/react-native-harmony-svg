@@ -19,9 +19,9 @@
 #include <native_drawing/drawing_pixel_map.h>
 #include <native_drawing/drawing_sampling_options.h>
 #include "utils/Utils.h"
-#include <multimedia/image_framework/image_mdk_common.h>
-#include <multimedia/image_framework/image/image_source_native.h>
-#include <multimedia/image_framework/image_pixel_map_mdk.h>
+// #include <multimedia/image_framework/image_mdk_common.h>
+// #include <multimedia/image_framework/image/image_source_native.h>
+// #include <multimedia/image_framework/image_pixel_map_mdk.h>
 
 namespace rnoh {
 namespace svg {
