@@ -19,31 +19,36 @@ import Svg, {
 import {View, StyleSheet, ScrollView} from 'react-native';
 import {Tester, Filter, TestCase, TestSuite} from '@rnoh/testerino';
 
-class CircleRectExample extends React.Component {
+class SvgLayoutExample extends Component {
+  static title = 'SVG with flex layout';
   render() {
     return (
-      <View
-        style={[
-          StyleSheet.absoluteFill,
-          {alignItems: 'center', justifyContent: 'center'},
-        ]}>
-        <Svg height="50%" width="50%" viewBox="0 0 100 100">
-          <Circle
-            cx="50"
-            cy="50"
-            r="45"
-            stroke="blue"
-            strokeWidth="2.5"
-            fill="green"
-          />
+      <View style={styles.container}>
+        <Svg style={styles.svg}>
           <Rect
-            x="15"
-            y="15"
-            width="70"
-            height="70"
-            stroke="red"
-            strokeWidth="2"
-            fill="yellow"
+            width="80%"
+            height="80%"
+            x="10%"
+            y="10%"
+            fill="purple"
+            stroke="yellow"
+            strokeWidth="4"
+          />
+          <Line
+            x1="10%"
+            y1="10%"
+            x2="90%"
+            y2="90%"
+            stroke="yellow"
+            strokeWidth="4"
+          />
+          <Line
+            x1="10%"
+            y1="90%"
+            x2="90%"
+            y2="10%"
+            stroke="yellow"
+            strokeWidth="4"
           />
         </Svg>
       </View>
@@ -144,18 +149,32 @@ class GExample extends Component {
     }
   }
 
-const samples = [CircleRectExample, CircleRectPathExample, CurrentColorExample, SvgG, GExample];
-// export {icon, samples};
+const samples = [SvgLayoutExample, CircleRectPathExample, CurrentColorExample, SvgG, GExample];
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    height: 100,
+    width: 200,
+    backgroundColor: "red"
+  },
+  svg: {
+    height: "80%",
+    width: "80%",
+    flex: 1,
+    alignSelf: 'stretch',
+  },
+});
 
 export default function () {
   return (
     <Tester style={{flex: 1}}>
       <ScrollView>
-        <TestCase itShould="Blue fill, Red stroke pen and Green Line">
-          <CurrentColorExample />
+        <TestCase itShould="SVG with flex layout">
+          <SvgLayoutExample />
         </TestCase>
-        <TestCase itShould="Rect on Circle">
-          <CircleRectExample />
+        {/* <TestCase itShould="Blue fill, Red stroke pen and Green Line">
+          <CurrentColorExample />
         </TestCase>
         <TestCase itShould="Rect, Circle, Path">
           <CircleRectPathExample />
@@ -165,7 +184,7 @@ export default function () {
         </TestCase>
         <TestCase itShould="GExample">
           <GExample />
-        </TestCase>
+        </TestCase> */}
       </ScrollView>
     </Tester>
   );
