@@ -3,6 +3,7 @@
 #include "arkui/native_interface.h"
 #include "arkui/native_node.h"
 #include "arkui/native_type.h"
+#include "RNOH/arkui/NativeNodeApi.h"
 #include <native_drawing/drawing_canvas.h>
 #include <native_drawing/drawing_path.h>
 #include <native_drawing/drawing_pen.h>
@@ -12,37 +13,9 @@
 
 namespace rnoh {
 namespace svg {
-namespace {
-
-class ArkUI_NativeModule {
-public:
-    ArkUI_NativeModule() {
-        OH_ArkUI_GetModuleInterface(ARKUI_NATIVE_NODE, ArkUI_NativeNodeAPI_1, nodeApi_);
-        nodeApi_->registerNodeCustomEventReceiver([](ArkUI_NodeCustomEvent *event) {
-            if (OH_ArkUI_NodeCustomEvent_GetEventTargetId(event) == 77) {
-                auto *userData = reinterpret_cast<UserCallback *>(OH_ArkUI_NodeCustomEvent_GetUserData(event));
-                if (userData != nullptr && userData->callback != nullptr) {
-                    userData->callback(event);
-                }
-            }
-        });
-    }
-    ~ArkUI_NativeModule() { nodeApi_->unregisterNodeCustomEventReceiver(); }
-    static ArkUI_NativeModule *GetInstance() {
-        static ArkUI_NativeModule nativeModule;
-        return &nativeModule;
-    }
-    ArkUI_NativeNodeAPI_1 *GetNodeAPI() { return nodeApi_; }
-
-private:
-    ArkUI_NativeNodeAPI_1 *nodeApi_ = nullptr;
-};
-} // namespace
 
 // 对应SVGArkUINode
-SvgArkUINode::SvgArkUINode()
-    : ArkUINode(ArkUI_NativeModule::GetInstance()->GetNodeAPI()->createNode(ARKUI_NODE_CUSTOM)) {
-    nativeModule_ = ArkUI_NativeModule::GetInstance()->GetNodeAPI();
+SvgArkUINode::SvgArkUINode() : ArkUINode(NativeNodeApi::getInstance()->createNode(ArkUI_NodeType::ARKUI_NODE_CUSTOM)) {
     userCallback_ = new UserCallback();
     // 设置自定义回调。注册onDraw
     userCallback_->callback = [this](ArkUI_NodeCustomEvent *event) {
@@ -55,20 +28,31 @@ SvgArkUINode::SvgArkUINode()
             break;
         }
     };
-    nativeModule_->registerNodeCustomEvent(m_nodeHandle, ARKUI_NODE_CUSTOM_EVENT_ON_DRAW, 77, userCallback_);
+    eventReceiver = [](ArkUI_NodeCustomEvent *event) {
+        if (OH_ArkUI_NodeCustomEvent_GetEventTargetId(event) == 77) {
+            auto *userData = reinterpret_cast<UserCallback *>(OH_ArkUI_NodeCustomEvent_GetUserData(event));
+            if (userData != nullptr && userData->callback != nullptr) {
+                userData->callback(event);
+            }
+        }
+    };
+    maybeThrow(NativeNodeApi::getInstance()->addNodeCustomEventReceiver(m_nodeHandle, eventReceiver));
+    maybeThrow(NativeNodeApi::getInstance()->registerNodeCustomEvent(m_nodeHandle, ARKUI_NODE_CUSTOM_EVENT_ON_DRAW, 77,
+                                                                     userCallback_));
 }
+
 SvgArkUINode::~SvgArkUINode() {
-    nativeModule_->unregisterNodeCustomEvent(m_nodeHandle, ARKUI_NODE_CUSTOM_EVENT_ON_DRAW);
+    NativeNodeApi::getInstance()->removeNodeCustomEventReceiver(m_nodeHandle, eventReceiver);
+    NativeNodeApi::getInstance()->unregisterNodeCustomEvent(m_nodeHandle, ARKUI_NODE_CUSTOM_EVENT_ON_DRAW);
     delete userCallback_;
     userCallback_ = nullptr;
 }
 
 void SvgArkUINode::OnDraw(ArkUI_NodeCustomEvent *event) {
-    //
     auto *drawContext = OH_ArkUI_NodeCustomEvent_GetDrawContextInDraw(event);
     auto *drawingHandle = reinterpret_cast<OH_Drawing_Canvas *>(OH_ArkUI_DrawContext_GetCanvas(drawContext));
-    LOG(INFO) << "[svg] <SVGArkUINode> CanvasGetHeight: " << OH_Drawing_CanvasGetHeight(drawingHandle) / 3.25;
-    LOG(INFO) << "[svg] <SVGArkUINode> CanvasGetWidth: " << OH_Drawing_CanvasGetWidth(drawingHandle) / 3.25;
+    LOG(INFO) << "[svg] <SVGArkUINode> CanvasGetHeight: " << OH_Drawing_CanvasGetHeight(drawingHandle);
+    LOG(INFO) << "[svg] <SVGArkUINode> CanvasGetWidth: " << OH_Drawing_CanvasGetWidth(drawingHandle);
     auto root = root_.lock();
     CHECK_NULL_VOID(root);
     root->ContextTraversal();

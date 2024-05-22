@@ -19,6 +19,7 @@ private:
     std::weak_ptr<SvgNode> root_;
     ArkUI_NativeNodeAPI_1 *nativeModule_ = nullptr;
     UserCallback *userCallback_ = nullptr;
+    void (*eventReceiver)(ArkUI_NodeCustomEvent *event);
 
 public:
     SvgArkUINode();
