@@ -29,7 +29,7 @@ void SvgPath::setD(std::string _d) {
     // only parser "d" to record the point info
     parser.parse(d.c_str());
     elements_ = parser.elements;
-    for (PathElement elem : elements_) {
+    for (PathElement &elem : elements_) {
         for (Point &point : elem.points) {
             point.x *= scale_;
             point.y *= scale_;
