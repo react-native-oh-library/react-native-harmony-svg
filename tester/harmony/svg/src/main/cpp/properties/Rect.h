@@ -1,12 +1,11 @@
 // from ArkUI "frameworks/base/geometry/rect.h"
 
 #pragma once
-#include <algorithm>
 
-// #include "base/geometry/offset.h"
-// #include "base/geometry/point.h"
+#include <algorithm>
 #include "properties/Size.h"
 #include "utils/Utils.h"
+#include "properties/Offset.h"
 
 namespace rnoh {
 namespace svg {
@@ -21,11 +20,11 @@ public:
         SetRect(x, y, width, height);
     }
 
-//     Rect(const Offset& offset, const Size& size)
-//     {
-//         SetOffset(offset);
-//         SetSize(size);
-//     }
+    Rect(const Offset& offset, const Size& size)
+    {
+        SetOffset(offset);
+        SetSize(size);
+    }
 
     void SetRect(double x, double y, double width, double height)
     {
@@ -35,11 +34,11 @@ public:
         height_ = height;
     }
 
-//     void SetRect(const Offset& offset, const Size& size)
-//     {
-//         SetOffset(offset);
-//         SetSize(size);
-//     }
+    void SetRect(const Offset& offset, const Size& size)
+    {
+        SetOffset(offset);
+        SetSize(size);
+    }
 
     void ApplyScale(double scale)
     {
@@ -98,16 +97,16 @@ public:
         return Size(width_, height_);
     }
 
-//     void SetOffset(const Offset& offset)
-//     {
-//         x_ = offset.GetX();
-//         y_ = offset.GetY();
-//     }
+    void SetOffset(const Offset& offset)
+    {
+        x_ = offset.GetX();
+        y_ = offset.GetY();
+    }
 
-//     Offset GetOffset() const
-//     {
-//         return Offset(x_, y_);
-//     }
+    Offset GetOffset() const
+    {
+        return Offset(x_, y_);
+    }
 
     void SetLeft(double left)
     {
@@ -157,19 +156,19 @@ public:
         return Rect(left, top, right, bottom);
     }
 
-//     Rect& operator+=(const Offset& offset)
-//     {
-//         x_ += offset.GetX();
-//         y_ += offset.GetY();
-//         return *this;
-//     }
+    Rect& operator+=(const Offset& offset)
+    {
+        x_ += offset.GetX();
+        y_ += offset.GetY();
+        return *this;
+    }
 
-//     Rect& operator-=(const Offset& offset)
-//     {
-//         x_ -= offset.GetX();
-//         y_ -= offset.GetY();
-//         return *this;
-//     }
+    Rect& operator-=(const Offset& offset)
+    {
+        x_ -= offset.GetX();
+        y_ -= offset.GetY();
+        return *this;
+    }
 
     Rect& operator+=(const Size& size)
     {
@@ -185,15 +184,15 @@ public:
         return *this;
     }
 
-//     Rect operator+(const Offset& offset) const
-//     {
-//         return Rect(x_ + offset.GetX(), y_ + offset.GetY(), width_, height_);
-//     }
-//
-//     Rect operator-(const Offset& offset) const
-//     {
-//         return Rect(x_ - offset.GetX(), y_ - offset.GetY(), width_, height_);
-//     }
+    Rect operator+(const Offset& offset) const
+    {
+        return Rect(x_ + offset.GetX(), y_ + offset.GetY(), width_, height_);
+    }
+
+    Rect operator-(const Offset& offset) const
+    {
+        return Rect(x_ - offset.GetX(), y_ - offset.GetY(), width_, height_);
+    }
 
     Rect operator+(const Size& size) const
     {
@@ -210,15 +209,15 @@ public:
         return Rect(x_ * scale, y_ * scale, width_ * scale, height_ * scale);
     }
 
-//     bool operator==(const Rect& rect) const
-//     {
-//         return (GetOffset() == rect.GetOffset()) && (GetSize() == rect.GetSize());
-//     }
+    bool operator==(const Rect& rect) const
+    {
+        return (GetOffset() == rect.GetOffset()) && (GetSize() == rect.GetSize());
+    }
 
-//     bool operator!=(const Rect& rect) const
-//     {
-//         return !operator==(rect);
-//     }
+    bool operator!=(const Rect& rect) const
+    {
+        return !operator==(rect);
+    }
 
     bool IsIntersectWith(const Rect& other) const
     {
@@ -324,29 +323,29 @@ public:
      *
      * @return The offset that this rect need to moving into magnet.
      */
-//     Offset MagneticAttractedBy(const Rect& magnet)
-//     {
-//         Offset offset = Offset::Zero();
-//         if (IsWrappedBy(magnet)) {
-//             return Offset::Zero();
-//         }
-//
-//         if (Left() < magnet.Left()) {
-//             offset.SetX(std::max(0.0, std::min(magnet.Left() - Left(), magnet.Right() - Right())));
-//         } else if (Right() > magnet.Right()) {
-//             offset.SetX(std::min(0.0, std::max(magnet.Left() - Left(), magnet.Right() - Right())));
-//         }
-//
-//         if (Top() < magnet.Top()) {
-//             offset.SetY(std::max(0.0, std::min(magnet.Top() - Top(), magnet.Bottom() - Bottom())));
-//         } else if (Bottom() > magnet.Bottom()) {
-//             offset.SetY(std::min(0.0, std::max(magnet.Top() - Top(), magnet.Bottom() - Bottom())));
-//         }
-//
-//         *this += offset;
-//
-//         return offset;
-//     }
+    Offset MagneticAttractedBy(const Rect& magnet)
+    {
+        Offset offset = Offset::Zero();
+        if (IsWrappedBy(magnet)) {
+            return Offset::Zero();
+        }
+
+        if (Left() < magnet.Left()) {
+            offset.SetX(std::max(0.0, std::min(magnet.Left() - Left(), magnet.Right() - Right())));
+        } else if (Right() > magnet.Right()) {
+            offset.SetX(std::min(0.0, std::max(magnet.Left() - Left(), magnet.Right() - Right())));
+        }
+
+        if (Top() < magnet.Top()) {
+            offset.SetY(std::max(0.0, std::min(magnet.Top() - Top(), magnet.Bottom() - Bottom())));
+        } else if (Bottom() > magnet.Bottom()) {
+            offset.SetY(std::min(0.0, std::max(magnet.Top() - Top(), magnet.Bottom() - Bottom())));
+        }
+
+        *this += offset;
+
+        return offset;
+    }
 
     std::string ToString() const
     {
@@ -388,10 +387,10 @@ public:
         return output;
     }
 
-//     Offset Center() const
-//     {
-//         return Offset(width_ / 2.0 + x_, height_ / 2.0 + y_);
-//     }
+    Offset Center() const
+    {
+        return Offset(width_ / 2.0 + x_, height_ / 2.0 + y_);
+    }
 
 private:
     double x_ = 0.0;
