@@ -270,8 +270,11 @@ double SvgNode::getCanvasWidth() {
         return canvasWidth_;
     }
     // TODO if root is text root
-    canvasWidth_ = context_->getCanvasBounds().Width();
-    return canvasWidth_;
+    if (context_->getCanvasBounds().IsValid()) {
+        canvasWidth_ = context_->getCanvasBounds().Width();
+        return canvasWidth_;
+    }
+    return 0;
 }
 
 double SvgNode::getCanvasHeight() {
@@ -279,8 +282,11 @@ double SvgNode::getCanvasHeight() {
         return canvasHeight_;
     }
     // TODO if root is text root
-    canvasHeight_ = context_->getCanvasBounds().Height();
-    return canvasHeight_;
+    if (context_->getCanvasBounds().IsValid()) {
+        canvasHeight_ = context_->getCanvasBounds().Height();
+        return canvasHeight_;
+    }
+    return 0;
 }
 
 double SvgNode::getCanvasDiagonal() {
