@@ -27,17 +27,20 @@ public:
     SvgMarker() = default;
     ~SvgMarker() override = default;
 
-    void setRefX(Dimension refX) { mRefX = refX.ConvertToPx(); }
+    void setRefX(Dimension refX) {
+        mRefX = refX;
+    }
 
-    void setRefY(Dimension refY) { mRefY = refY.ConvertToPx(); }
+    void setRefY(Dimension refY) {
+        mRefY = refY; 
+    }
 
     void setMarkerWidth(Dimension markerWidth) {
-        mMarkerWidth = markerWidth.ConvertToPx();
-        LOG(INFO) << "[SvgMarker] setMarkerWidth mMarkerWidth=" << mMarkerWidth;
+        mMarkerWidth = markerWidth;
     }
 
     void setMarkerHeight(Dimension markerHeight) {
-        mMarkerHeight = markerHeight.ConvertToPx();
+        mMarkerHeight = markerHeight;
     }
 
     void setMarkerUnits(std::string markerUnits) { mMarkerUnits = markerUnits; }
@@ -72,18 +75,18 @@ public:
      */
     void saveAndSetupCanvas(OH_Drawing_Canvas *canvas, drawing::Matrix ctm) {
         OH_Drawing_CanvasSave(canvas);
-        mCTM = mMatrix.Concat(mTransform);
-        OH_Drawing_CanvasConcatMatrix(canvas, mCTM.get());
-        mCTM = mCTM.Concat(ctm);
-        mInvCTM = mCTM.Invert();
+        cTM_ = mMatrix.Concat(mTransform);
+        OH_Drawing_CanvasConcatMatrix(canvas, cTM_.get());
+        cTM_ = cTM_.Concat(ctm);
+        mInvCTM = cTM_.Invert();
     }
 
 private:
     drawing::Matrix markerTransform;
-    double mRefX;
-    double mRefY;
-    double mMarkerWidth;
-    double mMarkerHeight;
+    Dimension mRefX;
+    Dimension mRefY;
+    Dimension mMarkerWidth;
+    Dimension mMarkerHeight;
     std::string mMarkerUnits;
     std::string mOrient;
     float mMinX;

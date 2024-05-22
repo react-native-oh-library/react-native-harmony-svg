@@ -3,6 +3,7 @@
 #include <react/renderer/core/ConcreteState.h>
 #include <sstream>
 #include "SvgSvg.h"
+#include "SvgViewManager.h"
 
 namespace rnoh {
 namespace svg {
@@ -30,6 +31,7 @@ void RNSVGSvgViewComponentInstance::onPropsChanged(SharedConcreteProps const &pr
     LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->testId: " << props->testId;
 
     auto svg = dynamic_pointer_cast<SvgSvg>(GetSvgNode());
+    SvgViewManager::getInstance().setSvgView(CppComponentInstance::getTag(), svg);
     auto tintColor = getColorFromDynamic(props->rawProps);
     if (tintColor.has_value()) {
         svg->GetContext()->SetSvgColor(Color::FromString(tintColor.value()));
