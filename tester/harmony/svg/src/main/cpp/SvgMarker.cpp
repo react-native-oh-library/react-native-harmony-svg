@@ -19,35 +19,37 @@ namespace svg {
     void SvgMarker::renderMarker(OH_Drawing_Canvas *canvas, const SvgMarkerPosition& position, float strokeWidth){
         LOG(INFO) << "[SvgMarker] renderMarker start";
         const auto count = OH_Drawing_CanvasGetSaveCount(canvas);
-        saveAndSetupCanvas(canvas, mCTM);
+        saveAndSetupCanvas(canvas, cTM_);
     
         if(markerTransform.get() != nullptr) {
             markerTransform.Reset();
         }
-        Point origin = { position.origin.x, position.origin.y };//position.origin;
+        Point origin = position.origin;
         markerTransform.Translate(origin.x, origin.y);
-        double markerAngle = (mOrient == "auto") ? -1 : std::atof(mOrient.c_str());
+        double markerAngle = (markerAttribute_.orient == "auto") ? -1 : std::atof(markerAttribute_.orient.c_str());
         float degrees = 180 + (markerAngle == -1 ? position.angle : static_cast<float>(markerAngle));
         //fix me? float rad = deg2rad(angle); this code only in ios
-        //degrees = SvgMarkerPositionUtils::deg2rad(degrees);
+//         degrees = SvgMarkerPositionUtils::deg2rad(degrees);
         markerTransform.PreRotate( degrees, 0, 0);
 
-        if (mMarkerUnits == "strokeWidth"){
+        if (markerAttribute_.markerUnits == "strokeWidth"){
             markerTransform.PreScale(strokeWidth / scale_, strokeWidth / scale_, 0, 0);
         }
-        if (!mAlign.empty()){
-            double width = mMarkerWidth;
-            double height = mMarkerHeight;
+        if (!markerAttribute_.align.empty()){
+            double width = relativeOnWidth(markerAttribute_.markerWidth) / scale_;
+            double height = relativeOnHeight(markerAttribute_.markerHeight) / scale_;
             Rect eRect(0, 0, width, height);
-            Rect vbRect(vpToPx(mMinX), vpToPx(mMinY), vpToPx(mMinX + mVbWidth), vpToPx(mMinY + mVbHeight));
-            drawing::Matrix viewBoxMatrix = ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
+            Rect vbRect(markerAttribute_.minX.ConvertToPx(), markerAttribute_.minY.ConvertToPx(),
+                        markerAttribute_.minX.ConvertToPx() + markerAttribute_.vbWidth.ConvertToPx(),
+                        markerAttribute_.minY.ConvertToPx() + markerAttribute_.vbHeight.ConvertToPx());
+            drawing::Matrix viewBoxMatrix = ViewBox::getTransform(vbRect, eRect, markerAttribute_.align, markerAttribute_.meetOrSlice);
             float sx = viewBoxMatrix.GetValue(0);
             float sy = viewBoxMatrix.GetValue(4);
             markerTransform.PreScale(sx, sy, 0, 0);
         }
     
-        double x = mRefX;
-        double y = mRefY;
+        double x = relativeOnWidth(markerAttribute_.refX);
+        double y = relativeOnHeight(markerAttribute_.refY);
         markerTransform.PreTranslate(-x, -y);
         OH_Drawing_CanvasConcatMatrix(canvas, markerTransform.get());
         

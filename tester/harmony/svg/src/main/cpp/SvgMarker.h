@@ -9,6 +9,7 @@
 
 #include "SvgQuote.h"
 #include "properties/Dimension.h"
+#include "utils/SvgAttributesParser.h"
 #include "utils/SvgMarkerPositionUtils.h"
 #include "Props.h"
 #include <iostream>
@@ -27,34 +28,41 @@ public:
     SvgMarker() = default;
     ~SvgMarker() override = default;
 
-    void setRefX(Dimension refX) { mRefX = refX.ConvertToPx(); }
-
-    void setRefY(Dimension refY) { mRefY = refY.ConvertToPx(); }
-
-    void setMarkerWidth(Dimension markerWidth) {
-        mMarkerWidth = markerWidth.ConvertToPx();
-        LOG(INFO) << "[SvgMarker] setMarkerWidth mMarkerWidth=" << mMarkerWidth;
+    void setRefX(const std::string &refX) {
+        markerAttribute_.refX = SvgAttributesParser::ParseDimension(refX, true);
     }
 
-    void setMarkerHeight(Dimension markerHeight) {
-        mMarkerHeight = markerHeight.ConvertToPx();
+    void setRefY(const std::string &refY) {
+        markerAttribute_.refY = SvgAttributesParser::ParseDimension(refY, true);
     }
 
-    void setMarkerUnits(std::string markerUnits) { mMarkerUnits = markerUnits; }
+    void setMarkerWidth(const std::string &markerWidth) {
+        markerAttribute_.markerWidth = SvgAttributesParser::ParseDimension(markerWidth, true);
+    }
 
-    void setOrient(std::string orient) { mOrient = orient; }
+    void setMarkerHeight(const std::string &markerHeight) {
+        markerAttribute_.markerHeight = SvgAttributesParser::ParseDimension(markerHeight, true);
+    }
 
-    void setMinX(float minX) { mMinX = minX; }
+    void setMarkerUnits(const std::string &markerUnits) {
+        markerAttribute_.markerUnits = markerUnits;
+    }
 
-    void setMinY(float minY) { mMinY = minY; }
+    void setOrient(const std::string &orient) {
+        markerAttribute_.orient = orient;
+    }
 
-    void setVbWidth(float vbWidth) { mVbWidth = vbWidth; }
+    void setMinX(double minX) { markerAttribute_.minX = Dimension(minX, DimensionUnit::VP); }
 
-    void setVbHeight(float vbHeight) { mVbHeight = vbHeight; }
+    void setMinY(double minY) { markerAttribute_.minY = Dimension(minY, DimensionUnit::VP); }
 
-    void setAlign(std::string align) { mAlign = align; }
+    void setVbWidth(double vbWidth) { markerAttribute_.vbWidth = Dimension(vbWidth, DimensionUnit::VP); }
 
-    void setMeetOrSlice(int meetOrSlice) { mMeetOrSlice = meetOrSlice; }
+    void setVbHeight(double vbHeight) { markerAttribute_.vbHeight = Dimension(vbHeight, DimensionUnit::VP); }
+
+    void setAlign(std::string align) { markerAttribute_.align = align; }
+
+    void setMeetOrSlice(int meetOrSlice) { markerAttribute_.meetOrSlice = meetOrSlice; }
 
     void renderMarker(OH_Drawing_Canvas *canvas, const SvgMarkerPosition &position, float strokeWidth);
 
@@ -72,28 +80,15 @@ public:
      */
     void saveAndSetupCanvas(OH_Drawing_Canvas *canvas, drawing::Matrix ctm) {
         OH_Drawing_CanvasSave(canvas);
-        mCTM = mMatrix.Concat(mTransform);
-        OH_Drawing_CanvasConcatMatrix(canvas, mCTM.get());
-        mCTM = mCTM.Concat(ctm);
-        mInvCTM = mCTM.Invert();
+        cTM_ = mMatrix.Concat(mTransform);
+        OH_Drawing_CanvasConcatMatrix(canvas, cTM_.get());
+        cTM_ = cTM_.Concat(ctm);
+        mInvCTM = cTM_.Invert();
     }
 
 private:
+    SvgMarkerAttribute markerAttribute_;
     drawing::Matrix markerTransform;
-    double mRefX;
-    double mRefY;
-    double mMarkerWidth;
-    double mMarkerHeight;
-    std::string mMarkerUnits;
-    std::string mOrient;
-    float mMinX;
-    float mMinY;
-    float mVbWidth;
-    float mVbHeight;
-    std::string mAlign;
-    int mMeetOrSlice;
-    
-    drawing::Matrix mCTM;
     drawing::Matrix mMatrix;
     drawing::Matrix mTransform;
     std::optional<drawing::Matrix> mInvCTM;

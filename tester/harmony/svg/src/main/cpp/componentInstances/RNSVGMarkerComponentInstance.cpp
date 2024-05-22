@@ -29,10 +29,10 @@ void RNSVGMarkerComponentInstance::UpdateElementProps(SharedConcreteProps const 
     LOG(INFO) << "[RNSVGMarkerComponentInstance] onPropsChanged align=" << props->align
               << " meetOrSlice=" << props->meetOrSlice;
     auto svgMarker = std::dynamic_pointer_cast<SvgMarker>(GetSvgNode());
-    svgMarker->setRefX(StringUtils::StringToDimensionWithUnit(props->refX));
-    svgMarker->setRefY(StringUtils::StringToDimensionWithUnit(props->refY));
-    svgMarker->setMarkerWidth(StringUtils::StringToDimensionWithUnit(props->markerWidth));
-    svgMarker->setMarkerHeight(StringUtils::StringToDimensionWithUnit(props->markerHeight));
+    svgMarker->setRefX(props->refX);
+    svgMarker->setRefY(props->refY);
+    svgMarker->setMarkerWidth(props->markerWidth);
+    svgMarker->setMarkerHeight(props->markerHeight);
     svgMarker->setMarkerUnits(props->markerUnits);
     svgMarker->setOrient(props->orient);
     svgMarker->setMinX(props->minX);

@@ -228,5 +228,20 @@ struct SvgGradientAttribute {
     Gradient gradient = Gradient();
 };
 
+struct SvgMarkerAttribute {
+    Dimension refX;
+    Dimension refY;
+    Dimension markerWidth;
+    Dimension markerHeight;
+    Dimension minX;
+    Dimension minY;
+    Dimension vbWidth;
+    Dimension vbHeight;
+    std::string markerUnits;
+    std::string orient;
+    std::string align;
+    int meetOrSlice;
+};
+
 } // namespace svg
 } // namespace rnoh
