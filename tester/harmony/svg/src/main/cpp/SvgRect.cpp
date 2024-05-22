@@ -7,8 +7,8 @@ namespace svg {
 drawing::Path SvgRect::AsPath() {
     double x = relativeOnWidth(rectAttribute_.x);
     double y = relativeOnHeight(rectAttribute_.y);
-    double width = relativeOnOther(rectAttribute_.width);
-    double height = relativeOnOther(rectAttribute_.height);
+    double width = relativeOnWidth(rectAttribute_.width);
+    double height = relativeOnHeight(rectAttribute_.height);
 
     if (rectAttribute_.rx != Dimension(-1.0, DimensionUnit::PX) ||
         rectAttribute_.ry != Dimension(-1.0, DimensionUnit::PX)) {
