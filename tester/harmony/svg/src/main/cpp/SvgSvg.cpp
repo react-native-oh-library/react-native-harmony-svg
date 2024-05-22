@@ -27,11 +27,12 @@ drawing::Path SvgSvg::AsPath() {
     return path;
 }
 
-Size SvgSvg::GetSize() const { return {attr_.width.Value(), attr_.height.Value()}; }
+Size SvgSvg::GetSize() const {
+    return {width_, height_}; }
 
 Rect SvgSvg::GetViewBox() const {
-    return Rect(vpToPx(attr_.vbX.Value()), vpToPx(attr_.vbY.Value()), vpToPx(attr_.vbWidth.Value()),
-                vpToPx(attr_.vbHeight.Value()));
+    return Rect(svgAttribute_.vbX.ConvertToPx(), svgAttribute_.vbY.ConvertToPx(), svgAttribute_.vbWidth.ConvertToPx(),
+                svgAttribute_.vbHeight.ConvertToPx());
 }
 
 void SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
@@ -46,9 +47,9 @@ void SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
     constexpr float half = 0.5f;
 
     auto viewBox = GetViewBox(); // should be viewBox attribute
-    const auto svgSize = Size(OH_Drawing_CanvasGetWidth(canvas), OH_Drawing_CanvasGetHeight(canvas));
+    const auto svgSize = GetSize();
     // TODO Since OH_Drawing API return px and RN pass vp
-    const auto layout = Size(OH_Drawing_CanvasGetWidth(canvas), OH_Drawing_CanvasGetHeight(canvas));
+    const auto layout = svgSize;
     LOG(INFO) << "[FitCanvas] viewBox = " << viewBox.ToString() << " svgSize = " << svgSize.ToString()
               << " layout = " << layout.ToString() << " canvas = " << OH_Drawing_CanvasGetWidth(canvas) << ", "
               << OH_Drawing_CanvasGetHeight(canvas);
@@ -62,11 +63,11 @@ void SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
 
             // Initialize translate-x to e-x - (vb-x * scale-x).
             // Initialize translate-y to e-y - (vb-y * scale-y).
-            tx = attr_.x.Value() - (viewBox.Left() * scaleX);
-            ty = attr_.y.Value() - (viewBox.Top() * scaleY);
+            tx = svgAttribute_.x.ConvertToPx()- (viewBox.Left() * scaleX);
+            ty = svgAttribute_.y.ConvertToPx() - (viewBox.Top() * scaleY);
 
             // If align is 'none'
-            if (attr_.meetOrSlice == MOS_NONE) {
+            if (svgAttribute_.meetOrSlice == MOS_NONE) {
                 // Let scale be set the smaller value of scale-x and scale-y.
                 // Assign scale-x and scale-y to scale.
                 auto scale = scaleX = scaleY = std::min(scaleX, scaleY);
@@ -85,31 +86,31 @@ void SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
                 // the smaller.
                 // Otherwise, if align is not 'none' and meetOrSlice is 'slice', set the smaller of scale-x
                 // and scale-y to the larger.
-                if (attr_.align != "none" && attr_.meetOrSlice == MOS_MEET) {
+                if (svgAttribute_.align != "none" && svgAttribute_.meetOrSlice == MOS_MEET) {
                     scaleX = scaleY = std::min(scaleX, scaleY);
-                } else if (attr_.align != "none" && attr_.meetOrSlice == MOS_SLICE) {
+                } else if (svgAttribute_.align != "none" && svgAttribute_.meetOrSlice == MOS_SLICE) {
                     scaleX = scaleY = std::max(scaleX, scaleY);
                 }
 
                 // If align contains 'xMid', add (e-width - vb-width * scale-x) / 2 to translate-x.
-                if (attr_.align.find("xMid") != std::string::npos) {
+                if (svgAttribute_.align.find("xMid") != std::string::npos) {
                     LOG(INFO) << "[FitCanvas] contain xMid: " << tx;
                     tx += (svgSize.Width() - viewBox.Width() * scaleX) * half;
                 }
 
                 // If align contains 'xMax', add (e-width - vb-width * scale-x) to translate-x.
-                if (attr_.align.find("xMax") != std::string::npos) {
+                if (svgAttribute_.align.find("xMax") != std::string::npos) {
                     tx += (svgSize.Width() - viewBox.Width() * scaleX);
                 }
 
                 // If align contains 'yMid', add (e-height - vb-height * scale-y) / 2 to translate-y.
-                if (attr_.align.find("YMid") != std::string::npos) {
+                if (svgAttribute_.align.find("YMid") != std::string::npos) {
                     LOG(INFO) << "[FitCanvas] contain YMid: " << ty;
                     ty += (svgSize.Height() - viewBox.Height() * scaleY) * half;
                 }
 
                 // If align contains 'yMax', add (e-height - vb-height * scale-y) to translate-y.
-                if (attr_.align.find("YMax") != std::string::npos) {
+                if (svgAttribute_.align.find("YMax") != std::string::npos) {
                     //                     translateY += (eHeight - vbHeight * scaleY);
                     ty += (svgSize.Height() - viewBox.Height() * scaleY);
                 }
@@ -129,9 +130,22 @@ void SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
 }
 
 void SvgSvg::Draw(OH_Drawing_Canvas *canvas) {
+    float width = OH_Drawing_CanvasGetWidth(canvas);
+    float height = OH_Drawing_CanvasGetHeight(canvas);
+    context_->SetCanvasBounds(Rect(0.0f, 0.0f, width, height));
     context_->SetRootViewBox(GetViewBox());
-    context_->SetSvgSize(Size(OH_Drawing_CanvasGetWidth(canvas), OH_Drawing_CanvasGetHeight(canvas)));
-    context_->SetCanvasBounds(Rect(0.0f, 0.0f, OH_Drawing_CanvasGetWidth(canvas), OH_Drawing_CanvasGetHeight(canvas)));
+    
+//     width_ = relativeOnWidth(svgAttribute_.width);
+//     height_ = relativeOnHeight(svgAttribute_.height);
+    width_ = width;
+    height_ = height;
+    LOG(INFO) << "[svgView] bbHeight: " << svgAttribute_.height.Value();
+    LOG(INFO) << "[svgView] bbWidth: " << svgAttribute_.height.Value();
+    LOG(INFO) << "[svgView] svg Height: " << height_;
+    LOG(INFO) << "[svgView] svg Width: " << width_;
+    LOG(INFO) << "[svgView] canvas Height: " << height;
+    LOG(INFO) << "[svgView] canvas Width: " << width;
+    context_->SetSvgSize(Size(width_, height_));
     // apply scale
     OH_Drawing_CanvasSave(canvas);
     FitCanvas(canvas);
