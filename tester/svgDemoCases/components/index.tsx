@@ -1,5 +1,5 @@
-import OldDemo from '../oldDemo'
-import Xml from './xml'
+import OldDemo from './OldDemo'
+import Xml from './Xml'
 import Circle from './genCircle';
 import Ellise from './genEllise';
 import Path from './genPath'
@@ -22,12 +22,12 @@ import Symbol from './Symbol';
 import TextPath from './TextPath';
 import Use from './Use';
 import Svg from './Svg'
-import ClipPath from './clipPath';
+import ClipPath from './ClipPath';
 import Image from './Image';
-import Combination from './Combination';
-import ComplexDemo from './complexDemo';
+import IssueFix from './IssueFix';
+import ComplexDemo from './ComplexDemo';
 import RNSVGSvgIOS from './RNSVGSvgIOS';
-import PerformanceList from './performanceList';
+import PerformanceList from './PerformanceList';
 export default {
     Circle,
     Defs,
@@ -55,7 +55,7 @@ export default {
     Xml,
     ClipPath,
     Image,
-    Combination,
+    IssueFix,
     ComplexDemo,
     RNSVGSvgIOS,
     PerformanceTest: PerformanceList
