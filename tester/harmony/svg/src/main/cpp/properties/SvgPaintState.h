@@ -1,12 +1,6 @@
 // from ArkUI "frameworks/core/components/common/properties/svg_paint_state.h"
 #pragma once
 
-// #include "base/memory/ace_type.h"
-// #include "core/components/common/properties/animatable_double.h"
-// #include "frameworks/core/components/common/layout/constants.h"
-// #include "frameworks/core/components/common/properties/decoration.h"
-// #include "frameworks/core/components/common/properties/paint_state.h"
-// #include "frameworks/core/components/common/properties/text_style.h"
 #include "Decoration.h"
 #include "properties/Color.h"
 #include "properties/PaintState.h"
@@ -55,16 +49,16 @@ public:
 
     std::optional<Gradient> &GetGradient() { return gradient_; }
 
-    std::shared_ptr<PatternAttr> &GetPatternAttr() { return patternAttr_; }
-
     const std::optional<Gradient> &GetGradient() const { return gradient_; }
-
-    const std::shared_ptr<PatternAttr> &GetPatternAttr() const { return patternAttr_; }
 
     void SetGradient(const Gradient &gradient, bool isSelf) {
         gradient_ = std::make_optional(gradient);
         hasGradient_ = isSelf;
     }
+
+    std::shared_ptr<PatternAttr> &GetPatternAttr() { return patternAttr_; }
+    
+    const std::shared_ptr<PatternAttr> &GetPatternAttr() const { return patternAttr_; }
 
     void SetPattern(std::shared_ptr<PatternAttr> patternAttr) {
         patternAttr_ = patternAttr;
@@ -149,6 +143,15 @@ public:
     {
         color_ = color;
         hasColor_ = isSelf;
+    }
+
+    std::optional<Gradient> &GetGradient() { return gradient_; }
+
+    const std::optional<Gradient> &GetGradient() const { return gradient_; }
+
+    void SetGradient(const Gradient &gradient, bool isSelf) {
+        gradient_ = std::make_optional(gradient);
+        hasGradient_ = isSelf;
     }
 
     void SetOpacity(double opacity, bool isSelf)
@@ -300,6 +303,9 @@ public:
         if (!hasStrokeDashOffset_) {
             strokeDashOffset_ = strokeState.GetStrokeDashOffset();
         }
+        if (!hasGradient_) {
+            gradient_ = strokeState.GetGradient();
+        }
     }
 
     bool HasColor() const
@@ -349,6 +355,8 @@ private:
     double strokeDashOffset_;
     std::string href_;
     int vectorEffect_ = 0;
+    std::optional<Gradient> gradient_;
+
     bool hasColor_ = false;
     bool hasOpacity_ = false;
     bool hasLineCap_ = false;
@@ -359,6 +367,7 @@ private:
     bool hasDashOffset_ = false;
     bool hasStrokeDashArray_ = false;
     bool hasStrokeDashOffset_ = false;
+    bool hasGradient_ = false;
 };
 
 class ClipState {
