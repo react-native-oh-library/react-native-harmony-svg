@@ -1,7 +1,9 @@
 #pragma once
 
+#include "ShaderEffect.h"
 #include <memory>
 #include <native_drawing/drawing_pen.h>
+#include <native_drawing/drawing_shader_effect.h>
 
 namespace rnoh::drawing {
 
@@ -30,6 +32,14 @@ public:
     void SetMiterLimit(float miterLimit);
     void SetLineCap(LineCapStyle lineCap);
     void SetLineJoin(LineJoinStyle lineJoin);
+    void SetLinearShaderEffect(const OH_Drawing_Point2D *startPt, const OH_Drawing_Point2D *endPt,
+                               const uint32_t *colors, const float *pos, uint32_t size, OH_Drawing_TileMode mode,
+                               const OH_Drawing_Matrix *mat);
+    void SetRadialShaderEffect(const OH_Drawing_Point2D *startPt, float startRadius, const OH_Drawing_Point2D *endPt,
+                               float endRadius, const uint32_t *colors, const float *pos, uint32_t size,
+                               OH_Drawing_TileMode mode, const OH_Drawing_Matrix *mat);
+    void SetImageShaderEffect(OH_Drawing_Image *image, OH_Drawing_TileMode tileX, OH_Drawing_TileMode tileY,
+                              const OH_Drawing_SamplingOptions *opt, const OH_Drawing_Matrix *mat);
 
     void Reset();
 
@@ -37,6 +47,7 @@ public:
 
 private:
     UniqueNativePen pen_;
+    ShaderEffect penShaderEffect_;
 };
 
 } // namespace rnoh::drawing
