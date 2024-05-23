@@ -11,10 +11,7 @@
 #include "properties/Dimension.h"
 #include "utils/SvgAttributesParser.h"
 #include "utils/SvgMarkerPositionUtils.h"
-#include "Props.h"
-#include <iostream>
 #include <sstream>
-#include <iomanip>
 #include <string>
 #include <native_drawing/drawing_register_font.h>
 #include <native_drawing/drawing_text_typography.h>

@@ -19,25 +19,23 @@ namespace svg {
 void SvgNode::InitStyle(const SvgBaseAttribute &attr) {
     InheritAttr(attr);
     if (hrefFill_) {
-        LOG(INFO) << "[UpdateCommonProps] hrefFill_";
-        auto href = attributes_.fillState.GetHref();
-        if (!href.empty()) {
-            auto gradient = GetGradient(href);
+        auto fillHref = attributes_.fillState.GetHref();
+        if (!fillHref.empty()) {
+            auto gradient = GetGradient(fillHref);
             if (gradient) {
-                LOG(INFO) << "[UpdateCommonProps] fill state set gradient";
                 attributes_.fillState.SetGradient(gradient.value(), true);
-            } else {
-                LOG(INFO) << "[UpdateCommonProps] no gradient";
             }
-            auto pattern = GetPatternAttr(href);
+            auto pattern = GetPatternAttr(fillHref);
             if (pattern) {
-                LOG(INFO) << "[UpdateCommonProps] fill state set pattern";
                 attributes_.fillState.SetPattern(pattern);
-            } else {
-                LOG(INFO) << "[UpdateCommonProps] no pattern";
             }
-        } else {
-            LOG(INFO) << "[UpdateCommonProps] href empty";
+        }
+        auto strokeHref = attributes_.strokeState.GetHref();
+        if (!strokeHref.empty()) {
+            auto gradient = GetGradient(strokeHref);
+            if (gradient) {
+                attributes_.strokeState.SetGradient(gradient.value(), true);
+            }
         }
     }
     OnInitStyle();
@@ -194,7 +192,10 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
     for (const auto &prop : props->propList) {
         set.insert(prop);
     }
-    if (props->fill.type == 2) {
+    
+    if (props->fill.type == 1) {
+        attributes_.fillState.SetHref(props->fill.brushRef);
+    } else if (props->fill.type == 2) {
         Color color = Color((uint32_t)*props->fill.payload);
         color.SetUseCurrentColor(true);
         attributes_.fillState.SetColor(color, true);
@@ -203,7 +204,10 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
     } else {
         attributes_.fillState.SetColor(Color::TRANSPARENT, set.count("fill"));
     }
-    if (props->stroke.type == 2) {
+    
+    if (props->stroke.type == 1) {
+        attributes_.strokeState.SetHref(props->stroke.brushRef);
+    } else if (props->stroke.type == 2) {
         Color color = Color((uint32_t)*props->stroke.payload);
         color.SetUseCurrentColor(true);
         attributes_.strokeState.SetColor(color, true);
@@ -215,7 +219,6 @@ void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
     attributes_.fillState.SetOpacity(std::clamp(props->fillOpacity, 0.0, 1.0), set.count("fillOpacity"));
     // todo Inheritance situation
     attributes_.fillState.SetFillRule(static_cast<FillState::FillRule>(props->fillRule), true);
-    attributes_.fillState.SetHref(props->fill.brushRef);
     attributes_.strokeState.SetLineWidth(vpToPx(StringUtils::StringToDouble(props->strokeWidth)),
                                          set.count("strokeWidth"));
     attributes_.strokeState.SetStrokeDashArray(StringUtils::stringVectorToDoubleVector(props->strokeDasharray),

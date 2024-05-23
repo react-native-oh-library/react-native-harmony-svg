@@ -34,8 +34,9 @@ protected:
 
     bool UpdateFillStyle(bool antiAlias = true);
     bool UpdateStrokeStyle(bool antiAlias = true);
-    void UpdateGradient();
-    void SetGradientStyle(double opacity);
+    void UpdateGradient(std::optional<Gradient> &gradient);
+    void SetFillGradientStyle(double opacity);
+    void SetStrokeGradientStyle(double opacity);
     bool SetPatternStyle();
     void UpdateLineDash();
 

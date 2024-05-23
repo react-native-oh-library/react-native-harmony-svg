@@ -25,6 +25,27 @@ void Pen::SetLineCap(LineCapStyle lineCap) { OH_Drawing_PenSetCap(pen_.get(), li
 
 void Pen::SetLineJoin(LineJoinStyle lineJoin) { OH_Drawing_PenSetJoin(pen_.get(), lineJoin); }
 
+void Pen::SetLinearShaderEffect(const OH_Drawing_Point2D *startPt, const OH_Drawing_Point2D *endPt,
+                                  const uint32_t *colors, const float *pos, uint32_t size, OH_Drawing_TileMode mode,
+                                  const OH_Drawing_Matrix *mat) {
+    penShaderEffect_.ShaderEffectCreateLinearGradient(startPt, endPt, colors, pos, size, mode, mat);
+    OH_Drawing_PenSetShaderEffect(pen_.get(), penShaderEffect_.get());
+}
+
+void Pen::SetRadialShaderEffect(const OH_Drawing_Point2D *startPt, float startRadius, const OH_Drawing_Point2D *endPt,
+                                  float endRadius, const uint32_t *colors, const float *pos, uint32_t size,
+                                  OH_Drawing_TileMode mode, const OH_Drawing_Matrix *mat) {
+    penShaderEffect_.ShaderEffectCreateRadialGradient(startPt, startRadius, endPt, endRadius, colors, pos, size, mode,
+                                                        mat);
+    OH_Drawing_PenSetShaderEffect(pen_.get(), penShaderEffect_.get());
+}
+
+void Pen::SetImageShaderEffect(OH_Drawing_Image *image, OH_Drawing_TileMode tileX, OH_Drawing_TileMode tileY,
+                                 const OH_Drawing_SamplingOptions *opt, const OH_Drawing_Matrix *mat) {
+    penShaderEffect_.ShaderEffectCreateImageShader(image, tileX, tileY, opt, mat);
+    OH_Drawing_PenSetShaderEffect(pen_.get(), penShaderEffect_.get());
+}
+
 void Pen::Reset() {}
 
 } // namespace rnoh::drawing

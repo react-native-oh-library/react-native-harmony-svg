@@ -39,28 +39,26 @@ void SvgGraphic::OnDraw(OH_Drawing_Canvas *canvas) {
     //     OH_Drawing_PenReset(strokePen_.get());
     // 获取子类的绘制路径。
     path_ = AsPath();
-    UpdateGradient();
+    UpdateGradient(attributes_.fillState.GetGradient());
+    UpdateGradient(attributes_.strokeState.GetGradient());
     if (UpdateFillStyle()) {
         OnGraphicFill(canvas);
     }
-    //     OnGraphicFill(canvas);
-    UpdateStrokeStyle();
-    OnGraphicStroke(canvas);
+    if (UpdateStrokeStyle()) {
+        OnGraphicStroke(canvas);
+    }
     if (!attributes_.markerStart.empty() || !attributes_.markerMid.empty() || !attributes_.markerEnd.empty()) {
-        LOG(INFO) << "DRaw marker";
         DrawMarker(canvas);
     }
 }
 void SvgGraphic::OnGraphicFill(OH_Drawing_Canvas *canvas) {
     auto smoothEdge = GetSmoothEdge();
     if (GreatNotEqual(smoothEdge, 0.0f)) {
-        LOG(INFO) << "[svg] OnGraphicFill1";
         auto *filter = OH_Drawing_FilterCreate();
         auto *maskFilter =
             OH_Drawing_MaskFilterCreateBlur(OH_Drawing_BlurType::NORMAL, static_cast<double>(smoothEdge), false);
         OH_Drawing_FilterSetMaskFilter(filter, maskFilter);
 
-        /* copy constructor missing */
         auto tmpFillBrush = fillBrush_;
         OH_Drawing_BrushSetFilter(tmpFillBrush.get(), filter);
         OH_Drawing_CanvasAttachBrush(canvas, tmpFillBrush.get());
@@ -70,7 +68,6 @@ void SvgGraphic::OnGraphicFill(OH_Drawing_Canvas *canvas) {
         OH_Drawing_FilterDestroy(filter);
         OH_Drawing_MaskFilterDestroy(maskFilter);
     } else {
-        LOG(INFO) << "[svg] OnGraphicFill2";
         OH_Drawing_CanvasAttachBrush(canvas, fillBrush_.get());
         OH_Drawing_CanvasDrawPath(canvas, path_.get());
         OH_Drawing_CanvasDetachBrush(canvas);
@@ -81,13 +78,11 @@ void SvgGraphic::OnGraphicFill(OH_Drawing_Canvas *canvas) {
 void SvgGraphic::OnGraphicStroke(OH_Drawing_Canvas *canvas) {
     auto smoothEdge = GetSmoothEdge();
     if (GreatNotEqual(smoothEdge, 0.0f)) {
-        LOG(INFO) << "[svg] OnGraphicStroke1";
         auto *filter = OH_Drawing_FilterCreate();
         auto *maskFilter =
             OH_Drawing_MaskFilterCreateBlur(OH_Drawing_BlurType::NORMAL, static_cast<double>(smoothEdge), false);
         OH_Drawing_FilterSetMaskFilter(filter, maskFilter);
 
-        /* copy constructor missing */
         auto tmpStrokePen = strokePen_;
         OH_Drawing_PenSetFilter(tmpStrokePen.get(), filter);
         OH_Drawing_CanvasAttachPen(canvas, tmpStrokePen.get());
@@ -97,11 +92,9 @@ void SvgGraphic::OnGraphicStroke(OH_Drawing_Canvas *canvas) {
         OH_Drawing_FilterDestroy(filter);
         OH_Drawing_MaskFilterDestroy(maskFilter);
     } else {
-        LOG(INFO) << "[svg] OnGraphicStroke2";
         const auto &transform = attributes_.transform;
         if (attributes_.strokeState.GetVectorEffect() && transform.size() > 5) {
             auto matrix = drawing::Matrix();
-            LOG(INFO) << "[xlleng] transform " << transform[0];
             matrix.SetMatrix(transform[0], transform[2], transform[4] * scale_, transform[1], transform[3],
                              transform[5] * scale_, 0, 0, 1.0);
             path_.Transform(matrix);
@@ -113,9 +106,7 @@ void SvgGraphic::OnGraphicStroke(OH_Drawing_Canvas *canvas) {
 }
 
 // todo implement bounds
-void SvgGraphic::UpdateGradient() {
-    auto &fillState_ = attributes_.fillState;
-    auto &gradient = fillState_.GetGradient();
+void SvgGraphic::UpdateGradient(std::optional<Gradient> &gradient) {
     CHECK_NULL_VOID(gradient);
     // objectBoundingBox - 0(DEFAULT), userSpaceOnUse - 1
     auto nodeBounds = (gradient->GetGradientUnits() == Unit::objectBoundingBox)
@@ -174,6 +165,7 @@ void SvgGraphic::UpdateGradient() {
         gradient->SetRadialGradientInfo(gradientInfo);
     }
 }
+
 bool SvgGraphic::UpdateFillStyle(bool antiAlias) {
     const auto &fillState_ = attributes_.fillState;
     if (fillState_.GetColor() == Color::TRANSPARENT && !fillState_.GetGradient() && !fillState_.GetPatternAttr()) {
@@ -182,10 +174,8 @@ bool SvgGraphic::UpdateFillStyle(bool antiAlias) {
     double curOpacity = fillState_.GetOpacity() * attributes_.opacity;
     fillBrush_.SetAntiAlias(antiAlias);
     if (fillState_.GetGradient()) {
-        LOG(INFO) << "[SVGGraphic] SetGradientStyle";
-        SetGradientStyle(curOpacity);
+        SetFillGradientStyle(curOpacity);
     } else if (fillState_.GetPatternAttr()) {
-        LOG(INFO) << "[SVGGraphic] SetPatternStyle";
         return SetPatternStyle();
     } else {
         fillBrush_.SetColor(fillState_.GetColor().BlendOpacity(curOpacity).GetValue());
@@ -193,7 +183,7 @@ bool SvgGraphic::UpdateFillStyle(bool antiAlias) {
     }
     return true;
 }
-void SvgGraphic::SetGradientStyle(double opacity) {
+void SvgGraphic::SetFillGradientStyle(double opacity) {
     const auto &fillState_ = attributes_.fillState;
     auto gradient = fillState_.GetGradient();
     CHECK_NULL_VOID(gradient);
@@ -239,6 +229,57 @@ void SvgGraphic::SetGradientStyle(double opacity) {
         concatMatrix = scaleMatrix.Concat(transMatrix);
         fillBrush_.SetRadialShaderEffect(&focal, 0, &center, info.rx > info.ry ? info.rx : info.ry, colors.data(),
             pos.data(), colors.size(), static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()), concatMatrix.get());
+    }
+}
+
+void SvgGraphic::SetStrokeGradientStyle(double opacity) {
+    const auto &strokeState_ = attributes_.strokeState;
+    auto gradient = strokeState_.GetGradient();
+    CHECK_NULL_VOID(gradient);
+    auto gradientColors = gradient->GetColors();
+    if (gradientColors.empty()) {
+        return;
+    }
+    std::vector<float> pos;
+    std::vector<uint32_t> colors;
+    for (const auto &gradientColor : gradientColors) {
+        pos.push_back(static_cast<float>(gradientColor.GetDimension().Value()));
+        colors.push_back(
+            gradientColor.GetColor().BlendOpacity(gradientColor.GetOpacity()).BlendOpacity(opacity).GetValue());
+    }
+    drawing::Matrix transMatrix;
+    if (gradient->GetGradientTransform().size() == 9) {
+        transMatrix.SetMatrix(gradient->GetGradientTransform()[0], gradient->GetGradientTransform()[1],
+                              gradient->GetGradientTransform()[2], gradient->GetGradientTransform()[3],
+                              gradient->GetGradientTransform()[4], gradient->GetGradientTransform()[5],
+                              gradient->GetGradientTransform()[6], gradient->GetGradientTransform()[7],
+                              gradient->GetGradientTransform()[8]);
+    }
+    if (gradient->GetType() == GradientType::LINEAR && gradient->IsValid()) {
+        auto info = gradient->GetLinearGradientInfo();
+        OH_Drawing_Point2D ptsPoint2D[2] = {
+            {static_cast<float>(info.x1), static_cast<float>(info.y1)},
+            {static_cast<float>(info.x2), static_cast<float>(info.y2)},
+        };
+        strokePen_.SetLinearShaderEffect(&ptsPoint2D[0], &ptsPoint2D[1], colors.data(), pos.data(), colors.size(),
+                                         static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()),
+                                         transMatrix.get());
+    }
+    if (gradient->GetType() == GradientType::RADIAL && gradient->IsValid()) {
+        auto info = gradient->GetRadialGradientInfo();
+        drawing::Matrix scaleMatrix;
+        if (info.ry < info.rx) {
+            scaleMatrix = drawing::Matrix::CreateScale(1, info.ry / info.rx, info.cx, info.cy);
+        } else {
+            scaleMatrix = drawing::Matrix::CreateScale(info.rx / info.ry, 1, info.cx, info.cy);
+        }
+        OH_Drawing_Point2D focal = {static_cast<float>(info.fx), static_cast<float>(info.fy)};
+        OH_Drawing_Point2D center = {static_cast<float>(info.cx), static_cast<float>(info.cy)};
+        drawing::Matrix concatMatrix;
+        concatMatrix = scaleMatrix.Concat(transMatrix);
+        strokePen_.SetRadialShaderEffect(
+            &focal, 0, &center, info.rx > info.ry ? info.rx : info.ry, colors.data(), pos.data(), colors.size(),
+            static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()), concatMatrix.get());
     }
 }
 
@@ -372,7 +413,11 @@ bool SvgGraphic::UpdateStrokeStyle(bool antiAlias) {
     }
 
     double curOpacity = strokeState.GetOpacity() * attributes_.opacity;
-    strokePen_.SetColor(strokeState.GetColor().BlendOpacity(curOpacity).GetValue());
+    if (strokeState.GetGradient()) {
+        SetStrokeGradientStyle(curOpacity);
+    } else {
+        strokePen_.SetColor(strokeState.GetColor().BlendOpacity(curOpacity).GetValue());
+    }
     LOG(INFO) << "[svg] strokeState.GetLineCap(): " << static_cast<int>(strokeState.GetLineCap());
     if (strokeState.GetLineCap() == LineCapStyle::ROUND) {
         strokePen_.SetLineCap(LINE_ROUND_CAP);
