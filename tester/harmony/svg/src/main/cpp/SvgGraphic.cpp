@@ -95,7 +95,6 @@ void SvgGraphic::OnGraphicStroke(OH_Drawing_Canvas *canvas) {
         const auto &transform = attributes_.transform;
         if (attributes_.strokeState.GetVectorEffect() && transform.size() > 5) {
             auto matrix = drawing::Matrix();
-            LOG(INFO) << "[xlleng] transform " << transform[0];
             matrix.SetMatrix(transform[0], transform[2], transform[4] * scale_, transform[1], transform[3],
                              transform[5] * scale_, 0, 0, 1.0);
             path_.Transform(matrix);
