@@ -1,23 +1,14 @@
-//
-// Created on 2024/5/8.
-//
-// Node APIs are not fully supported. To solve the compilation error of the interface cannot be found,
-// please include "napi/native_api.h".
-
 #include "SvgMarker.h"
 #include "properties/Rect.h"
 #include "properties/ViewBox.h"
-#include "utils/Utils.h"
 #include <string>
 #include <cstdlib>
-#include <cmath>
 #include <vector>
 
 namespace rnoh {
 namespace svg {
 
     void SvgMarker::renderMarker(OH_Drawing_Canvas *canvas, const SvgMarkerPosition& position, float strokeWidth){
-        LOG(INFO) << "[SvgMarker] renderMarker start";
         const auto count = OH_Drawing_CanvasGetSaveCount(canvas);
         saveAndSetupCanvas(canvas, cTM_);
     
@@ -42,10 +33,12 @@ namespace svg {
             Rect vbRect(markerAttribute_.minX.ConvertToPx(), markerAttribute_.minY.ConvertToPx(),
                         markerAttribute_.minX.ConvertToPx() + markerAttribute_.vbWidth.ConvertToPx(),
                         markerAttribute_.minY.ConvertToPx() + markerAttribute_.vbHeight.ConvertToPx());
-            drawing::Matrix viewBoxMatrix = ViewBox::getTransform(vbRect, eRect, markerAttribute_.align, markerAttribute_.meetOrSlice);
-            float sx = viewBoxMatrix.GetValue(0);
-            float sy = viewBoxMatrix.GetValue(4);
-            markerTransform.PreScale(sx, sy, 0, 0);
+            if (vbRect.IsValid()) {
+                drawing::Matrix viewBoxMatrix = ViewBox::getTransform(vbRect, eRect, markerAttribute_.align, markerAttribute_.meetOrSlice);
+                float sx = viewBoxMatrix.GetValue(0);
+                float sy = viewBoxMatrix.GetValue(4);
+                markerTransform.PreScale(sx, sy, 0, 0);
+            }
         }
     
         double x = relativeOnWidth(markerAttribute_.refX);
@@ -56,7 +49,6 @@ namespace svg {
         OnDrawTraversed(canvas);
     
         OH_Drawing_CanvasRestoreToCount(canvas, count);
-        LOG(INFO) << "[SvgMarker] renderMarker done.";
     }
 
 } // namespace svg
