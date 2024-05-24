@@ -326,16 +326,16 @@ class RNLineExample extends Component {
             <RNSVGMarker
               name="selection"
               markerUnits="userSpaceOnUse"
-              // refX="-15"
-              // refY="10"
-              // markerWidth="3"
-              // markerHeight="3"
-              // minX={0}
-              // minY={0}
-              // vbWidth={1}
-              // vbHeight={1}
-              // align="xMidYMid"
-              // meetOrSlice={2}
+              refX="-15"
+              refY="10"
+              markerWidth="3"
+              markerHeight="3"
+              minX={0}
+              minY={0}
+              vbWidth={1}
+              vbHeight={1}
+              align="xMidYMid"
+              meetOrSlice={2}
               orient="auto">
               <Polygon
                 points="0,0 -5,20 10,30"
@@ -367,12 +367,18 @@ class RNPathExample extends Component {
           <Defs>
             <RNSVGMarker
               name="arrow"
-              viewBox="0 0 30 10"
-              refX={5}
-              refY={5}
-              markerWidth={4}
-              markerHeight={4}
-              orient="auto-start-reverse"
+              refX="-15"
+              refY="10"
+              markerWidth="3"
+              markerHeight="3"
+              minX={0}
+              minY={0}
+              vbWidth={1}
+              vbHeight={1}
+              align="xMidYMid"
+              meetOrSlice={2}
+              orient="auto"
+              // orient="auto-start-reverse"
             >
               <Path fill="blue" d="M 0 0 L 10 5 L 0 10 z" />
             </RNSVGMarker>
