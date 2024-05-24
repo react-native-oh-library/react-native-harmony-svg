@@ -18,7 +18,7 @@ class PressExample extends Component {
     'Press on the red circle or long press on the blue rectangle to trigger the events';
   render() {
     return (
-      <Svg height="240" width="240">
+      <Svg height="240" width="240" viewBox='0 0 100 100'>
         <Circle
           cx="50%"
           cy="50%"

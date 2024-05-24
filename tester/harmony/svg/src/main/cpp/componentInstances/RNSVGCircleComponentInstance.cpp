@@ -1,5 +1,6 @@
 #include "RNSVGCircleComponentInstance.h"
 #include "Props.h"
+#include "SvgCircle.h"
 #include <react/renderer/core/ConcreteState.h>
 #include <sstream>
 

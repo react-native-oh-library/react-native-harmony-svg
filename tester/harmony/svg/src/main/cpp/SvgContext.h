@@ -39,7 +39,16 @@ public:
     void SetCanvasBounds(const Rect &canvasClipBounds) { canvasClipBounds_ = canvasClipBounds; }
 
     const Rect getCanvasBounds() { return canvasClipBounds_; }
-    
+
+    void SetCanvasScale(const double &canvasScaleX, const double &canvasScaleY) { 
+        canvasScaleX_ = canvasScaleX;
+        canvasScaleY_ = canvasScaleY;
+    }
+
+    const double getCanvasScaleX() { return canvasScaleX_; }
+
+    const double getCanvasScaleY() { return canvasScaleY_; }
+
 private:
     std::unordered_map<std::string, std::weak_ptr<SvgNode>> idMapper_;
     ClassStyleMap styleMap_;
@@ -47,6 +56,8 @@ private:
     Size svgSize_;
     Color svgColor_;
     Rect canvasClipBounds_;
+    double canvasScaleX_ = 1;
+    double canvasScaleY_ = 1;
 };
 
 } // namespace svg
