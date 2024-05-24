@@ -116,24 +116,24 @@ void SvgGraphic::UpdateGradient(std::optional<Gradient> &gradient) {
         const auto &linearGradient = gradient->GetLinearGradient();
         auto gradientInfo = LinearGradientInfo();
         if (linearGradient.x1.value().Unit() == DimensionUnit::PERCENT) {
-            gradientInfo.x1 = nodeBounds.Left() + linearGradient.x1->ConvertToPx(nodeBounds.Width());
+            gradientInfo.x1 = nodeBounds.Left() + linearGradient.x1->RelativeConvertToPx(nodeBounds.Width(), scale_);
         } else {
-            gradientInfo.x1 = linearGradient.x1->ConvertToPx(nodeBounds.Width());
+            gradientInfo.x1 = linearGradient.x1->RelativeConvertToPx(nodeBounds.Width(), scale_);
         }
         if (linearGradient.y1.value().Unit() == DimensionUnit::PERCENT) {
-            gradientInfo.y1 = nodeBounds.Top() + linearGradient.y1->ConvertToPx(nodeBounds.Height());
+            gradientInfo.y1 = nodeBounds.Top() + linearGradient.y1->RelativeConvertToPx(nodeBounds.Height(), scale_);
         } else {
-            gradientInfo.y1 = linearGradient.y1->ConvertToPx(nodeBounds.Height());
+            gradientInfo.y1 = linearGradient.y1->RelativeConvertToPx(nodeBounds.Height(), scale_);
         }
         if (linearGradient.x2.value().Unit() == DimensionUnit::PERCENT) {
-            gradientInfo.x2 = nodeBounds.Left() + linearGradient.x2->ConvertToPx(nodeBounds.Width());
+            gradientInfo.x2 = nodeBounds.Left() + linearGradient.x2->RelativeConvertToPx(nodeBounds.Width(), scale_);
         } else {
-            gradientInfo.x2 = linearGradient.x2->ConvertToPx(nodeBounds.Width());
+            gradientInfo.x2 = linearGradient.x2->RelativeConvertToPx(nodeBounds.Width(), scale_);
         }
         if (linearGradient.y2.value().Unit() == DimensionUnit::PERCENT) {
-            gradientInfo.y2 = nodeBounds.Top() + linearGradient.y2->ConvertToPx(nodeBounds.Height());
+            gradientInfo.y2 = nodeBounds.Top() + linearGradient.y2->RelativeConvertToPx(nodeBounds.Height(), scale_);
         } else {
-            gradientInfo.y2 = linearGradient.y2->ConvertToPx(nodeBounds.Height());
+            gradientInfo.y2 = linearGradient.y2->RelativeConvertToPx(nodeBounds.Height(), scale_);
         }
         gradient->SetLinearGradientInfo(gradientInfo);
     }
@@ -141,27 +141,27 @@ void SvgGraphic::UpdateGradient(std::optional<Gradient> &gradient) {
         const auto &radialGradient = gradient->GetRadialGradient();
         auto gradientInfo = RadialGradientInfo();
         if (radialGradient.radialCenterX.value().Unit() == DimensionUnit::PERCENT) {
-            gradientInfo.cx = nodeBounds.Left() + radialGradient.radialCenterX->ConvertToPx(nodeBounds.Width());
+            gradientInfo.cx = nodeBounds.Left() + radialGradient.radialCenterX->RelativeConvertToPx(nodeBounds.Width(), scale_);
         } else {
-            gradientInfo.cx = radialGradient.radialCenterX->ConvertToPx(nodeBounds.Width());
+            gradientInfo.cx = radialGradient.radialCenterX->RelativeConvertToPx(nodeBounds.Width(), scale_);
         }
         if (radialGradient.radialCenterY.value().Unit() == DimensionUnit::PERCENT) {
-            gradientInfo.cy = nodeBounds.Top() + radialGradient.radialCenterY->ConvertToPx(nodeBounds.Height());
+            gradientInfo.cy = nodeBounds.Top() + radialGradient.radialCenterY->RelativeConvertToPx(nodeBounds.Height(), scale_);
         } else {
-            gradientInfo.cy = radialGradient.radialCenterY->ConvertToPx(nodeBounds.Height());
+            gradientInfo.cy = radialGradient.radialCenterY->RelativeConvertToPx(nodeBounds.Height(), scale_);
         }
         if (radialGradient.fRadialCenterX.value().Unit() == DimensionUnit::PERCENT) {
-            gradientInfo.fx = nodeBounds.Left() + radialGradient.fRadialCenterX->ConvertToPx(nodeBounds.Width());
+            gradientInfo.fx = nodeBounds.Left() + radialGradient.fRadialCenterX->RelativeConvertToPx(nodeBounds.Width(), scale_);
         } else {
-            gradientInfo.fx = radialGradient.fRadialCenterX->ConvertToPx(nodeBounds.Width());
+            gradientInfo.fx = radialGradient.fRadialCenterX->RelativeConvertToPx(nodeBounds.Width(), scale_);
         }
         if (radialGradient.fRadialCenterY.value().Unit() == DimensionUnit::PERCENT) {
-            gradientInfo.fy = nodeBounds.Top() + radialGradient.fRadialCenterY->ConvertToPx(nodeBounds.Height());
+            gradientInfo.fy = nodeBounds.Top() + radialGradient.fRadialCenterY->RelativeConvertToPx(nodeBounds.Height(), scale_);
         } else {
-            gradientInfo.fy = radialGradient.fRadialCenterY->ConvertToPx(nodeBounds.Height());
+            gradientInfo.fy = radialGradient.fRadialCenterY->RelativeConvertToPx(nodeBounds.Height(), scale_);
         }
-        gradientInfo.rx = radialGradient.radialHorizontalSize->ConvertToPx(nodeBounds.Width());
-        gradientInfo.ry = radialGradient.radialVerticalSize->ConvertToPx(nodeBounds.Height());
+        gradientInfo.rx = radialGradient.radialHorizontalSize->RelativeConvertToPx(nodeBounds.Width(), scale_);
+        gradientInfo.ry = radialGradient.radialVerticalSize->RelativeConvertToPx(nodeBounds.Height(), scale_);
         gradient->SetRadialGradientInfo(gradientInfo);
     }
 }

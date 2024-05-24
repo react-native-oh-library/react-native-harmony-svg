@@ -54,7 +54,13 @@ public:
 
     Rect AsBounds();
 
-    double GetScale() const { return scale_; }
+    void SetScale(const double &scale) {
+        scale_ = scale;
+    }
+    
+    double GetScale() const {
+        return scale_;
+    }
 
     void InheritAttr(const SvgBaseAttribute &parent) {
         attributes_.Inherit(parent);
@@ -117,6 +123,7 @@ protected:
 
     std::string hrefClipPath_;
     std::string imagePath_;
+    
     // TODO get densityPixels in CAPI
     double scale_ = 3.25;
     

@@ -3,7 +3,7 @@
 namespace rnoh {
 namespace svg {
 
-double Dimension::ConvertToPx(double baseLen) const {
+double Dimension::RelativeConvertToPx(double baseLen, double scale) const {
     switch (Unit()) {
     case DimensionUnit::PERCENT: {
         return Value() * baseLen;
@@ -11,21 +11,21 @@ double Dimension::ConvertToPx(double baseLen) const {
     case DimensionUnit::PX:
         return Value();
     case DimensionUnit::VP:
-        return vpToPx(Value());
+        return ConvertToPx(scale);
     default:
-        return vpToPx(Value());
+        return ConvertToPx(scale);
     }
 }
 
-double Dimension::ConvertToPx(const Size &viewPort, SvgLengthType type) const {
+double Dimension::ConvertToPx(const Size &viewPort, SvgLengthType type, double scale) const {
     switch (type) {
     case SvgLengthType::HORIZONTAL: {
-        return ConvertToPx(viewPort.Width());
+        return RelativeConvertToPx(viewPort.Width(), scale);
     }
     case SvgLengthType::VERTICAL:
-        return ConvertToPx(viewPort.Height());
+        return RelativeConvertToPx(viewPort.Height(), scale);
     case SvgLengthType::OTHER:
-        return ConvertToPx(sqrt(viewPort.Width() * viewPort.Height()));
+        return RelativeConvertToPx(sqrt(viewPort.Width() * viewPort.Height()), scale);
     default:
         return 0.0;
     }

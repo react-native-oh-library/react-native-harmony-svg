@@ -15,8 +15,7 @@ public:
 
     void onPropsChanged(typename CppComponentInstance<T>::SharedConcreteProps const &props) override {
         GetSvgNode()->UpdateCommonProps(props);
-        LOG(INFO) << "[SvgTouch] pointerEvents-c++: " << props->pointerEvents;
-        LOG(INFO) << "[SvgTouch] pointerEvents-c++: " << props->pointerEvents.size();
+        GetSvgNode()->SetScale(CppComponentInstance<T>::m_layoutMetrics.pointScaleFactor);
         pointerEvents_ = props->pointerEvents.size() == 0 ? "auto" : props->pointerEvents;
         UpdateElementProps(props);
         svgMarkDirty();
@@ -26,8 +25,8 @@ public:
     void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override {
         OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
     }
-    
-    void setLayout(facebook::react::LayoutMetrics layoutMetrics) override {};
+
+    void setLayout(facebook::react::LayoutMetrics layoutMetrics) override { CppComponentInstance<T>::m_layoutMetrics = layoutMetrics; };
 
     std::shared_ptr<RNSVGSvgViewComponentInstance> getParentSvgView() const {
         auto parent = CppComponentInstance<T>::getParent().lock();
