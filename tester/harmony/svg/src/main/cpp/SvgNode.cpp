@@ -3,7 +3,6 @@
 #include <native_drawing/drawing_path.h>
 #include <regex>
 #include <string>
-#include "properties/SvgDomType.h"
 #include "utils/LinearMap.h"
 #include "utils/StringUtils.h"
 #include "utils/SvgAttributesParser.h"
@@ -273,8 +272,8 @@ double SvgNode::getCanvasWidth() {
         return canvasWidth_;
     }
     // TODO if root is text root
-    if (context_->getCanvasBounds().IsValid()) {
-        canvasWidth_ = context_->getCanvasBounds().Width();
+    if (context_) {
+        canvasWidth_ = context_->getCanvasBounds().Width() / context_->getCanvasScaleX();
         return canvasWidth_;
     }
     return 0;
@@ -285,8 +284,8 @@ double SvgNode::getCanvasHeight() {
         return canvasHeight_;
     }
     // TODO if root is text root
-    if (context_->getCanvasBounds().IsValid()) {
-        canvasHeight_ = context_->getCanvasBounds().Height();
+    if (context_) {
+        canvasHeight_ = context_->getCanvasBounds().Height() / context_->getCanvasScaleY();
         return canvasHeight_;
     }
     return 0;

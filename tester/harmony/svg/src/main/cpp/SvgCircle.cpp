@@ -18,7 +18,6 @@
 namespace rnoh {
 namespace svg {
 
-
 drawing::Path SvgCircle::AsPath() {
     double x = relativeOnWidth(circleAttribute_.cx);
     double y = relativeOnHeight(circleAttribute_.cy);
