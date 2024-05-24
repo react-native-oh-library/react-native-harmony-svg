@@ -39,7 +39,7 @@ private:
     
     float height_ = 0;
     
-    void FitCanvas(OH_Drawing_Canvas *canvas);
+    drawing::Matrix FitCanvas(OH_Drawing_Canvas *canvas);
 };
 
 } // namespace svg

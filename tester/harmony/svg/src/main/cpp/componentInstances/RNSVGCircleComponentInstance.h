@@ -25,7 +25,6 @@
 #pragma once
 #include "RNSVGBaseComponentInstance.h"    
 #include "ShadowNodes.h"
-#include "SvgCircle.h"
 
 namespace rnoh {
 namespace svg {
