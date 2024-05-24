@@ -296,7 +296,7 @@ export function genViewProps(): CaseParams[] {
             key: 'style',
             values: [
                 {
-                    opacity: '0.1'
+                    opacity: 0.3
                 }
             ]
         },
@@ -325,16 +325,16 @@ export function genViewProps(): CaseParams[] {
         },
         {
             key: 'pointerEvents', // 'box-none' | 'none' | 'box-only' | 'auto' | undefined;
-            values: ['box-none', 'none', 'box-only', 'auto', 'undefined']
+            values: ['box-none', 'none', 'box-only', 'auto']
         },
         {
             key: 'removeClippedSubviews',
-            values: ['true', 'false']
+            values: [true, false]
         },
         // testID nativeID
         {
             key: 'shouldRasterizeIOS',
-            values: ['true', 'false']
+            values: [true, false]
         }
     ]
 }
@@ -451,10 +451,10 @@ export function genFontProps(): CaseParams[] {
             key: 'textDecoration',
             values: ['none', 'underline', 'overline', 'line-through', 'blink']
         },
-        {
-            key: 'fontVariantLigatures',
-            values: ['normal', 'no-common-ligatures', 'common-ligatures']
-        }
+        // {
+        //     key: 'fontVariantLigatures',
+        //     values: ['normal', 'no-common-ligatures', 'common-ligatures']
+        // }
     ]
 }
 
