@@ -113,7 +113,7 @@ double GlyphContext::nextX(double advance) {
         mDX = 0;
         mXIndex = nextIndex;
         Dimension string = mXs[nextIndex];
-        mX = string.ConvertToPx(mWidth);
+        mX = string.RelativeConvertToPx(mWidth, mScale);
     }
 
     mX += advance;
@@ -127,7 +127,7 @@ double GlyphContext::nextDeltaX() {
     if (nextIndex < mDXs.size()) {
         mDXIndex = nextIndex;
         Dimension string = mDXs[nextIndex];
-        double val = string.ConvertToPx(mWidth);
+        double val = string.RelativeConvertToPx(mWidth, mScale);
         mDX += val;
     }
 
@@ -140,7 +140,7 @@ double GlyphContext::nextDeltaY() {
     if (nextIndex < mDYs.size()) {
         mDYIndex = nextIndex;
         Dimension string = mDYs[nextIndex];
-        double val = string.ConvertToPx(mHeight);
+        double val = string.RelativeConvertToPx(mHeight, mScale);
         mDY += val;
     }
 
@@ -166,7 +166,7 @@ double GlyphContext::nextY() {
         mDY = 0;
         mYIndex = nextIndex;
         Dimension string = mYs[nextIndex];
-        mY = string.ConvertToPx(mHeight);
+        mY = string.RelativeConvertToPx(mHeight, mScale);
     }
 
     return mY;
