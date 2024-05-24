@@ -190,7 +190,7 @@ class RectExample extends Component {
           </Marker>
         </Defs>
         <Rect
-          x="50%"
+          x="50"
           y="50"
           width="30"
           height="30"
