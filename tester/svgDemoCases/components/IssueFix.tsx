@@ -73,15 +73,26 @@ class Issue178 extends Component {
           d="M0,61.14285714285714L26.725274222237722,97.71428571428572L53.450548444475444,70.28571428571428L80.17582266671316,20L106.90109688895089,110.51428571428572L133.62637111118863,128.79999999999998L160.35164533342632,29.142857142857146L187.07691955566406,23.657142857142865L213.80219377790178,74.85714285714286L240.52746800013952,58.39999999999999L267.25274222237726,155.31428571428572L293.9780164446149,84.91428571428571L320.70329066685264,61.14285714285714L347.4285648890904,125.14285714285715L374.1538391113281,180"
           fillOpacity={0}
           stroke="url(#gradient)"
-          strokeWidth="4"
-          >
-          </Path>
+          strokeWidth="4"></Path>
       </Svg>
     );
   }
 }
 
-const samples = [SvgLayoutExample, Issue178];
+class Issue185 extends Component {
+  static title = 'Stroke LinearGradient';
+  render() {
+    return (
+      <Svg style={{height: 200, width: 200}}>
+        <Path
+          d="M 5 2,h 154,q 3 0 3 3,v 164,q 0 3 -3 3,h -154,q -3 0 -3 -3,v -164,q 0 -3 3 -3"
+          fill="rgba(3,102,214,0.2)"></Path>
+      </Svg>
+    );
+  }
+}
+
+const samples = [SvgLayoutExample, Issue178, Issue185,];
 
 const styles = StyleSheet.create({
   container: {
@@ -107,6 +118,9 @@ export default function () {
         </TestCase>
         <TestCase itShould="Issue#178: Stroke color should have linear gradient">
           <Issue178 />
+        </TestCase>
+        <TestCase itShould="Issue #185: The <Path d='M 5 2,h 154,q 3 0 3 3,v 164,q 0 3 -3 3,h -154,q -3 0 -3 -3,v -164,q 0 -3 3 -3'> should draw properly">
+          <Issue185 />
         </TestCase>
       </ScrollView>
     </Tester>

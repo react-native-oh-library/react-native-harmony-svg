@@ -5,13 +5,13 @@ namespace rnoh {
 namespace svg {
 class SvgPath : public SvgGraphic {
     private:
-        std::string d;
+        std::string d_;
 
     public:
         SvgPath() = default;
         ~SvgPath() override = default;
 
-        void setD(std::string d);
+        void setD(const std::string &d);
 
         drawing::Path AsPath() override;
 };
