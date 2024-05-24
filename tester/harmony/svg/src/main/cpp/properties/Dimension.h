@@ -87,12 +87,12 @@ public:
 
     void SetUnit(DimensionUnit unit) { unit_ = unit; }
 
-    double ConvertToPx(double baseLen) const;
+    double RelativeConvertToPx(double baseLen, double scale) const;
 
-    double ConvertToPx(const Size &viewPort, SvgLengthType type) const;
+    double ConvertToPx(const Size &viewPort, SvgLengthType type, double scale) const;
 
     // Percentage unit conversion is not supported.
-    double ConvertToVp() const {
+    double ConvertToVp(double scale) const {
         if (unit_ == DimensionUnit::VP) {
             return value_;
         }
@@ -103,8 +103,7 @@ public:
 //             return value_ / pipeline->GetDipScale();
 //         }
         if (unit_ == DimensionUnit::PX) {
-            // TODO get densityPixels in CAPI
-            return value_ / 3.25;
+            return value_ / scale;
         }
 //         if (unit_ == DimensionUnit::FP) {
 //             return value_ * pipeline->GetFontScale();
@@ -116,7 +115,7 @@ public:
     };
 
     // Percentage unit conversion is not supported.
-    double ConvertToPx() const {
+    double ConvertToPx(double scale) const {
         if (unit_ == DimensionUnit::NONE) {
             return value_;
         }
@@ -127,12 +126,11 @@ public:
 //         auto pipeline = PipelineBase::GetCurrentContextSafely();
 //         CHECK_NULL_RETURN(pipeline, 0.0);
         if (unit_ == DimensionUnit::VP) {
-            // TODO get densityPixels in CAPI
-            return value_ * 3.25;
+            return value_ * scale;
         }
         if (unit_ == DimensionUnit::FP) {
 //             return value_ * pipeline->GetDipScale() * pipeline->GetFontScale();
-            return value_ * 3.25;
+            return value_ * scale;
         }
 //         if (unit_ == DimensionUnit::LPX) {
 //             return value_ * pipeline->GetLogicScale();
@@ -140,13 +138,13 @@ public:
         return 0.0;
     };
 
-    double GetNativeValue(DimensionUnit unit) const {
+    double GetNativeValue(DimensionUnit unit, double scale) const {
         if (unit_ == unit) {
             return value_;
         } else if (unit == DimensionUnit::PX) {
-            return ConvertToPx();
+            return ConvertToPx(scale);
         } else {
-            return ConvertToVp();
+            return ConvertToVp(scale);
         }
     }
 

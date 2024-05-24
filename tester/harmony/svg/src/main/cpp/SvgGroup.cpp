@@ -13,7 +13,7 @@ void SvgGroup::InitGroupFlag() {
 
 void SvgGroup::OnInitStyle() {
     if (!font_) {
-        InitFont(scale_);
+        InitFont(GetScale());
     }
     for (auto &child : children_) {
         if (auto childG = std::dynamic_pointer_cast<FontHolderBase>(child)) {

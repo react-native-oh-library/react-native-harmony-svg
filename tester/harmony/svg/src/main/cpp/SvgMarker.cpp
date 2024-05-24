@@ -30,9 +30,9 @@ namespace svg {
             double width = relativeOnWidth(markerAttribute_.markerWidth) / scale_;
             double height = relativeOnHeight(markerAttribute_.markerHeight) / scale_;
             Rect eRect(0, 0, width, height);
-            Rect vbRect(markerAttribute_.minX.ConvertToPx(), markerAttribute_.minY.ConvertToPx(),
-                        markerAttribute_.minX.ConvertToPx() + markerAttribute_.vbWidth.ConvertToPx(),
-                        markerAttribute_.minY.ConvertToPx() + markerAttribute_.vbHeight.ConvertToPx());
+            Rect vbRect(markerAttribute_.minX.ConvertToPx(scale_), markerAttribute_.minY.ConvertToPx(scale_),
+                        markerAttribute_.minX.ConvertToPx(scale_) + markerAttribute_.vbWidth.ConvertToPx(scale_),
+                        markerAttribute_.minY.ConvertToPx(scale_) + markerAttribute_.vbHeight.ConvertToPx(scale_));
             if (vbRect.IsValid()) {
                 drawing::Matrix viewBoxMatrix = ViewBox::getTransform(vbRect, eRect, markerAttribute_.align, markerAttribute_.meetOrSlice);
                 float sx = viewBoxMatrix.GetValue(0);

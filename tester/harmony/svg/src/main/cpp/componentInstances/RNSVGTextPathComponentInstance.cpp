@@ -15,7 +15,7 @@ void RNSVGTextPathComponentInstance::UpdateElementProps(SharedConcreteProps cons
     m_svgTP->UpdateFontProps(props);
     m_svgTP->UpdateTextProps(props);
     m_svgTP->href_ = props->href;
-    m_svgTP->startOffset_ = StringUtils::FromString(props->startOffset).ConvertToPx();
+    m_svgTP->startOffset_ = StringUtils::FromString(props->startOffset).ConvertToPx(m_layoutMetrics.pointScaleFactor);
     m_svgTP->spacing_ = textPathSpacingFromStr(props->spacing);
     m_svgTP->midLine_ = textPathMidLineFromStr(props->midLine);
     m_svgTP->side_ = textPathSideFromStr(props->side);

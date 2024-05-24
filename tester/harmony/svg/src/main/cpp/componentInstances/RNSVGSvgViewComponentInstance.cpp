@@ -28,8 +28,10 @@ void RNSVGSvgViewComponentInstance::onPropsChanged(SharedConcreteProps const &pr
     LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->align: " << props->align;
     LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->meetOrSlice: " << props->meetOrSlice;
     LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->testId: " << props->testId;
+    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->pointScaleFactor: " << m_layoutMetrics.pointScaleFactor;
 
     auto svg = dynamic_pointer_cast<SvgSvg>(GetSvgNode());
+    svg->SetScale(m_layoutMetrics.pointScaleFactor);
     auto tintColor = getColorFromDynamic(props->rawProps);
     if (tintColor.has_value()) {
         svg->GetContext()->SetSvgColor(Color::FromString(tintColor.value()));
