@@ -22,8 +22,9 @@
 namespace rnoh {
 namespace svg {
 
-void SvgPath::setD(std::string _d) {
-    d = _d;
+void SvgPath::setD(const std::string &d) {
+    d_ = d;
+    std::replace(d_.begin(), d_.end(), ',', ' ');
     PathParserUtils parser;
     parser.mScale = scale_;
     // only parser "d" to record the point info
@@ -45,7 +46,7 @@ drawing::Path SvgPath::AsPath() {
     */
     //TODO scale canvas? need to pass canvas in AsPath()
     matrix.SetMatrix(scale_, 0, 0, 0, scale_, 0, 0, 0, 1.0);
-    auto path = drawing::Path::BuildFromSvgString(d.c_str());
+    auto path = drawing::Path::BuildFromSvgString(d_.c_str());
     if (path.has_value()) {
         path_ = std::move(path.value());
         path_.Transform(matrix);
