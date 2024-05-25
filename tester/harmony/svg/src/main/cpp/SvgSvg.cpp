@@ -31,24 +31,25 @@ drawing::Path SvgSvg::AsPath() {
 Size SvgSvg::GetSize() const { return {width_, height_}; }
 
 Rect SvgSvg::GetViewBox() const {
-    return Rect(svgAttribute_.vbX.ConvertToPx(), svgAttribute_.vbY.ConvertToPx(), svgAttribute_.vbWidth.ConvertToPx(),
-                svgAttribute_.vbHeight.ConvertToPx());
+    return Rect(svgAttribute_.vbX.ConvertToPx(scale_), svgAttribute_.vbY.ConvertToPx(scale_), svgAttribute_.vbWidth.ConvertToPx(scale_),
+                svgAttribute_.vbHeight.ConvertToPx(scale_));
 }
 
-void SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
+drawing::Matrix SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
     const auto svgSize = GetSize();
     // TODO Since OH_Drawing API return px and RN pass vp
     const auto vbRect = GetViewBox(); // should be viewBox attribute
-    const auto eRect = Rect(svgAttribute_.x.ConvertToPx(), svgAttribute_.y.ConvertToPx(), svgSize.Width(), svgSize.Height());
+    const auto eRect = Rect(svgAttribute_.x.ConvertToPx(scale_), svgAttribute_.y.ConvertToPx(scale_), svgSize.Width(), svgSize.Height());
     LOG(INFO) << "[FitCanvas] viewBox = " << vbRect.ToString() << " svgSize = " << svgSize.ToString() << " canvas = " << OH_Drawing_CanvasGetWidth(canvas) << ", "
               << OH_Drawing_CanvasGetHeight(canvas);
     drawing::Rect clipRect(0.0f, 0.0f, svgSize.Width(), svgSize.Height());
     OH_Drawing_CanvasClipRect(canvas, clipRect.get(), OH_Drawing_CanvasClipOp::INTERSECT, true);
+    drawing::Matrix transformMatrix;
     if (vbRect.IsValid()) {
-        drawing::Matrix transformMatrix;
         transformMatrix = ViewBox::getTransform(vbRect, eRect, svgAttribute_.align, svgAttribute_.meetOrSlice);
         OH_Drawing_CanvasConcatMatrix(canvas, transformMatrix.get());
     }
+    return transformMatrix;
 }
 
 void SvgSvg::Draw(OH_Drawing_Canvas *canvas) {
@@ -70,7 +71,8 @@ void SvgSvg::Draw(OH_Drawing_Canvas *canvas) {
     context_->SetSvgSize(Size(width_, height_));
     // apply scale
     OH_Drawing_CanvasSave(canvas);
-    FitCanvas(canvas);
+    auto canvasTransformMatrix = FitCanvas(canvas);
+    context_->SetCanvasScale(canvasTransformMatrix.GetValue(0), canvasTransformMatrix.GetValue(4));
     SvgNode::Draw(canvas);
     OH_Drawing_CanvasRestore(canvas);
 };

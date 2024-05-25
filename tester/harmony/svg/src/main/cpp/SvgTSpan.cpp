@@ -46,7 +46,7 @@ void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
 
     OH_Drawing_TypographyHandlerAddText(typographyHandler, content_.c_str());
     auto *typography = OH_Drawing_CreateTypography(typographyHandler);
-    double maxWidth = inlineSize_.value_or(Infinity<Dimension>()).ConvertToPx(OH_Drawing_CanvasGetWidth(canvas));
+    double maxWidth = inlineSize_.value_or(Infinity<Dimension>()).RelativeConvertToPx(OH_Drawing_CanvasGetWidth(canvas), scale_);
     OH_Drawing_TypographyLayout(typography, maxWidth);
     double actualWidth = OH_Drawing_TypographyGetLongestLine(typography);
 
@@ -111,7 +111,7 @@ drawing::TypographyStyle SvgTSpan::PrepareTypoStyle() {
 
 bool SvgTSpan::AdjustSpacing(OH_Drawing_Canvas *canvas, double textMeasure, double &scaleSpacingAndGlyphs) {
     if (textLength_) {
-        double author = textLength_->ConvertToPx(OH_Drawing_CanvasGetWidth(canvas));
+        double author = textLength_->RelativeConvertToPx(OH_Drawing_CanvasGetWidth(canvas), scale_);
         switch (lengthAdjust_) {
         default:
         case TextLengthAdjust::spacing:
@@ -316,7 +316,7 @@ double SvgTSpan::CalcBaselineShift(OH_Drawing_TypographyCreate *handler, OH_Draw
             } else if (baselineShift_ == "super") {
             } else if (baselineShift_ == "baseline") {
             } else {
-                baselineShift -= StringUtils::FromString(baselineShift_).ConvertToPx(scale_ * font_->fontSize);
+                baselineShift -= StringUtils::FromString(baselineShift_).RelativeConvertToPx(scale_ * font_->fontSize, scale_);
             }
             break;
         }

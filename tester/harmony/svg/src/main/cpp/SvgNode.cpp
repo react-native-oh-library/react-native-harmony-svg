@@ -3,7 +3,6 @@
 #include <native_drawing/drawing_path.h>
 #include <regex>
 #include <string>
-#include "properties/SvgDomType.h"
 #include "utils/LinearMap.h"
 #include "utils/StringUtils.h"
 #include "utils/SvgAttributesParser.h"
@@ -262,19 +261,19 @@ void SvgNode::ContextTraversal() {
     }
 }
 
-double SvgNode::relativeOnWidth(Dimension length) { return length.ConvertToPx(getCanvasWidth()); }
+double SvgNode::relativeOnWidth(Dimension length) { return length.RelativeConvertToPx(getCanvasWidth(), scale_); }
 
-double SvgNode::relativeOnHeight(Dimension length) { return length.ConvertToPx(getCanvasHeight()); }
+double SvgNode::relativeOnHeight(Dimension length) { return length.RelativeConvertToPx(getCanvasHeight(), scale_); }
 
-double SvgNode::relativeOnOther(Dimension length) { return length.ConvertToPx(getCanvasDiagonal()); }
+double SvgNode::relativeOnOther(Dimension length) { return length.RelativeConvertToPx(getCanvasDiagonal(), scale_); }
 
 double SvgNode::getCanvasWidth() {
     if (canvasWidth_ != -1) {
         return canvasWidth_;
     }
     // TODO if root is text root
-    if (context_->getCanvasBounds().IsValid()) {
-        canvasWidth_ = context_->getCanvasBounds().Width();
+    if (context_) {
+        canvasWidth_ = context_->getCanvasBounds().Width() / context_->getCanvasScaleX();
         return canvasWidth_;
     }
     return 0;
@@ -285,8 +284,8 @@ double SvgNode::getCanvasHeight() {
         return canvasHeight_;
     }
     // TODO if root is text root
-    if (context_->getCanvasBounds().IsValid()) {
-        canvasHeight_ = context_->getCanvasBounds().Height();
+    if (context_) {
+        canvasHeight_ = context_->getCanvasBounds().Height() / context_->getCanvasScaleY();
         return canvasHeight_;
     }
     return 0;

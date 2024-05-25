@@ -6,7 +6,7 @@ namespace svg {
 
 double FontData::toAbsolute(const std::string &value, double scale, double fontSize, double relative) {
     auto val = StringUtils::FromString(value);
-    return val.ConvertToPx(fontSize);
+    return val.RelativeConvertToPx(fontSize, scale);
 }
 
 void FontData::setInheritedWeight(const FontData &parent) {
@@ -28,7 +28,7 @@ FontData::FontData(const FontProps &props, const FontData &parent, double scale)
     double parentFontSize = parent.fontSize;
 
     if (!props.fontSize.empty()) {
-        fontSize = toAbsolute(props.fontSize, 1, parentFontSize, parentFontSize);
+        fontSize = toAbsolute(props.fontSize, scale, parentFontSize, parentFontSize);
     } else {
         fontSize = parentFontSize;
     }
