@@ -44,7 +44,7 @@ class SimpleMask extends Component {
           </Mask>
           <Polygon points="-10,110 110,110 110,-10" fill="orange" />
           <Circle cx={50} cy={50} r={50} fill="purple" mask="url(#myMask)" />
-        </Svg>
+        </Svg>       
       </View>
     );
   }
@@ -175,7 +175,7 @@ class SimpleRNSVGMask extends Component {
       <View style={styles.container}>
         <Svg viewBox="-10 -10 120 120">
           <Rect x={-10} y={-10} width={120} height={120} fill="blue" />
-          <RNSVGMask name="myMask"  x={0} y={0} width={100} height={100} >
+          <RNSVGMask name="myMask" x="0" y="0" width="100" height="100">
             <Rect x={0} y={0} width={100} height={100} fill="white" />
             <Path
               d="M10,35 A20,20,0,0,1,50,35 A20,20,0,0,1,90,35 Q90,65,50,95 Q10,65,10,35 Z"
@@ -197,7 +197,7 @@ class AnotherRNSVGMask extends Component {
       <View style={styles.container}>
         <Svg width={500} height={120}>
           <Defs>
-            <RNSVGMask name="mask1" x={0} y={0} width={100} height={100}>
+            <RNSVGMask name="mask1" x="0" y="0" width="100" height="100">
               <Rect
                 x={0}
                 y={0}
@@ -242,7 +242,7 @@ class RNSVGMaskWithText extends Component {
               <Stop offset="0%" stopColor="#ffffff" stopOpacity={1} />
               <Stop offset="100%" stopColor="#000000" stopOpacity={1} />
             </LinearGradient>
-            <RNSVGMask name="mask4" x={0} y={0} width={300} height={100}>
+            <RNSVGMask name="mask4" x="0" y="0" width="300" height="100">
               <Rect
                 x={0}
                 y={0}
@@ -274,7 +274,7 @@ class RNSVGMaskWithText extends Component {
 const iconRNSVGMask = (
   <Svg width="30" height="30" viewBox="-10 -10 120 120">
     <Rect x={-10} y={-10} width={120} height={120} fill="blue" />
-    <RNSVGMask name="myMask"  x={0} y={0} width={100} height={100}>
+    <RNSVGMask name="myMask"  x="0" y="0" width="100" height="100">
       <Rect x={0} y={0} width={100} height={100} fill="white" />
       <Path
         d="M10,35 A20,20,0,0,1,50,35 A20,20,0,0,1,90,35 Q90,65,50,95 Q10,65,10,35 Z"
@@ -286,8 +286,8 @@ const iconRNSVGMask = (
   </Svg>
 );
 
-class MaskMaskUnits extends Component {
-  static title = 'Svg with with text and a RNSVGMask with gradient';
+class MaskUnits extends Component {
+  static title = 'MaskUnits';
   render() {
     return (
       <View style={styles.container}>
@@ -305,7 +305,7 @@ class MaskMaskUnits extends Component {
 
             <Mask
               id="myMask2"
-              maskUnits="objectBoundingBox"
+              maskUnits="userSpaceOnUse"
               x="20%"
               y="20%"
               width="60%"
@@ -330,7 +330,7 @@ class MaskMaskUnits extends Component {
   }
 }
 
-const samples = [SimpleMask, AnotherMask, MaskWithText, SimpleRNSVGMask, AnotherRNSVGMask, RNSVGMaskWithText, iconRNSVGMask,MaskMaskUnits];
+const samples = [SimpleMask, AnotherMask, MaskWithText, SimpleRNSVGMask, AnotherRNSVGMask, RNSVGMaskWithText, iconRNSVGMask, MaskUnits];
 
 export { icon, iconRNSVGMask, samples };
 
@@ -366,8 +366,9 @@ export default function () {
         <TestCase itShould="AnotherRNSVGMask">
           <AnotherRNSVGMask />
         </TestCase>
-        <TestCase itShould="MaskMaskUnits">
-          <MaskMaskUnits />
+
+        <TestCase itShould="MaskUnits">
+          <MaskUnits />
         </TestCase>
       </ScrollView>
     </Tester>
