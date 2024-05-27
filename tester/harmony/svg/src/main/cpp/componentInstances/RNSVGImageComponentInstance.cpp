@@ -1,5 +1,6 @@
 #include "RNSVGImageComponentInstance.h"
 #include "Props.h"
+#include "utils/SvgAttributesParser.h"
 #include <react/renderer/core/ConcreteState.h>
 #include <sstream>
 #include <SvgImage.h>
@@ -14,10 +15,10 @@ RNSVGImageComponentInstance::RNSVGImageComponentInstance(Context context)
 
 void RNSVGImageComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {     
     auto svgImage = std::dynamic_pointer_cast<SvgImage>(GetSvgNode());
-    svgImage->x = std::stof(props->x);
-    svgImage->y = std::stof(props->y);
-    svgImage->width = std::stof(props->width);
-    svgImage->height = std::stof(props->height);
+    svgImage->x = (float)relativeOnWidth(SvgAttributesParser::ParseDimension(props->x));
+    svgImage->y = (float)relativeOnWidth(SvgAttributesParser::ParseDimension(props->y));
+    svgImage->width = (float)relativeOnWidth(SvgAttributesParser::ParseDimension(props->width));
+    svgImage->height = (float)relativeOnWidth(SvgAttributesParser::ParseDimension(props->height));
     svgImage->opacity = props->opacity;
     svgImage->src = props->src;
     svgImage->align = props->align;
