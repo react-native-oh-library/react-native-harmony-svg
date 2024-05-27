@@ -25,6 +25,7 @@ void RNSVGLineComponentInstance::UpdateElementProps(SharedConcreteProps const &p
         LOG(INFO) << "[SVG] <RNSVGLineComponentInstance> prop: " << prop;
     }
     auto svgLine = std::dynamic_pointer_cast<SvgLine>(GetSvgNode());
+    svgLine->UpdateCommonProps(props);
     svgLine->SetX1(props->x1);
     svgLine->SetY1(props->y1);
     svgLine->SetX2(props->x2);

@@ -31,7 +31,6 @@ namespace rnoh {
 namespace svg {
 class RNSVGLinearGradientComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGLinearGradientShadowNode> {
 
-
 public:
     RNSVGLinearGradientComponentInstance(Context context);
          

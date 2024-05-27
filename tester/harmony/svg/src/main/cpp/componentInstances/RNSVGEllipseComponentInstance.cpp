@@ -18,6 +18,7 @@ void RNSVGEllipseComponentInstance::UpdateElementProps(SharedConcreteProps const
     LOG(INFO) << "[SvgEllipse] rx: " << props->rx;
     LOG(INFO) << "[SvgEllipse] ry: " << props->ry;
     auto svgEllipse = std::dynamic_pointer_cast<SvgEllipse>(GetSvgNode());
+    svgEllipse->UpdateCommonProps(props);
     svgEllipse->SetCX(props->cx);
     svgEllipse->SetCY(props->cy);
     svgEllipse->SetRX(props->rx);

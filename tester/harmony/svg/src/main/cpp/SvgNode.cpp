@@ -1,16 +1,11 @@
 #include "SvgNode.h"
+#include "utils/Utils.h"
+#include "SvgGradient.h"
+#include "SvgPattern.h"
 #include <native_drawing/drawing_matrix.h>
 #include <native_drawing/drawing_path.h>
 #include <regex>
 #include <string>
-#include "utils/LinearMap.h"
-#include "utils/StringUtils.h"
-#include "utils/SvgAttributesParser.h"
-#include "utils/Utils.h"
-#include "utils/StringUtils.h"
-#include "utils/SvgAttributesParser.h"
-#include "SvgGradient.h"
-#include "SvgPattern.h"
 
 namespace rnoh {
 namespace svg {
@@ -169,71 +164,6 @@ void SvgNode::Draw(OH_Drawing_Canvas *canvas) {
 
     OnDrawTraversed(canvas);
     OH_Drawing_CanvasRestoreToCount(canvas, count);
-}
-
-void SvgNode::UpdateCommonProps(const ConcreteProps &props) {
-    attributes_.id = props->name;
-    display_ = props->display != "none";
-
-    if (hrefRender_) {
-        attributes_.transform = props->matrix;
-        attributes_.maskId = props->mask;
-        attributes_.selfOpacity = props->opacity;
-        attributes_.markerStart = props->markerStart;
-        attributes_.markerMid = props->markerMid;
-        attributes_.markerEnd = props->markerEnd;
-        // clipPath
-        attributes_.clipPath = props->clipPath;
-        hrefClipPath_ = props->clipPath;
-    }
-
-    std::unordered_set<std::string> set;
-    for (const auto &prop : props->propList) {
-        set.insert(prop);
-    }
-    
-    if (props->fill.type == 1) {
-        attributes_.fillState.SetHref(props->fill.brushRef);
-    } else if (props->fill.type == 2) {
-        Color color = Color((uint32_t)*props->fill.payload);
-        color.SetUseCurrentColor(true);
-        attributes_.fillState.SetColor(color, true);
-    } else if (facebook::react::isColorMeaningful(props->fill.payload)) {
-        attributes_.fillState.SetColor(Color((uint32_t)*props->fill.payload), set.count("fill"));
-    } else {
-        attributes_.fillState.SetColor(Color::TRANSPARENT, set.count("fill"));
-    }
-    
-    if (props->stroke.type == 1) {
-        attributes_.strokeState.SetHref(props->stroke.brushRef);
-    } else if (props->stroke.type == 2) {
-        Color color = Color((uint32_t)*props->stroke.payload);
-        color.SetUseCurrentColor(true);
-        attributes_.strokeState.SetColor(color, true);
-    } else if (facebook::react::isColorMeaningful(props->stroke.payload)) {
-        attributes_.strokeState.SetColor(Color((uint32_t)*props->stroke.payload), set.count("stroke"));
-    } else {
-        attributes_.strokeState.SetColor(Color::TRANSPARENT, set.count("stroke"));
-    }
-    attributes_.fillState.SetOpacity(std::clamp(props->fillOpacity, 0.0, 1.0), set.count("fillOpacity"));
-    // todo Inheritance situation
-    attributes_.fillState.SetFillRule(static_cast<FillState::FillRule>(props->fillRule), true);
-    attributes_.strokeState.SetLineWidth(vpToPx(StringUtils::StringToDouble(props->strokeWidth)),
-                                         set.count("strokeWidth"));
-    attributes_.strokeState.SetStrokeDashArray(StringUtils::stringVectorToDoubleVector(props->strokeDasharray),
-                                               set.count("strokeDasharray"));
-    attributes_.strokeState.SetStrokeDashOffset(vpToPx(props->strokeDashoffset), set.count("strokeDashoffset"));
-    attributes_.strokeState.SetLineCap(SvgAttributesParser::GetLineCapStyle(std::to_string(props->strokeLinecap)),
-                                       set.count("strokeLinecap"));
-    attributes_.strokeState.SetLineJoin(SvgAttributesParser::GetLineJoinStyle(std::to_string(props->strokeLinejoin)),
-                                        set.count("strokeLinejoin"));
-    attributes_.strokeState.SetVectorEffect(props->vectorEffect);
-    auto limit = vpToPx(props->strokeMiterlimit);
-    if (GreatOrEqual(limit, 1.0)) {
-        attributes_.strokeState.SetMiterLimit(limit, set.count("strokeMiterlimit"));
-    }
-    attributes_.strokeState.SetOpacity(std::clamp(props->strokeOpacity, 0.0, 1.0), set.count("strokeOpacity"));
-    attributes_.clipState.SetClipRule(static_cast<ClipState::ClipRule>(props->clipRule), true);
 }
 
 Rect SvgNode::AsBounds() {

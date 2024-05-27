@@ -29,6 +29,7 @@ void RNSVGMarkerComponentInstance::UpdateElementProps(SharedConcreteProps const 
     LOG(INFO) << "[RNSVGMarkerComponentInstance] onPropsChanged align=" << props->align
               << " meetOrSlice=" << props->meetOrSlice;
     auto svgMarker = std::dynamic_pointer_cast<SvgMarker>(GetSvgNode());
+    svgMarker->UpdateCommonProps(props);
     svgMarker->setRefX(props->refX);
     svgMarker->setRefY(props->refY);
     svgMarker->setMarkerWidth(props->markerWidth);
