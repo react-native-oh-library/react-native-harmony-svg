@@ -22,7 +22,7 @@
 namespace rnoh {
 namespace svg {
 
-class SvgGradient : public SvgGraphic {
+class SvgGradient : public SvgNode {
 public:
     using Float = facebook::react::Float;
     explicit SvgGradient(GradientType gradientType);

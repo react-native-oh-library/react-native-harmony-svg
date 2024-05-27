@@ -21,6 +21,7 @@ void RNSVGMaskComponentInstance::UpdateElementProps(SharedConcreteProps const &p
     LOG(INFO) << "[RNSVGMaskComponentInstance] onPropsChanged: " << props->maskUnits;
     LOG(INFO) << "[RNSVGMaskComponentInstance] onPropsChanged: " << props->maskContentUnits;
     auto svgMask = std::dynamic_pointer_cast<SvgMask>(GetSvgNode());
+    svgMask->UpdateCommonProps(props);
     // set attribute to svgMask.
     svgMask->setMaskX(StringUtils::FromString(props->x));
     svgMask->setMaskY(StringUtils::FromString(props->y));

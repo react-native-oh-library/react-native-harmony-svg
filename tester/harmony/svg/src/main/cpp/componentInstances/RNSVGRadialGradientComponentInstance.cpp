@@ -16,6 +16,7 @@ RNSVGRadialGradientComponentInstance::RNSVGRadialGradientComponentInstance(Conte
 void RNSVGRadialGradientComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
      
     auto svgGradient = std::dynamic_pointer_cast<SvgGradient>(GetSvgNode());
+    svgGradient->UpdateHrefRenderProps(props);
     svgGradient->SetAttrGradientUnits(props->gradientUnits); // first set attr gradientUnits
     svgGradient->SetAttrFx(props->fx);
     svgGradient->SetAttrFy(props->fy);

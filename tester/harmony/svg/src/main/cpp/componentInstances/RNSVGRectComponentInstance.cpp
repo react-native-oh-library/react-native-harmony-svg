@@ -23,6 +23,7 @@ void RNSVGRectComponentInstance::UpdateElementProps(SharedConcreteProps const &p
         LOG(INFO) << "[RNSVGRectComponentInstance] Props->propList: " << prop;
     }
     auto svgRect = std::dynamic_pointer_cast<SvgRect>(GetSvgNode());
+    svgRect->UpdateCommonProps(props);
     svgRect->SetX(props->x);
     svgRect->SetY(props->y);
     svgRect->SetWidth(props->width);

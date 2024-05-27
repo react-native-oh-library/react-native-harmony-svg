@@ -14,6 +14,7 @@ RNSVGImageComponentInstance::RNSVGImageComponentInstance(Context context)
 
 void RNSVGImageComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {     
     auto svgImage = std::dynamic_pointer_cast<SvgImage>(GetSvgNode());
+    svgImage->UpdateCommonProps(props);
     svgImage->x = std::stof(props->x);
     svgImage->y = std::stof(props->y);
     svgImage->width = std::stof(props->width);
