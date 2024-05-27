@@ -15,6 +15,7 @@ void RNSVGGroupComponentInstance::UpdateElementProps(SharedConcreteProps const &
     LOG(INFO) << "[RNSVGGroupComponentInstance] props->fill.payload: " << (uint32_t)*props->fill.payload;
 
     auto group = std::dynamic_pointer_cast<SvgGroup>(GetSvgNode());
+    group->UpdateCommonProps(props);
     group->UpdateFontProps(props);
 }
 } // namespace svg

@@ -82,28 +82,6 @@ static inline void fromRawValue(const PropsParserContext &context, const RawValu
     }
 }
 
-struct RNSVGPaintStruct {
-    int type;
-    SharedColor payload;
-    std::string brushRef;
-};
-static inline void fromRawValue(const PropsParserContext &context, const RawValue &value, RNSVGPaintStruct &result) {
-    auto map = (butter::map<std::string, RawValue>)value;
-
-    auto tmp_type = map.find("type");
-    if (tmp_type != map.end()) {
-        fromRawValue(context, tmp_type->second, result.type);
-    }
-    auto tmp_payload = map.find("payload");
-    if (tmp_payload != map.end()) {
-        fromRawValue(context, tmp_payload->second, result.payload);
-    }
-    auto tmp_brushRef = map.find("brushRef");
-    if (tmp_brushRef != map.end()) {
-        fromRawValue(context, tmp_brushRef->second, result.brushRef);
-    }
-}
-
 static inline std::string toString(const RNSVGSvgViewAndroidNativeForegroundAndroidStruct &value) {
     return "[Object RNSVGSvgViewAndroidNativeForegroundAndroidStruct]";
 }
@@ -192,17 +170,64 @@ public:
     double borderTopLeftRadius{0.0};
 };
 
-struct RNSVGBrushStruct {
-    std::string type;
-    RawValue payload;
-    RawValue brushRef;
+struct RNSVGCircleFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
 };
 
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGCircleFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
 
-class RNSVGCommonProps : public ViewProps {
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGCircleFillStruct &value) { return "[Object RNSVGCircleFillStruct]"; }
+
+struct RNSVGCircleStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGCircleStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGCircleStrokeStruct &value) { return "[Object RNSVGCircleStrokeStruct]"; }
+class JSI_EXPORT RNSVGCircleProps final : public ViewProps {
 public:
-    RNSVGCommonProps() = default;
-    RNSVGCommonProps(const PropsParserContext &context, const RNSVGCommonProps &sourceProps, const RawProps &rawProps);
+    RNSVGCircleProps() = default;
+    RNSVGCircleProps(const PropsParserContext &context, const RNSVGCircleProps &sourceProps, const RawProps &rawProps);
+
+#pragma mark - Props
+
     std::string name{};
     Float opacity{1.0};
     std::vector<Float> matrix{};
@@ -212,10 +237,13 @@ public:
     std::string markerEnd{};
     std::string clipPath{};
     int clipRule{0};
-    RNSVGPaintStruct fill{};
+    bool responsible{false};
+    std::string display{};
+    std::string pointerEvents{};
+    RNSVGCircleFillStruct fill{};
     Float fillOpacity{1.0};
     int fillRule{1};
-    RNSVGPaintStruct stroke{};
+    RNSVGCircleStrokeStruct stroke{};
     Float strokeOpacity{1.0};
     std::string strokeWidth{"1"};
     int strokeLinecap{0};
@@ -223,27 +251,66 @@ public:
     std::vector<std::string> strokeDasharray{};
     Float strokeDashoffset{0.0};
     Float strokeMiterlimit{0.0};
-    std::vector<std::string> propList{};
-    std::string display{};
     int vectorEffect{0};
-    bool responsible{false};
-};
-
-class JSI_EXPORT RNSVGCircleProps final : public RNSVGCommonProps {
-public:
-    RNSVGCircleProps() = default;
-    RNSVGCircleProps(const PropsParserContext &context, const RNSVGCircleProps &sourceProps, const RawProps &rawProps);
-
-#pragma mark - Props
-
-
-
-    std::string pointerEvents{};
+    std::vector<std::string> propList{};
     std::string cx{};
     std::string cy{};
     std::string r{};
 };
 
+struct RNSVGClipPathFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGClipPathFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGClipPathFillStruct &value) { return "[Object RNSVGClipPathFillStruct]"; }
+
+struct RNSVGClipPathStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGClipPathStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGClipPathStrokeStruct &value) {
+    return "[Object RNSVGClipPathStrokeStruct]";
+}
 
 struct RNSVGClipPathFontStruct {
     std::string fontStyle;
@@ -325,7 +392,7 @@ static inline void fromRawValue(const PropsParserContext &context, const RawValu
 }
 
 static inline std::string toString(const RNSVGClipPathFontStruct &value) { return "[Object RNSVGClipPathFontStruct]"; }
-class JSI_EXPORT RNSVGClipPathProps final : public RNSVGCommonProps {
+class JSI_EXPORT RNSVGClipPathProps final : public ViewProps {
 public:
     RNSVGClipPathProps() = default;
     RNSVGClipPathProps(const PropsParserContext &context, const RNSVGClipPathProps &sourceProps,
@@ -333,28 +400,111 @@ public:
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
+    RNSVGClipPathFillStruct fill{};
+    Float fillOpacity{1.0};
+    int fillRule{1};
+    RNSVGClipPathStrokeStruct stroke{};
+    Float strokeOpacity{1.0};
+    std::string strokeWidth{"1"};
+    int strokeLinecap{0};
+    int strokeLinejoin{0};
+    std::vector<std::string> strokeDasharray{};
+    Float strokeDashoffset{0.0};
+    Float strokeMiterlimit{0.0};
+    int vectorEffect{0};
+    std::vector<std::string> propList{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGClipPathFontStruct font{};
 };
 
-class JSI_EXPORT RNSVGDefsProps final : public RNSVGCommonProps {
+class JSI_EXPORT RNSVGDefsProps final : public ViewProps {
 public:
     RNSVGDefsProps() = default;
     RNSVGDefsProps(const PropsParserContext &context, const RNSVGDefsProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
 };
 
+struct RNSVGEllipseFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
 
-class JSI_EXPORT RNSVGEllipseProps final : public RNSVGCommonProps {
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGEllipseFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGEllipseFillStruct &value) { return "[Object RNSVGEllipseFillStruct]"; }
+
+struct RNSVGEllipseStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGEllipseStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGEllipseStrokeStruct &value) {
+    return "[Object RNSVGEllipseStrokeStruct]";
+}
+class JSI_EXPORT RNSVGEllipseProps final : public ViewProps {
 public:
     RNSVGEllipseProps() = default;
     RNSVGEllipseProps(const PropsParserContext &context, const RNSVGEllipseProps &sourceProps,
@@ -362,15 +512,92 @@ public:
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
+    RNSVGEllipseFillStruct fill{};
+    Float fillOpacity{1.0};
+    int fillRule{1};
+    RNSVGEllipseStrokeStruct stroke{};
+    Float strokeOpacity{1.0};
+    std::string strokeWidth{"1"};
+    int strokeLinecap{0};
+    int strokeLinejoin{0};
+    std::vector<std::string> strokeDasharray{};
+    Float strokeDashoffset{0.0};
+    Float strokeMiterlimit{0.0};
+    int vectorEffect{0};
+    std::vector<std::string> propList{};
     std::string cx{};
     std::string cy{};
     std::string rx{};
     std::string ry{};
 };
 
+struct RNSVGForeignObjectFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGForeignObjectFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGForeignObjectFillStruct &value) {
+    return "[Object RNSVGForeignObjectFillStruct]";
+}
+
+struct RNSVGForeignObjectStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGForeignObjectStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGForeignObjectStrokeStruct &value) {
+    return "[Object RNSVGForeignObjectStrokeStruct]";
+}
 
 struct RNSVGForeignObjectFontStruct {
     std::string fontStyle;
@@ -454,7 +681,7 @@ static inline void fromRawValue(const PropsParserContext &context, const RawValu
 static inline std::string toString(const RNSVGForeignObjectFontStruct &value) {
     return "[Object RNSVGForeignObjectFontStruct]";
 }
-class JSI_EXPORT RNSVGForeignObjectProps final : public RNSVGCommonProps {
+class JSI_EXPORT RNSVGForeignObjectProps final : public ViewProps {
 public:
     RNSVGForeignObjectProps() = default;
     RNSVGForeignObjectProps(const PropsParserContext &context, const RNSVGForeignObjectProps &sourceProps,
@@ -462,9 +689,31 @@ public:
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
+    RNSVGForeignObjectFillStruct fill{};
+    Float fillOpacity{1.0};
+    int fillRule{1};
+    RNSVGForeignObjectStrokeStruct stroke{};
+    Float strokeOpacity{1.0};
+    std::string strokeWidth{"1"};
+    int strokeLinecap{0};
+    int strokeLinejoin{0};
+    std::vector<std::string> strokeDasharray{};
+    Float strokeDashoffset{0.0};
+    Float strokeMiterlimit{0.0};
+    int vectorEffect{0};
+    std::vector<std::string> propList{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGForeignObjectFontStruct font{};
@@ -474,6 +723,57 @@ public:
     std::string width{};
 };
 
+struct RNSVGGroupFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGGroupFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGGroupFillStruct &value) { return "[Object RNSVGGroupFillStruct]"; }
+
+struct RNSVGGroupStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGGroupStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGGroupStrokeStruct &value) { return "[Object RNSVGGroupStrokeStruct]"; }
 
 struct RNSVGGroupFontStruct {
     std::string fontStyle;
@@ -555,32 +855,126 @@ static inline void fromRawValue(const PropsParserContext &context, const RawValu
 }
 
 static inline std::string toString(const RNSVGGroupFontStruct &value) { return "[Object RNSVGGroupFontStruct]"; }
-class JSI_EXPORT RNSVGGroupProps final : public RNSVGCommonProps {
+class JSI_EXPORT RNSVGGroupProps final : public ViewProps {
 public:
     RNSVGGroupProps() = default;
     RNSVGGroupProps(const PropsParserContext &context, const RNSVGGroupProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
+    RNSVGGroupFillStruct fill{};
+    Float fillOpacity{1.0};
+    int fillRule{1};
+    RNSVGGroupStrokeStruct stroke{};
+    Float strokeOpacity{1.0};
+    std::string strokeWidth{"1"};
+    int strokeLinecap{0};
+    int strokeLinejoin{0};
+    std::vector<std::string> strokeDasharray{};
+    Float strokeDashoffset{0.0};
+    Float strokeMiterlimit{0.0};
+    int vectorEffect{0};
+    std::vector<std::string> propList{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGGroupFontStruct font{};
 };
 
+struct RNSVGImageFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
 
-class JSI_EXPORT RNSVGImageProps final : public RNSVGCommonProps {
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGImageFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGImageFillStruct &value) { return "[Object RNSVGImageFillStruct]"; }
+
+struct RNSVGImageStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGImageStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGImageStrokeStruct &value) { return "[Object RNSVGImageStrokeStruct]"; }
+class JSI_EXPORT RNSVGImageProps final : public ViewProps {
 public:
     RNSVGImageProps() = default;
     RNSVGImageProps(const PropsParserContext &context, const RNSVGImageProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
+    RNSVGImageFillStruct fill{};
+    Float fillOpacity{1.0};
+    int fillRule{1};
+    RNSVGImageStrokeStruct stroke{};
+    Float strokeOpacity{1.0};
+    std::string strokeWidth{"1"};
+    int strokeLinecap{0};
+    int strokeLinejoin{0};
+    std::vector<std::string> strokeDasharray{};
+    Float strokeDashoffset{0.0};
+    Float strokeMiterlimit{0.0};
+    int vectorEffect{0};
+    std::vector<std::string> propList{};
     std::string x{};
     std::string y{};
     std::string width{};
@@ -611,7 +1005,7 @@ public:
     std::string pointerEvents{};
 };
 
-class JSI_EXPORT RNSVGLinearGradientProps final : public RNSVGCommonProps {
+class JSI_EXPORT RNSVGLinearGradientProps final : public ViewProps {
 public:
     RNSVGLinearGradientProps() = default;
     RNSVGLinearGradientProps(const PropsParserContext &context, const RNSVGLinearGradientProps &sourceProps,
@@ -619,8 +1013,17 @@ public:
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
     std::string x1{};
     std::string y1{};
@@ -631,23 +1034,145 @@ public:
     std::vector<Float> gradientTransform{};
 };
 
+struct RNSVGLineFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
 
-class JSI_EXPORT RNSVGLineProps final : public RNSVGCommonProps {
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value, RNSVGLineFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGLineFillStruct &value) { return "[Object RNSVGLineFillStruct]"; }
+
+struct RNSVGLineStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGLineStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGLineStrokeStruct &value) { return "[Object RNSVGLineStrokeStruct]"; }
+class JSI_EXPORT RNSVGLineProps final : public ViewProps {
 public:
     RNSVGLineProps() = default;
     RNSVGLineProps(const PropsParserContext &context, const RNSVGLineProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
+    RNSVGLineFillStruct fill{};
+    Float fillOpacity{1.0};
+    int fillRule{1};
+    RNSVGLineStrokeStruct stroke{};
+    Float strokeOpacity{1.0};
+    std::string strokeWidth{"1"};
+    int strokeLinecap{0};
+    int strokeLinejoin{0};
+    std::vector<std::string> strokeDasharray{};
+    Float strokeDashoffset{0.0};
+    Float strokeMiterlimit{0.0};
+    int vectorEffect{0};
+    std::vector<std::string> propList{};
     std::string x1{};
     std::string y1{};
     std::string x2{};
     std::string y2{};
 };
 
+struct RNSVGMarkerFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGMarkerFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGMarkerFillStruct &value) { return "[Object RNSVGMarkerFillStruct]"; }
+
+struct RNSVGMarkerStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGMarkerStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGMarkerStrokeStruct &value) { return "[Object RNSVGMarkerStrokeStruct]"; }
 
 struct RNSVGMarkerFontStruct {
     std::string fontStyle;
@@ -729,16 +1254,38 @@ static inline void fromRawValue(const PropsParserContext &context, const RawValu
 }
 
 static inline std::string toString(const RNSVGMarkerFontStruct &value) { return "[Object RNSVGMarkerFontStruct]"; }
-class JSI_EXPORT RNSVGMarkerProps final : public RNSVGCommonProps {
+class JSI_EXPORT RNSVGMarkerProps final : public ViewProps {
 public:
     RNSVGMarkerProps() = default;
     RNSVGMarkerProps(const PropsParserContext &context, const RNSVGMarkerProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
+    RNSVGMarkerFillStruct fill{};
+    Float fillOpacity{1.0};
+    int fillRule{1};
+    RNSVGMarkerStrokeStruct stroke{};
+    Float strokeOpacity{1.0};
+    std::string strokeWidth{"1"};
+    int strokeLinecap{0};
+    int strokeLinejoin{0};
+    std::vector<std::string> strokeDasharray{};
+    Float strokeDashoffset{0.0};
+    Float strokeMiterlimit{0.0};
+    int vectorEffect{0};
+    std::vector<std::string> propList{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGMarkerFontStruct font{};
@@ -756,6 +1303,56 @@ public:
     int meetOrSlice{0};
 };
 
+struct RNSVGMaskFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value, RNSVGMaskFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGMaskFillStruct &value) { return "[Object RNSVGMaskFillStruct]"; }
+
+struct RNSVGMaskStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGMaskStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGMaskStrokeStruct &value) { return "[Object RNSVGMaskStrokeStruct]"; }
 
 struct RNSVGMaskFontStruct {
     std::string fontStyle;
@@ -836,16 +1433,38 @@ static inline void fromRawValue(const PropsParserContext &context, const RawValu
 }
 
 static inline std::string toString(const RNSVGMaskFontStruct &value) { return "[Object RNSVGMaskFontStruct]"; }
-class JSI_EXPORT RNSVGMaskProps final : public RNSVGCommonProps {
+class JSI_EXPORT RNSVGMaskProps final : public ViewProps {
 public:
     RNSVGMaskProps() = default;
     RNSVGMaskProps(const PropsParserContext &context, const RNSVGMaskProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
+    RNSVGMaskFillStruct fill{};
+    Float fillOpacity{1.0};
+    int fillRule{1};
+    RNSVGMaskStrokeStruct stroke{};
+    Float strokeOpacity{1.0};
+    std::string strokeWidth{"1"};
+    int strokeLinecap{0};
+    int strokeLinejoin{0};
+    std::vector<std::string> strokeDasharray{};
+    Float strokeDashoffset{0.0};
+    Float strokeMiterlimit{0.0};
+    int vectorEffect{0};
+    std::vector<std::string> propList{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGMaskFontStruct font{};
@@ -857,20 +1476,144 @@ public:
     int maskContentUnits{0};
 };
 
+struct RNSVGPathFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
 
-class JSI_EXPORT RNSVGPathProps final : public RNSVGCommonProps {
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value, RNSVGPathFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGPathFillStruct &value) { return "[Object RNSVGPathFillStruct]"; }
+
+struct RNSVGPathStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGPathStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGPathStrokeStruct &value) { return "[Object RNSVGPathStrokeStruct]"; }
+class JSI_EXPORT RNSVGPathProps final : public ViewProps {
 public:
     RNSVGPathProps() = default;
     RNSVGPathProps(const PropsParserContext &context, const RNSVGPathProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
+    RNSVGPathFillStruct fill{};
+    Float fillOpacity{1.0};
+    int fillRule{1};
+    RNSVGPathStrokeStruct stroke{};
+    Float strokeOpacity{1.0};
+    std::string strokeWidth{"1"};
+    int strokeLinecap{0};
+    int strokeLinejoin{0};
+    std::vector<std::string> strokeDasharray{};
+    Float strokeDashoffset{0.0};
+    Float strokeMiterlimit{0.0};
+    int vectorEffect{0};
+    std::vector<std::string> propList{};
     std::string d{};
 };
 
+struct RNSVGPatternFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGPatternFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGPatternFillStruct &value) { return "[Object RNSVGPatternFillStruct]"; }
+
+struct RNSVGPatternStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGPatternStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGPatternStrokeStruct &value) {
+    return "[Object RNSVGPatternStrokeStruct]";
+}
 
 struct RNSVGPatternFontStruct {
     std::string fontStyle;
@@ -952,7 +1695,7 @@ static inline void fromRawValue(const PropsParserContext &context, const RawValu
 }
 
 static inline std::string toString(const RNSVGPatternFontStruct &value) { return "[Object RNSVGPatternFontStruct]"; }
-class JSI_EXPORT RNSVGPatternProps final : public RNSVGCommonProps {
+class JSI_EXPORT RNSVGPatternProps final : public ViewProps {
 public:
     RNSVGPatternProps() = default;
     RNSVGPatternProps(const PropsParserContext &context, const RNSVGPatternProps &sourceProps,
@@ -960,9 +1703,31 @@ public:
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
+    RNSVGPatternFillStruct fill{};
+    Float fillOpacity{1.0};
+    int fillRule{1};
+    RNSVGPatternStrokeStruct stroke{};
+    Float strokeOpacity{1.0};
+    std::string strokeWidth{"1"};
+    int strokeLinecap{0};
+    int strokeLinejoin{0};
+    std::vector<std::string> strokeDasharray{};
+    Float strokeDashoffset{0.0};
+    Float strokeMiterlimit{0.0};
+    int vectorEffect{0};
+    std::vector<std::string> propList{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGPatternFontStruct font{};
@@ -981,7 +1746,7 @@ public:
     int meetOrSlice{0};
 };
 
-class JSI_EXPORT RNSVGRadialGradientProps final : public RNSVGCommonProps {
+class JSI_EXPORT RNSVGRadialGradientProps final : public ViewProps {
 public:
     RNSVGRadialGradientProps() = default;
     RNSVGRadialGradientProps(const PropsParserContext &context, const RNSVGRadialGradientProps &sourceProps,
@@ -989,8 +1754,17 @@ public:
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
     std::string fx{};
     std::string fy{};
@@ -1003,17 +1777,88 @@ public:
     std::vector<Float> gradientTransform{};
 };
 
+struct RNSVGRectFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
 
-class JSI_EXPORT RNSVGRectProps final : public RNSVGCommonProps {
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value, RNSVGRectFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGRectFillStruct &value) { return "[Object RNSVGRectFillStruct]"; }
+
+struct RNSVGRectStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGRectStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGRectStrokeStruct &value) { return "[Object RNSVGRectStrokeStruct]"; }
+class JSI_EXPORT RNSVGRectProps final : public ViewProps {
 public:
     RNSVGRectProps() = default;
     RNSVGRectProps(const PropsParserContext &context, const RNSVGRectProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
+    RNSVGRectFillStruct fill{};
+    Float fillOpacity{1.0};
+    int fillRule{1};
+    RNSVGRectStrokeStruct stroke{};
+    Float strokeOpacity{1.0};
+    std::string strokeWidth{"1"};
+    int strokeLinecap{0};
+    int strokeLinejoin{0};
+    std::vector<std::string> strokeDasharray{};
+    Float strokeDashoffset{0.0};
+    Float strokeMiterlimit{0.0};
+    int vectorEffect{0};
+    std::vector<std::string> propList{};
     std::string x{};
     std::string y{};
     std::string height{};
@@ -1022,6 +1867,57 @@ public:
     std::string ry{};
 };
 
+struct RNSVGSymbolFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGSymbolFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGSymbolFillStruct &value) { return "[Object RNSVGSymbolFillStruct]"; }
+
+struct RNSVGSymbolStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGSymbolStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGSymbolStrokeStruct &value) { return "[Object RNSVGSymbolStrokeStruct]"; }
 
 struct RNSVGSymbolFontStruct {
     std::string fontStyle;
@@ -1103,16 +1999,38 @@ static inline void fromRawValue(const PropsParserContext &context, const RawValu
 }
 
 static inline std::string toString(const RNSVGSymbolFontStruct &value) { return "[Object RNSVGSymbolFontStruct]"; }
-class JSI_EXPORT RNSVGSymbolProps final : public RNSVGCommonProps {
+class JSI_EXPORT RNSVGSymbolProps final : public ViewProps {
 public:
     RNSVGSymbolProps() = default;
     RNSVGSymbolProps(const PropsParserContext &context, const RNSVGSymbolProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
+    RNSVGSymbolFillStruct fill{};
+    Float fillOpacity{1.0};
+    int fillRule{1};
+    RNSVGSymbolStrokeStruct stroke{};
+    Float strokeOpacity{1.0};
+    std::string strokeWidth{"1"};
+    int strokeLinecap{0};
+    int strokeLinejoin{0};
+    std::vector<std::string> strokeDasharray{};
+    Float strokeDashoffset{0.0};
+    Float strokeMiterlimit{0.0};
+    int vectorEffect{0};
+    std::vector<std::string> propList{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGSymbolFontStruct font{};
@@ -1124,6 +2042,56 @@ public:
     int meetOrSlice{0};
 };
 
+struct RNSVGTextFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value, RNSVGTextFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGTextFillStruct &value) { return "[Object RNSVGTextFillStruct]"; }
+
+struct RNSVGTextStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGTextStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGTextStrokeStruct &value) { return "[Object RNSVGTextStrokeStruct]"; }
 
 struct RNSVGTextFontStruct {
     std::string fontStyle;
@@ -1203,26 +2171,39 @@ static inline void fromRawValue(const PropsParserContext &context, const RawValu
     }
 }
 
-static inline std::string toString(const RNSVGTextFontStruct &value) {
-    return "fontSTyle = " + value.fontStyle + " fontVariant = " + value.fontVariant +
-           " fontWeight = " + value.fontWeight + " fontStretch = " + value.fontStretch +
-           " fontSize = " + value.fontSize + " fontFamily = " + value.fontFamily + " textAnchor = " + value.textAnchor +
-           " textDecoration = " + value.textDecoration + " letterSpacing = " + value.letterSpacing +
-           " wordSpacing = " + value.wordSpacing + " kerning = " + value.kerning +
-           " fontFeatureSettings = " + value.fontFeatureSettings +
-           " fontVariantLigatures = " + value.fontVariantLigatures +
-           " fontVariationSettings = " + value.fontVariationSettings;
-}
-class JSI_EXPORT RNSVGTextProps final : public RNSVGCommonProps {
+static inline std::string toString(const RNSVGTextFontStruct &value) { return "[Object RNSVGTextFontStruct]"; }
+class JSI_EXPORT RNSVGTextProps final : public ViewProps {
 public:
     RNSVGTextProps() = default;
     RNSVGTextProps(const PropsParserContext &context, const RNSVGTextProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
+    RNSVGTextFillStruct fill{};
+    Float fillOpacity{1.0};
+    int fillRule{1};
+    RNSVGTextStrokeStruct stroke{};
+    Float strokeOpacity{1.0};
+    std::string strokeWidth{"1"};
+    int strokeLinecap{0};
+    int strokeLinejoin{0};
+    std::vector<std::string> strokeDasharray{};
+    Float strokeDashoffset{0.0};
+    Float strokeMiterlimit{0.0};
+    int vectorEffect{0};
+    std::vector<std::string> propList{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGTextFontStruct font{};
@@ -1239,6 +2220,59 @@ public:
     std::string verticalAlign{};
 };
 
+struct RNSVGTextPathFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGTextPathFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGTextPathFillStruct &value) { return "[Object RNSVGTextPathFillStruct]"; }
+
+struct RNSVGTextPathStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGTextPathStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGTextPathStrokeStruct &value) {
+    return "[Object RNSVGTextPathStrokeStruct]";
+}
 
 struct RNSVGTextPathFontStruct {
     std::string fontStyle;
@@ -1320,7 +2354,7 @@ static inline void fromRawValue(const PropsParserContext &context, const RawValu
 }
 
 static inline std::string toString(const RNSVGTextPathFontStruct &value) { return "[Object RNSVGTextPathFontStruct]"; }
-class JSI_EXPORT RNSVGTextPathProps final : public RNSVGCommonProps {
+class JSI_EXPORT RNSVGTextPathProps final : public ViewProps {
 public:
     RNSVGTextPathProps() = default;
     RNSVGTextPathProps(const PropsParserContext &context, const RNSVGTextPathProps &sourceProps,
@@ -1328,9 +2362,31 @@ public:
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
+    RNSVGTextPathFillStruct fill{};
+    Float fillOpacity{1.0};
+    int fillRule{1};
+    RNSVGTextPathStrokeStruct stroke{};
+    Float strokeOpacity{1.0};
+    std::string strokeWidth{"1"};
+    int strokeLinecap{0};
+    int strokeLinejoin{0};
+    std::vector<std::string> strokeDasharray{};
+    Float strokeDashoffset{0.0};
+    Float strokeMiterlimit{0.0};
+    int vectorEffect{0};
+    std::vector<std::string> propList{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGTextPathFontStruct font{};
@@ -1353,6 +2409,57 @@ public:
     std::string startOffset{};
 };
 
+struct RNSVGTSpanFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGTSpanFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGTSpanFillStruct &value) { return "[Object RNSVGTSpanFillStruct]"; }
+
+struct RNSVGTSpanStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGTSpanStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGTSpanStrokeStruct &value) { return "[Object RNSVGTSpanStrokeStruct]"; }
 
 struct RNSVGTSpanFontStruct {
     std::string fontStyle;
@@ -1434,16 +2541,38 @@ static inline void fromRawValue(const PropsParserContext &context, const RawValu
 }
 
 static inline std::string toString(const RNSVGTSpanFontStruct &value) { return "[Object RNSVGTSpanFontStruct]"; }
-class JSI_EXPORT RNSVGTSpanProps final : public RNSVGCommonProps {
+class JSI_EXPORT RNSVGTSpanProps final : public ViewProps {
 public:
     RNSVGTSpanProps() = default;
     RNSVGTSpanProps(const PropsParserContext &context, const RNSVGTSpanProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
+    RNSVGTSpanFillStruct fill{};
+    Float fillOpacity{1.0};
+    int fillRule{1};
+    RNSVGTSpanStrokeStruct stroke{};
+    Float strokeOpacity{1.0};
+    std::string strokeWidth{"1"};
+    int strokeLinecap{0};
+    int strokeLinejoin{0};
+    std::vector<std::string> strokeDasharray{};
+    Float strokeDashoffset{0.0};
+    Float strokeMiterlimit{0.0};
+    int vectorEffect{0};
+    std::vector<std::string> propList{};
     std::string fontSize{};
     std::string fontWeight{};
     RNSVGTSpanFontStruct font{};
@@ -1461,17 +2590,88 @@ public:
     std::string content{};
 };
 
+struct RNSVGUseFillStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
 
-class JSI_EXPORT RNSVGUseProps final : public RNSVGCommonProps {
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value, RNSVGUseFillStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGUseFillStruct &value) { return "[Object RNSVGUseFillStruct]"; }
+
+struct RNSVGUseStrokeStruct {
+    int type;
+    SharedColor payload;
+    std::string brushRef;
+};
+
+static inline void fromRawValue(const PropsParserContext &context, const RawValue &value,
+                                RNSVGUseStrokeStruct &result) {
+    auto map = (butter::map<std::string, RawValue>)value;
+
+    auto tmp_type = map.find("type");
+    if (tmp_type != map.end()) {
+        fromRawValue(context, tmp_type->second, result.type);
+    }
+    auto tmp_payload = map.find("payload");
+    if (tmp_payload != map.end()) {
+        fromRawValue(context, tmp_payload->second, result.payload);
+    }
+    auto tmp_brushRef = map.find("brushRef");
+    if (tmp_brushRef != map.end()) {
+        fromRawValue(context, tmp_brushRef->second, result.brushRef);
+    }
+}
+
+static inline std::string toString(const RNSVGUseStrokeStruct &value) { return "[Object RNSVGUseStrokeStruct]"; }
+class JSI_EXPORT RNSVGUseProps final : public ViewProps {
 public:
     RNSVGUseProps() = default;
     RNSVGUseProps(const PropsParserContext &context, const RNSVGUseProps &sourceProps, const RawProps &rawProps);
 
 #pragma mark - Props
 
-
-
+    std::string name{};
+    Float opacity{1.0};
+    std::vector<Float> matrix{};
+    std::string mask{};
+    std::string markerStart{};
+    std::string markerMid{};
+    std::string markerEnd{};
+    std::string clipPath{};
+    int clipRule{0};
+    bool responsible{false};
+    std::string display{};
     std::string pointerEvents{};
+    RNSVGUseFillStruct fill{};
+    Float fillOpacity{1.0};
+    int fillRule{1};
+    RNSVGUseStrokeStruct stroke{};
+    Float strokeOpacity{1.0};
+    std::string strokeWidth{"1"};
+    int strokeLinecap{0};
+    int strokeLinejoin{0};
+    std::vector<std::string> strokeDasharray{};
+    Float strokeDashoffset{0.0};
+    Float strokeMiterlimit{0.0};
+    int vectorEffect{0};
+    std::vector<std::string> propList{};
     std::string href{};
     std::string x{};
     std::string y{};

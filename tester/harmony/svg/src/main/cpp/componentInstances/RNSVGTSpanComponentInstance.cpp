@@ -12,9 +12,8 @@ RNSVGTSpanComponentInstance::RNSVGTSpanComponentInstance(Context context)  : RNS
 }
 
 void RNSVGTSpanComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
-            
+    m_svgTSpan->UpdateCommonProps(props);
     m_svgTSpan->content_ = props->content;
-
     m_svgTSpan->UpdateFontProps(props);
     m_svgTSpan->UpdateTextProps(props);
 }

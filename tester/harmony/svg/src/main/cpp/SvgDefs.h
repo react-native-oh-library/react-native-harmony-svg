@@ -10,16 +10,9 @@ namespace svg {
 class SvgDefs : public SvgNode {
 
 public:
-    SvgDefs() : SvgNode() { InitDefsFlag(); }
+    SvgDefs() : SvgNode() { InitNoneFlag(); }
 
     ~SvgDefs() override = default;
-
-    void InitDefsFlag() {
-        hrefFill_ = false;
-        hrefRender_ = false;
-        inheritStyle_ = false;
-        drawTraversed_ = false;
-    }
 
     drawing::Path AsPath() override {
         drawing::Path path;

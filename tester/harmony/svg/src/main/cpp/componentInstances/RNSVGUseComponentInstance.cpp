@@ -19,8 +19,8 @@ void RNSVGUseComponentInstance::UpdateElementProps(SharedConcreteProps const &pr
     // LOG(INFO) << "[RNSvgUseComponentInstance] opacity: " << props->opacity;
     LOG(INFO) << "[RNSvgUseComponentInstance] href: " << props->href;
 
-    // set attribute to svgCircle.
     auto svgUse = std::dynamic_pointer_cast<SvgUse>(GetSvgNode());
+    svgUse->UpdateCommonProps(props);
     svgUse->x = std::stof(props->x);
     svgUse->y = std::stof(props->y);
     svgUse->width = std::stof(props->width);

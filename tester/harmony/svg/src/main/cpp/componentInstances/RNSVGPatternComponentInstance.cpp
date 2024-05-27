@@ -27,6 +27,7 @@ void RNSVGPatternComponentInstance::UpdateElementProps(SharedConcreteProps const
     LOG(INFO) << "[RNSVGPatternComponentInstance] vbHeight: " << props->vbHeight;
     // set attribute to svgPattern
     auto svgPattern = std::dynamic_pointer_cast<SvgPattern>(GetSvgNode());
+    svgPattern->UpdateCommonProps(props);
     svgPattern->setPatternX(StringUtils::FromString(props->x));
     svgPattern->setPatternY(StringUtils::FromString(props->y));
     svgPattern->setWidth(StringUtils::FromString(props->width));
