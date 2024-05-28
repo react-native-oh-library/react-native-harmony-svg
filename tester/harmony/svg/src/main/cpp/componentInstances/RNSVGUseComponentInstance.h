@@ -12,6 +12,9 @@ class RNSVGUseComponentInstance : public RNSVGBaseComponentInstance<facebook::re
 public:
     RNSVGUseComponentInstance(Context context);
     void UpdateElementProps(SharedConcreteProps const &props) override;
+    void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override {
+        LOG(INFO) << "[RNSvgUseComponentInstance] onChildInserted";
+    }
 };
 
 } // namespace svg
