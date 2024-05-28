@@ -14,9 +14,9 @@ public:
     RNSVGBaseComponentInstance(ComponentInstance::Context context) : CppComponentInstance<T>(std::move(context)) {}
 
     void onPropsChanged(typename CppComponentInstance<T>::SharedConcreteProps const &props) override {
-        UpdateElementProps(props);
         GetSvgNode()->SetScale(CppComponentInstance<T>::m_layoutMetrics.pointScaleFactor);
         pointerEvents_ = props->pointerEvents.size() == 0 ? "auto" : props->pointerEvents;
+        UpdateElementProps(props);
         svgMarkDirty();
     }
     void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override {}
