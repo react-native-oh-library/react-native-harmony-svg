@@ -125,8 +125,8 @@ struct SvgMaskAttribute {
     Dimension y = Dimension(-0.1, DimensionUnit::PERCENT); // y-axis default value
     Dimension width = Dimension(1.2, DimensionUnit::PERCENT); // masking area width default value
     Dimension height = Dimension(1.2, DimensionUnit::PERCENT); // masking area height default value
-    std::string maskContentUnits = "userSpaceOnUse";
-    std::string maskUnits = "objectBoundingBox";
+    Unit maskContentUnits = Unit::userSpaceOnUse;
+    Unit maskUnits = Unit::objectBoundingBox;
 };
 
 struct SvgCircleAttribute {

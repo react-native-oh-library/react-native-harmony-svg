@@ -22,12 +22,12 @@ void RNSVGMaskComponentInstance::UpdateElementProps(SharedConcreteProps const &p
     auto svgMask = std::dynamic_pointer_cast<SvgMask>(GetSvgNode());
     svgMask->UpdateCommonProps(props);
     // set attribute to svgMask.
-    svgMask->setMaskX(StringUtils::StringToDimension(props->x,true));
-    svgMask->setMaskY(StringUtils::StringToDimension(props->y,true));
-    svgMask->setMaskHeight(StringUtils::StringToDimension(props->height,true));
-    svgMask->setMaskWidth(StringUtils::StringToDimension(props->width,true));
-    svgMask->isDefaultMaskUnits(props->maskUnits == 0); // means objectBoundingBox
-    svgMask->isDefaultMaskContentUnits(props->maskContentUnits == 1);// means userSpaceOnUse
+    svgMask->setMaskUnits(props->maskUnits);
+    svgMask->setMaskContentUnits(props->maskContentUnits);
+    svgMask->setMaskX(props->x);
+    svgMask->setMaskY(props->y);
+    svgMask->setMaskHeight(props->height);
+    svgMask->setMaskWidth(props->width);
 }
 
 } // namespace svg

@@ -13,19 +13,9 @@
  * limitations under the License.
  */
 
-#include <native_drawing/drawing_brush.h>
-#include <native_drawing/drawing_color_filter.h>
-#include <native_drawing/drawing_filter.h>
-#include <native_drawing/drawing_point.h>
-#include <native_drawing/drawing_canvas.h>
-#include <native_drawing/drawing_color.h>
-#include <native_drawing/drawing_path.h>
-#include <native_drawing/drawing_pen.h>
-#include <native_drawing/drawing_rect.h>
 #include "drawing/Rect.h"
 #include "properties/Dimension.h"
 #include "SvgQuote.h"
-#include "properties/Rect.h"
 
 namespace rnoh {
 namespace svg {
@@ -35,13 +25,21 @@ public:
     SvgMask() = default;
     ~SvgMask() override = default;
 
-    void setMaskX(Dimension x) { x_ = x; }
+    void setMaskX(const std::string &x) {
+        maskAttribute_.x = StringUtils::StringToDimensionWithUnit(x, defaultDimensionUnit_);
+    }
 
-    void setMaskY(Dimension y) { y_ = y; }
+    void setMaskY(const std::string &y) {
+        maskAttribute_.y = StringUtils::StringToDimensionWithUnit(y, defaultDimensionUnit_);
+    }
 
-    void setMaskHeight(Dimension height) { height_ = height; }
+    void setMaskHeight(const std::string &height) {
+        maskAttribute_.height = StringUtils::StringToDimensionWithUnit(height, defaultDimensionUnit_);
+    }
 
-    void setMaskWidth(Dimension width) { width_ = width; }
+    void setMaskWidth(const std::string &width) {
+        maskAttribute_.width = StringUtils::StringToDimensionWithUnit(width, defaultDimensionUnit_);
+    }
 
     void isDefaultMaskUnits(bool isDefaultMaskUnits) { isDefaultMaskUnits_ = isDefaultMaskUnits; }
 
@@ -49,6 +47,17 @@ public:
         isDefaultMaskContentUnits_ = isDefaultMaskContentUnits;
     }
 
+    void setMaskUnits(const int &maskUnits) {
+        maskAttribute_.maskUnits = ToUnit(maskUnits);
+        isDefaultMaskUnits(maskAttribute_.maskUnits == Unit::objectBoundingBox);
+    }
+
+    void setMaskContentUnits(const int &maskContentUnits) {
+        maskAttribute_.maskContentUnits = ToUnit(maskContentUnits);
+        isDefaultMaskContentUnits(maskAttribute_.maskContentUnits == Unit::userSpaceOnUse);
+    }
+
+    void SetAttrMaskUnits(int maskUnits);
 
 protected:
     void OnInitStyle() override;
@@ -57,15 +66,13 @@ protected:
     double ParseUnitsAttr(const Dimension &attr, double value);
 
 private:
-    Dimension x_ = Dimension(-0.1, DimensionUnit::PERCENT);     // x-axis default value
-    Dimension y_ = Dimension(-0.1, DimensionUnit::PERCENT);     // y-axis default value
-    Dimension height_ = Dimension(1.2, DimensionUnit::PERCENT); // masking area width default value
-    Dimension width_ = Dimension(1.2, DimensionUnit::PERCENT);  // masking area height default  value
     bool isDefaultMaskUnits_ = true;
     bool isDefaultMaskContentUnits_ = true;
+    SvgMaskAttribute maskAttribute_;
 
     drawing::Rect maskBounds_;
     int canvasLayerCount_ = -1;
+    DimensionUnit defaultDimensionUnit_ = DimensionUnit::PERCENT;
 };
 
 } // namespace svg
