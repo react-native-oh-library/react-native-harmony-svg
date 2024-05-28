@@ -179,8 +179,8 @@ bool SvgGraphic::UpdateFillStyle(bool antiAlias) {
         return SetPatternStyle();
     } else {
         fillBrush_.SetColor(fillState_.GetColor().BlendOpacity(curOpacity).GetValue());
-        path_.SetFillType(fillState_.GetFillRuleForDraw());
     }
+    path_.SetFillType(fillState_.GetFillRuleForDraw());
     return true;
 }
 void SvgGraphic::SetFillGradientStyle(double opacity) {
