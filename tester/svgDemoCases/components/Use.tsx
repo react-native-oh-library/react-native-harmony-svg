@@ -1,7 +1,7 @@
 import React from "react";
-import { Svg, Circle, Use, Defs, G, Symbol, Ellipse, Line, Rect} from 'react-native-svg'
+import { Svg, Circle, Use, Defs, G, Symbol, Ellipse, Line, Rect } from 'react-native-svg'
 import { ScrollView, View, Text } from 'react-native'
-import {Tester, Filter, TestCase, TestSuite } from '@rnoh/testerino';
+import { Tester, Filter, TestCase, TestSuite } from '@rnoh/testerino';
 export default function () {
     return (
         <Tester style={{ flex: 1 }}>
@@ -10,10 +10,10 @@ export default function () {
                     itShould="case 1: move x "
                 >
                     <View style={{
-                                    borderWidth: 1,
-                                    width: 100,
-                                    height: 100
-                                }}
+                        borderWidth: 1,
+                        width: 100,
+                        height: 100
+                    }}
                     >
                         <Svg viewBox="0 0 400 400">
                             <Circle id="shape" cx="100" cy="100" r="50" stroke="black" />
@@ -26,10 +26,10 @@ export default function () {
                     itShould="case 2: move y "
                 >
                     <View style={{
-                                    borderWidth: 1,
-                                    width: 100,
-                                    height: 100
-                                }}
+                        borderWidth: 1,
+                        width: 100,
+                        height: 100
+                    }}
                     >
                         <Svg viewBox="0 0 400 400">
                             <Circle id="shape" cx="100" cy="100" r="50" stroke="black" />
@@ -42,16 +42,16 @@ export default function () {
                     itShould="case 3: change opacity"
                 >
                     <View style={{
-                                    borderWidth: 1,
-                                    width: 100,
-                                    height: 100
-                                }}
+                        borderWidth: 1,
+                        width: 100,
+                        height: 100
+                    }}
                     >
                         <Svg viewBox="0 0 400 400">
                             <Circle id="shape" cx="100" cy="100" r="20" strokeWidth="8" stroke="black" fill="black" opacity="1" />
-                            <Circle  cx="140" cy="100" r="20" strokeWidth="8" stroke="black" fill="black" opacity="0.8" />
-                            <Circle  cx="180" cy="100" r="20" strokeWidth="8" stroke="black" fill="black" opacity="0.6" />
-                            <Circle  cx="220" cy="100" r="20" strokeWidth="8" stroke="black" fill="black" opacity="0.4" />
+                            <Circle cx="140" cy="100" r="20" strokeWidth="8" stroke="black" fill="black" opacity="0.8" />
+                            <Circle cx="180" cy="100" r="20" strokeWidth="8" stroke="black" fill="black" opacity="0.6" />
+                            <Circle cx="220" cy="100" r="20" strokeWidth="8" stroke="black" fill="black" opacity="0.4" />
 
                             <Use href="#shape" x="100" y="160" />
                             <Use href="#shape" x="140" y="160" fill="black" opacity="0.8" />
@@ -65,10 +65,10 @@ export default function () {
                     itShould="case 4: draw Ellipse "
                 >
                     <View style={{
-                                    borderWidth: 1,
-                                    width: 100,
-                                    height: 100
-                                }}
+                        borderWidth: 1,
+                        width: 100,
+                        height: 100
+                    }}
                     >
                         <Svg viewBox="0 0 400 400">
                             <Ellipse
@@ -81,7 +81,7 @@ export default function () {
                                 strokeWidth="2"
                                 fill="yellow"
                             />
-                            <Use href="#shape" x="105" y="105"/>
+                            <Use href="#shape" x="105" y="105" />
                         </Svg>
                     </View>
                 </TestCase>
@@ -90,10 +90,10 @@ export default function () {
                     itShould="case 5: draw Rect "
                 >
                     <View style={{
-                                    borderWidth: 1,
-                                    width: 100,
-                                    height: 100
-                                }}
+                        borderWidth: 1,
+                        width: 100,
+                        height: 100
+                    }}
                     >
                         <Svg viewBox="0 0 400 400">
                             <Rect
@@ -115,10 +115,10 @@ export default function () {
                     itShould="case 6: draw line "
                 >
                     <View style={{
-                                    borderWidth: 1,
-                                    width: 100,
-                                    height: 100
-                                }}
+                        borderWidth: 1,
+                        width: 100,
+                        height: 100
+                    }}
                     >
                         <Svg viewBox="0 0 400 400">
                             <Line
@@ -130,7 +130,7 @@ export default function () {
                                 stroke="red"
                                 strokeWidth="2"
                             />
-                            <Use href="#shape" x="50" y="0"/>
+                            <Use href="#shape" x="50" y="0" />
                         </Svg>
                     </View>
                 </TestCase>
@@ -161,10 +161,10 @@ export default function () {
                     itShould="case 8: use xlinkHref as reference (as same as href) "
                 >
                     <View style={{
-                                    borderWidth: 1,
-                                    width: 100,
-                                    height: 100
-                                }}
+                        borderWidth: 1,
+                        width: 100,
+                        height: 100
+                    }}
                     >
                         <Svg viewBox="0 0 400 400">
                             <Circle id="shape" cx="100" cy="100" r="50" stroke="black" />
@@ -174,26 +174,29 @@ export default function () {
                 </TestCase>
 
                 <TestCase
-                    itShould="case 9: Use has Rect child "
+                    itShould="case 9: Use has childs"
                 >
                     <View style={{
-                                    borderWidth: 1,
-                                    width: 100,
-                                    height: 100
-                                }}
+                        borderWidth: 1,
+                        width: 100,
+                        height: 100
+                    }}
                     >
                         <Svg viewBox="0 0 400 400">
                             <Circle id="shape" cx="100" cy="100" r="50" stroke="black" />
                             <Use href="#shape" x="200">
-                                <Rect
-                                    x="25"
-                                    y="5"
-                                    width="150"
-                                    height="50"
-                                    fill="rgb(0,0,255)"
-                                    strokeWidth="3"
-                                    stroke="rgb(0,0,0)"
-                                />
+                                <G>
+                                    <Rect
+                                        x="25"
+                                        y="5"
+                                        width="150"
+                                        height="50"
+                                        fill="rgb(0,0,255)"
+                                        strokeWidth="3"
+                                        stroke="rgb(0,0,0)"
+                                    />
+                                    <Circle id="shape" cx="0" cy="0" r="50" stroke="red" />
+                                </G>
                             </Use>
                         </Svg>
                     </View>

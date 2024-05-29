@@ -14,7 +14,6 @@ public:
     RNSVGBaseComponentInstance(ComponentInstance::Context context) : CppComponentInstance<T>(std::move(context)) {}
 
     void onPropsChanged(typename CppComponentInstance<T>::SharedConcreteProps const &props) override {
-        GetSvgNode()->UpdateCommonProps(props);
         GetSvgNode()->SetScale(CppComponentInstance<T>::m_layoutMetrics.pointScaleFactor);
         pointerEvents_ = props->pointerEvents.size() == 0 ? "auto" : props->pointerEvents;
         UpdateElementProps(props);
@@ -158,6 +157,7 @@ public:
     }
 
 protected:
+//     virtual void UpdateProps(typename CppComponentInstance<T>::SharedConcreteProps const &props) = 0;
     virtual void UpdateElementProps(typename CppComponentInstance<T>::SharedConcreteProps const &props) = 0;
     SvgArkUINode &getLocalRootArkUINode() override { return getParentSvgView()->getLocalRootArkUINode(); }
 

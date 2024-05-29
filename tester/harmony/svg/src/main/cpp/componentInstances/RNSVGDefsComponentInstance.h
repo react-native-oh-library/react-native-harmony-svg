@@ -16,7 +16,10 @@ public:
         SetSvgNode(std::make_shared<SvgDefs>());
     }
 
-    void UpdateElementProps(SharedConcreteProps const &props) override {}
+    void UpdateElementProps(SharedConcreteProps const &props) override {
+        auto svgDefs = std::dynamic_pointer_cast<SvgDefs>(GetSvgNode());
+        svgDefs->UpdateHrefRenderProps(props);
+    }
 };
 
 } // namespace svg

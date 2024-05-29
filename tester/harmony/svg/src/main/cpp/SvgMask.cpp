@@ -15,22 +15,26 @@
 
 #include "SvgMask.h"
 #include "drawing/Brush.h"
+#include <native_drawing/drawing_color_filter.h>
+#include <native_drawing/drawing_filter.h>
+#include <native_drawing/drawing_canvas.h>
+#include <native_drawing/drawing_color.h>
 
 namespace rnoh {
 namespace svg {
 
 void SvgMask::OnDrawTraversedBefore(OH_Drawing_Canvas *canvas) {
     LOG(INFO) << "[RNSVGMask] OnDrawTraversedBefore";
-    // todo: need to finish AsBounds
-    auto nodeBounds = isDefaultMaskUnits_ ? AsBounds() : GetRootViewBox();
-    LOG(INFO) << "[RNSVGMask] Left: " << nodeBounds.Left();
-    LOG(INFO) << "[RNSVGMask] Top: " << nodeBounds.Top();
-    LOG(INFO) << "[RNSVGMask] Width: " << nodeBounds.Width();
-    LOG(INFO) << "[RNSVGMask] Height: " << nodeBounds.Height();
-    auto left = static_cast<float>(nodeBounds.Left() + ParseUnitsAttr(x_, nodeBounds.Width()));
-    auto top = static_cast<float>(nodeBounds.Top() + ParseUnitsAttr(y_, nodeBounds.Height()));
-    auto width = static_cast<float>(ParseUnitsAttr(width_, nodeBounds.Width()));
-    auto height = static_cast<float>(ParseUnitsAttr(height_, nodeBounds.Height()));
+    // TODO implement proper support for units
+    auto nodeBounds = AsBounds();
+    LOG(INFO) << "[RNSVGMask] Left0: " << nodeBounds.Left();
+    LOG(INFO) << "[RNSVGMask] Top0: " << nodeBounds.Top();
+    LOG(INFO) << "[RNSVGMask] Width0: " << nodeBounds.Width();
+    LOG(INFO) << "[RNSVGMask] Height0: " << nodeBounds.Height();
+    auto left = static_cast<float>(nodeBounds.Left() + ParseUnitsAttr(maskAttribute_.x, nodeBounds.Width()));
+    auto top = static_cast<float>(nodeBounds.Top() + ParseUnitsAttr(maskAttribute_.y, nodeBounds.Height()));
+    auto width = static_cast<float>(ParseUnitsAttr(maskAttribute_.width, nodeBounds.Width()));
+    auto height = static_cast<float>(ParseUnitsAttr(maskAttribute_.height, nodeBounds.Height()));
     drawing::Rect maskBounds(left, top, width + left, height + top);
     maskBounds_ = maskBounds;
 
@@ -66,9 +70,7 @@ void SvgMask::OnDrawTraversedAfter(OH_Drawing_Canvas *canvas) {
 void SvgMask::OnInitStyle() { LOG(INFO) << "[RNSVGMask] OnInitStyle"; }
 
 double SvgMask::ParseUnitsAttr(const Dimension &attr, double value) {
-    LOG(INFO) << "[RNSVGMask] ParseUnitsAttr";
     if (isDefaultMaskUnits_) {
-        LOG(INFO) << "[RNSVGMask] isDefaultMaskUnits_";
         // only support decimal or percent
         if (attr.Unit() == DimensionUnit::PERCENT) {
             return value * attr.Value();

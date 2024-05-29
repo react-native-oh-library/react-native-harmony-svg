@@ -12,7 +12,8 @@ RNSVGClipPathComponentInstance::RNSVGClipPathComponentInstance(Context context) 
 }
 
 void RNSVGClipPathComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
-    LOG(INFO) << "[RNSVGClipPathComponentInstance] onPropsChanged props name = " << props->name;
+    auto svgClipPath = std::dynamic_pointer_cast<SvgClipPath>(GetSvgNode());
+    svgClipPath->UpdateCommonProps(props);
 }
 
 } // namespace svg

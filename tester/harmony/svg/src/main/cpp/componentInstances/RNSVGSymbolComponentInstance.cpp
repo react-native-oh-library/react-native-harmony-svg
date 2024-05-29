@@ -16,7 +16,8 @@ void RNSVGSymbolComponentInstance::UpdateElementProps(SharedConcreteProps const 
      
     
     auto svgSymbol = std::dynamic_pointer_cast<SvgSymbol>(GetSvgNode());
-    // set attribute to svgMask.
+    svgSymbol->UpdateCommonProps(props);
+    // set attribute to svgSymbol.
     svgSymbol->mMinX = props->minX;
     svgSymbol->mMinY = props->minY;
     svgSymbol->mVbWidth = props->vbWidth;
@@ -31,9 +32,6 @@ void RNSVGSymbolComponentInstance::UpdateElementProps(SharedConcreteProps const 
     LOG(INFO) << "[SvgSymbol RNSVGSymbolComponentInstance] mMeetOrSlice: " << props->meetOrSlice;
     LOG(INFO) << "[SvgSymbol RNSVGSymbolComponentInstance] mAlign: " << props->align;
     LOG(INFO) << "[SvgSymbol RNSVGSymbolComponentInstance] opacity: " << props->opacity;
-    // set attribute to svgSymbol
-    //auto svgSymbol = std::dynamic_pointer_cast<SvgSymbol>(GetSvgNode());
-   // svgSymbol->viewBox = Rect(props->minX, props->minY, props->vbWidth, props->vbHeight);
      
 }
 
