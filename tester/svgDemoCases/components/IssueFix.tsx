@@ -3,7 +3,7 @@ import Svg, {
   Circle,
   Ellipse,
   G,
-  Text,
+  Text as SVGText,
   TSpan,
   TextPath,
   Path,
@@ -19,7 +19,7 @@ import Svg, {
   Stop,
   SvgXml,
 } from 'react-native-svg';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, Text, Button} from 'react-native';
 import {Tester, Filter, TestCase, TestSuite} from '@rnoh/testerino';
 
 class SvgLayoutExample extends Component {
@@ -112,13 +112,76 @@ class Issue193 extends Component {
   </defs>
   </svg>`;
   render() {
+    return <SvgXml xml={this.svgXml} width={240} height={240} />;
+  }
+}
+
+class Issue203 extends Component {
+  static title = 'Stroke LinearGradient';
+  static data = [
+    [0, 2, 4],
+    [0, 6, 12, -6, -12, -18, -24],
+    [0, 3, 6, 9, -3, -6],
+  ];
+  static index = 0;
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataY: Issue203.data[0],
+    };
+  }
+
+  render() {
     return (
-      <SvgXml xml={this.svgXml} width={240} height={240} />
+      <View style={{magrinTop: 100}}>
+        <View style={{display: 'flex', height: 200, flexDirection: 'row'}}>
+          <View style={{padding: 20}}>
+            <Text>RN Text</Text>
+            {this.state.dataY.map((value, index) => {
+              return <Text key={value + index}>{value}</Text>;
+            })}
+          </View>
+          <View style={{padding: 20}}>
+            <Text>RNSVG Text</Text>
+            <Svg
+              style={{
+                position: 'absolute',
+                top: 40,
+                left: 0,
+                height: 300,
+                width: 180,
+              }}>
+              <G>
+                {this.state.dataY.map((value, index) => {
+                  return (
+                    <SVGText
+                      textAnchor={'middle'}
+                      x={'30%'}
+                      alignmentBaseline={'middle'}
+                      key={value}
+                      y={index * 20}>
+                      {value}
+                    </SVGText>
+                  );
+                })}
+              </G>
+            </Svg>
+          </View>
+        </View>
+        <Button
+          title="切换"
+          onPress={() => {
+            this.setState({dataY: Issue203.data[Issue203.index]});
+            Issue203.index = (Issue203.index + 1) % 3;
+          }}>
+          切换
+        </Button>
+      </View>
     );
   }
 }
 
-const samples = [SvgLayoutExample, Issue178, Issue185, Issue193,];
+const samples = [SvgLayoutExample, Issue178, Issue185, Issue193, Issue203];
 
 const styles = StyleSheet.create({
   container: {
@@ -150,6 +213,9 @@ export default function () {
         </TestCase>
         <TestCase itShould="Issue #193: Box with window surrounded by circle">
           <Issue193 />
+        </TestCase>
+        <TestCase itShould="Issue #205: The content of RNSVG Text should display as same as the RN Text">
+          <Issue203 />
         </TestCase>
       </ScrollView>
     </Tester>
