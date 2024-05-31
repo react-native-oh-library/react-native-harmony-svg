@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component, useState } from 'react';
 import Svg, {
   Circle,
   Ellipse,
@@ -19,8 +19,8 @@ import Svg, {
   Stop,
   SvgXml,
 } from 'react-native-svg';
-import {View, StyleSheet, ScrollView, Text, Button} from 'react-native';
-import {Tester, Filter, TestCase, TestSuite} from '@rnoh/testerino';
+import { View, StyleSheet, ScrollView, Text, Button } from 'react-native';
+import { Tester, Filter, TestCase, TestSuite } from '@rnoh/testerino';
 
 class SvgLayoutExample extends Component {
   static title = 'SVG with flex layout';
@@ -63,7 +63,7 @@ class Issue178 extends Component {
   static title = 'Stroke LinearGradient';
   render() {
     return (
-      <Svg style={{height: 200, width: 374.1538391113281}}>
+      <Svg style={{ height: 200, width: 374.1538391113281 }}>
         <Defs key={'gradient'}>
           <LinearGradient id={'gradient'} x1="0%" y1="0%" x2="100%" y2="0%">
             <Stop offset={'0%'} stopColor={'rgb(134, 65, 244)'} />
@@ -84,7 +84,7 @@ class Issue185 extends Component {
   static title = 'Stroke LinearGradient';
   render() {
     return (
-      <Svg style={{height: 200, width: 200}}>
+      <Svg style={{ height: 200, width: 200 }}>
         <Path
           d="M 5 2,h 154,q 3 0 3 3,v 164,q 0 3 -3 3,h -154,q -3 0 -3 -3,v -164,q 0 -3 3 -3"
           fill="rgba(3,102,214,0.2)"></Path>
@@ -133,15 +133,15 @@ class Issue203 extends Component {
 
   render() {
     return (
-      <View style={{magrinTop: 100}}>
-        <View style={{display: 'flex', height: 200, flexDirection: 'row'}}>
-          <View style={{padding: 20}}>
+      <View style={{ magrinTop: 100 }}>
+        <View style={{ display: 'flex', height: 200, flexDirection: 'row' }}>
+          <View style={{ padding: 20 }}>
             <Text>RN Text</Text>
             {this.state.dataY.map((value, index) => {
               return <Text key={value + index}>{value}</Text>;
             })}
           </View>
-          <View style={{padding: 20}}>
+          <View style={{ padding: 20 }}>
             <Text>RNSVG Text</Text>
             <Svg
               style={{
@@ -171,7 +171,7 @@ class Issue203 extends Component {
         <Button
           title="切换"
           onPress={() => {
-            this.setState({dataY: Issue203.data[Issue203.index]});
+            this.setState({ dataY: Issue203.data[Issue203.index] });
             Issue203.index = (Issue203.index + 1) % 3;
           }}>
           切换
@@ -181,7 +181,38 @@ class Issue203 extends Component {
   }
 }
 
-const samples = [SvgLayoutExample, Issue178, Issue185, Issue193, Issue203];
+export function Issue203Extend() {
+  const [dataX, setDataX] = useState(25);
+  return (
+    <View>
+      <Svg height="100" width="100%">
+        <Rect
+          x={dataX}
+          y="70"
+          width="50"
+          height="25"
+          fill="rgb(0,0,255)"
+          strokeWidth="3"
+          stroke="red"
+        />
+        <Circle
+          cx={dataX}
+          cy="25"
+          r="25"
+          stroke="purple"
+          strokeWidth="2.5"
+          fill="none"
+        />
+      </Svg>
+      <Button title="切换" onPress={() => {
+        let data = dataX + 5 < 300 ? dataX + 5 : 25;
+        setDataX(dataX + 5)
+      }}>切换</Button>
+    </View>
+  );
+}
+
+const samples = [SvgLayoutExample, Issue178, Issue185, Issue193, Issue203, Issue203Extend];
 
 const styles = StyleSheet.create({
   container: {
@@ -200,7 +231,7 @@ const styles = StyleSheet.create({
 
 export default function () {
   return (
-    <Tester style={{flex: 1}}>
+    <Tester style={{ flex: 1 }}>
       <ScrollView>
         <TestCase itShould="SVG with flex layout">
           <SvgLayoutExample />
@@ -214,8 +245,11 @@ export default function () {
         <TestCase itShould="Issue #193: Box with window surrounded by circle">
           <Issue193 />
         </TestCase>
-        <TestCase itShould="Issue #205: The content of RNSVG Text should display as same as the RN Text">
+        <TestCase itShould="Issue #203: The content of RNSVG Text should display as same as the RN Text">
           <Issue203 />
+        </TestCase>
+        <TestCase itShould="Issue #203 extend: The path should not repeat display">
+          <Issue203Extend />
         </TestCase>
       </ScrollView>
     </Tester>

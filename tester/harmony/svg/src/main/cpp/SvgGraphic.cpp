@@ -37,6 +37,7 @@ void SvgGraphic::OnDraw(OH_Drawing_Canvas *canvas) {
               << attributes_.markerEnd;
     //     OH_Drawing_BrushReset(fillBrush_.get());
     //     OH_Drawing_PenReset(strokePen_.get());
+    path_.Reset();
     // 获取子类的绘制路径。
     path_ = AsPath();
     UpdateGradient(attributes_.fillState.GetGradient());
