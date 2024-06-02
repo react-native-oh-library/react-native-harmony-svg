@@ -1,15 +1,14 @@
-#include <functional>
-
 #include "arkui/native_interface.h"
 #include "arkui/native_node.h"
 #include "arkui/native_type.h"
 #include "RNOH/arkui/NativeNodeApi.h"
+#include "SvgArkUINode.h"
 #include <native_drawing/drawing_canvas.h>
 #include <native_drawing/drawing_path.h>
 #include <native_drawing/drawing_pen.h>
 #include <native_drawing/drawing_types.h>
-#include "SvgArkUINode.h"
 #include <sstream>
+#include <functional>
 
 namespace rnoh {
 namespace svg {
@@ -51,8 +50,8 @@ SvgArkUINode::~SvgArkUINode() {
 void SvgArkUINode::OnDraw(ArkUI_NodeCustomEvent *event) {
     auto *drawContext = OH_ArkUI_NodeCustomEvent_GetDrawContextInDraw(event);
     auto *drawingHandle = reinterpret_cast<OH_Drawing_Canvas *>(OH_ArkUI_DrawContext_GetCanvas(drawContext));
-    LOG(INFO) << "[svg] <SVGArkUINode> CanvasGetHeight: " << OH_Drawing_CanvasGetHeight(drawingHandle);
-    LOG(INFO) << "[svg] <SVGArkUINode> CanvasGetWidth: " << OH_Drawing_CanvasGetWidth(drawingHandle);
+    DLOG(INFO) << "[svg] <SVGArkUINode> CanvasGetHeight: " << OH_Drawing_CanvasGetHeight(drawingHandle);
+    DLOG(INFO) << "[svg] <SVGArkUINode> CanvasGetWidth: " << OH_Drawing_CanvasGetWidth(drawingHandle);
     auto root = root_.lock();
     CHECK_NULL_VOID(root);
     root->ContextTraversal();

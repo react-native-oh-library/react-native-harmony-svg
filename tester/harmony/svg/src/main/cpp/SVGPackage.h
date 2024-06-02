@@ -59,7 +59,7 @@ public:
     using ComponentInstanceFactoryDelegate::ComponentInstanceFactoryDelegate;
 
     ComponentInstance::Shared create(ComponentInstance::Context ctx) override {
-        LOG(INFO) << "[SVGPackageComponentInstanceFactoryDelegate] create componentName= " << ctx.componentName;
+        DLOG(INFO) << "[SVGPackageComponentInstanceFactoryDelegate] create componentName= " << ctx.componentName;
         if (ctx.componentName == "RNSVGSvgView") {
             return std::make_shared<RNSVGSvgViewComponentInstance>(std::move(ctx));
         }

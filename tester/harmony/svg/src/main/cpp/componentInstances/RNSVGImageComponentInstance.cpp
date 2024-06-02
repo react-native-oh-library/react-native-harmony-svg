@@ -1,8 +1,5 @@
 #include "RNSVGImageComponentInstance.h"
-#include "Props.h"
-#include <react/renderer/core/ConcreteState.h>
-#include <sstream>
-#include <SvgImage.h>
+#include "SvgImage.h"
 
 namespace rnoh {
 namespace svg {
@@ -12,7 +9,7 @@ RNSVGImageComponentInstance::RNSVGImageComponentInstance(Context context)
     SetSvgNode(std::make_shared<SvgImage>());
 }
 
-void RNSVGImageComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {     
+void RNSVGImageComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
     auto svgImage = std::dynamic_pointer_cast<SvgImage>(GetSvgNode());
     svgImage->UpdateCommonProps(props);
     svgImage->x = std::stof(props->x);

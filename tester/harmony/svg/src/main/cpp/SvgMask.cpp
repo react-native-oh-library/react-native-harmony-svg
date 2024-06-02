@@ -24,13 +24,13 @@ namespace rnoh {
 namespace svg {
 
 void SvgMask::OnDrawTraversedBefore(OH_Drawing_Canvas *canvas) {
-    LOG(INFO) << "[RNSVGMask] OnDrawTraversedBefore";
+    DLOG(INFO) << "[RNSVGMask] OnDrawTraversedBefore";
     // TODO implement proper support for units
     auto nodeBounds = AsBounds();
-    LOG(INFO) << "[RNSVGMask] Left0: " << nodeBounds.Left();
-    LOG(INFO) << "[RNSVGMask] Top0: " << nodeBounds.Top();
-    LOG(INFO) << "[RNSVGMask] Width0: " << nodeBounds.Width();
-    LOG(INFO) << "[RNSVGMask] Height0: " << nodeBounds.Height();
+    DLOG(INFO) << "[RNSVGMask] Left0: " << nodeBounds.Left();
+    DLOG(INFO) << "[RNSVGMask] Top0: " << nodeBounds.Top();
+    DLOG(INFO) << "[RNSVGMask] Width0: " << nodeBounds.Width();
+    DLOG(INFO) << "[RNSVGMask] Height0: " << nodeBounds.Height();
     auto left = static_cast<float>(nodeBounds.Left() + ParseUnitsAttr(maskAttribute_.x, nodeBounds.Width()));
     auto top = static_cast<float>(nodeBounds.Top() + ParseUnitsAttr(maskAttribute_.y, nodeBounds.Height()));
     auto width = static_cast<float>(ParseUnitsAttr(maskAttribute_.width, nodeBounds.Width()));
@@ -56,7 +56,7 @@ void SvgMask::OnDrawTraversedBefore(OH_Drawing_Canvas *canvas) {
 }
 
 void SvgMask::OnDrawTraversedAfter(OH_Drawing_Canvas *canvas) {
-    LOG(INFO) << "[RNSVGMask] OnDrawTraversedAfter";
+    DLOG(INFO) << "[RNSVGMask] OnDrawTraversedAfter";
     OH_Drawing_CanvasRestoreToCount(canvas, canvasLayerCount_);
     // create content layer and render content
     drawing::Brush maskBrush;
@@ -67,7 +67,7 @@ void SvgMask::OnDrawTraversedAfter(OH_Drawing_Canvas *canvas) {
 }
 
 
-void SvgMask::OnInitStyle() { LOG(INFO) << "[RNSVGMask] OnInitStyle"; }
+void SvgMask::OnInitStyle() { DLOG(INFO) << "[RNSVGMask] OnInitStyle"; }
 
 double SvgMask::ParseUnitsAttr(const Dimension &attr, double value) {
     if (isDefaultMaskUnits_) {

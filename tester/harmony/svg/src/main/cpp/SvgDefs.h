@@ -23,12 +23,12 @@ public:
 
     drawing::Path AsPath() override {
         drawing::Path path;
-        LOG(INFO) << "[SvgDfes:AsPath] : arrived Defs AsPath";
+        DLOG(INFO) << "[SvgDfes:AsPath] : arrived Defs AsPath";
         for (auto child : children_) {
             if (!child) {
-                LOG(INFO) << "[SvgDfes:AsPath] : childnode is a null ptr";
+                DLOG(INFO) << "[SvgDfes:AsPath] : childnode is a null ptr";
             } else {
-                LOG(INFO) << "[SvgDfes:AsPath] : get child path:";
+                DLOG(INFO) << "[SvgDfes:AsPath] : get child path:";
             }
             auto childPath = child->AsPath();
             path.Union(childPath);

@@ -1,8 +1,6 @@
 #pragma once
 
-#include "RNSVGBaseComponentInstance.h"    
-#include "ShadowNodes.h"
-#include "SvgGroup.h"
+#include "RNSVGBaseComponentInstance.h"
 
 namespace rnoh {
 namespace svg {
@@ -11,7 +9,7 @@ class RNSVGGroupComponentInstance : public RNSVGBaseComponentInstance<facebook::
 
 public:
     RNSVGGroupComponentInstance(Context context);
-    
+
     void UpdateElementProps(SharedConcreteProps const &props) override;
 
     void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override {

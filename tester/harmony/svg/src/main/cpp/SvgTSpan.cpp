@@ -62,7 +62,7 @@ void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
                 getTextAnchorOffset(font_->textAnchor, actualWidth);
     double dy =
         glyphCtx_->nextY() + glyphCtx_->nextDeltaY() + CalcBaselineShift(typographyHandler, ts.textStyle_.get(), fm);
-    LOG(INFO) << "TEXT GLYPH next X = " << dx << " next dy = " << dy;
+    DLOG(INFO) << "TEXT GLYPH next X = " << dx << " next dy = " << dy;
 
     double r = glyphCtx_->nextRotation();
     drawing::Matrix mat;
@@ -149,7 +149,7 @@ void SvgTSpan::DrawTextPath(OH_Drawing_Canvas *canvas) {
 
     double scaleSpacingAndGlyphs = 1.0;
     if (AdjustSpacing(canvas, textMeasure, scaleSpacingAndGlyphs)) {
-        LOG(INFO) << "adjust spacing to " << font_->letterSpacing;
+        DLOG(INFO) << "adjust spacing to " << font_->letterSpacing;
         OH_Drawing_SetTextStyleLetterSpacing(ts.textStyle_.get(), font_->letterSpacing);
     }
     ph.SetScaleSpacingAndGlyphs(scaleSpacingAndGlyphs);

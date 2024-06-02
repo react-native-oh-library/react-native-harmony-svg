@@ -1,13 +1,11 @@
 #include "RNSVGTSpanComponentInstance.h"
-#include "Props.h"
-#include <react/renderer/core/ConcreteState.h>
-#include <sstream>
-#include <SvgTSpan.h>
+#include "SvgTSpan.h"
 
 namespace rnoh {
 namespace svg {
 
-RNSVGTSpanComponentInstance::RNSVGTSpanComponentInstance(Context context)  : RNSVGBaseComponentInstance(std::move(context)) {
+RNSVGTSpanComponentInstance::RNSVGTSpanComponentInstance(Context context)
+    : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(m_svgTSpan);
 }
 
@@ -17,7 +15,6 @@ void RNSVGTSpanComponentInstance::UpdateElementProps(SharedConcreteProps const &
     m_svgTSpan->UpdateFontProps(props);
     m_svgTSpan->UpdateTextProps(props);
 }
-
 
 } // namespace svg
 } // namespace rnoh

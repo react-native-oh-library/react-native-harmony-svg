@@ -8,7 +8,7 @@ void GlyphContext::pushContext(bool reset, const std::shared_ptr<SvgNode>& node,
         this->reset();
     }
 
-    LOG(INFO) << "GLYPH PUSHING" << " mTop = " << mTop << " node = " << node;
+    DLOG(INFO) << "GLYPH PUSHING" << " mTop = " << mTop << " node = " << node;
     pushNode(node);
 
     if (!x.empty()) {
@@ -72,7 +72,7 @@ void GlyphContext::popContext() {
     int dy = mDYsIndex;
     int r = mRsIndex;
 
-    LOG(INFO) << "GLYPH mTop = " << mTop << " mXsIndices size = " << mXsIndices.size();
+    DLOG(INFO) << "GLYPH mTop = " << mTop << " mXsIndices size = " << mXsIndices.size();
     mXsIndex = mXsIndices[mTop];
     mYsIndex = mYsIndices[mTop];
     mDXsIndex = mDXsIndices[mTop];
@@ -153,7 +153,7 @@ double GlyphContext::nextRotation() {
     mRIndex = std::min(mRIndex + 1, static_cast<int>(mRs.size()) - 1);
 
     if (mRIndex < 0) {
-        // LOG(INF0) << "ROTATION IS NULL";
+        // DLOG(INF0) << "ROTATION IS NULL";
         return 0.0;
     }
     return mRs[mRIndex];

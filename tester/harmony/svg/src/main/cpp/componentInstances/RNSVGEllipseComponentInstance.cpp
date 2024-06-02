@@ -1,22 +1,19 @@
-#include <react/renderer/core/ConcreteState.h>
-#include <sstream>
 #include "RNSVGEllipseComponentInstance.h"
-#include "Props.h"
 #include "SvgEllipse.h"
-
 
 namespace rnoh {
 namespace svg {
 
-RNSVGEllipseComponentInstance::RNSVGEllipseComponentInstance(Context context)  : RNSVGBaseComponentInstance(std::move(context)) {
+RNSVGEllipseComponentInstance::RNSVGEllipseComponentInstance(Context context)
+    : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgEllipse>());
 }
 
 void RNSVGEllipseComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
-    LOG(INFO) << "[SvgEllipse] cx: " << props->cx;
-    LOG(INFO) << "[SvgEllipse] cy: " << props->cy;
-    LOG(INFO) << "[SvgEllipse] rx: " << props->rx;
-    LOG(INFO) << "[SvgEllipse] ry: " << props->ry;
+    DLOG(INFO) << "[SvgEllipse] cx: " << props->cx;
+    DLOG(INFO) << "[SvgEllipse] cy: " << props->cy;
+    DLOG(INFO) << "[SvgEllipse] rx: " << props->rx;
+    DLOG(INFO) << "[SvgEllipse] ry: " << props->ry;
     auto svgEllipse = std::dynamic_pointer_cast<SvgEllipse>(GetSvgNode());
     svgEllipse->UpdateCommonProps(props);
     svgEllipse->SetCX(props->cx);

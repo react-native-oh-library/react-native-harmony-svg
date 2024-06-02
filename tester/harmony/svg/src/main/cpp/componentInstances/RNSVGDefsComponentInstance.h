@@ -1,8 +1,6 @@
 #pragma once
+
 #include "RNSVGBaseComponentInstance.h"
-#include "RNOH/CppComponentInstance.h"
-#include "RNSVGBaseComponentInstance.h"
-#include <folly/dynamic.h>  
 #include "ShadowNodes.h"
 #include "SvgDefs.h"
 

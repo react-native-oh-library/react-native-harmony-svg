@@ -23,18 +23,18 @@
  */
 
 #pragma once
-#include "RNSVGBaseComponentInstance.h"  
-#include <math.h>  
-#include "ShadowNodes.h"
+
+#include "RNSVGBaseComponentInstance.h"
 
 namespace rnoh {
 namespace svg {
-class RNSVGLinearGradientComponentInstance : public RNSVGBaseComponentInstance<facebook::react::RNSVGLinearGradientShadowNode> {
+class RNSVGLinearGradientComponentInstance
+    : public RNSVGBaseComponentInstance<facebook::react::RNSVGLinearGradientShadowNode> {
 
 public:
     RNSVGLinearGradientComponentInstance(Context context);
-         
-     void UpdateElementProps(SharedConcreteProps const &props) override;
+
+    void UpdateElementProps(SharedConcreteProps const &props) override;
 };
 
 } // namespace svg

@@ -1,8 +1,4 @@
 #include "RNSVGTextComponentInstance.h"
-#include "Props.h"
-#include <react/renderer/core/ConcreteState.h>
-#include <sstream>
-#include "SvgTSpan.h"
 
 namespace rnoh {
 namespace svg {

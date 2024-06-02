@@ -23,9 +23,9 @@
  */
 
 #pragma once
+
 #include "RNSVGBaseComponentInstance.h"
 #include "ShadowNodes.h"
-#include <glog/logging.h>
 
 namespace rnoh {
 namespace svg {

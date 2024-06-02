@@ -1,13 +1,12 @@
 #include "RNSVGClipPathComponentInstance.h"
-#include "Props.h"
-#include <react/renderer/core/ConcreteState.h>
-#include <sstream>
 #include "SvgClipPath.h"
+#include <react/renderer/core/ConcreteState.h>
 
 namespace rnoh {
 namespace svg {
 
-RNSVGClipPathComponentInstance::RNSVGClipPathComponentInstance(Context context) : RNSVGBaseComponentInstance(std::move(context)) {
+RNSVGClipPathComponentInstance::RNSVGClipPathComponentInstance(Context context)
+    : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgClipPath>());
 }
 

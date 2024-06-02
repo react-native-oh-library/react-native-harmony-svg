@@ -13,6 +13,10 @@
  * limitations under the License.
  */
 
+#include "utils/SvgMarkerPositionUtils.h"
+#include "SvgMarker.h"
+#include "properties/ViewBox.h"
+#include "drawing/Rect.h"
 #include "SvgGraphic.h"
 #include <native_drawing/drawing_bitmap.h>
 #include <native_drawing/drawing_filter.h>
@@ -24,17 +28,13 @@
 #include <native_drawing/drawing_point.h>
 #include <native_drawing/drawing_matrix.h>
 #include <native_drawing/drawing_types.h>
-#include "utils/SvgMarkerPositionUtils.h"
-#include "SvgMarker.h"
-#include "properties/ViewBox.h"
-#include "drawing/Rect.h"
 
 namespace rnoh {
 namespace svg {
 
 void SvgGraphic::OnDraw(OH_Drawing_Canvas *canvas) {
-    LOG(INFO) << "[SVGGraphic] onDraw marker = " << attributes_.markerStart << " " << attributes_.markerMid << " "
-              << attributes_.markerEnd;
+    DLOG(INFO) << "[SVGGraphic] onDraw marker = " << attributes_.markerStart << " " << attributes_.markerMid << " "
+               << attributes_.markerEnd;
     //     OH_Drawing_BrushReset(fillBrush_.get());
     //     OH_Drawing_PenReset(strokePen_.get());
     // 获取子类的绘制路径。
@@ -141,22 +141,26 @@ void SvgGraphic::UpdateGradient(std::optional<Gradient> &gradient) {
         const auto &radialGradient = gradient->GetRadialGradient();
         auto gradientInfo = RadialGradientInfo();
         if (radialGradient.radialCenterX.value().Unit() == DimensionUnit::PERCENT) {
-            gradientInfo.cx = nodeBounds.Left() + radialGradient.radialCenterX->RelativeConvertToPx(nodeBounds.Width(), scale_);
+            gradientInfo.cx =
+                nodeBounds.Left() + radialGradient.radialCenterX->RelativeConvertToPx(nodeBounds.Width(), scale_);
         } else {
             gradientInfo.cx = radialGradient.radialCenterX->RelativeConvertToPx(nodeBounds.Width(), scale_);
         }
         if (radialGradient.radialCenterY.value().Unit() == DimensionUnit::PERCENT) {
-            gradientInfo.cy = nodeBounds.Top() + radialGradient.radialCenterY->RelativeConvertToPx(nodeBounds.Height(), scale_);
+            gradientInfo.cy =
+                nodeBounds.Top() + radialGradient.radialCenterY->RelativeConvertToPx(nodeBounds.Height(), scale_);
         } else {
             gradientInfo.cy = radialGradient.radialCenterY->RelativeConvertToPx(nodeBounds.Height(), scale_);
         }
         if (radialGradient.fRadialCenterX.value().Unit() == DimensionUnit::PERCENT) {
-            gradientInfo.fx = nodeBounds.Left() + radialGradient.fRadialCenterX->RelativeConvertToPx(nodeBounds.Width(), scale_);
+            gradientInfo.fx =
+                nodeBounds.Left() + radialGradient.fRadialCenterX->RelativeConvertToPx(nodeBounds.Width(), scale_);
         } else {
             gradientInfo.fx = radialGradient.fRadialCenterX->RelativeConvertToPx(nodeBounds.Width(), scale_);
         }
         if (radialGradient.fRadialCenterY.value().Unit() == DimensionUnit::PERCENT) {
-            gradientInfo.fy = nodeBounds.Top() + radialGradient.fRadialCenterY->RelativeConvertToPx(nodeBounds.Height(), scale_);
+            gradientInfo.fy =
+                nodeBounds.Top() + radialGradient.fRadialCenterY->RelativeConvertToPx(nodeBounds.Height(), scale_);
         } else {
             gradientInfo.fy = radialGradient.fRadialCenterY->RelativeConvertToPx(nodeBounds.Height(), scale_);
         }
@@ -200,11 +204,11 @@ void SvgGraphic::SetFillGradientStyle(double opacity) {
     }
     drawing::Matrix transMatrix;
     if (gradient->GetGradientTransform().size() == 9) {
-        transMatrix.SetMatrix(gradient->GetGradientTransform()[0],
-                                   gradient->GetGradientTransform()[1], gradient->GetGradientTransform()[2],
-                                   gradient->GetGradientTransform()[3], gradient->GetGradientTransform()[4],
-                                   gradient->GetGradientTransform()[5], gradient->GetGradientTransform()[6],
-                                   gradient->GetGradientTransform()[7], gradient->GetGradientTransform()[8]);
+        transMatrix.SetMatrix(gradient->GetGradientTransform()[0], gradient->GetGradientTransform()[1],
+                              gradient->GetGradientTransform()[2], gradient->GetGradientTransform()[3],
+                              gradient->GetGradientTransform()[4], gradient->GetGradientTransform()[5],
+                              gradient->GetGradientTransform()[6], gradient->GetGradientTransform()[7],
+                              gradient->GetGradientTransform()[8]);
     }
     if (gradient->GetType() == GradientType::LINEAR && gradient->IsValid()) {
         auto info = gradient->GetLinearGradientInfo();
@@ -213,7 +217,8 @@ void SvgGraphic::SetFillGradientStyle(double opacity) {
             {static_cast<float>(info.x2), static_cast<float>(info.y2)},
         };
         fillBrush_.SetLinearShaderEffect(&ptsPoint2D[0], &ptsPoint2D[1], colors.data(), pos.data(), colors.size(),
-            static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()), transMatrix.get());
+                                         static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()),
+                                         transMatrix.get());
     }
     if (gradient->GetType() == GradientType::RADIAL && gradient->IsValid()) {
         auto info = gradient->GetRadialGradientInfo();
@@ -227,8 +232,9 @@ void SvgGraphic::SetFillGradientStyle(double opacity) {
         OH_Drawing_Point2D center = {static_cast<float>(info.cx), static_cast<float>(info.cy)};
         drawing::Matrix concatMatrix;
         concatMatrix = scaleMatrix.Concat(transMatrix);
-        fillBrush_.SetRadialShaderEffect(&focal, 0, &center, info.rx > info.ry ? info.rx : info.ry, colors.data(),
-            pos.data(), colors.size(), static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()), concatMatrix.get());
+        fillBrush_.SetRadialShaderEffect(
+            &focal, 0, &center, info.rx > info.ry ? info.rx : info.ry, colors.data(), pos.data(), colors.size(),
+            static_cast<OH_Drawing_TileMode>(gradient->GetSpreadMethod()), concatMatrix.get());
     }
 }
 
@@ -284,7 +290,7 @@ void SvgGraphic::SetStrokeGradientStyle(double opacity) {
 }
 
 bool SvgGraphic::SetPatternStyle() {
-    LOG(INFO) << "[SVGGraphic pattern] SetPatternStyle";
+    DLOG(INFO) << "[SVGGraphic pattern] SetPatternStyle";
     const auto &fillState_ = attributes_.fillState;
     auto pattern = fillState_.GetPatternAttr();
     if (pattern == nullptr) {
@@ -313,12 +319,12 @@ bool SvgGraphic::SetPatternStyle() {
     float height;
     if (patternUnits == Unit::objectBoundingBox) {
         nodeBounds = AsBounds();
-        left =nodeBounds.Left();
+        left = nodeBounds.Left();
         top = nodeBounds.Top();
     } else {
         nodeBounds = GetRootViewBox();
     }
-    
+
     width = nodeBounds.Width();
     height = nodeBounds.Height();
 
@@ -359,7 +365,7 @@ bool SvgGraphic::SetPatternStyle() {
         drawing::Matrix viewBoxMatrix = ViewBox::getTransform(vbRect, eRect, mAlign, mMeetOrSlice);
         OH_Drawing_CanvasConcatMatrix(canvas, viewBoxMatrix.get());
     }
-    
+
     if (patternContentUnits == Unit::objectBoundingBox) {
         OH_Drawing_CanvasScale(canvas, offsetwidth / scale_, offsetheight / scale_);
     }
@@ -398,7 +404,7 @@ bool SvgGraphic::SetPatternStyle() {
     OH_Drawing_BitmapDestroy(bitmap);
     OH_Drawing_ImageDestroy(image);
     OH_Drawing_SamplingOptionsDestroy(opt);
-    
+
     return true;
 }
 
@@ -418,7 +424,7 @@ bool SvgGraphic::UpdateStrokeStyle(bool antiAlias) {
     } else {
         strokePen_.SetColor(strokeState.GetColor().BlendOpacity(curOpacity).GetValue());
     }
-    LOG(INFO) << "[svg] strokeState.GetLineCap(): " << static_cast<int>(strokeState.GetLineCap());
+    DLOG(INFO) << "[svg] strokeState.GetLineCap(): " << static_cast<int>(strokeState.GetLineCap());
     if (strokeState.GetLineCap() == LineCapStyle::ROUND) {
         strokePen_.SetLineCap(LINE_ROUND_CAP);
     } else if (strokeState.GetLineCap() == LineCapStyle::SQUARE) {
@@ -426,7 +432,7 @@ bool SvgGraphic::UpdateStrokeStyle(bool antiAlias) {
     } else {
         strokePen_.SetLineCap(LINE_FLAT_CAP);
     }
-    LOG(INFO) << "[svg] strokeState.GetLineJoin(): " << static_cast<int>(strokeState.GetLineJoin());
+    DLOG(INFO) << "[svg] strokeState.GetLineJoin(): " << static_cast<int>(strokeState.GetLineJoin());
     if (strokeState.GetLineJoin() == LineJoinStyle::ROUND) {
         strokePen_.SetLineJoin(LINE_ROUND_JOIN);
     } else if (strokeState.GetLineJoin() == LineJoinStyle::BEVEL) {
@@ -434,7 +440,7 @@ bool SvgGraphic::UpdateStrokeStyle(bool antiAlias) {
     } else {
         strokePen_.SetLineJoin(LINE_MITER_JOIN);
     }
-    LOG(INFO) << "[SvgRect] OH_Drawing_PenSetWidth: " << strokeState.GetLineWidth();
+    DLOG(INFO) << "[SvgRect] OH_Drawing_PenSetWidth: " << strokeState.GetLineWidth();
     strokePen_.SetWidth(strokeState.GetLineWidth());
     strokePen_.SetMiterLimit(strokeState.GetMiterLimit());
     strokePen_.SetAntiAlias(antiAlias);
@@ -463,11 +469,11 @@ void SvgGraphic::DrawMarker(OH_Drawing_Canvas *canvas) {
     auto markerMid = std::dynamic_pointer_cast<SvgMarker>(context_->GetSvgNodeById(attributes_.markerMid));
     auto markerEnd = std::dynamic_pointer_cast<SvgMarker>(context_->GetSvgNodeById(attributes_.markerEnd));
     if (!markerStart && !markerMid && !markerEnd) {
-        LOG(WARNING) << "NO MARKER";
+        DLOG(WARNING) << "NO MARKER";
         return;
     }
     if (elements_.empty()) {
-        LOG(WARNING) << "NO path";
+        DLOG(WARNING) << "NO path";
         return;
     }
     std::vector<SvgMarkerPosition> positions = SvgMarkerPositionUtils::fromPath(elements_);
@@ -492,8 +498,8 @@ void SvgGraphic::DrawMarker(OH_Drawing_Canvas *canvas) {
         if (!marker) {
             continue;
         }
-        LOG(INFO) << "DRAW MARKER at " << position.origin.x << " " << position.origin.y
-                  << "] type: " << static_cast<int>(type);
+        DLOG(INFO) << "DRAW MARKER at " << position.origin.x << " " << position.origin.y
+                   << "] type: " << static_cast<int>(type);
         marker->renderMarker(canvas, position, attributes_.strokeState.GetLineWidth());
     }
 }

@@ -1,7 +1,5 @@
 #include "RNSVGUseComponentInstance.h"
-#include "Props.h"
-#include <react/renderer/core/ConcreteState.h>
-#include <sstream>
+#include "SvgUse.h"
 
 namespace rnoh {
 namespace svg {
@@ -11,13 +9,13 @@ RNSVGUseComponentInstance::RNSVGUseComponentInstance(Context context) : RNSVGBas
 }
 
 void RNSVGUseComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
-    LOG(INFO) << "[RNSvgUseComponentInstance] Props: ";
-    LOG(INFO) << "[RNSvgUseComponentInstance] x: " << props->x;
-    LOG(INFO) << "[RNSvgUseComponentInstance] y: " << props->y;
-    LOG(INFO) << "[RNSvgUseComponentInstance] width: " << props->width;
-    LOG(INFO) << "[RNSvgUseComponentInstance] height: " << props->height;
-    // LOG(INFO) << "[RNSvgUseComponentInstance] opacity: " << props->opacity;
-    LOG(INFO) << "[RNSvgUseComponentInstance] href: " << props->href;
+    DLOG(INFO) << "[RNSvgUseComponentInstance] Props: ";
+    DLOG(INFO) << "[RNSvgUseComponentInstance] x: " << props->x;
+    DLOG(INFO) << "[RNSvgUseComponentInstance] y: " << props->y;
+    DLOG(INFO) << "[RNSvgUseComponentInstance] width: " << props->width;
+    DLOG(INFO) << "[RNSvgUseComponentInstance] height: " << props->height;
+    // DLOG(INFO) << "[RNSvgUseComponentInstance] opacity: " << props->opacity;
+    DLOG(INFO) << "[RNSvgUseComponentInstance] href: " << props->href;
 
     auto svgUse = std::dynamic_pointer_cast<SvgUse>(GetSvgNode());
     svgUse->UpdateCommonProps(props);
@@ -27,7 +25,6 @@ void RNSVGUseComponentInstance::UpdateElementProps(SharedConcreteProps const &pr
     svgUse->height = std::stof(props->height);
     svgUse->href = props->href;
 }
-
 
 } // namespace svg
 } // namespace rnoh
