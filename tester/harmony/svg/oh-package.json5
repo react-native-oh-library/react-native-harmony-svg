@@ -6,7 +6,7 @@
   name: '@react-native-oh-tpl/react-native-svg',
   type: 'module',
   main: 'index.ets',
-  version: '13.14.0-0.4.4',
+  version: '13.14.0-0.4.5',
   dependencies: {
     "@rnoh/react-native-openharmony": "file:../react_native_openharmony"
   },
