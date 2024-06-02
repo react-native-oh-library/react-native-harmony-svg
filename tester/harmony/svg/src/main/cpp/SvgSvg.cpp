@@ -1,12 +1,12 @@
 #include "SvgSvg.h"
-#include <string>
-#include <vector>
-#include <native_drawing/drawing_rect.h>
 #include "properties/Size.h"
 #include "utils/LinearMap.h"
 #include "utils/StringUtils.h"
 #include "utils/Utils.h"
 #include "properties/ViewBox.h"
+#include <string>
+#include <vector>
+#include <native_drawing/drawing_rect.h>
 
 namespace rnoh {
 namespace svg {
@@ -31,17 +31,18 @@ drawing::Path SvgSvg::AsPath() {
 Size SvgSvg::GetSize() const { return {width_, height_}; }
 
 Rect SvgSvg::GetViewBox() const {
-    return Rect(svgAttribute_.vbX.ConvertToPx(scale_), svgAttribute_.vbY.ConvertToPx(scale_), svgAttribute_.vbWidth.ConvertToPx(scale_),
-                svgAttribute_.vbHeight.ConvertToPx(scale_));
+    return Rect(svgAttribute_.vbX.ConvertToPx(scale_), svgAttribute_.vbY.ConvertToPx(scale_),
+                svgAttribute_.vbWidth.ConvertToPx(scale_), svgAttribute_.vbHeight.ConvertToPx(scale_));
 }
 
 drawing::Matrix SvgSvg::FitCanvas(OH_Drawing_Canvas *canvas) {
     const auto svgSize = GetSize();
     // TODO Since OH_Drawing API return px and RN pass vp
     const auto vbRect = GetViewBox(); // should be viewBox attribute
-    const auto eRect = Rect(svgAttribute_.x.ConvertToPx(scale_), svgAttribute_.y.ConvertToPx(scale_), svgSize.Width(), svgSize.Height());
-    LOG(INFO) << "[FitCanvas] viewBox = " << vbRect.ToString() << " svgSize = " << svgSize.ToString() << " canvas = " << OH_Drawing_CanvasGetWidth(canvas) << ", "
-              << OH_Drawing_CanvasGetHeight(canvas);
+    const auto eRect = Rect(svgAttribute_.x.ConvertToPx(scale_), svgAttribute_.y.ConvertToPx(scale_), svgSize.Width(),
+                            svgSize.Height());
+    DLOG(INFO) << "[FitCanvas] viewBox = " << vbRect.ToString() << " svgSize = " << svgSize.ToString()
+               << " canvas = " << OH_Drawing_CanvasGetWidth(canvas) << ", " << OH_Drawing_CanvasGetHeight(canvas);
     drawing::Rect clipRect(0.0f, 0.0f, svgSize.Width(), svgSize.Height());
     OH_Drawing_CanvasClipRect(canvas, clipRect.get(), OH_Drawing_CanvasClipOp::INTERSECT, true);
     drawing::Matrix transformMatrix;
@@ -62,12 +63,12 @@ void SvgSvg::Draw(OH_Drawing_Canvas *canvas) {
     //     height_ = relativeOnHeight(svgAttribute_.height);
     width_ = width;
     height_ = height;
-    LOG(INFO) << "[svgView] bbHeight: " << svgAttribute_.height.Value();
-    LOG(INFO) << "[svgView] bbWidth: " << svgAttribute_.height.Value();
-    LOG(INFO) << "[svgView] svg Height: " << height_;
-    LOG(INFO) << "[svgView] svg Width: " << width_;
-    LOG(INFO) << "[svgView] canvas Height: " << height;
-    LOG(INFO) << "[svgView] canvas Width: " << width;
+    DLOG(INFO) << "[svgView] bbHeight: " << svgAttribute_.height.Value();
+    DLOG(INFO) << "[svgView] bbWidth: " << svgAttribute_.height.Value();
+    DLOG(INFO) << "[svgView] svg Height: " << height_;
+    DLOG(INFO) << "[svgView] svg Width: " << width_;
+    DLOG(INFO) << "[svgView] canvas Height: " << height;
+    DLOG(INFO) << "[svgView] canvas Width: " << width;
     context_->SetSvgSize(Size(width_, height_));
     // apply scale
     OH_Drawing_CanvasSave(canvas);

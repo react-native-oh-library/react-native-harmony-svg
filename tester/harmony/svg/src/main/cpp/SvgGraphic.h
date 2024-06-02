@@ -1,9 +1,7 @@
 // from ArkUI "frameworks/core/components_ng/svg/parse/svg_graphic.h"
 
 #pragma once
-#include <native_drawing/drawing_brush.h>
-#include <native_drawing/drawing_path_effect.h>
-#include <native_drawing/drawing_pen.h>
+
 #include "SvgNode.h"
 #include "RNOH/CppComponentInstance.h"
 #include "utils/StringUtils.h"
@@ -11,6 +9,10 @@
 #include "drawing/Brush.h"
 #include "drawing/Path.h"
 #include "drawing/Pen.h"
+#include <native_drawing/drawing_brush.h>
+#include <native_drawing/drawing_path_effect.h>
+#include <native_drawing/drawing_pen.h>
+
 
 namespace rnoh {
 namespace svg {

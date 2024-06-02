@@ -1,20 +1,16 @@
 #include "RNSVGRadialGradientComponentInstance.h"
-#include "Props.h"
-#include <native_drawing/drawing_shader_effect.h>
-#include <react/renderer/core/ConcreteState.h>
-#include <sstream>
 #include "SvgGradient.h"
-#include "./utils/StringUtils.h"
 
 namespace rnoh {
 namespace svg {
 
-RNSVGRadialGradientComponentInstance::RNSVGRadialGradientComponentInstance(Context context)  : RNSVGBaseComponentInstance(std::move(context)) {
+RNSVGRadialGradientComponentInstance::RNSVGRadialGradientComponentInstance(Context context)
+    : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(std::make_shared<SvgGradient>(GradientType::RADIAL));
 }
 
 void RNSVGRadialGradientComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
-     
+
     auto svgGradient = std::dynamic_pointer_cast<SvgGradient>(GetSvgNode());
     svgGradient->UpdateHrefRenderProps(props);
     svgGradient->SetAttrGradientUnits(props->gradientUnits); // first set attr gradientUnits
@@ -26,7 +22,7 @@ void RNSVGRadialGradientComponentInstance::UpdateElementProps(SharedConcreteProp
     svgGradient->SetAttrRy(props->ry);
     svgGradient->SetAttrGradient(props->gradient);
     svgGradient->SetAttrGradientTransforms(props->gradientTransform);
-
 }
+
 } // namespace svg
 } // namespace rnoh

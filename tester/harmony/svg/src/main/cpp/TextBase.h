@@ -1,17 +1,17 @@
 #pragma once
 #include "utils/StringUtils.h"
 #include "utils/GlyphContext.h"
-#include <native_drawing/drawing_text_typography.h>
-#include <optional>
 #include "properties/TextProperties.h"
 #include "TextBase.h"
+#include <native_drawing/drawing_text_typography.h>
+#include <optional>
+
 namespace rnoh {
 namespace svg {
 
 class TextBase {
 public:
-    template <typename T>
-    void UpdateTextProps(const std::shared_ptr<T> &props) {
+    template <typename T> void UpdateTextProps(const std::shared_ptr<T> &props) {
         x_.clear();
         for (auto const &value : props->x) {
             x_.push_back(StringUtils::FromString(value));

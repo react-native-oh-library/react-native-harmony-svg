@@ -1,6 +1,6 @@
 #pragma once
+
 #include "RNOH/CppComponentInstance.h"
-#include "ShadowNodes.h"
 #include "SvgArkUINode.h"
 #include "SvgHost.h"
 #include "RNSVGSvgViewComponentInstance.h"
@@ -25,7 +25,9 @@ public:
         OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
     }
 
-    void setLayout(facebook::react::LayoutMetrics layoutMetrics) override { CppComponentInstance<T>::m_layoutMetrics = layoutMetrics; };
+    void setLayout(facebook::react::LayoutMetrics layoutMetrics) override {
+        CppComponentInstance<T>::m_layoutMetrics = layoutMetrics;
+    };
 
     std::shared_ptr<RNSVGSvgViewComponentInstance> getParentSvgView() const {
         auto parent = CppComponentInstance<T>::getParent().lock();
@@ -38,7 +40,7 @@ public:
         }
         return nullptr;
     }
-    
+
     void svgMarkDirty() {
         auto svgView = m_svgViewComponentInstance.lock();
         if (svgView == nullptr) {
@@ -49,7 +51,7 @@ public:
             svgView->getLocalRootArkUINode().markDirty();
         }
     }
-    
+
     /*
     check if it can handle the touch itself.
     */
@@ -61,14 +63,14 @@ public:
         if (node == nullptr) {
             return false;
         }
-        LOG(INFO) << "[SvgTouch] name: " << CppComponentInstance<T>::getComponentName();
-        LOG(INFO) << "[SvgTouch] point x: " << point.x << ", y: " << point.y;
-        LOG(INFO) << "[SvgTouch] point PX x1: " << vpToPx(point.x) << ", PX y1: " << vpToPx(point.y);
-        LOG(INFO) << "[SvgTouch] containsPoint1: " << node->AsPath().Contains(vpToPx(point.x), vpToPx(point.y));
+        DLOG(INFO) << "[SvgTouch] name: " << CppComponentInstance<T>::getComponentName();
+        DLOG(INFO) << "[SvgTouch] point x: " << point.x << ", y: " << point.y;
+        DLOG(INFO) << "[SvgTouch] point PX x1: " << vpToPx(point.x) << ", PX y1: " << vpToPx(point.y);
+        DLOG(INFO) << "[SvgTouch] containsPoint1: " << node->AsPath().Contains(vpToPx(point.x), vpToPx(point.y));
         // For debug
         auto rect = node->AsBounds();
-        LOG(INFO) << "[SvgTouch] asBound x: "
-                  << rect.Left() << ", y: " << rect.Top() << ", width: " << rect.Width() << ", height: " << rect.Height();
+        DLOG(INFO) << "[SvgTouch] asBound x: " << rect.Left() << ", y: " << rect.Top() << ", width: " << rect.Width()
+                  << ", height: " << rect.Height();
 
         auto invertedTransform = node->lastCanvasMatrix_.Invert();
         if (!invertedTransform.has_value()) {
@@ -79,9 +81,9 @@ public:
     }
 
     /*
-    check if any of its children can potentially handle the touch (the "bounding box" is a rectangle which contains the 
-    component and all of its children -- if overflow is visible, they can extend beyond the View, so this is an 
-    optimization to avoid walking the whole component tree). It also calls canChildrenHandleTouch to check for other 
+    check if any of its children can potentially handle the touch (the "bounding box" is a rectangle which contains the
+    component and all of its children -- if overflow is visible, they can extend beyond the View, so this is an
+    optimization to avoid walking the whole component tree). It also calls canChildrenHandleTouch to check for other
     reasons why it shouldn't check its children (such as pointer events).
     Can just return true from it since it's only used as an optimization to avoid walking the whole tree.
     */
@@ -97,11 +99,10 @@ public:
         return std::vector<TouchTarget::Shared>(children.begin(), children.end());
     }
 
-    facebook::react::Transform getTransform() const override {
-        return facebook::react::Transform::Identity();
-    }
+    facebook::react::Transform getTransform() const override { return facebook::react::Transform::Identity(); }
 
-    facebook::react::Point computeChildPoint(facebook::react::Point const &point, TouchTarget::Shared const &child) const override {
+    facebook::react::Point computeChildPoint(facebook::react::Point const &point,
+                                             TouchTarget::Shared const &child) const override {
         return point;
     }
 
@@ -124,7 +125,7 @@ public:
         }
         return true;
     };
-    
+
     bool isInvisible(const std::string &name) const {
         if (name == "RNSVGLinearGradient") {
             return true;
@@ -157,7 +158,6 @@ public:
     }
 
 protected:
-//     virtual void UpdateProps(typename CppComponentInstance<T>::SharedConcreteProps const &props) = 0;
     virtual void UpdateElementProps(typename CppComponentInstance<T>::SharedConcreteProps const &props) = 0;
     SvgArkUINode &getLocalRootArkUINode() override { return getParentSvgView()->getLocalRootArkUINode(); }
 

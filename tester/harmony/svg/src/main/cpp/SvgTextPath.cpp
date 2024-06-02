@@ -1,5 +1,6 @@
 #include "SvgTextPath.h"
 #include "SvgTSpan.h"
+
 namespace rnoh {
 namespace svg {
 
@@ -20,9 +21,9 @@ drawing::Path SvgTextPath::getTextPath() {
     if (node) {
         return node->AsPath();
     }
-    LOG(INFO) << "TEXT_PATH ref node missing, href = " << href_;
+    DLOG(INFO) << "TEXT_PATH ref node missing, href = " << href_;
     return drawing::Path();
 }
 
-} //namespace svg
+} // namespace svg
 } // namespace rnoh

@@ -23,8 +23,7 @@
  */
 
 #pragma once
-#include "RNSVGBaseComponentInstance.h"    
-#include "ShadowNodes.h"
+#include "RNSVGBaseComponentInstance.h"
 #include "SvgText.h"
 
 namespace rnoh {

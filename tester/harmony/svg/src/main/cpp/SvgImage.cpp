@@ -32,7 +32,7 @@ void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
         OH_DecodingOptions_Create(&options);
         OH_ImageSourceNative_CreateFromUri(srcUri, len, &res);
         auto code = OH_ImageSourceNative_CreatePixelmap(res, options, &pixelmap);
-        LOG(INFO) << "[SvgImage] code: " << code;
+        DLOG(INFO) << "[SvgImage] code: " << code;
 
         if (code == 0) {
             OH_PixelmapNative_Opacity(pixelmap, opacity);
@@ -92,10 +92,10 @@ void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
             drawing::Rect dst(x, y, x + width, y + height);
 
             // draw the border of the area for debug
-//             OH_Drawing_CanvasDrawLine(canvas, x, y, x + width, y);
-//             OH_Drawing_CanvasDrawLine(canvas, x + width, y, x + width, y + height);
-//             OH_Drawing_CanvasDrawLine(canvas, x + width, y + height, x, y + height);
-//             OH_Drawing_CanvasDrawLine(canvas, x, y + height, x, y);
+            //             OH_Drawing_CanvasDrawLine(canvas, x, y, x + width, y);
+            //             OH_Drawing_CanvasDrawLine(canvas, x + width, y, x + width, y + height);
+            //             OH_Drawing_CanvasDrawLine(canvas, x + width, y + height, x, y + height);
+            //             OH_Drawing_CanvasDrawLine(canvas, x, y + height, x, y);
 
             // set SamplingOptions
             OH_Drawing_FilterMode filterMode = FILTER_MODE_NEAREST;

@@ -1,13 +1,11 @@
 #include "RNSVGTextPathComponentInstance.h"
-#include "Props.h"
-#include <react/renderer/core/ConcreteState.h>
-#include <sstream>
 #include "SvgTSpan.h"
 
 namespace rnoh {
 namespace svg {
 
-RNSVGTextPathComponentInstance::RNSVGTextPathComponentInstance(Context context) : RNSVGBaseComponentInstance(std::move(context)) {
+RNSVGTextPathComponentInstance::RNSVGTextPathComponentInstance(Context context)
+    : RNSVGBaseComponentInstance(std::move(context)) {
     SetSvgNode(m_svgTP);
 }
 

@@ -55,7 +55,7 @@ void SvgNode::OnDrawTraversed(OH_Drawing_Canvas *canvas) {
 
 const Rect &SvgNode::GetRootViewBox() const {
     if (!context_) {
-        //         LOGE("Gradient failed, svgContext is null");
+        //         DLOGE("Gradient failed, svgContext is null");
         static Rect empty;
         return empty;
     }
@@ -63,21 +63,21 @@ const Rect &SvgNode::GetRootViewBox() const {
 }
 
 void SvgNode::OnClipPath(OH_Drawing_Canvas *canvas) {
-    LOG(INFO) << "[SvgNode] Draw OnClipPath enter";
+    DLOG(INFO) << "[SvgNode] Draw OnClipPath enter";
     if (!context_) {
-        LOG(WARNING) << "[SvgNode] OnClipPath: Context is null!";
+        DLOG(WARNING) << "[SvgNode] OnClipPath: Context is null!";
         return;
     }
     auto refSvgNode = context_->GetSvgNodeById(hrefClipPath_);
     if (!refSvgNode) {
-        LOG(WARNING) << "[SvgNode] OnClipPath: SvgNode is null!";
+        DLOG(WARNING) << "[SvgNode] OnClipPath: SvgNode is null!";
         return;
     };
     auto clipPath = refSvgNode->AsPath();
 
     // TODO: maybe return optional from AsPath?
     // if (!clipPath) {
-    //     LOG(WARNING) << "[SvgNode] OnClipPath: Path is null!";
+    //     DLOG(WARNING) << "[SvgNode] OnClipPath: Path is null!";
     //     return;
     // };
 
@@ -88,7 +88,7 @@ void SvgNode::OnClipPath(OH_Drawing_Canvas *canvas) {
 
 void SvgNode::OnMask(OH_Drawing_Canvas *canvas) {
     if (!context_) {
-        LOG(INFO) << "NO CONTEXT";
+        DLOG(INFO) << "NO CONTEXT";
         return;
     }
     auto refMask = context_->GetSvgNodeById(attributes_.maskId);
@@ -114,7 +114,7 @@ void SvgNode::OnTransform(OH_Drawing_Canvas *canvas) {
 
 std::optional<Gradient> SvgNode::GetGradient(const std::string &href) {
     if (!context_) {
-        LOG(INFO) << "NO CONTEXT";
+        DLOG(INFO) << "NO CONTEXT";
         return std::nullopt;
     }
     auto refSvgNode = context_->GetSvgNodeById(href);
@@ -128,7 +128,7 @@ std::optional<Gradient> SvgNode::GetGradient(const std::string &href) {
 
 std::shared_ptr<PatternAttr> SvgNode::GetPatternAttr(const std::string &href) {
     if (!context_) {
-        LOG(INFO) << "NO CONTEXT";
+        DLOG(INFO) << "NO CONTEXT";
         return nullptr;
     }
     auto refSvgNode = context_->GetSvgNodeById(href);
@@ -179,7 +179,7 @@ Rect SvgNode::AsBounds() {
 
 void SvgNode::ContextTraversal() {
     if (!context_) {
-        LOG(INFO) << "NO CONTEXT";
+        DLOG(INFO) << "NO CONTEXT";
         return;
     }
     if (!attributes_.id.empty()) {

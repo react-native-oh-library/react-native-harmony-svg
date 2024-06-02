@@ -1,8 +1,4 @@
-#include <react/renderer/core/ConcreteState.h>
-#include <sstream>
 #include "RNSVGLineComponentInstance.h"
-#include "Props.h"
-#include "properties/Color.h"
 #include "SvgLine.h"
 
 namespace rnoh {
@@ -14,15 +10,15 @@ RNSVGLineComponentInstance::RNSVGLineComponentInstance(Context context)
 }
 
 void RNSVGLineComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
-    LOG(INFO) << "[RNSVGLineComponentInstance] Props->fill.payload: "
-              << Color((uint32_t)*props->fill.payload).ToString();
-    LOG(INFO) << "[RNSVGLineComponentInstance] Props->stroke.payload: "
-              << Color((uint32_t)*props->stroke.payload).ToString();
-    LOG(INFO) << "[RNSVGLineComponentInstance] props->strokeLinecap: " << props->strokeLinecap;
-    LOG(INFO) << "[RNSVGLineComponentInstance] props->strokeLinejoin: " << props->strokeLinejoin;
-    LOG(INFO) << "[SVG] <RNSVGLineComponentInstance> propList size = " << props->propList.size();
+    DLOG(INFO) << "[RNSVGLineComponentInstance] Props->fill.payload: "
+               << Color((uint32_t)*props->fill.payload).ToString();
+    DLOG(INFO) << "[RNSVGLineComponentInstance] Props->stroke.payload: "
+               << Color((uint32_t)*props->stroke.payload).ToString();
+    DLOG(INFO) << "[RNSVGLineComponentInstance] props->strokeLinecap: " << props->strokeLinecap;
+    DLOG(INFO) << "[RNSVGLineComponentInstance] props->strokeLinejoin: " << props->strokeLinejoin;
+    DLOG(INFO) << "[SVG] <RNSVGLineComponentInstance> propList size = " << props->propList.size();
     for (auto prop : props->propList) {
-        LOG(INFO) << "[SVG] <RNSVGLineComponentInstance> prop: " << prop;
+        DLOG(INFO) << "[SVG] <RNSVGLineComponentInstance> prop: " << prop;
     }
     auto svgLine = std::dynamic_pointer_cast<SvgLine>(GetSvgNode());
     svgLine->UpdateCommonProps(props);

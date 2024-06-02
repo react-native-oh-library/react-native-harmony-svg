@@ -10,7 +10,7 @@ namespace svg {
 using Object = std::optional<jsi::Object>;
 
 void RNSVGSvgViewModule::toDataURL(jsi::Runtime &rt, int32_t tag, Object options, std::function<void(std::string)>&& callback) {
-    LOG(INFO) << "[SVGTurboModule] toDataUrl IN!";
+    DLOG(INFO) << "[SVGTurboModule] toDataUrl IN!";
     std::string base64;
     jsInvoker_->invokeAsync([base64, endCallback = std::move(callback)] { endCallback(base64); });
     return;

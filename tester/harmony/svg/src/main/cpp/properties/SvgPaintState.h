@@ -284,7 +284,7 @@ public:
         if (!hasLineJoin_) {
             lineJoin_ = strokeState.GetLineJoin();
         }
-        LOG(INFO) << "hasLineWIdth = " << hasLineWidth_ << " to inherit : " << strokeState.GetLineWidth();
+        DLOG(INFO) << "hasLineWIdth = " << hasLineWidth_ << " to inherit : " << strokeState.GetLineWidth();
         if (!hasLineWidth_) {
             lineWidth_ = strokeState.GetLineWidth();
         }

@@ -33,7 +33,7 @@ public:
     virtual void Draw(OH_Drawing_Canvas *canvas);
 
     virtual drawing::Path AsPath() {
-        LOG(INFO) << "[SVGNode] AsPath";
+        DLOG(INFO) << "[SVGNode] AsPath";
         return drawing::Path();
     };
 
@@ -51,11 +51,10 @@ public:
         }
     }
 
-    template<typename ConcreteProps>
-    void UpdateHrefRenderProps(const std::shared_ptr<ConcreteProps> &props) {
+    template <typename ConcreteProps> void UpdateHrefRenderProps(const std::shared_ptr<ConcreteProps> &props) {
         attributes_.id = props->name;
         display_ = props->display != "none";
-        
+
         if (hrefRender_) {
             attributes_.transform = props->matrix;
             attributes_.maskId = props->mask;
@@ -68,11 +67,10 @@ public:
             hrefClipPath_ = props->clipPath;
         }
     }
-    
-    template<typename ConcreteProps>
-    void UpdateCommonProps(const std::shared_ptr<ConcreteProps> &props) {
+
+    template <typename ConcreteProps> void UpdateCommonProps(const std::shared_ptr<ConcreteProps> &props) {
         UpdateHrefRenderProps(props);
-        
+
         std::unordered_set<std::string> set;
         for (const auto &prop : props->propList) {
             set.insert(prop);
@@ -124,13 +122,9 @@ public:
 
     Rect AsBounds();
 
-    void SetScale(const double &scale) {
-        scale_ = scale;
-    }
-    
-    double GetScale() const {
-        return scale_;
-    }
+    void SetScale(const double &scale) { scale_ = scale; }
+
+    double GetScale() const { return scale_; }
 
     void InheritAttr(const SvgBaseAttribute &parent) {
         attributes_.Inherit(parent);
@@ -144,13 +138,13 @@ public:
     }
 
     void InheritUseAttr(const SvgBaseAttribute &parent) { attributes_.InheritFromUse(parent); }
-    
+
     drawing::Matrix lastCanvasMatrix_;
-    
+
     double relativeOnWidth(Dimension length);
     double relativeOnHeight(Dimension length);
     double relativeOnOther(Dimension length);
-    
+
     double getCanvasWidth();
     double getCanvasHeight();
     double getCanvasDiagonal();
@@ -193,10 +187,10 @@ protected:
 
     std::string hrefClipPath_;
     std::string imagePath_;
-    
+
     // TODO get densityPixels in CAPI
     double scale_ = 3.25;
-    
+
     drawing::Matrix cTM_;
 
     bool display_ = true;
@@ -209,13 +203,13 @@ protected:
     bool inheritStyle_ = true;  // inherit style attributes from parent node, TAGS
                                 // mask/defs/pattern/filter = false
     bool drawTraversed_ = true; // enable OnDraw, TAGS mask/defs/pattern/filter = false
-    
+
     double canvasHeight_ = -1;
 
     double canvasWidth_ = -1;
-    
+
     double canvasDiagonal_ = -1;
-    
+
     /*
       N[1/Sqrt[2], 36]
       The inverse of the square root of 2.

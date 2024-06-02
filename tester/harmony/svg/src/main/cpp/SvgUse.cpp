@@ -4,16 +4,16 @@ namespace rnoh {
 namespace svg {
 
 void SvgUse::OnDraw(OH_Drawing_Canvas *canvas) {
-    LOG(INFO) << "[SvgUse::OnDraw] : start";
+    DLOG(INFO) << "[SvgUse::OnDraw] : start";
     auto svgContext = GetContext();
-    if(!svgContext) {
-        LOG(INFO) << "[SvgUse::OnDraw] : svgContext is a null ptr";
+    if (!svgContext) {
+        DLOG(INFO) << "[SvgUse::OnDraw] : svgContext is a null ptr";
         return;
     }
 
     auto refSvgNode = svgContext->GetSvgNodeById(href);
-    if(!refSvgNode) {
-        LOG(INFO) << "[SvgUse::OnDraw] : refSvgNode is a null ptr";
+    if (!refSvgNode) {
+        DLOG(INFO) << "[SvgUse::OnDraw] : refSvgNode is a null ptr";
         return;
     }
 
@@ -28,22 +28,20 @@ void SvgUse::OnDraw(OH_Drawing_Canvas *canvas) {
     if (svgSymbol != nullptr) {
         svgSymbol->drawSymbol(canvas, width, height);
     } else {
-        LOG(INFO) << "[SvgUse::OnDraw] : normal component";
+        DLOG(INFO) << "[SvgUse::OnDraw] : normal component";
         refSvgNode->Draw(canvas);
     }
 
     return;
 }
 
-SvgUse::AttributeScope::AttributeScope(const std::shared_ptr<SvgNode>& node) : node_(node)
-{
+SvgUse::AttributeScope::AttributeScope(const std::shared_ptr<SvgNode> &node) : node_(node) {
     auto nodeAttr = node->GetBaseAttributes();
     attributes_ = nodeAttr;
 }
 
-SvgUse::AttributeScope::~AttributeScope()
-{
-    //TODO : check null ptr
+SvgUse::AttributeScope::~AttributeScope() {
+    // TODO : check null ptr
     node_->SetBaseAttributes(attributes_);
 }
 

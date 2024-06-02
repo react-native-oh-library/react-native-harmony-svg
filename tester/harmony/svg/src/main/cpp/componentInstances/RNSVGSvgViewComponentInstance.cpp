@@ -1,7 +1,4 @@
 #include "RNSVGSvgViewComponentInstance.h"
-#include "Props.h"
-#include <react/renderer/core/ConcreteState.h>
-#include <sstream>
 #include "SvgSvg.h"
 
 namespace rnoh {
@@ -16,19 +13,19 @@ RNSVGSvgViewComponentInstance::RNSVGSvgViewComponentInstance(Context context)
 
 void RNSVGSvgViewComponentInstance::onPropsChanged(SharedConcreteProps const &props) {
     CppComponentInstance::onPropsChanged(props);
-    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->width: " << m_layoutMetrics.frame.size.width;
-    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->height: " << m_layoutMetrics.frame.size.height;
-    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->bbHeight: " << props->bbHeight;
-    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->bbWidth: " << props->bbWidth;
-    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->bbHeight: " << props->bbHeight;
-    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->minX: " << props->minX;
-    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->minY: " << props->minY;
-    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->vbWidth: " << props->vbWidth;
-    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->vbHeight: " << props->vbHeight;
-    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->align: " << props->align;
-    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->meetOrSlice: " << props->meetOrSlice;
-    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->testId: " << props->testId;
-    LOG(INFO) << "[SVG] <SVGViewComponentInstance> props->pointScaleFactor: " << m_layoutMetrics.pointScaleFactor;
+    DLOG(INFO) << "[SVG] <SVGViewComponentInstance> props->width: " << m_layoutMetrics.frame.size.width;
+    DLOG(INFO) << "[SVG] <SVGViewComponentInstance> props->height: " << m_layoutMetrics.frame.size.height;
+    DLOG(INFO) << "[SVG] <SVGViewComponentInstance> props->bbHeight: " << props->bbHeight;
+    DLOG(INFO) << "[SVG] <SVGViewComponentInstance> props->bbWidth: " << props->bbWidth;
+    DLOG(INFO) << "[SVG] <SVGViewComponentInstance> props->bbHeight: " << props->bbHeight;
+    DLOG(INFO) << "[SVG] <SVGViewComponentInstance> props->minX: " << props->minX;
+    DLOG(INFO) << "[SVG] <SVGViewComponentInstance> props->minY: " << props->minY;
+    DLOG(INFO) << "[SVG] <SVGViewComponentInstance> props->vbWidth: " << props->vbWidth;
+    DLOG(INFO) << "[SVG] <SVGViewComponentInstance> props->vbHeight: " << props->vbHeight;
+    DLOG(INFO) << "[SVG] <SVGViewComponentInstance> props->align: " << props->align;
+    DLOG(INFO) << "[SVG] <SVGViewComponentInstance> props->meetOrSlice: " << props->meetOrSlice;
+    DLOG(INFO) << "[SVG] <SVGViewComponentInstance> props->testId: " << props->testId;
+    DLOG(INFO) << "[SVG] <SVGViewComponentInstance> props->pointScaleFactor: " << m_layoutMetrics.pointScaleFactor;
 
     auto svg = dynamic_pointer_cast<SvgSvg>(GetSvgNode());
     svg->SetScale(m_layoutMetrics.pointScaleFactor);
