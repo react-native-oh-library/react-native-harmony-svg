@@ -15,7 +15,7 @@
 
 #pragma once
 
-#include "SVGGraphic.h"
+#include "SvgGraphic.h"
 #include <native_drawing/drawing_point.h>
 #include "utils/SvgAttributesParser.h"
 
