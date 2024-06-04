@@ -54,6 +54,10 @@ void SvgArkUINode::OnDraw(ArkUI_NodeCustomEvent *event) {
     DLOG(INFO) << "[svg] <SVGArkUINode> CanvasGetWidth: " << OH_Drawing_CanvasGetWidth(drawingHandle);
     auto root = root_.lock();
     CHECK_NULL_VOID(root);
+    if (root->GetContext()) {
+        // reset the idMap
+        root->GetContext()->ClearIdMap();
+    }
     root->ContextTraversal();
     root->InitStyle({});
     root->Draw(drawingHandle);

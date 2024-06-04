@@ -56,6 +56,11 @@ public:
         hasGradient_ = isSelf;
     }
 
+    void SetGradient(const std::optional<Gradient> &gradient, bool isSelf) {
+        gradient_ = gradient;
+        hasGradient_ = isSelf;
+    }
+
     std::shared_ptr<PatternAttr> &GetPatternAttr() { return patternAttr_; }
     
     const std::shared_ptr<PatternAttr> &GetPatternAttr() const { return patternAttr_; }
@@ -151,6 +156,11 @@ public:
 
     void SetGradient(const Gradient &gradient, bool isSelf) {
         gradient_ = std::make_optional(gradient);
+        hasGradient_ = isSelf;
+    }
+
+    void SetGradient(const std::optional<Gradient> &gradient, bool isSelf) {
+        gradient_ = gradient;
         hasGradient_ = isSelf;
     }
 

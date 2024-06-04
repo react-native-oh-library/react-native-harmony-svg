@@ -46,7 +46,6 @@ public:
     virtual void removeChild(const std::shared_ptr<SvgNode> &child) {
         auto it = std::find(children_.begin(), children_.end(), child);
         if (it != children_.end()) {
-            auto child = std::move(*it);
             children_.erase(it);
         }
     }
@@ -70,15 +69,12 @@ public:
 
     template <typename ConcreteProps> void UpdateCommonProps(const std::shared_ptr<ConcreteProps> &props) {
         UpdateHrefRenderProps(props);
-
         std::unordered_set<std::string> set;
         for (const auto &prop : props->propList) {
             set.insert(prop);
         }
 
-        if (props->fill.type == 1) {
-            attributes_.fillState.SetHref(props->fill.brushRef);
-        } else if (props->fill.type == 2) {
+        if (props->fill.type == 2) {
             Color color = Color((uint32_t)*props->fill.payload);
             color.SetUseCurrentColor(true);
             attributes_.fillState.SetColor(color, true);
@@ -87,10 +83,9 @@ public:
         } else {
             attributes_.fillState.SetColor(Color::TRANSPARENT, set.count("fill"));
         }
+        attributes_.fillState.SetHref(props->fill.brushRef);
 
-        if (props->stroke.type == 1) {
-            attributes_.strokeState.SetHref(props->stroke.brushRef);
-        } else if (props->stroke.type == 2) {
+        if (props->stroke.type == 2) {
             Color color = Color((uint32_t)*props->stroke.payload);
             color.SetUseCurrentColor(true);
             attributes_.strokeState.SetColor(color, true);
@@ -99,6 +94,8 @@ public:
         } else {
             attributes_.strokeState.SetColor(Color::TRANSPARENT, set.count("stroke"));
         }
+        attributes_.strokeState.SetHref(props->stroke.brushRef);
+
         attributes_.fillState.SetOpacity(std::clamp(props->fillOpacity, 0.0, 1.0), set.count("fillOpacity"));
         // todo Inheritance situation
         attributes_.fillState.SetFillRule(static_cast<FillState::FillRule>(props->fillRule), true);
