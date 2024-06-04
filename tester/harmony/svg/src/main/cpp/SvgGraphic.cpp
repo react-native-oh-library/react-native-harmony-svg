@@ -35,8 +35,8 @@ namespace svg {
 void SvgGraphic::OnDraw(OH_Drawing_Canvas *canvas) {
     DLOG(INFO) << "[SVGGraphic] onDraw marker = " << attributes_.markerStart << " " << attributes_.markerMid << " "
                << attributes_.markerEnd;
-    //     OH_Drawing_BrushReset(fillBrush_.get());
-    //     OH_Drawing_PenReset(strokePen_.get());
+    fillBrush_.Reset();
+    strokePen_.Reset();
     path_.Reset();
     // 获取子类的绘制路径。
     path_ = AsPath();
@@ -52,6 +52,7 @@ void SvgGraphic::OnDraw(OH_Drawing_Canvas *canvas) {
         DrawMarker(canvas);
     }
 }
+
 void SvgGraphic::OnGraphicFill(OH_Drawing_Canvas *canvas) {
     auto smoothEdge = GetSmoothEdge();
     if (GreatNotEqual(smoothEdge, 0.0f)) {
@@ -178,7 +179,7 @@ bool SvgGraphic::UpdateFillStyle(bool antiAlias) {
     }
     double curOpacity = fillState_.GetOpacity() * attributes_.opacity;
     fillBrush_.SetAntiAlias(antiAlias);
-    if (fillState_.GetGradient()) {
+    if (fillState_.GetGradient().has_value()) {
         SetFillGradientStyle(curOpacity);
     } else if (fillState_.GetPatternAttr()) {
         return SetPatternStyle();

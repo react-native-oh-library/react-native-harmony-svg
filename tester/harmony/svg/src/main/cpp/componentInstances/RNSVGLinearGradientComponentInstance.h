@@ -35,6 +35,10 @@ public:
     RNSVGLinearGradientComponentInstance(Context context);
 
     void UpdateElementProps(SharedConcreteProps const &props) override;
+
+    void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override {
+        OnChildRemoveCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
+    }
 };
 
 } // namespace svg

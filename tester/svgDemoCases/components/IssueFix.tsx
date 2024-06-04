@@ -204,15 +204,84 @@ export function Issue203Extend() {
           fill="none"
         />
       </Svg>
-      <Button title="切换" onPress={() => {
-        let data = dataX + 5 < 300 ? dataX + 5 : 25;
-        setDataX(dataX + 5)
-      }}>切换</Button>
+      <Button
+        title="切换"
+        onPress={() => {
+          let data = dataX + 5 < 300 ? dataX + 5 : 25;
+          setDataX(dataX + 5);
+        }}
+      />
     </View>
   );
 }
 
-const samples = [SvgLayoutExample, Issue178, Issue185, Issue193, Issue203, Issue203Extend];
+class Issue208 extends Component {
+  static title = 'Stroke LinearGradient';
+  static Svgs = {
+    icon_selected: `<svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M208.696 120C208.696 168.986 168.986 208.696 120 208.696C71.0151 208.696 31.3047 168.986 31.3047 120C31.3047 71.0151 71.0151 31.3047 120 31.3047C168.986 31.3047 208.696 71.0151 208.696 120ZM159.284 105.856C162.998 101.45 162.437 94.8666 158.03 91.1523C153.624 87.4381 147.041 87.9992 143.327 92.4056L115.174 125.804L95.7689 107.917C91.5315 104.011 84.9301 104.279 81.0241 108.517C77.1181 112.754 77.3868 119.356 81.6242 123.262L109.05 148.542C111.144 150.473 113.936 151.463 116.778 151.284C119.62 151.105 122.266 149.773 124.101 147.595L159.284 105.856Z" fill="url(#paint0_linear_14651_25106)"/><defs><linearGradient id="paint0_linear_14651_25106" x1="45.284" y1="100.573" x2="120" y2="208.696" gradientUnits="userSpaceOnUse"><stop stop-color="#FD573B"/><stop offset="1" stop-color="#FF3A3A"/></linearGradient></defs></svg>`,
+    icon_unselected: `<svg width="240" height="240" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M208.696 120C208.696 168.986 168.986 208.696 120 208.696C71.0151 208.696 31.3047 168.986 31.3047 120C31.3047 71.0151 71.0151 31.3047 120 31.3047C168.986 31.3047 208.696 71.0151 208.696 120ZM159.284 105.856C162.998 101.45 162.437 94.8666 158.03 91.1523C153.624 87.4381 147.041 87.9992 143.327 92.4056L115.174 125.804L95.7689 107.917C91.5315 104.011 84.9301 104.279 81.0241 108.517C77.1181 112.754 77.3868 119.356 81.6242 123.262L109.05 148.542C111.144 150.473 113.936 151.463 116.778 151.284C119.62 151.105 122.266 149.773 124.101 147.595L159.284 105.856Z"/></svg>`,
+  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isSelect: false,
+    };
+  }
+
+  onPress() {
+    this.setState({ isSelect: !this.state.isSelect });
+  }
+
+  render() {
+    return (
+      <View style={[styles.container, { backgroundColor: 'transparent' }]}>
+        {this.state.isSelect ? (
+          <SvgXml
+            xml={Issue208.Svgs.icon_selected}
+            width={30}
+            height={30}
+            style={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+            }}
+          />
+        ) : (
+          <SvgXml
+            xml={Issue208.Svgs.icon_unselected}
+            fill={'#DCDDDE'}
+            width={40}
+            height={40}
+            style={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              backgroundColor: 'yellow',
+            }}
+          />
+        )}
+        <View style={{ paddingTop: 50 }}>
+          <Button
+            title="switch"
+            onPress={() => {
+              this.setState({ isSelect: !this.state.isSelect });
+            }}
+          />
+        </View>
+      </View>
+    );
+  }
+}
+
+const samples = [
+  SvgLayoutExample,
+  Issue178,
+  Issue185,
+  Issue193,
+  Issue203,
+  Issue203Extend,
+  Issue208,
+];
 
 const styles = StyleSheet.create({
   container: {
@@ -250,6 +319,9 @@ export default function () {
         </TestCase>
         <TestCase itShould="Issue #203 extend: The path should not repeat display">
           <Issue203Extend />
+        </TestCase>
+        <TestCase itShould="Issue #208: The selected icon should display in red and the unselected one should display in grey with yellow background">
+          <Issue208 />
         </TestCase>
       </ScrollView>
     </Tester>

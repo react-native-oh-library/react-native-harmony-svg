@@ -27,20 +27,18 @@ public:
     const Rect &GetRootViewBox() const;
 
     void SetSvgSize(const Size &size) { svgSize_ = size; }
-    
+
     const Size &GetSvgSize() const { return svgSize_; }
 
-    void SetSvgColor(const Color& svgColor) {
-        svgColor_ = svgColor;
-    }
+    void SetSvgColor(const Color &svgColor) { svgColor_ = svgColor; }
 
     const Color &GetSvgColor() { return svgColor_; }
-    
+
     void SetCanvasBounds(const Rect &canvasClipBounds) { canvasClipBounds_ = canvasClipBounds; }
 
     const Rect getCanvasBounds() { return canvasClipBounds_; }
 
-    void SetCanvasScale(const double &canvasScaleX, const double &canvasScaleY) { 
+    void SetCanvasScale(const double &canvasScaleX, const double &canvasScaleY) {
         canvasScaleX_ = canvasScaleX;
         canvasScaleY_ = canvasScaleY;
     }
@@ -48,6 +46,8 @@ public:
     const double getCanvasScaleX() { return canvasScaleX_; }
 
     const double getCanvasScaleY() { return canvasScaleY_; }
+
+    void ClearIdMap() { idMapper_.clear(); }
 
 private:
     std::unordered_map<std::string, std::weak_ptr<SvgNode>> idMapper_;
