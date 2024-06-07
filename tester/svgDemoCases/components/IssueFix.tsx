@@ -16,10 +16,11 @@ import Svg, {
   Symbol,
   Defs,
   LinearGradient,
+  Mask,
   Stop,
   SvgXml,
 } from 'react-native-svg';
-import { View, StyleSheet, ScrollView, Text, Button } from 'react-native';
+import { View, StyleSheet, ScrollView, Text, Button, TouchableOpacity } from 'react-native';
 import { Tester, Filter, TestCase, TestSuite } from '@rnoh/testerino';
 
 class SvgLayoutExample extends Component {
@@ -273,6 +274,53 @@ class Issue212 extends Component {
   }
 }
 
+const Issue218 = React.memo((props: {}) => {
+  const [showRect, setShowRect] = useState(false);
+  const ScreenHeight = 200;
+  const ScreenWidth = 200;
+  const RectHeight = 100;
+  const RectWidth = 100;
+  return (
+    <>
+      <Svg height="300" width="300">
+        <Defs>
+          <Mask id="mask" x="0" y="0" height={ScreenHeight} width={ScreenWidth}>
+            <Rect height={ScreenHeight} width={ScreenWidth} fill="#fff" />
+            {showRect && (
+              <Rect
+                height={RectHeight}
+                rx={10}
+                width={RectWidth}
+                fill="#000"
+                translateX={10}
+                translateY={20}
+              />
+            )}
+          </Mask>
+        </Defs>
+        <Rect
+          height={ScreenHeight}
+          width={ScreenWidth}
+          fill="rgba(0, 0, 0, 0.8)"
+          mask="url(#mask)"
+          fill-opacity="0"
+        />
+      </Svg>
+      <TouchableOpacity
+        onPress={() => {
+          setShowRect(!showRect);
+        }}
+        style={{
+          width: 100,
+          height: 50,
+          backgroundColor: "red"
+        }}>
+        <Text>{"切换 Rect"}</Text>
+      </TouchableOpacity>
+    </>
+  );
+});
+
 const samples = [
   SvgLayoutExample,
   Issue178,
@@ -322,6 +370,9 @@ export default function () {
         </TestCase>
         <TestCase itShould="Issue #212: The selected icon should display in red and the unselected one should display in grey with yellow background">
           <Issue212 />
+        </TestCase>
+        <TestCase itShould="Issue #218: Mask should refresh when children remove">
+          <Issue218 />
         </TestCase>
       </ScrollView>
     </Tester>
