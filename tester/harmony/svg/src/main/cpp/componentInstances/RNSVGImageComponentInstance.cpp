@@ -12,14 +12,13 @@ RNSVGImageComponentInstance::RNSVGImageComponentInstance(Context context)
 void RNSVGImageComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
     auto svgImage = std::dynamic_pointer_cast<SvgImage>(GetSvgNode());
     svgImage->UpdateCommonProps(props);
-    svgImage->x = std::stof(props->x);
-    svgImage->y = std::stof(props->y);
-    svgImage->width = std::stof(props->width);
-    svgImage->height = std::stof(props->height);
-    svgImage->opacity = props->opacity;
-    svgImage->src = props->src;
-    svgImage->align = props->align;
-    svgImage->meetOrSlice = props->meetOrSlice;
+    svgImage->SetX(props->x);
+    svgImage->SetY(props->y);
+    svgImage->SetWidth(props->width);
+    svgImage->SetHeight(props->height);
+    svgImage->SetAlign(props->align);
+    svgImage->SetMeetOrSlice(props->meetOrSlice);
+    svgImage->SetImageSource(props->src);
 }
 
 } // namespace svg

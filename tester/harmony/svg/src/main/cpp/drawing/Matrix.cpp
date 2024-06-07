@@ -82,6 +82,12 @@ std::vector<Matrix::Point> drawing::Matrix::MapPoints(const std::vector<Matrix::
     return result;
 }
 
+drawing::Rect drawing::Matrix::MapRect(const drawing::Rect &rect) const {
+    Rect result;
+    OH_Drawing_MatrixMapRect(matrix_.get(), rect.get(), result.get());
+    return result;
+}
+
 void Matrix::Reset() { OH_Drawing_MatrixReset(matrix_.get()); }
 
 
