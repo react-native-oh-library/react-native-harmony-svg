@@ -47,11 +47,11 @@ void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
         char *srcUri = const_cast<char *>(uriString.c_str());
 
         OH_DecodingOptions_Create(&options);
-        OH_ImageSourceNative_CreateFromUri(srcUri, uriString.size(), &res);
-        auto code = OH_ImageSourceNative_CreatePixelmap(res, options, &pixelMap);
-        DLOG(INFO) << "[SvgImage] code: " << code;
+        auto createFromUriStatus = OH_ImageSourceNative_CreateFromUri(srcUri, uriString.size(), &res);
+        auto createPixelmapStatus = OH_ImageSourceNative_CreatePixelmap(res, options, &pixelMap);
+        DLOG(INFO) << "[SvgImage] code: " << createPixelmapStatus;
 
-        if (code == IMAGE_SUCCESS) {
+        if (createPixelmapStatus == IMAGE_SUCCESS) {
             OH_PixelmapNative_Opacity(pixelMap, attributes_.opacity);
 
             // get the real width and height from pixelmap(OH_PixelmapNative *).
@@ -107,9 +107,11 @@ void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
             OH_PixelmapImageInfo_Release(info);
             OH_Drawing_SamplingOptionsDestroy(samplingOptions);
             OH_Drawing_PixelMapDissolve(ohPixelMap);
+            OH_PixelmapNative_Release(pixelMap);
         }
-        OH_PixelmapNative_Release(pixelMap);
-        OH_ImageSourceNative_Release(res);
+        if (createFromUriStatus == IMAGE_SUCCESS) {
+            OH_ImageSourceNative_Release(res);
+        }
         OH_DecodingOptions_Release(options);
     }
 }
