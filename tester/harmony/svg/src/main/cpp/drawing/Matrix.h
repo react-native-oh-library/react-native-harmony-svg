@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Rect.h"
 #include <memory>
 #include <optional>
 #include <vector>
@@ -45,6 +46,8 @@ public:
 
     Point MapPoint(const Point &point) const;
     std::vector<Point> MapPoints(const std::vector<Point> &points) const;
+
+    drawing::Rect MapRect(const drawing::Rect &rect) const;
 
     void Reset();
 

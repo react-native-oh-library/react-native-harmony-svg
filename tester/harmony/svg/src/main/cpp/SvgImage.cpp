@@ -15,81 +15,74 @@
 
 #include "SvgImage.h"
 #include "utils/StringUtils.h"
+#include "properties/ViewBox.h"
+#include <multimedia/image_framework/image_mdk_common.h>
+#include <multimedia/image_framework/image/image_source_native.h>
+#include <multimedia/image_framework/image_pixel_map_mdk.h>
+#include <glog/logging.h>
 
 namespace rnoh {
 namespace svg {
 
 void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
-    x = svg::vpToPx(x), y = svg::vpToPx(y), width = svg::vpToPx(width), height = svg::vpToPx(height);
-    if (src.uri.size() != 0) {
+    auto uriString = imageAttribute_.src.uri;
+
+    if (uriString.empty()) {
+        LOG(WARNING) << "[SvgImage] imageAttribute_.src.uri is empty!";
+        return;
+    }
+
+    double width =
+        imageAttribute_.width.Value() == 0 ? imageAttribute_.src.size.width : relativeOnWidth(imageAttribute_.width);
+    double height = imageAttribute_.height.Value() == 0 ? imageAttribute_.src.size.height
+                                                        : relativeOnHeight(imageAttribute_.height);
+    double x = relativeOnWidth(imageAttribute_.x);
+    double y = relativeOnHeight(imageAttribute_.y);
+
+    if (!uriString.empty()) {
         OH_ImageSourceNative *res;
-        OH_PixelmapNative *pixelmap;
+        OH_PixelmapNative *pixelMap;
         OH_DecodingOptions *options;
 
-        int len = src.uri.size();
-        char *srcUri = const_cast<char *>(src.uri.c_str());
+        char *srcUri = const_cast<char *>(uriString.c_str());
 
         OH_DecodingOptions_Create(&options);
-        OH_ImageSourceNative_CreateFromUri(srcUri, len, &res);
-        auto code = OH_ImageSourceNative_CreatePixelmap(res, options, &pixelmap);
+        OH_ImageSourceNative_CreateFromUri(srcUri, uriString.size(), &res);
+        auto code = OH_ImageSourceNative_CreatePixelmap(res, options, &pixelMap);
         DLOG(INFO) << "[SvgImage] code: " << code;
 
-        if (code == 0) {
-            OH_PixelmapNative_Opacity(pixelmap, opacity);
+        if (code == IMAGE_SUCCESS) {
+            OH_PixelmapNative_Opacity(pixelMap, attributes_.opacity);
 
             // get the real width and height from pixelmap(OH_PixelmapNative *).
             OH_Pixelmap_ImageInfo *info;
             OH_PixelmapImageInfo_Create(&info);
-            OH_PixelmapNative_GetImageInfo(pixelmap, info);
+            OH_PixelmapNative_GetImageInfo(pixelMap, info);
 
             // get the resource properties: width and height
-            uint32_t *imageWidth = new uint32_t;
-            uint32_t *imageHeight = new uint32_t;
-            OH_PixelmapImageInfo_GetWidth(info, imageWidth);
-            OH_PixelmapImageInfo_GetHeight(info, imageHeight);
+            uint32_t *imageWidth_ = new uint32_t;
+            uint32_t *imageHeight_ = new uint32_t;
+            OH_PixelmapImageInfo_GetWidth(info, imageWidth_);
+            OH_PixelmapImageInfo_GetHeight(info, imageHeight_);
 
-            // set loaction parameters
-            float realWidth = (float)*imageWidth, realHeight = (float)*imageHeight;
-            float x1, x2, y1, y2;
+            auto imageWidth = (double)*imageWidth_;
+            auto imageHeight = (double)*imageHeight_;
+            delete imageWidth_;
+            delete imageHeight_;
 
-            // calculate middle pointer offset
-            float scaleX = width / realWidth, scaleY = height / realHeight;
-            float scaleMin = scaleX < scaleY ? scaleX : scaleY;
-            float scaleMax = scaleX > scaleY ? scaleX : scaleY;
-            float scale = 0;
-            if (align == "none") {
-                x1 = 0, y1 = 0, x2 = realWidth * scaleMin, y2 = realHeight * scaleMin;
-            } else {
-                scale = (meetOrSlice == 1) ? scaleMax : scaleMin;
-                float spaceX = width - realWidth * scale, spaceY = height - realHeight * scale;
-                spaceX = spaceX / (2 * scale), spaceY = spaceY / (2 * scale);
+            const auto vbRect = Rect(0, 0, imageWidth, imageHeight);
+            const auto renderRect = Rect(x, y, width, height);
 
-                // preserveAspectRatio X define
-                if (align.find("xMin") != std::string::npos) {
-                    x1 = 0, x2 = realWidth + 2 * spaceX;
-                }
-                if (align.find("xMid") != std::string::npos) {
-                    x1 = -spaceX, x2 = realWidth + spaceX;
-                }
-                if (align.find("xMax") != std::string::npos) {
-                    x1 = -2 * spaceX, x2 = realWidth;
-                }
-                // preserveAspectRatio Y define
-                if (align.find("YMin") != std::string::npos) {
-                    y1 = 0, y2 = realHeight + 2 * spaceY;
-                }
-                if (align.find("YMid") != std::string::npos) {
-                    y1 = -spaceY, y2 = realHeight + spaceY;
-                }
-                if (align.find("YMax") != std::string::npos) {
-                    y1 = -2 * spaceY, y2 = realHeight;
-                }
+            drawing::Matrix transformMatrix;
+            if (vbRect.IsValid()) {
+                transformMatrix =
+                    ViewBox::getTransform(vbRect, renderRect, imageAttribute_.align, imageAttribute_.meetOrSlice);
             }
 
-            // set source Rect and destinaton Rect
-            OH_Drawing_PixelMap *ohpixelmap = OH_Drawing_PixelMapGetFromOhPixelMapNative(pixelmap);
-            drawing::Rect src(x1, y1, x2, y2);
-            drawing::Rect dst(x, y, x + width, y + height);
+            // set source Rect and destination Rect
+            OH_Drawing_PixelMap *ohPixelMap = OH_Drawing_PixelMapGetFromOhPixelMapNative(pixelMap);
+            drawing::Rect srcPixelMap(0, 0, imageWidth, imageHeight);
+            auto dstPixelMap = transformMatrix.MapRect(srcPixelMap);
 
             // draw the border of the area for debug
             //             OH_Drawing_CanvasDrawLine(canvas, x, y, x + width, y);
@@ -99,17 +92,23 @@ void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
 
             // set SamplingOptions
             OH_Drawing_FilterMode filterMode = FILTER_MODE_NEAREST;
-            OH_Drawing_MipmapMode mipmapMode = MIPMAP_MODE_NONE;
-            OH_Drawing_SamplingOptions *sampling = OH_Drawing_SamplingOptionsCreate(filterMode, mipmapMode);
+            OH_Drawing_MipmapMode mipMapMode = MIPMAP_MODE_NONE;
+            OH_Drawing_SamplingOptions *samplingOptions = OH_Drawing_SamplingOptionsCreate(filterMode, mipMapMode);
 
             // Draw picture by type OH_Drawing_PixelMap
-            OH_Drawing_CanvasDrawPixelMapRect(canvas, ohpixelmap, src.get(), dst.get(), sampling);
+            OH_Drawing_CanvasSave(canvas);
+            drawing::Rect clipRect(x, y, width, height);
+            OH_Drawing_CanvasClipRect(canvas, clipRect.get(), OH_Drawing_CanvasClipOp::INTERSECT, true);
+            OH_Drawing_CanvasDrawPixelMapRect(canvas, ohPixelMap, srcPixelMap.get(), dstPixelMap.get(),
+                                              samplingOptions);
+            OH_Drawing_CanvasRestore(canvas);
 
             // clear data
             OH_PixelmapImageInfo_Release(info);
-            OH_Drawing_SamplingOptionsDestroy(sampling);
-            OH_Drawing_PixelMapDissolve(ohpixelmap);
+            OH_Drawing_SamplingOptionsDestroy(samplingOptions);
+            OH_Drawing_PixelMapDissolve(ohPixelMap);
         }
+        OH_PixelmapNative_Release(pixelMap);
         OH_ImageSourceNative_Release(res);
         OH_DecodingOptions_Release(options);
     }

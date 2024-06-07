@@ -2,13 +2,12 @@
 
 #pragma once
 #include <string>
-// #include "base/memory/ace_type.h"
-// #include "base/utils/noncopyable.h"
 #include "properties/Color.h"
 #include "properties/PaintState.h"
 #include "properties/Dimension.h"
 #include "properties/Rect.h"
 #include "properties/Decoration.h"
+#include <react/renderer/imagemanager/primitives.h>
 
 namespace rnoh {
 namespace svg {
@@ -169,7 +168,9 @@ struct SvgImageAttribute {
     Dimension y = Dimension(0, DimensionUnit::PX); // y-axis default value
     Dimension width = Dimension(0.0, DimensionUnit::PX); // image width default value
     Dimension height = Dimension(0.0, DimensionUnit::PX); // image height default value
-    std::string href = "";
+    facebook::react::ImageSource src;
+    std::string align;
+    int meetOrSlice = 0;
 };
 
 struct SvgSymbolAttribute {
