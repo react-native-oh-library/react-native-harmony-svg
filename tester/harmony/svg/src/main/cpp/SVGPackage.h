@@ -25,7 +25,6 @@
 #pragma once
 #include "RNOH/Package.h"
 #include <glog/logging.h>
-#include "ComponentDescriptors.h"
 #include "componentInstances/RNSVGSvgViewComponentInstance.h"
 #include "componentInstances/RNSVGCircleComponentInstance.h"
 #include "componentInstances/RNSVGGroupComponentInstance.h"

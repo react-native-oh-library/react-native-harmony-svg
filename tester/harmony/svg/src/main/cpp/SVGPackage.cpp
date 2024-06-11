@@ -49,6 +49,8 @@
 #include "componentBinders/RNSVGTextPathJSIBinder.h"
 #include "turboModules/RNSVGSvgViewModule.h"
 #include "turboModules/RNSVGRenderableModule.h"
+#include "ComponentDescriptors.h"
+#include "svgImage/RNSVGImageComponentDescriptor.h"
 
 using namespace rnoh;
 using namespace facebook;

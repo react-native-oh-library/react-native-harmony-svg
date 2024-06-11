@@ -10,6 +10,7 @@ file(GLOB rnoh_svg_SRC CONFIGURE_DEPENDS
     properties/*.cpp
     turboModules/*.cpp
     utils/*.cpp
+    svgImage/*.cpp
     )
 add_library(rnoh_svg SHARED ${rnoh_svg_SRC})
 target_include_directories(rnoh_svg PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
