@@ -221,6 +221,7 @@ class Issue212 extends Component {
   static Svgs = {
     icon_selected: `<svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M208.696 120C208.696 168.986 168.986 208.696 120 208.696C71.0151 208.696 31.3047 168.986 31.3047 120C31.3047 71.0151 71.0151 31.3047 120 31.3047C168.986 31.3047 208.696 71.0151 208.696 120ZM159.284 105.856C162.998 101.45 162.437 94.8666 158.03 91.1523C153.624 87.4381 147.041 87.9992 143.327 92.4056L115.174 125.804L95.7689 107.917C91.5315 104.011 84.9301 104.279 81.0241 108.517C77.1181 112.754 77.3868 119.356 81.6242 123.262L109.05 148.542C111.144 150.473 113.936 151.463 116.778 151.284C119.62 151.105 122.266 149.773 124.101 147.595L159.284 105.856Z" fill="url(#paint0_linear_14651_25106)"/><defs><linearGradient id="paint0_linear_14651_25106" x1="45.284" y1="100.573" x2="120" y2="208.696" gradientUnits="userSpaceOnUse"><stop stop-color="#FD573B"/><stop offset="1" stop-color="#FF3A3A"/></linearGradient></defs></svg>`,
     icon_unselected: `<svg width="240" height="240" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M208.696 120C208.696 168.986 168.986 208.696 120 208.696C71.0151 208.696 31.3047 168.986 31.3047 120C31.3047 71.0151 71.0151 31.3047 120 31.3047C168.986 31.3047 208.696 71.0151 208.696 120ZM159.284 105.856C162.998 101.45 162.437 94.8666 158.03 91.1523C153.624 87.4381 147.041 87.9992 143.327 92.4056L115.174 125.804L95.7689 107.917C91.5315 104.011 84.9301 104.279 81.0241 108.517C77.1181 112.754 77.3868 119.356 81.6242 123.262L109.05 148.542C111.144 150.473 113.936 151.463 116.778 151.284C119.62 151.105 122.266 149.773 124.101 147.595L159.284 105.856Z"/></svg>`,
+    icon_selected2: `<svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="96" cy="96" r="80" fill="#D2001C"/><path d="M141.081 77.6575L90.1695 128.569L54.3428 92.7424L65.6565 81.4287L90.1695 105.942L129.767 66.3438L141.081 77.6575Z" fill="white"/></svg>`
   };
   constructor(props) {
     super(props);
@@ -242,9 +243,7 @@ class Issue212 extends Component {
             width={30}
             height={30}
             style={{
-              position: 'absolute',
-              right: 8,
-              top: 8,
+              padding: 10
             }}
           />
         ) : (
@@ -254,14 +253,19 @@ class Issue212 extends Component {
             width={40}
             height={40}
             style={{
-              position: 'absolute',
-              right: 8,
-              top: 8,
+              padding: 10,
+
               backgroundColor: 'yellow',
             }}
           />
         )}
-        <View style={{ paddingTop: 50 }}>
+        <SvgXml
+          xml={this.state.isSelect ? Issue212.Svgs.icon_selected2 : Issue212.Svgs.icon_unselected}
+          height={24}
+          width={24}
+          fill={"rgba(10, 15, 22, 0.2)"}
+        />
+        <View>
           <Button
             title="switch"
             onPress={() => {

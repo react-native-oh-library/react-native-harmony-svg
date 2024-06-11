@@ -23,6 +23,7 @@ public:
 
     void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override {
         OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
+        svgMarkDirty();
     }
 
     void setLayout(facebook::react::LayoutMetrics layoutMetrics) override {
