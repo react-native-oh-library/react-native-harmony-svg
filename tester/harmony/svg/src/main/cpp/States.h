@@ -332,16 +332,6 @@ public:
 #endif
 };
 
-class RNSVGImageState {
-  public:
-  RNSVGImageState() = default;
-
-#ifdef ANDROID
-  RNSVGImageState(RNSVGImageState const &previousState, folly::dynamic data){};
-  folly::dynamic getDynamic() const { return {}; };
-  MapBuffer getMapBuffer() const { return MapBufferBuilder::EMPTY(); };
-#endif
-};
 
 } // namespace react
 } // namespace facebook
