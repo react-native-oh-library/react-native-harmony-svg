@@ -2,6 +2,7 @@ import { RNPackage, TurboModulesFactory } from '@rnoh/react-native-openharmony/t
 import type { TurboModule, TurboModuleContext } from '@rnoh/react-native-openharmony/ts';
 import { RNSVGSvgViewModule } from './RNSVGSvgViewModule';
 import { RNSVGRenderableModule } from './RNSVGRenderableModule';
+import { RNSVGImageModule } from './RNSVGImageModule';
 
 class SvgTurboModulesFactory extends TurboModulesFactory {
   createTurboModule(name: string): TurboModule | null {
@@ -11,11 +12,14 @@ class SvgTurboModulesFactory extends TurboModulesFactory {
     if (name === 'RNSVGRenderableModule') {
       return new RNSVGRenderableModule(this.ctx);
     }
+    if (name === 'RNSVGImageModule') {
+      return new RNSVGImageModule(this.ctx);
+    }
     return null;
   }
 
   hasTurboModule(name: string): boolean {
-    return name === 'RNSVGSvgViewModule' || name === 'RNSVGRenderableModule';
+    return name === 'RNSVGSvgViewModule' || name === 'RNSVGRenderableModule' || name === 'RNSVGImageModule';
   }
 }
 

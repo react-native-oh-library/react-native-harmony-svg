@@ -66,8 +66,7 @@ const basicCases: CaseParams[] = [
             {
                 width:90,
                 height: 60,
-                fill: 'red',
-                xlinkHref: "https://img.icons8.com/2266EE/search"
+                href: 'https://live.mdnplay.dev/zh-CN/docs/Web/SVG/Element/image/mdn_logo_only_color.png',
             }
         ]
     },
