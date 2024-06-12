@@ -20,20 +20,21 @@ namespace rnoh {
 namespace svg {
 
 drawing::Path SvgEllipse::AsPath() {
+    drawing::Path path;
     double cx = relativeOnWidth(ellipseAttribute_.cx);
     double cy = relativeOnHeight(ellipseAttribute_.cy);
     double rx = relativeOnWidth(ellipseAttribute_.rx);
     double ry = relativeOnHeight(ellipseAttribute_.ry);
 
     drawing::Rect rect(cx - rx, cy - ry, cx + rx, cy + ry);
-    path_.AddOval(rect, PATH_DIRECTION_CW);
+    path.AddOval(rect, PATH_DIRECTION_CW);
 
     elements_ = {PathElement(ElementType::kCGPathElementMoveToPoint, {Point(cx, cy - ry)}),
                  PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(cx, cy - ry), Point(cx + rx, cy)}),
                  PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(cx + rx, cy), Point(cx, cy + ry)}),
                  PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(cx, cy + ry), Point(cx - rx, cy)}),
                  PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(cx - rx, cy), Point(cx, cy - ry)})};
-    return path_;
+    return path;
 };
 
 } // namespace svg
