@@ -19,18 +19,19 @@ namespace rnoh {
 namespace svg {
 
 drawing::Path SvgCircle::AsPath() {
+    drawing::Path path;
     double x = relativeOnWidth(circleAttribute_.cx);
     double y = relativeOnHeight(circleAttribute_.cy);
     double r = relativeOnOther(circleAttribute_.r);
     
-    path_.AddCircle(x, y, r, PATH_DIRECTION_CW);
+    path.AddCircle(x, y, r, PATH_DIRECTION_CW);
     
     elements_ = {PathElement(ElementType::kCGPathElementMoveToPoint, {Point(x, y - r)}),
                        PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x, y - r), Point(x + r, y)}),
                        PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x + r, y), Point(x, y + r)}),
                        PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x, y + r), Point(x - r, y)}),
                        PathElement(ElementType::kCGPathElementAddLineToPoint, {Point(x - r, y), Point(x, y - r)})};
-    return path_;
+    return path;
 }
 
 } // namespace svg

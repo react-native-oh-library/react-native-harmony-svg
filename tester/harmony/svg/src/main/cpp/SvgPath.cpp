@@ -40,6 +40,7 @@ void SvgPath::setD(const std::string &d) {
 
 drawing::Path SvgPath::AsPath() {
     drawing::Matrix matrix;
+    drawing::Path out;
     /*
     /* (OH_Drawing_Matrix* , float scaleX, float skewX, float transX, float skewY, float scaleY, float transY, float
     persp0, float persp1, float persp2 )
@@ -48,9 +49,9 @@ drawing::Path SvgPath::AsPath() {
     matrix.SetMatrix(scale_, 0, 0, 0, scale_, 0, 0, 0, 1.0);
     auto path = drawing::Path::BuildFromSvgString(d_.c_str());
     if (path.has_value()) {
-        path_ = std::move(path.value());
-        path_.Transform(matrix);
-        return path_;
+        out = std::move(path.value());
+        out.Transform(matrix);
+        return out;
     }
     return drawing::Path();
 }
