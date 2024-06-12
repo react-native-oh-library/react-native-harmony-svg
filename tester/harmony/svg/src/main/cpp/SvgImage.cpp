@@ -52,7 +52,13 @@ void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
         DLOG(INFO) << "[SvgImage] code: " << createPixelmapStatus;
 
         if (createPixelmapStatus == IMAGE_SUCCESS) {
-            OH_PixelmapNative_Opacity(pixelMap, attributes_.opacity);
+            /* Temporarily disable the feature to set opacity.
+             * Currently, there is an issue where setting opacity on 
+             * transparent pixels results in them turning black.
+             */
+            if (LessNotEqual(attributes_.opacity, 1.0f)) {
+                OH_PixelmapNative_Opacity(pixelMap, attributes_.opacity);
+            }
 
             // get the real width and height from pixelmap(OH_PixelmapNative *).
             OH_Pixelmap_ImageInfo *info;

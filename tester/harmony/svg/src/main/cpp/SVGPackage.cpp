@@ -49,6 +49,7 @@
 #include "componentBinders/RNSVGTextPathJSIBinder.h"
 #include "turboModules/RNSVGSvgViewModule.h"
 #include "turboModules/RNSVGRenderableModule.h"
+#include "turboModules/RNSVGImageModule.h"
 #include "ComponentDescriptors.h"
 #include "svgImage/RNSVGImageComponentDescriptor.h"
 
@@ -122,6 +123,9 @@ public:
         }
         if (name == "RNSVGRenderableModule") {
             return std::make_shared<RNSVGRenderableModule>(ctx, name);
+        }
+        if (name == "RNSVGImageModule") {
+            return std::make_shared<RNSVGImageModule>(ctx, name);
         }
         return nullptr;
     };
