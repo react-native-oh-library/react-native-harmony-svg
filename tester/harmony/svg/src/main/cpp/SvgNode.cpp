@@ -11,6 +11,9 @@ namespace rnoh {
 namespace svg {
 
 void SvgNode::InitStyle(const SvgBaseAttribute &attr) {
+    // reset gradient to null
+    attributes_.fillState.SetGradient(std::nullopt, false);
+    attributes_.strokeState.SetGradient(std::nullopt, false);
     InheritAttr(attr);
     if (hrefFill_) {
         auto fillHref = attributes_.fillState.GetHref();
@@ -24,20 +27,12 @@ void SvgNode::InitStyle(const SvgBaseAttribute &attr) {
                 attributes_.fillState.SetPattern(pattern);
             }
         }
-        else {
-            // reset gradient to null
-            attributes_.fillState.SetGradient(std::nullopt, false);
-        }
         auto strokeHref = attributes_.strokeState.GetHref();
         if (!strokeHref.empty()) {
             auto gradient = GetGradient(strokeHref);
             if (gradient) {
                 attributes_.strokeState.SetGradient(gradient.value(), true);
             }
-        }
-        else {
-            // reset gradient to null
-            attributes_.strokeState.SetGradient(std::nullopt, false);
         }
     }
     OnInitStyle();
