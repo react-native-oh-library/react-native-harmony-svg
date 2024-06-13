@@ -39,7 +39,7 @@ void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
     double x = relativeOnWidth(imageAttribute_.x);
     double y = relativeOnHeight(imageAttribute_.y);
 
-    if (!uriString.empty()) {
+    if (!uriString.empty() && uriString.find("http", 0) != 0) {
         OH_ImageSourceNative *res;
         OH_PixelmapNative *pixelMap;
         OH_DecodingOptions *options;
