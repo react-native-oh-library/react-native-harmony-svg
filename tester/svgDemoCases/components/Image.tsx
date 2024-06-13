@@ -67,7 +67,17 @@ const basicCases: CaseParams[] = [
                 width:90,
                 height: 60,
                 href: 'https://live.mdnplay.dev/zh-CN/docs/Web/SVG/Element/image/mdn_logo_only_color.png',
-            }
+            },
+            {
+                width:90,
+                height: 60,
+                href: 'https://res.vmallres.com/cmscdn/CN/2023-09/6c51df9d320d4079ad76b92055a81f8f.png.webp',
+            },
+            {
+                width:90,
+                height: 60,
+                href: 'https://www.ppwlicensing.com/data/upload/portal/20190610/5cfdf0860f624.jpg',
+            },
         ]
     },
     preserveAspectRatioCases,

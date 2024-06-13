@@ -8,6 +8,12 @@ import Logger from './Logger'
 
 export class RNSVGImageModule extends TurboModule {
   pixelMap: image.PixelMap | undefined = undefined
+  sourceType: string = 'image/png'
+  formatList: Map<string, string> = new Map([
+    ['image/jpeg', 'image/jpeg'],
+    ['image/png', 'image/png'],
+    ['image/webp', 'image/webp'],
+  ])
 
   public static readonly NAME = 'RNSVGImageModule';
 
@@ -41,6 +47,9 @@ export class RNSVGImageModule extends TurboModule {
     let data = await http.createHttp().request(src);
     if (data.responseCode == ResponseCode.ResponseCode.OK && data.result instanceof ArrayBuffer) {
       let imageData: ArrayBuffer = data.result;
+      if (data.header.hasOwnProperty('content-type')) {
+        this.sourceType = data.header['content-type'];
+      }
       let imageSource: image.ImageSource = image.createImageSource(imageData);
       let imageInfo = await imageSource.getImageInfo();
       let imageWidth = Math.round(imageInfo.size.width);
@@ -60,13 +69,14 @@ export class RNSVGImageModule extends TurboModule {
   async pixelMapToBase64(pixelMap: image.PixelMap): Promise<string> {
     let base64Url: string = '';
     let imagePacker = image.createImagePacker();
-    let packOptions: image.PackingOption = { format: "image/png", quality: 100 };
+    let packFormat: string = this.formatList.get(this.sourceType) ?? 'image/png';
+    let packOptions: image.PackingOption = { format: packFormat, quality: 100 };
     let data: ArrayBuffer = await imagePacker.packing(pixelMap, packOptions);
     if (data) {
       let buf: buffer.Buffer = buffer.from(data);
       base64Url = buf.toString('base64', 0, buf.length);
-      Logger.debug(`svgImage base64: data:image/png;base64,${base64Url}`);
+      Logger.debug(`svgImage base64: data:${packFormat};base64,${base64Url}`);
     }
-    return "data:image/png;base64," + base64Url;
+    return "data:" + packFormat + ";base64," + base64Url;
   }
 }
