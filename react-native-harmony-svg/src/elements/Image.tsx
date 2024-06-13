@@ -40,6 +40,9 @@ export default class SvgImage extends Shape<ImageProps> {
     this.state = {
       href: props.href || props.xlinkHref,
     };
+    if (this.state.href && typeof this.state.href === 'string' && this.state.href.startsWith('http')) {
+      this.fetchBase64String(this.state.href);
+    }
   }
 
   fetchBase64String = (href: string) => {
@@ -58,6 +61,17 @@ export default class SvgImage extends Shape<ImageProps> {
     }
 
   };
+
+  componentDidUpdate(prevProps: ImageProps) {
+    if (prevProps.href !== this.props.href) {
+      const href = this.props.href || this.props.xlinkHref;
+      if (href && typeof href === 'string' && href.startsWith('http')) {
+        this.fetchBase64String(href);
+      } else {
+        this.setState({ href: href })
+      }
+    }
+  }
 
   render() {
     const { props } = this;
@@ -92,9 +106,6 @@ export default class SvgImage extends Shape<ImageProps> {
           typeof this.state.href === 'string' ? { uri: this.state.href } : this.state.href
         ),
     };
-    if (href && typeof href === 'string' && href.startsWith('http')) {
-      this.fetchBase64String(href);
-    }
 
     return (
       <RNSVGImage
