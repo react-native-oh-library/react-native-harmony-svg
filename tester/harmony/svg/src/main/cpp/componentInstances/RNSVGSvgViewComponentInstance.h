@@ -3,7 +3,7 @@
 #include "RNOH/CppComponentInstance.h"
 #include <folly/dynamic.h>
 #include "SvgArkUINode.h"
-#include "ShadowNodes.h"
+#include "SvgShadowNodes.h"
 
 namespace rnoh {
 namespace svg {

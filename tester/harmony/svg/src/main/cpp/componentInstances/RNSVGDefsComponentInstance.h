@@ -1,7 +1,7 @@
 #pragma once
 
 #include "RNSVGBaseComponentInstance.h"
-#include "ShadowNodes.h"
+#include "SvgShadowNodes.h"
 #include "SvgDefs.h"
 
 namespace rnoh {
