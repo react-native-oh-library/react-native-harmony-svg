@@ -28,6 +28,7 @@ import IssueFix from './IssueFix';
 import ComplexDemo from './ComplexDemo';
 import RNSVGSvgIOS from './RNSVGSvgIOS';
 import PerformanceList from './PerformanceList';
+import PanResponder from './PanResponder';
 export default {
     Circle,
     Defs,
@@ -58,5 +59,6 @@ export default {
     IssueFix,
     ComplexDemo,
     RNSVGSvgIOS,
-    PerformanceTest: PerformanceList
+    PerformanceTest: PerformanceList,
+    PanResponder,
 }
