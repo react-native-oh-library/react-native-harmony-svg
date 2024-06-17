@@ -20,7 +20,15 @@ import Svg, {
   Stop,
   ClipPath,
 } from 'react-native-svg';
-import {View, StyleSheet, ScrollView, Alert} from 'react-native';
+import {SvgCssUri} from 'react-native-svg/css';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Alert,
+  Button,
+  Text as RNText,
+} from 'react-native';
 import {Tester, Filter, TestCase, TestSuite} from '@rnoh/testerino';
 import {TestItem} from './gen';
 
@@ -433,6 +441,49 @@ class ClipImage extends Component {
   }
 }
 
+const URIs = {
+  invalid: 'https://en.wikipedia.org/wiki/File:Vector-based_example.svg',
+  valid:
+    'https://pixabay.com/get/g9bea6c6d0895a4b46db7e4627b0deb1d799a786a9f14ed733bb254dac4f069edad2b4b4c1a9e8c4b70d6e15b6e0e2da0.svg',
+};
+
+class SvgCssExample extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      uri: URIs.invalid,
+    };
+  }
+
+  handlePress = () => {
+    const {uri} = this.state;
+    const newUri = uri === URIs.valid ? URIs.invalid : URIs.valid;
+    this.setState({uri: newUri});
+  };
+
+  render() {
+    const {uri} = this.state;
+    const title =
+      uri === URIs.invalid
+        ? 'Render fallback due to invalid SVG'
+        : 'Render Valid SVG';
+
+    const buttonTitle = `Switch to ${
+      uri === URIs.invalid ? 'valid' : 'invalid'
+    } SVG`;
+
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <RNText>{title}</RNText>
+        <View style={{paddingVertical: 20}}>
+          <SvgCssUri onError={() => {}} uri={uri} width={200} height={200} />
+        </View>
+        <Button onPress={this.handlePress} title={buttonTitle} />
+      </View>
+    );
+  }
+}
+
 const samples = [
   LinearGradientExample,
   HuaweiPathExample,
@@ -443,6 +494,7 @@ const samples = [
   GExample,
   ImageExample,
   ClipImage,
+  SvgCssExample,
 ];
 
 const styles = StyleSheet.create({
@@ -493,6 +545,9 @@ export default function () {
         </TestCase>
         <TestCase itShould="Clip Image">
           <ClipImage />
+        </TestCase>
+        <TestCase itShould="Show svg from valid uri">
+          <SvgCssExample />
         </TestCase>
       </ScrollView>
     </Tester>
