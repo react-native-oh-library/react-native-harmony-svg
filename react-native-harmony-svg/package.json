@@ -35,6 +35,7 @@
     "harmony",
     "src",
     "lib",
+    "css",
     "./*.json"
   ],
   "react-native-builder-bob": {
