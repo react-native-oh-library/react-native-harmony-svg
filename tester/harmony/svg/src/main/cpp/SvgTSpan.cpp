@@ -46,7 +46,8 @@ void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
 
     OH_Drawing_TypographyHandlerAddText(typographyHandler, content_.c_str());
     auto *typography = OH_Drawing_CreateTypography(typographyHandler);
-    double maxWidth = inlineSize_.value_or(Infinity<Dimension>()).RelativeConvertToPx(OH_Drawing_CanvasGetWidth(canvas), scale_);
+    double maxWidth =
+        inlineSize_.value_or(Infinity<Dimension>()).RelativeConvertToPx(OH_Drawing_CanvasGetWidth(canvas), scale_);
     OH_Drawing_TypographyLayout(typography, maxWidth);
     double actualWidth = OH_Drawing_TypographyGetLongestLine(typography);
 
@@ -60,8 +61,10 @@ void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
     OH_Drawing_TextStyleGetFontMetrics(typography, ts.textStyle_.get(), &fm);
     double dx = glyphCtx_->nextX(actualWidth) - actualWidth + glyphCtx_->nextDeltaX() +
                 getTextAnchorOffset(font_->textAnchor, actualWidth);
-    double dy =
-        glyphCtx_->nextY() + glyphCtx_->nextDeltaY() + CalcBaselineShift(typographyHandler, ts.textStyle_.get(), fm);
+    // the position of typography is on the left-top
+    double dy = glyphCtx_->nextY() + glyphCtx_->nextDeltaY() +
+                CalcBaselineShift(typographyHandler, ts.textStyle_.get(), fm) -
+                OH_Drawing_TypographyGetAlphabeticBaseline(typography);
     DLOG(INFO) << "TEXT GLYPH next X = " << dx << " next dy = " << dy;
 
     double r = glyphCtx_->nextRotation();
@@ -267,11 +270,7 @@ double SvgTSpan::CalcBaselineShift(OH_Drawing_TypographyCreate *handler, OH_Draw
         break;
 
     case AlignmentBaseline::middle: {
-        OH_Drawing_TypographyHandlerAddText(handler, "x");
-        drawing::Typography typography(handler);
-        OH_Drawing_TypographyLayout(&typography, 1e9);
-        double xHeight = OH_Drawing_TypographyGetHeight(&typography);
-        baselineShift = xHeight / 2.0;
+        baselineShift = fm.xHeight / 2.0;
         break;
     }
     case AlignmentBaseline::central:
@@ -316,7 +315,8 @@ double SvgTSpan::CalcBaselineShift(OH_Drawing_TypographyCreate *handler, OH_Draw
             } else if (baselineShift_ == "super") {
             } else if (baselineShift_ == "baseline") {
             } else {
-                baselineShift -= StringUtils::FromString(baselineShift_).RelativeConvertToPx(scale_ * font_->fontSize, scale_);
+                baselineShift -=
+                    StringUtils::FromString(baselineShift_).RelativeConvertToPx(scale_ * font_->fontSize, scale_);
             }
             break;
         }

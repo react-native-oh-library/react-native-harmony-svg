@@ -16,6 +16,12 @@ void SvgText::GlyphTraversal(OH_Drawing_Canvas *canvas) {
     for (auto const &child : children_) {
         if (auto span = std::dynamic_pointer_cast<TextBase>(child)) {
             span->SetGlyphContext(glyphCtx_);
+            if (!span->hasAlignmentBaseline()) {
+                span->setAlignmentBaseline(align_);
+            }
+            if (!span->hasBaselineShift()) {
+                span->setBaselineShift(baselineShift_);
+            }
         }
     }
 }
