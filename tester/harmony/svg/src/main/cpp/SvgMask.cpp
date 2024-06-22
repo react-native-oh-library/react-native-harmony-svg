@@ -70,18 +70,11 @@ void SvgMask::OnDrawTraversedAfter(OH_Drawing_Canvas *canvas) {
 void SvgMask::OnInitStyle() { DLOG(INFO) << "[RNSVGMask] OnInitStyle"; }
 
 double SvgMask::ParseUnitsAttr(const Dimension &attr, double value) {
-    if (isDefaultMaskUnits_) {
-        // only support decimal or percent
-        if (attr.Unit() == DimensionUnit::PERCENT) {
-            return value * attr.Value();
-        }
-        return attr.Value() * value;
-    }
     // percent and px
     if (attr.Unit() == DimensionUnit::PERCENT) {
         return value * attr.Value();
-    }
-    return attr.Value();
+    } 
+    return attr.ConvertToPx(scale_);
 }
 
 } // namespace svg
