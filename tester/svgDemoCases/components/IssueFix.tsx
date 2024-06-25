@@ -162,7 +162,7 @@ class Issue203 extends Component {
                       x={'30%'}
                       alignmentBaseline={'middle'}
                       key={value}
-                      y={index * 20}>
+                      y={(index + 1) * 15}>
                       {value}
                     </SVGText>
                   );
