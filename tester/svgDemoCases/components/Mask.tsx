@@ -305,7 +305,7 @@ class MaskUnits extends Component {
 
             <Mask
               id="myMask2"
-              maskUnits="userSpaceOnUse"
+              maskUnits="objectBoundingBox"
               x="20%"
               y="20%"
               width="60%"

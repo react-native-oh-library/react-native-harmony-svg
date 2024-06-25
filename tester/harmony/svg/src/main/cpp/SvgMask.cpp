@@ -31,8 +31,8 @@ void SvgMask::OnDrawTraversedBefore(OH_Drawing_Canvas *canvas) {
     DLOG(INFO) << "[RNSVGMask] Top0: " << nodeBounds.Top();
     DLOG(INFO) << "[RNSVGMask] Width0: " << nodeBounds.Width();
     DLOG(INFO) << "[RNSVGMask] Height0: " << nodeBounds.Height();
-    auto left = static_cast<float>(nodeBounds.Left() + ParseUnitsAttr(maskAttribute_.x, nodeBounds.Width()));
-    auto top = static_cast<float>(nodeBounds.Top() + ParseUnitsAttr(maskAttribute_.y, nodeBounds.Height()));
+    auto left = static_cast<float>(ParseUnitsAttr(maskAttribute_.x, nodeBounds.Width()));
+    auto top = static_cast<float>(ParseUnitsAttr(maskAttribute_.y, nodeBounds.Height()));
     auto width = static_cast<float>(ParseUnitsAttr(maskAttribute_.width, nodeBounds.Width()));
     auto height = static_cast<float>(ParseUnitsAttr(maskAttribute_.height, nodeBounds.Height()));
     drawing::Rect maskBounds(left, top, width + left, height + top);
@@ -70,18 +70,11 @@ void SvgMask::OnDrawTraversedAfter(OH_Drawing_Canvas *canvas) {
 void SvgMask::OnInitStyle() { DLOG(INFO) << "[RNSVGMask] OnInitStyle"; }
 
 double SvgMask::ParseUnitsAttr(const Dimension &attr, double value) {
-    if (isDefaultMaskUnits_) {
-        // only support decimal or percent
-        if (attr.Unit() == DimensionUnit::PERCENT) {
-            return value * attr.Value();
-        }
-        return attr.Value() * value;
-    }
     // percent and px
     if (attr.Unit() == DimensionUnit::PERCENT) {
         return value * attr.Value();
     }
-    return attr.Value();
+    return attr.ConvertToPx(scale_);
 }
 
 } // namespace svg
