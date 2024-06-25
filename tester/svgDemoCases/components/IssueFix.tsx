@@ -23,6 +23,7 @@ import Svg, {
 import { View, StyleSheet, ScrollView, Text, Button, TouchableOpacity } from 'react-native';
 import { Tester, Filter, TestCase, TestSuite } from '@rnoh/testerino';
 import Issue241 from './issueTests/Issue241';
+import Issue236 from './issueTests/Issue236';
 
 class SvgLayoutExample extends Component {
   static title = 'SVG with flex layout';
@@ -379,6 +380,9 @@ export default function () {
         </TestCase>
         <TestCase itShould="Issue #218: Mask should refresh when children remove">
           <Issue218 />
+        </TestCase>
+        <TestCase itShould="Issue #236: maskuints">
+          <Issue236 />
         </TestCase>
         <TestCase itShould="Issue #241: Text alignmentBaseline">
           <Issue241 />

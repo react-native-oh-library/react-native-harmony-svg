@@ -56,8 +56,7 @@ public:
         maskAttribute_.maskContentUnits = ToUnit(maskContentUnits);
         isDefaultMaskContentUnits(maskAttribute_.maskContentUnits == Unit::userSpaceOnUse);
     }
-
-    void SetAttrMaskUnits(int maskUnits);
+    
 
 protected:
     void OnInitStyle() override;
@@ -72,7 +71,7 @@ private:
 
     drawing::Rect maskBounds_;
     int canvasLayerCount_ = -1;
-    DimensionUnit defaultDimensionUnit_ = DimensionUnit::PERCENT;
+    DimensionUnit defaultDimensionUnit_ = DimensionUnit::VP;
 };
 
 } // namespace svg
