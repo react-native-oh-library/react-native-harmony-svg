@@ -97,6 +97,7 @@ double SvgTSpan::getTextAnchorOffset(TextAnchor textAnchor, const double &textMe
 
 drawing::TypographyStyle SvgTSpan::PrepareTypoStyle() {
     UpdateStrokeStyle();
+    UpdateGradient(attributes_.fillState.GetGradient());
     auto fillOpaque = UpdateFillStyle();
     if (!fillOpaque) {
         fillBrush_.SetColor(Color::TRANSPARENT.GetValue());

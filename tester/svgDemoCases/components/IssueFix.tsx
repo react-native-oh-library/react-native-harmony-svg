@@ -327,6 +327,31 @@ const Issue218 = React.memo((props: {}) => {
   );
 });
 
+
+export function Issue244 = React.memo((props: {}) => {
+  return (
+    <View >
+        <Svg height={50} width={28} >
+            <Defs>
+              <LinearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <Stop stopColor="yellow" offset="24.67%" stopOpacity={1} />
+                <Stop stopColor="red" offset="77.8%" stopOpacity={1} />
+              </LinearGradient>
+            </Defs>
+            <SVGText
+              fill="url(#grad)"
+              fontSize={"42"}
+              x="50%" 
+              y="60%"
+              textAnchor="middle"
+              alignmentBaseline="middle">
+              {'6'}
+            </SVGText>
+          </Svg>
+    </View>
+  );
+}
+
 const samples = [
   SvgLayoutExample,
   Issue178,
@@ -386,6 +411,9 @@ export default function () {
         </TestCase>
         <TestCase itShould="Issue #241: Text alignmentBaseline">
           <Issue241 />
+        </TestCase>
+        <TestCase itShould="Issue #244: Display error of fill attribute in text when using LinearGradient gradient">
+          <Issue244 />
         </TestCase>
       </ScrollView>
     </Tester>

@@ -111,9 +111,17 @@ void SvgGraphic::OnGraphicStroke(OH_Drawing_Canvas *canvas) {
 void SvgGraphic::UpdateGradient(std::optional<Gradient> &gradient) {
     CHECK_NULL_VOID(gradient);
     // objectBoundingBox - 0(DEFAULT), userSpaceOnUse - 1
-    auto nodeBounds = (gradient->GetGradientUnits() == Unit::objectBoundingBox)
-                          ? AsBounds()
-                          : Rect(0, 0, context_->GetSvgSize().Width(), context_->GetSvgSize().Height());
+    
+    Rect nodeBounds;
+    if (gradient->GetGradientUnits() == Unit::objectBoundingBox) {
+        nodeBounds = AsBounds();
+        if (nodeBounds.Width() == 0 && nodeBounds.Height() == 0) {
+            nodeBounds = Rect(0, 0, context_->GetSvgSize().Width(), context_->GetSvgSize().Height());
+        }
+    } else {
+        nodeBounds = Rect(0, 0, context_->GetSvgSize().Width(), context_->GetSvgSize().Height());
+    }
+
     if (gradient->GetType() == GradientType::LINEAR) {
         const auto &linearGradient = gradient->GetLinearGradient();
         auto gradientInfo = LinearGradientInfo();
