@@ -24,6 +24,7 @@ import { View, StyleSheet, ScrollView, Text, Button, TouchableOpacity } from 're
 import { Tester, Filter, TestCase, TestSuite } from '@rnoh/testerino';
 import Issue241 from './issueTests/Issue241';
 import Issue236 from './issueTests/Issue236';
+import Issue244 from './issueTests/Issue244';
 
 class SvgLayoutExample extends Component {
   static title = 'SVG with flex layout';
@@ -336,6 +337,7 @@ const samples = [
   Issue203Extend,
   Issue212,
   Issue241,
+  Issue244,
 ];
 
 const styles = StyleSheet.create({
@@ -386,6 +388,9 @@ export default function () {
         </TestCase>
         <TestCase itShould="Issue #241: Text alignmentBaseline">
           <Issue241 />
+        </TestCase>
+        <TestCase itShould="Issue #244: Text linear gradient">
+          <Issue244 />
         </TestCase>
       </ScrollView>
     </Tester>

@@ -30,6 +30,8 @@ public:
     double getTextAnchorOffset(TextAnchor textAnchor, const double &textMeasure);
     
     std::string content_;
+    
+    Rect AsBounds() override;
 
 private:
     void DrawTextPath(OH_Drawing_Canvas* canvas);
@@ -45,6 +47,11 @@ private:
     double CalcBaselineShift(OH_Drawing_TypographyCreate* handler, OH_Drawing_TextStyle* style, const OH_Drawing_Font_Metrics& fm);
 
     std::shared_ptr<SvgTextPath> textPath_;
+    
+    double boundsWidth_ = 0;
+    double boundsHeight_ = 0;
+    double boundsX_ = 0;
+    double boundsY_ = 0;
 };
 
 } // namespace svg
