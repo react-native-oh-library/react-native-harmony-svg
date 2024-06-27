@@ -4,7 +4,6 @@
 #include <vector>
 #include "SvgTSpan.h"
 #include "drawing/TextStyle.h"
-#include "properties/Offset.h"
 #include "drawing/Typography.h"
 #include "drawing/Matrix.h"
 #include "utils/TextPathHelper.h"
@@ -39,33 +38,70 @@ void SvgTSpan::OnDraw(OH_Drawing_Canvas *canvas) {
 }
 
 void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
-    drawing::TypographyStyle ts = PrepareTypoStyle();
+    drawing::TextStyle textStyle;
+    textStyle.Update(font_);
+    drawing::TypographyStyle ts;
+    ts.Update(font_);
+
+    // create a typography to measure metrics for linear gradient
     auto *fontCollection = OH_Drawing_CreateFontCollection();
     auto *typographyHandler = OH_Drawing_CreateTypographyHandler(ts.typographyStyle_.get(), fontCollection);
-    OH_Drawing_TypographyHandlerPushTextStyle(typographyHandler, ts.textStyle_.get());
-
+    OH_Drawing_TypographyHandlerPushTextStyle(typographyHandler, textStyle.textStyle_.get());
     OH_Drawing_TypographyHandlerAddText(typographyHandler, content_.c_str());
-    auto *typography = OH_Drawing_CreateTypography(typographyHandler);
+    auto *typographyForMetrics = OH_Drawing_CreateTypography(typographyHandler);
     double maxWidth =
         inlineSize_.value_or(Infinity<Dimension>()).RelativeConvertToPx(OH_Drawing_CanvasGetWidth(canvas), scale_);
-    OH_Drawing_TypographyLayout(typography, maxWidth);
-    double actualWidth = OH_Drawing_TypographyGetLongestLine(typography);
+    OH_Drawing_TypographyLayout(typographyForMetrics, maxWidth);
+    double actualWidth = OH_Drawing_TypographyGetLongestLine(typographyForMetrics);
 
     double scaleSpacingAndGlyphs = 1.0;
     if (AdjustSpacing(canvas, actualWidth, scaleSpacingAndGlyphs)) {
-        OH_Drawing_SetTextStyleLetterSpacing(ts.textStyle_.get(), font_->letterSpacing);
+        OH_Drawing_SetTextStyleLetterSpacing(textStyle.textStyle_.get(), font_->letterSpacing);
     }
 
-
     OH_Drawing_Font_Metrics fm;
-    OH_Drawing_TextStyleGetFontMetrics(typography, ts.textStyle_.get(), &fm);
+    OH_Drawing_TextStyleGetFontMetrics(typographyForMetrics, textStyle.textStyle_.get(), &fm);
     double dx = glyphCtx_->nextX(actualWidth) - actualWidth + glyphCtx_->nextDeltaX() +
                 getTextAnchorOffset(font_->textAnchor, actualWidth);
     // the position of typography is on the left-top
     double dy = glyphCtx_->nextY() + glyphCtx_->nextDeltaY() +
                 CalcBaselineShift(typographyHandler, ts.textStyle_.get(), fm) -
-                OH_Drawing_TypographyGetAlphabeticBaseline(typography);
+                OH_Drawing_TypographyGetAlphabeticBaseline(typographyForMetrics);
     DLOG(INFO) << "TEXT GLYPH next X = " << dx << " next dy = " << dy;
+
+    boundsWidth_ = actualWidth;
+    boundsHeight_ = fm.capHeight;
+    boundsX_ = dx;
+    boundsY_ = dy + (OH_Drawing_TypographyGetIdeographicBaseline(typographyForMetrics) - fm.descent - fm.capHeight);
+
+    // draw the border of the area for debug
+    bool drawBounds = false;
+    if (drawBounds) {
+        OH_Drawing_CanvasDrawLine(canvas, boundsX_, boundsY_, boundsX_ + boundsWidth_, boundsY_);
+        OH_Drawing_CanvasDrawLine(canvas, boundsX_ + boundsWidth_, boundsY_, boundsX_ + boundsWidth_,
+                                  boundsY_ + boundsHeight_);
+        OH_Drawing_CanvasDrawLine(canvas, boundsX_ + boundsWidth_, boundsY_ + boundsHeight_, boundsX_,
+                                  boundsY_ + boundsHeight_);
+        OH_Drawing_CanvasDrawLine(canvas, boundsX_, boundsY_ + boundsHeight_, boundsX_, boundsY_);
+    }
+
+    UpdateGradient(attributes_.strokeState.GetGradient());
+    UpdateGradient(attributes_.fillState.GetGradient());
+    UpdateStrokeStyle();
+    auto fillOpaque = UpdateFillStyle();
+    if (!fillOpaque) {
+        fillBrush_.SetColor(Color::TRANSPARENT.GetValue());
+    }
+    textStyle.SetForegroundBrush(fillBrush_.get());
+    textStyle.SetForegroundPen(strokePen_.get());
+    ts.SetTextStyle(std::move(textStyle));
+
+    // create the typography for drawing
+    OH_Drawing_TypographyHandlerPopTextStyle(typographyHandler);
+    OH_Drawing_TypographyHandlerPushTextStyle(typographyHandler, ts.textStyle_.get());
+    OH_Drawing_TypographyHandlerAddText(typographyHandler, content_.c_str());
+    auto *typography = OH_Drawing_CreateTypography(typographyHandler);
+    OH_Drawing_TypographyLayout(typography, maxWidth);
 
     double r = glyphCtx_->nextRotation();
     drawing::Matrix mat;
@@ -76,6 +112,7 @@ void SvgTSpan::DrawText(OH_Drawing_Canvas *canvas) {
     OH_Drawing_TypographyPaint(typography, canvas, dx, dy);
     OH_Drawing_CanvasRestore(canvas);
 
+    OH_Drawing_DestroyTypography(typographyForMetrics);
     OH_Drawing_DestroyTypography(typography);
     OH_Drawing_DestroyTypographyHandler(typographyHandler);
     OH_Drawing_DestroyFontCollection(fontCollection);
@@ -324,6 +361,8 @@ double SvgTSpan::CalcBaselineShift(OH_Drawing_TypographyCreate *handler, OH_Draw
     }
     return baselineShift;
 }
+
+Rect SvgTSpan::AsBounds() { return Rect(boundsX_, boundsY_, boundsWidth_, boundsHeight_); }
 
 } // namespace svg
 } // namespace rnoh

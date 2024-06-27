@@ -2,7 +2,6 @@
 #include "utils/StringUtils.h"
 #include "utils/GlyphContext.h"
 #include "properties/TextProperties.h"
-#include "TextBase.h"
 #include <native_drawing/drawing_text_typography.h>
 #include <optional>
 

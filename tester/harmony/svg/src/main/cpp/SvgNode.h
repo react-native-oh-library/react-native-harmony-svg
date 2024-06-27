@@ -117,7 +117,7 @@ public:
         attributes_.clipState.SetClipRule(static_cast<ClipState::ClipRule>(props->clipRule), true);
     }
 
-    Rect AsBounds();
+    virtual Rect AsBounds();
 
     void SetScale(const double &scale) { scale_ = scale; }
 
