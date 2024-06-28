@@ -1,0 +1,118 @@
+name: "Bug 反馈 / Bug report"
+description: "通过 issue 反馈 Bug / Report a bug issue"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您抽出时间来填写如下的 bug 反馈问卷！
+        在您提交之前：
+        - 请确认该仓库里没有相似的 issue 存在
+        - 请确认在更换版本时，已经清理了缓存。
+        
+        Thanks for taking the time to fill out this bug report!
+        Before you proceed:
+        - Make sure to check whether there are similar issues in the repository
+        - Make sure to clean cache in your project. Depending on your setup this could be done by:
+          - `yarn start --reset-cache` or
+          - `npm start -- --reset-cache` or
+          - `expo start --clear`
+  - type: markdown
+    attributes:
+      value: |
+        ## Required information
+  - type: textarea
+    id: description
+    attributes:
+      label: 描述 / Description
+      description: |
+        请清晰、简洁并详细地描述这是个什么样的 bug。如果需要，请附上截图或视频。告诉我们您原本期望发生的是什么，而现在发生了什么。
+        Please provide a clear, concise and descriptive explanation of what the bug is. Include screenshots or a video if needed. Tell us what were you expecting to happen instead of what is happening now.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: 复现步骤 / Steps to reproduce
+      description: |
+        请提供详细的 issue 复现步骤（选填）。
+        Provide a detailed list of steps that reproduce the issue (optional).
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: false
+
+  - type: input
+    id: library-version
+    attributes:
+      label: Library version
+      description: |
+        请问您使用的是这个库的哪个版本？
+        What version of this library are you using?
+      placeholder: 15.0.0-0.5.2
+    validations:
+      required: true
+
+  - type: input
+    id: react-native-harmony-version
+    attributes:
+      label: React Native OpenHarmony version
+      description: What version of react-native-harmony are you using?
+      placeholder: 0.72.27
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ## 额外信息 / Additional information
+        请尽可能提供更多的信息，这可以帮助我们更快地复现此 issue。
+        Providing as much information as possible greatly helps us with reproducing the issues.
+
+  - type: dropdown
+    id: build-type
+    attributes:
+      label: 构建类型 / Build type
+      description: |
+        你的原生应用程序的构建配置/变量和 JavaScript Bundle 模式是什么？
+        What is the build configuration/variant of your native app and JavaScript bundle mode?
+      options:
+        - Debug app & dev bundle
+        - Release app & production bundle
+        - Debug app & production bundle
+        - Release app & dev bundle
+        - Other (please specify)
+
+  - type: dropdown
+    id: emulator
+    attributes:
+      label: 设备 / Device
+      description: |
+        你使用什么类型的设备运行你的应用？
+        How are you running your application?
+      options:
+        - Simulator
+        - Real device
+
+  - type: input
+    id: device-model
+    attributes:
+      label: 设备版本 / Device model
+      description: |
+        使用的设备型号是什么？请提供完整的设备名称和系统版本号。
+        What device you are experiencing this problem on? Specify full device name along with the version of the operating system it's running.
+      placeholder: ex. Mate 60 Pro (3.0.0.25)
+
+  - type: dropdown
+    id: acknowledgements
+    attributes:
+      label: 已悉知 / Acknowledgements
+      description: |
+        我已经在此仓库搜索过相似的issue。
+        I searched for similar issues in the repository.
+      options:
+        - 'Yes'
+    validations:
+      required: true

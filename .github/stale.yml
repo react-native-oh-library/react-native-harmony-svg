@@ -1,0 +1,56 @@
+# Configuration for probot-stale based on: https://github.com/facebook/react-native/blob/master/.github/stale.yml
+# 用于配置 Probot-Stale 插件的行为，该插件用于管理 GitHub 上的过期 Issue 和 Pull Request
+
+ # Number of days of inactivity before an Issue or Pull Request becomes stale
+ # 设置多少天的不活动时间后，Issue 或 Pull Request 被标记为过期（stale）。
+daysUntilStale: 60
+
+ # Number of days of inactivity before an Issue or Pull Request with the stale label is closed.
+ # 设置多少天的不活动时间后，带有过期标签的 Issue 或 Pull Request 被自动关闭
+daysUntilClose: 365
+
+ # Issues or Pull Requests.
+ # 不考虑带有指定标签的 Issue 或 Pull Request。带有 "pinned"、"security" 或 "discussion" 标签的 Issue 或 Pull Request 将被排除在过期处理之外
+exemptLabels:
+  - pinned
+  - security
+  - discussion
+
+ # Set to true to ignore issues in a project (defaults to false)
+ # 设置为 true 则忽略项目中的问题，默认为 false
+exemptProjects: false
+
+ # Set to true to ignore issues in a milestone (defaults to false)
+ # 设置为 true 则忽略里程碑中的问题，默认为 false
+exemptMilestones: false
+
+ # Set to true to ignore issues with an assignee (defaults to false)
+ # 设置为 true 则忽略有指派人的问题，默认为 false
+exemptAssignees: false
+
+ # Label to use when marking as stale
+ # 标记 Issue 或 Pull Request 为过期的标签名称，这里设为 "stale"
+staleLabel: stale
+
+ # Comment to post when marking as stale. Set to `false` to disable
+ # 标记为过期时发布的评论内容。如果设置为 false，则禁用该评论
+markComment: >
+  此问题因为最近没有活动已自动标记为过期。如果再没有进一步的活动，它将被关闭。感谢您的贡献。
+  This issue has been automatically marked as stale because it has not had
+  recent activity. It will be closed if no further activity occurs. Thank you
+  for your contributions.
+
+ # Comment to post when closing a stale Issue or Pull Request.
+ # 关闭过期 Issue 或 Pull Request 时发布的评论内容
+closeComment: >
+  此问题因长时间没有活动所以自动关闭。如果问题仍然影响您，请随时重新打开。
+  Closing this issue after a prolonged period of inactivity. Fell free to reopen
+  this issue, if this still affecting you.
+
+ # Limit the number of actions per hour, from 1-30. Default is 30
+ # 每小时执行的操作限制数，范围从 1 到 30，默认为 30。
+limitPerRun: 30
+
+ # Limit to only `issues` or `pulls`
+ # 指定仅处理 "issues"（问题）或 "pulls"（拉取请求）
+only: issues 
