@@ -78,6 +78,21 @@ const basicCases: CaseParams[] = [
                 height: 60,
                 href: 'https://www.ppwlicensing.com/data/upload/portal/20190610/5cfdf0860f624.jpg',
             },
+            {
+                width:90,
+                height: 60,
+                href: require('../../assets/react-native-logo.png'),
+            },
+            {
+                width:90,
+                height: 60,
+                href: require('../../assets/star.jpg'),
+            },
+            {
+                width:90,
+                height: 60,
+                href: require('../../assets/pic.webp'),
+            },
         ]
     },
     preserveAspectRatioCases,

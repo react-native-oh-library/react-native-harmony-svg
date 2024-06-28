@@ -11,6 +11,13 @@ RNSVGImageComponentInstance::RNSVGImageComponentInstance(Context context)
 
 void RNSVGImageComponentInstance::UpdateElementProps(SharedConcreteProps const &props) {
     auto svgImage = std::dynamic_pointer_cast<SvgImage>(GetSvgNode());
+    if (m_deps != nullptr && !m_deps->rnInstance.expired()) {
+        auto rnInstance = m_deps->rnInstance.lock();
+        if (rnInstance != nullptr) {
+            auto nativeResourceManager = rnInstance->getNativeResourceManager();
+            svgImage->setNativeResourceManager(nativeResourceManager);
+        }
+    }
     svgImage->UpdateCommonProps(props);
     svgImage->SetX(props->x);
     svgImage->SetY(props->y);
