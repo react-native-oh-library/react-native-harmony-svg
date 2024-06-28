@@ -79,7 +79,7 @@ struct Index {
             enableNDKTextMeasuring: true,
             enableBackgroundExecutor: false,
             enableCAPIArchitecture: true,
-            // arkTsComponentNames: arkTsComponentNames,
+            arkTsComponentNames: arkTsComponentNames,
           },
           initialProps: { "foo": "bar" } as Record<string, string>,
           appKey: "app_name",
