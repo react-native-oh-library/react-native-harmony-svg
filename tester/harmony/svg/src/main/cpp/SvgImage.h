@@ -30,10 +30,13 @@ public:
     
     void SetImageSource(const facebook::react::ImageSource &src ) { imageAttribute_.src = src; }
     
+    void setNativeResourceManager(const NativeResourceManager* mgr) { mgr_ = mgr; }
+    
     void OnDraw(OH_Drawing_Canvas *canvas) override;
 
 private:
     SvgImageAttribute imageAttribute_;
+    const NativeResourceManager* mgr_;
 };
 
 } // namespace svg

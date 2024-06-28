@@ -21,6 +21,9 @@
 #include <multimedia/image_framework/image_pixel_map_mdk.h>
 #include <glog/logging.h>
 
+const char * ASSET_PREFIX = "asset://";
+const char * RAWFILE_PREFIX = "assets/";
+
 namespace rnoh {
 namespace svg {
 
@@ -28,7 +31,7 @@ void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
     auto uriString = imageAttribute_.src.uri;
 
     if (uriString.empty()) {
-        LOG(WARNING) << "[SvgImage] imageAttribute_.src.uri is empty!";
+        DLOG(WARNING) << "[SvgImage] imageAttribute_.src.uri is empty!";
         return;
     }
 
@@ -47,7 +50,26 @@ void SvgImage::OnDraw(OH_Drawing_Canvas *canvas) {
         char *srcUri = const_cast<char *>(uriString.c_str());
 
         OH_DecodingOptions_Create(&options);
-        auto createFromUriStatus = OH_ImageSourceNative_CreateFromUri(srcUri, uriString.size(), &res);
+        
+        Image_ErrorCode createFromUriStatus;
+        if (uriString.find(ASSET_PREFIX, 0) == 0) {
+            auto file = uriString.replace(0, 8, RAWFILE_PREFIX);
+            DLOG(INFO) << "[SvgImage] file: " << file;
+            auto rawFile = OH_ResourceManager_OpenRawFile(mgr_, file.c_str());
+            if (rawFile == nullptr) {
+                LOG(ERROR) << "[SvgImage] get rawfile fail";
+                return;
+            }
+            RawFileDescriptor descriptor;
+            auto getRawFileStatus = OH_ResourceManager_GetRawFileDescriptor(rawFile, descriptor);
+            if (!getRawFileStatus) {
+                LOG(ERROR) << "[SvgImage] get rawfile descriptor fail";
+                return;
+            }
+            createFromUriStatus = OH_ImageSourceNative_CreateFromRawFile(&descriptor, &res);
+        } else {
+            createFromUriStatus = OH_ImageSourceNative_CreateFromUri(srcUri, uriString.size(), &res);
+        }
         auto createPixelmapStatus = OH_ImageSourceNative_CreatePixelmap(res, options, &pixelMap);
         DLOG(INFO) << "[SvgImage] code: " << createPixelmapStatus;
 
