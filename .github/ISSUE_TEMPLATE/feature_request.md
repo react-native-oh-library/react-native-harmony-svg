@@ -1,11 +1,11 @@
 ---
-name: '💡 功能需求 / Feature Request'
+name: '功能需求 / Feature Request'
 about: 提交你的idea或新需求。 / Submit your idea for a change in the codebase.
 ---
 
 # Feature Request
 
-请描述你的想法或需求。此 issue 为您提供一个向维护者展示或提出想法的平台 -- 如果您可以提交一个PR的话就更好了。
+请描述你的想法或需求。此 issue 为您提供一个向维护者展示或提出想法的平台 -- 如果您可以提交一个 PR 的话就更好了。
 
 Please describe your idea. This issue should serve for you to present or pitch an idea to the maintainers - but remember that it would be better if you were to submit a PR instead.
 
