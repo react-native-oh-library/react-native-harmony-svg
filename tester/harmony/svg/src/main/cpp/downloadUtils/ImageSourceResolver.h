@@ -46,9 +46,6 @@ public:
 
         // 注销监听器
         ~ImageSourceUpdateListener() {
-            if (!m_imageSourceResolver) {
-                m_imageSourceResolver->removeListener(this);
-            }
         }
 
         // 监听图像缓存更新
@@ -71,7 +68,7 @@ public:
     void removeListenerForURI(const std::string &uri, std::shared_ptr<ImageSourceUpdateListener> listener);
 
     // 从解析器中移除监听器
-    void removeListener(std::shared_ptr<ImageSourceUpdateListener> listener);
+    void removeListener(ImageSourceUpdateListener *listener);
 
     // 下载完成后更新图像缓存
     void imageDownloadComplete(std::string uri, std::string fileUri);
