@@ -61,7 +61,7 @@ void ImageSourceResolver::removeListenerForURI(const std::string &uri, std::shar
     auto listenerPos = std::find_if(listeners.begin(), listeners.end(), [&](const std::weak_ptr<ImageSourceUpdateListener> &wk)
     {
         auto sp = wk.lock();
-        return sp && sp.get() == listeners.get();
+        return sp && sp.get() == listener.get();
 
     });
     if (listenerPos != listeners.end()) {
@@ -95,9 +95,9 @@ void ImageSourceResolver::imageDownloadComplete(std::string uri, std::string fil
     auto &listeners = it->second;
     for (auto listener : listeners) {
 
-        if (auto weaklistener == listener.lock())
+        if (auto weaklistener = listener.lock())
         {
-            listener->onImageSourceCacheUpdate(fileUri);
+            weaklistener->onImageSourceCacheUpdate(fileUri);
             removeListenerForURI(uri, weaklistener);
         }
 
@@ -117,8 +117,8 @@ void ImageSourceResolver::imageDownloadFail(std::string uri) {
     auto &listeners = it->second;
     for (auto listener : listeners) {
 
-        auto weaklistener == listener.lock();
-        listener->onImageSourceCacheDownloadFileFail();
+        auto weaklistener = listener.lock();
+        weaklistener->onImageSourceCacheDownloadFileFail();
         removeListenerForURI(uri, weaklistener);
     }
 }
