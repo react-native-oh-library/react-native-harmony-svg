@@ -62,16 +62,16 @@ public:
     };
 
     // 解析图像源的缓存路径
-    std::string resolveImageSources(ImageSourceUpdateListener &listener, std::string uri);
+    std::string resolveImageSources(std::shared_ptr<ImageSourceUpdateListener> listener, std::string uri);
 
     // 为URI添加监听器
-    void addListenerForURI(const std::string &uri, ImageSourceUpdateListener *listener);
+    void addListenerForURI(const std::string &uri, std::shared_ptr<ImageSourceUpdateListener> listener);
 
     // 从URI移除监听器
-    void removeListenerForURI(const std::string &uri, ImageSourceUpdateListener *listener);
+    void removeListenerForURI(const std::string &uri, std::shared_ptr<ImageSourceUpdateListener> listener);
 
     // 从解析器中移除监听器
-    void removeListener(ImageSourceUpdateListener *listener);
+    void removeListener(std::shared_ptr<ImageSourceUpdateListener> listener);
 
     // 下载完成后更新图像缓存
     void imageDownloadComplete(std::string uri, std::string fileUri);
@@ -87,7 +87,7 @@ public:
 
 private:
     // 存储URI与对应的监听器（支持多个监听器）
-    std::unordered_map<std::string, std::vector<ImageSourceUpdateListener *>> m_uriListenersMap;
+    std::unordered_map<std::string, std::vector<std::weak_ptr<ImageSourceUpdateListener>>> m_uriListenersMap;
 
     // 存储正在下载的图像URI集合
     std::unordered_set<std::string> m_pendingSet;
