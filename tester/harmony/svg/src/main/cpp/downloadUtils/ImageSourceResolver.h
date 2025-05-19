@@ -45,8 +45,7 @@ public:
             : m_imageSourceResolver(ImageSourceResolver) {}
 
         // 注销监听器
-        ~ImageSourceUpdateListener() {
-        }
+        ~ImageSourceUpdateListener() = default;
 
         // 监听图像缓存更新
         virtual void onImageSourceCacheUpdate(std::string imageUri) = 0;

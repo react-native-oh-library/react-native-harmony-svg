@@ -38,11 +38,11 @@ void ImageSourceResolver::addListenerForURI(const std::string &uri, std::shared_
         return;
     }
 
-    auto alreadyThere = std::find_if(it->second.begin(), it->second.end(),[&]  
+    auto alreadyThere = std::find_if(it->second.begin(), it->second.end(),[&listener]  
     (const std::weak_ptr<ImageSourceUpdateListener> &wk )
     {   
         auto sp = wk.lock();
-        return sp && sp.get() == listener.get();
+        return sp == listener;
 
     });
     if (alreadyThere != it->second.end())
@@ -58,10 +58,10 @@ void ImageSourceResolver::removeListenerForURI(const std::string &uri, std::shar
         return;
     }
     auto &listeners = it->second;
-    auto listenerPos = std::find_if(listeners.begin(), listeners.end(), [&](const std::weak_ptr<ImageSourceUpdateListener> &wk)
+    auto listenerPos = std::find_if(listeners.begin(), listeners.end(), [&listener](const std::weak_ptr<ImageSourceUpdateListener> &wk)
     {
         auto sp = wk.lock();
-        return sp && sp.get() == listener.get();
+        return sp == listener;
 
     });
     if (listenerPos != listeners.end()) {
