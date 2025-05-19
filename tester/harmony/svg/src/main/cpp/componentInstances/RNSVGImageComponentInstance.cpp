@@ -74,7 +74,10 @@ std::string RNSVGImageComponentInstance::FindLocalCacheByUri(std::string const &
     }
 
     // 查找缓存目录
-    auto cacheDir = arkTsTurboModule->getImageSourceResolver()->resolveImageSources(*this, uri);
+    auto basePtr = shared_from_this();
+    auto thisPtr = std::static_pointer_cast<RNSVGImageComponentInstance>(basePtr);
+    auto cacheDir = arkTsTurboModule->getImageSourceResolver()->resolveImageSources(thisPtr, uri);
+
     if (!cacheDir.empty()) {
         return cacheDir; // 如果找到缓存文件，返回缓存路径
     }

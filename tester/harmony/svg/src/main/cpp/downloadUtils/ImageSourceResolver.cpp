@@ -10,11 +10,11 @@
 namespace rnoh {
 namespace svg {
 
-std::string ImageSourceResolver::resolveImageSources(ImageSourceUpdateListener &listener, std::string uri) {
+std::string ImageSourceResolver::resolveImageSources(std::shared_ptr<ImageSourceUpdateListener> listener, std::string uri) {
     // 判断是否还在下载中
     if (m_pendingSet.find(uri) != m_pendingSet.end()) {
-        removeListener(&listener);
-        addListenerForURI(uri, &listener);
+        removeListener(listener);
+        addListenerForURI(uri, listener);
         return "";
     }
     // 生成图像的哈希缓存文件名
@@ -25,31 +25,45 @@ std::string ImageSourceResolver::resolveImageSources(ImageSourceUpdateListener &
         auto cacheUri = "file://" + fileCacheDir_ + hashedFileName;
         return cacheUri;
     }
-    removeListener(&listener);
-    addListenerForURI(uri, &listener);
+    removeListener(listener);
+    addListenerForURI(uri, listener);
     return "";
 }
 
-void ImageSourceResolver::addListenerForURI(const std::string &uri, ImageSourceUpdateListener *listener) {
+void ImageSourceResolver::addListenerForURI(const std::string &uri, std::shared_ptr<ImageSourceUpdateListener> listener) {
     listener->observedUri = uri;
     auto it = m_uriListenersMap.find(uri);
     if (it == m_uriListenersMap.end()) {
-        m_uriListenersMap.emplace(uri, std::initializer_list<ImageSourceUpdateListener *>{listener});
+        m_uriListenersMap.emplace(uri, std::vector<std::weak_ptr<ImageSourceUpdateListener>>{listener});
         return;
     }
-    if (std::find(it->second.begin(), it->second.end(), listener) != it->second.end()) {
+
+    auto alreadyThere = std::find_if(it->second.begin(), it->second.end(),[&listener]  
+    (const std::weak_ptr<ImageSourceUpdateListener> &wk )
+    {   
+        auto sp = wk.lock();
+        return sp == listener;
+
+    });
+    if (alreadyThere != it->second.end())
+    {
         return;
     }
     it->second.push_back(listener);
 }
 
-void ImageSourceResolver::removeListenerForURI(const std::string &uri, ImageSourceUpdateListener *listener) {
+void ImageSourceResolver::removeListenerForURI(const std::string &uri, std::shared_ptr<ImageSourceUpdateListener> listener) {
     auto it = m_uriListenersMap.find(uri);
     if (it == m_uriListenersMap.end()) {
         return;
     }
     auto &listeners = it->second;
-    auto listenerPos = std::find(listeners.begin(), listeners.end(), listener);
+    auto listenerPos = std::find_if(listeners.begin(), listeners.end(), [&listener](const std::weak_ptr<ImageSourceUpdateListener> &wk)
+    {
+        auto sp = wk.lock();
+        return sp == listener;
+
+    });
     if (listenerPos != listeners.end()) {
         listeners.erase(listenerPos);
         if (listeners.empty()) {
@@ -58,7 +72,7 @@ void ImageSourceResolver::removeListenerForURI(const std::string &uri, ImageSour
     }
 }
 
-void ImageSourceResolver::removeListener(ImageSourceUpdateListener *listener) {
+void ImageSourceResolver::removeListener(std::shared_ptr<ImageSourceUpdateListener> listener) {
     if (!listener->observedUri.empty()) {
         removeListenerForURI(listener->observedUri, listener);
     }
@@ -80,8 +94,13 @@ void ImageSourceResolver::imageDownloadComplete(std::string uri, std::string fil
 
     auto &listeners = it->second;
     for (auto listener : listeners) {
-        listener->onImageSourceCacheUpdate(fileUri);
-        removeListenerForURI(uri, listener);
+
+        if (auto weaklistener = listener.lock())
+        {
+            weaklistener->onImageSourceCacheUpdate(fileUri);
+            removeListenerForURI(uri, weaklistener);
+        }
+
     }
 }
 
@@ -97,10 +116,13 @@ void ImageSourceResolver::imageDownloadFail(std::string uri) {
     }
     auto &listeners = it->second;
     for (auto listener : listeners) {
-        listener->onImageSourceCacheDownloadFileFail();
-        removeListenerForURI(uri, listener);
+
+        auto weaklistener = listener.lock();
+        weaklistener->onImageSourceCacheDownloadFileFail();
+        removeListenerForURI(uri, weaklistener);
     }
 }
+
 
 } // namespace svg
 } // namespace rnoh
