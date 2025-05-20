@@ -1,6 +1,6 @@
 # @react-native-oh-tpl/react-native-svg
 
-This project is based on [react-native-svg](https://github.com/software-mansion/react-native-svg)
+This project is based on [react-native-svg v15.0.0](https://github.com/software-mansion/react-native-svg/releases/tag/v15.0.0)
 
 ## Documentation
 
