@@ -67,7 +67,7 @@ public:
     void removeListenerForURI(const std::string &uri, std::shared_ptr<ImageSourceUpdateListener> listener);
 
     // 从解析器中移除监听器
-    void removeListener(ImageSourceUpdateListener *listener);
+    void removeListener(std::shared_ptr<ImageSourceUpdateListener> listener);
 
     // 下载完成后更新图像缓存
     void imageDownloadComplete(std::string uri, std::string fileUri);
