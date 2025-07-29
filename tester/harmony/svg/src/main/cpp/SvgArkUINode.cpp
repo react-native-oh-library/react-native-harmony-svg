@@ -23,6 +23,10 @@ constexpr int NODE_EVENT_ID = 77;
 
 // 对应SVGArkUINode
 SvgArkUINode::SvgArkUINode() : ArkUINode(NativeNodeApi::getInstance()->createNode(ArkUI_NodeType::ARKUI_NODE_CUSTOM)) {
+    m_nodeHandle = NativeNodeApi::getInstance()->createNode(ARKUI_NODE_CUSTOM);
+    if (!m_nodeHandle) {
+        return;
+    }
     userCallback_ = new UserCallback();
     // 设置自定义回调。注册onDraw
     userCallback_->callback = [this](ArkUI_NodeCustomEvent *event) {
