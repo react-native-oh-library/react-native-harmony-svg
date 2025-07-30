@@ -31,6 +31,7 @@ private:
 public:
     SvgArkUINode();
     ~SvgArkUINode() override;
+	static ArkUI_NodeHandle CreateValidHandle();
 
     void SetSvgNode(const std::weak_ptr<SvgNode>& node)
     {
