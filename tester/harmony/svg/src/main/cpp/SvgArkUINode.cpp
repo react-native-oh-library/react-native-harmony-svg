@@ -51,7 +51,7 @@ SvgArkUINode::SvgArkUINode() : ArkUINode(CreateValidHandle()) {
 
 ArkUI_NodeHandle SvgArkUINode::CreateValidHandle()
 {
-	auto handle = NativeNodeApi::getInstance()->createNode(ArkUI_NodeType::ARKUI_NODE_CUSTOM);
+    auto handle = NativeNodeApi::getInstance()->createNode(ArkUI_NodeType::ARKUI_NODE_CUSTOM);
     if (!handle) {
         return {};
     }
