@@ -22,7 +22,8 @@ namespace svg {
 constexpr int NODE_EVENT_ID = 77;
 
 // 对应SVGArkUINode
-SvgArkUINode::SvgArkUINode() : ArkUINode(NativeNodeApi::getInstance()->createNode(ArkUI_NodeType::ARKUI_NODE_CUSTOM)) {
+SvgArkUINode::SvgArkUINode() : ArkUINode(CreateValidHandle()) {
+
     userCallback_ = new UserCallback();
     // 设置自定义回调。注册onDraw
     userCallback_->callback = [this](ArkUI_NodeCustomEvent *event) {
@@ -46,6 +47,15 @@ SvgArkUINode::SvgArkUINode() : ArkUINode(NativeNodeApi::getInstance()->createNod
     maybeThrow(NativeNodeApi::getInstance()->addNodeCustomEventReceiver(m_nodeHandle, eventReceiver));
     maybeThrow(NativeNodeApi::getInstance()->registerNodeCustomEvent(m_nodeHandle, ARKUI_NODE_CUSTOM_EVENT_ON_DRAW, NODE_EVENT_ID,
                                                                      userCallback_));
+}
+
+ArkUI_NodeHandle SvgArkUINode::CreateValidHandle()
+{
+    auto handle = NativeNodeApi::getInstance()->createNode(ArkUI_NodeType::ARKUI_NODE_CUSTOM);
+    if (!handle) {
+        return {};
+    }
+    return handle;	
 }
 
 SvgArkUINode::~SvgArkUINode() {
