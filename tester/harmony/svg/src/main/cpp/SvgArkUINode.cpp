@@ -65,6 +65,9 @@ SvgArkUINode::~SvgArkUINode() {
     userCallback_ = nullptr;
 }
 
+void SvgArkUINode::AddChild(ArkUINode &node) {
+    maybeThrow(NativeNodeApi::getInstance()->addChild(m_nodeHandle, node.getArkUINodeHandle()));
+}
 void SvgArkUINode::OnDraw(ArkUI_NodeCustomEvent *event) {
     auto *drawContext = OH_ArkUI_NodeCustomEvent_GetDrawContextInDraw(event);
     auto *drawingHandle = reinterpret_cast<OH_Drawing_Canvas *>(OH_ArkUI_DrawContext_GetCanvas(drawContext));
@@ -78,6 +81,9 @@ void SvgArkUINode::OnDraw(ArkUI_NodeCustomEvent *event) {
     }
     root->ContextTraversal();
     root->InitStyle({});
+    if (foreignProps.foreignPixelMap  && _groupNode.lock()) {
+        _groupNode.lock()->SetForeignObject(foreignProps);
+    }
     root->Draw(drawingHandle);
 }
 

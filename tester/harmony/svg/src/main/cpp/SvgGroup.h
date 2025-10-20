@@ -6,9 +6,9 @@
 
 #pragma once
 
+#include "FontHolderBase.h"
 #include "SvgNode.h"
 #include "properties/Font.h"
-#include "FontHolderBase.h"
 
 namespace rnoh {
 namespace svg {

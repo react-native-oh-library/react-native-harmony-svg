@@ -8,6 +8,7 @@
 
 #include "RNOH/Package.h"
 #include <glog/logging.h>
+#include "componentInstances/RNSVGForeignObjectComponentInstance.h"
 #include "componentInstances/RNSVGSvgViewComponentInstance.h"
 #include "componentInstances/RNSVGCircleComponentInstance.h"
 #include "componentInstances/RNSVGGroupComponentInstance.h"
@@ -28,7 +29,6 @@
 #include "componentInstances/RNSVGMarkerComponentInstance.h"
 #include "componentInstances/RNSVGPatternComponentInstance.h"
 #include "componentInstances/RNSVGSymbolComponentInstance.h"
-
 using namespace rnoh;
 using namespace facebook;
 using namespace svg;
@@ -43,6 +43,9 @@ public:
         DLOG(INFO) << "[SVGPackageComponentInstanceFactoryDelegate] create componentName= " << ctx.componentName;
         if (ctx.componentName == "RNSVGSvgView") {
             return std::make_shared<RNSVGSvgViewComponentInstance>(std::move(ctx));
+        }
+        if (ctx.componentName == "RNSVGForeignObject") {
+           return std::make_shared<RNSVGForeignObjectComponentInstance>(std::move(ctx));
         }
         if (ctx.componentName == "RNSVGCircle") {
             return std::make_shared<RNSVGCircleComponentInstance>(std::move(ctx));

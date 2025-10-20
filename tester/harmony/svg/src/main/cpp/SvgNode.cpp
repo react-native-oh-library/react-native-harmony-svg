@@ -20,12 +20,13 @@
  */
 
 #include "SvgNode.h"
-#include "utils/SvgUtils.h"
 #include "SvgGradient.h"
 #include "SvgPattern.h"
+#include "properties/ViewBox.h"
+#include "utils/SvgUtils.h"
 #include <native_drawing/drawing_matrix.h>
 #include <native_drawing/drawing_path.h>
-#include <regex>
+#include <native_drawing/drawing_pixel_map.h>
 #include <string>
 
 namespace rnoh {
@@ -186,13 +187,17 @@ void SvgNode::Draw(OH_Drawing_Canvas *canvas) {
     if (!attributes_.maskId.empty()) {
         OnMask(canvas);
     }
-
+    
     OH_Drawing_CanvasGetTotalMatrix(canvas, lastCanvasMatrix_.get());
 
     OnDraw(canvas);
     // on marker
 
     OnDrawTraversed(canvas);
+    
+    if (_foreignProps.foreignPixelMap) {
+        DrawForeignPixelMap(canvas);
+    }
     OH_Drawing_CanvasRestoreToCount(canvas, count);
 }
 
@@ -259,6 +264,59 @@ double SvgNode::getCanvasDiagonal() {
     double powY = pow((getCanvasHeight()), 2);
     canvasDiagonal_ = sqrt(powX + powY) * M_SQRT1_2l;
     return canvasDiagonal_;
+}
+
+void SvgNode::DrawForeignPixelMap(OH_Drawing_Canvas *canvas) {
+    if (!_foreignProps.foreignPixelMap) {
+        DLOG(INFO) << "foreignPixelMap is null";
+        return;
+    }
+
+    OH_Pixelmap_ImageInfo *imageInfo;
+    OH_PixelmapImageInfo_Create(&imageInfo);
+
+    OH_PixelmapNative_GetImageInfo(_foreignProps.foreignPixelMap, imageInfo);
+    uint32_t originalWidth = 0, originalHeight = 0;
+    OH_PixelmapImageInfo_GetWidth(imageInfo, &originalWidth);
+    OH_PixelmapImageInfo_GetHeight(imageInfo, &originalHeight);
+    OH_PixelmapImageInfo_Release(imageInfo);
+
+    if (originalWidth == 0 || originalHeight == 0) {
+        DLOG(WARNING) << "Invalid pixelmap size";
+        OH_PixelmapNative_Release(_foreignProps.foreignPixelMap);
+        return;
+    }
+
+    OH_Drawing_PixelMap *ohPixelMap = OH_Drawing_PixelMapGetFromOhPixelMapNative(_foreignProps.foreignPixelMap);
+    if (!ohPixelMap) {
+        DLOG(WARNING) << "Failed to get OH_Drawing_PixelMap";
+        OH_PixelmapNative_Release(_foreignProps.foreignPixelMap);
+        return;
+    }
+
+    OH_Drawing_CanvasSave(canvas);
+
+    OH_Drawing_CanvasTranslate(canvas, _foreignProps.x, _foreignProps.y);
+
+
+    float scaleX = static_cast<float>(_foreignProps.width) / originalWidth;
+    float scaleY = static_cast<float>(_foreignProps.height) / originalHeight;
+    OH_Drawing_CanvasScale(canvas, 1, 1); 
+
+    OH_Drawing_Rect *srcRect = OH_Drawing_RectCreate(0, 0, originalWidth, originalHeight);
+    OH_Drawing_Rect *dstRect = OH_Drawing_RectCreate(0, 0, originalWidth, originalHeight);
+    OH_Drawing_SamplingOptions *sampling = OH_Drawing_SamplingOptionsCreate(FILTER_MODE_LINEAR, MIPMAP_MODE_LINEAR);
+    OH_Drawing_CanvasDrawPixelMapRect(canvas, ohPixelMap, srcRect, dstRect, sampling);
+
+
+    OH_Drawing_CanvasRestore(canvas); 
+    OH_Drawing_PixelMapDissolve(ohPixelMap);
+    OH_PixelmapNative_Release(_foreignProps.foreignPixelMap);
+    OH_Drawing_RectDestroy(srcRect);
+    OH_Drawing_RectDestroy(dstRect);
+    OH_Drawing_SamplingOptionsDestroy(sampling);
+
+    _foreignProps.foreignPixelMap = nullptr;
 }
 
 } // namespace svg
