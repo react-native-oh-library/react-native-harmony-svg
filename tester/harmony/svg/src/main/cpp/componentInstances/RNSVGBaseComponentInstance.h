@@ -7,9 +7,9 @@
 #pragma once
 
 #include "RNOH/CppComponentInstance.h"
+#include "RNSVGSvgViewComponentInstance.h"
 #include "SvgArkUINode.h"
 #include "SvgHost.h"
-#include "RNSVGSvgViewComponentInstance.h"
 #include "utils/StringUtils.h"
 #include <glog/logging.h>
 
@@ -182,6 +182,7 @@ protected:
 private:
     std::weak_ptr<RNSVGSvgViewComponentInstance> m_svgViewComponentInstance;
     std::string pointerEvents_ = "auto";
+
 };
 
 } // namespace svg

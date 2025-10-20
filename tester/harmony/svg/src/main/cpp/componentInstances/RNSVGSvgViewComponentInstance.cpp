@@ -6,6 +6,7 @@
 
 #include "RNSVGSvgViewComponentInstance.h"
 #include <glog/logging.h>
+#include "RNSVGGroupComponentInstance.h"
 
 namespace rnoh {
 namespace svg {
@@ -45,9 +46,37 @@ void RNSVGSvgViewComponentInstance::onFinalizeUpdates() {
     getLocalRootArkUINode().markDirty();
 }
 
+void RNSVGSvgViewComponentInstance::onDrawForeignImage(OH_PixelmapNative *foreignPixelMap, float width, float height,
+                                                       float x, float y) {
+    if (foreignPixelMap) {
+        DLOG(INFO) << "RNSVGSvgViewComponentInstance OH_PixelmapNative is not null";
+        m_svgArkUINode.SetForeignObject(foreignPixelMap, width, height, x, y);
+        m_svgArkUINode.markDirty();
+    } else {
+        DLOG(INFO) << "RNSVGSvgViewComponentInstance OH_PixelmapNative is null";
+    }
+}
 void RNSVGSvgViewComponentInstance::onChildInserted(ComponentInstance::Shared const &childComponentInstance,
                                                     std::size_t index) {
     CppComponentInstance::onChildInserted(childComponentInstance, index);
+    if (childComponentInstance->getComponentName() == "RNSVGGroup") {
+        auto childInstance = childComponentInstance->getChildren();
+        for (ComponentInstance::Shared c : childInstance) {
+            auto groupChildInstance = c->getChildren();
+            for (ComponentInstance::Shared c1 : groupChildInstance) {
+                if (c1->getComponentName() == "RNSVGForeignObject") {
+                    auto m_foreignComponentInstance =
+                        std::dynamic_pointer_cast<RNSVGForeignObjectComponentInstance>(c1);
+                    if (m_foreignComponentInstance) {
+                        auto groupInstance = std::dynamic_pointer_cast<RNSVGGroupComponentInstance>(c1->getParent().lock());
+                        m_svgArkUINode.SetGroupNode(groupInstance->getNode());
+                        m_svgArkUINode.AddChild(m_foreignComponentInstance->getLocalRootArkUINode());
+                        m_foreignComponentInstance->getLocalRootArkUINode().SetForeignNodeDelegate(this);
+                    }
+                }
+            }
+        }
+    }
     OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
 }
 

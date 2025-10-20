@@ -6,9 +6,10 @@
 
 #pragma once
 
-#include "SvgNode.h"
-#include "SvgHost.h"
 #include "RNOH/arkui/ArkUINode.h"
+#include "SvgForeignObjectNodeDelegate.h"
+#include "SvgHost.h"
+#include "SvgNode.h"
 #include "arkui/native_node.h"
 
 namespace rnoh {
@@ -22,23 +23,31 @@ struct UserCallback {
 class SvgArkUINode : public ArkUINode {
 private:
     void OnDraw(ArkUI_NodeCustomEvent *event);
-    
+
     std::weak_ptr<SvgNode> root_;
+    std::weak_ptr<SvgNode> _groupNode;
     ArkUI_NativeNodeAPI_1 *nativeModule_ = nullptr;
     UserCallback *userCallback_ = nullptr;
     void (*eventReceiver)(ArkUI_NodeCustomEvent *event);
+    
+    ForeignProps foreignProps;
 
 public:
     SvgArkUINode();
     ~SvgArkUINode() override;
     static ArkUI_NodeHandle CreateValidHandle();
-
-    void SetSvgNode(const std::weak_ptr<SvgNode>& node)
-    {
-        root_ = node;
-    }
-    void ResetNodeHandle() {
-        
+    void SetSvgNode(const std::weak_ptr<SvgNode> &node) { root_ = node; }
+    void SetGroupNode(const std::weak_ptr<SvgNode> &node) { _groupNode = node; }
+    void ResetNodeHandle() {}
+    void AddChild(ArkUINode &node);
+    void SetForeignObject(OH_PixelmapNative *pixelMap, float w, float h, float x, float y) {
+        foreignProps = {
+            std::move(pixelMap),
+            w,
+            h,
+            x,
+            y 
+        };
     }
 };
 

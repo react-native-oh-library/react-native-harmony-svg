@@ -22,23 +22,33 @@
 // from ArkUI "frameworks/core/components_ng/svg/parse/svg_node.h"
 #pragma once
 
-#include <memory>
-#include <vector>
 #include "SvgBaseAttribute.h"
 #include "SvgContext.h"
+#include "drawing/Path.h"
 #include "properties/Decoration.h"
 #include "properties/Dimension.h"
 #include "properties/Size.h"
-#include <react/renderer/components/react_native_svg/Props.h>
-#include "drawing/Path.h"
 #include "utils/StringUtils.h"
 #include "utils/SvgAttributesParser.h"
 #include <glog/logging.h>
+#include <memory>
+#include <multimedia/image_framework/image/pixelmap_native.h>
 #include <native_drawing/drawing_canvas.h>
 #include <native_drawing/drawing_rect.h>
+#include <react/renderer/components/react_native_svg/Props.h>
+#include <vector>
 
 namespace rnoh {
 namespace svg {
+
+struct ForeignProps {
+    OH_PixelmapNative *foreignPixelMap{nullptr};
+    float width;
+    float height;
+    float x;
+    float y;
+};
+
 
 constexpr int INHERIT_TYPE = 2;
 
@@ -169,6 +179,8 @@ public:
     double getCanvasHeight();
     double getCanvasDiagonal();
 
+    void SetForeignObject(ForeignProps foreignProps) { _foreignProps = foreignProps; }
+
 protected:
     // override as need by derived class
     // called by function AppendChild
@@ -178,6 +190,7 @@ protected:
 
     virtual void OnDraw(OH_Drawing_Canvas *canvas) {}
     virtual void OnDrawTraversed(OH_Drawing_Canvas *canvas);
+
     void OnClipPath(OH_Drawing_Canvas *canvas);
     void OnMask(OH_Drawing_Canvas *canvas);
     void OnTransform(OH_Drawing_Canvas *canvas);
@@ -190,7 +203,7 @@ protected:
     std::optional<Gradient> GetGradient(const std::string &href);
 
     std::shared_ptr<PatternAttr> GetPatternAttr(const std::string &href);
-
+    void DrawForeignPixelMap(OH_Drawing_Canvas *canvas);
     void InitNoneFlag() {
         hrefFill_ = false;
         hrefRender_ = false;
@@ -235,6 +248,8 @@ protected:
       Provide enough digits for the 128-bit IEEE quad (36 significant digits).
   */
     const double M_SQRT1_2l = 0.707106781186547524400844362104849039;
+
+    ForeignProps _foreignProps;
 };
 
 } // namespace svg
