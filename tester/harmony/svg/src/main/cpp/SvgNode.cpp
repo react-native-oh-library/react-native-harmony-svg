@@ -187,7 +187,7 @@ void SvgNode::Draw(OH_Drawing_Canvas *canvas) {
     if (!attributes_.maskId.empty()) {
         OnMask(canvas);
     }
-    
+
     OH_Drawing_CanvasGetTotalMatrix(canvas, lastCanvasMatrix_.get());
 
     OnDraw(canvas);
@@ -195,8 +195,11 @@ void SvgNode::Draw(OH_Drawing_Canvas *canvas) {
 
     OnDrawTraversed(canvas);
     
-    if (_foreignProps.foreignPixelMap) {
-        DrawForeignPixelMap(canvas);
+    if (_foreignPropsArray.size() > 0) {
+        for (ForeignProps _foreignProps : _foreignPropsArray) {
+            DrawForeignPixelMap(canvas, _foreignProps);
+        }
+        _foreignPropsArray.clear();
     }
     OH_Drawing_CanvasRestoreToCount(canvas, count);
 }
@@ -266,12 +269,12 @@ double SvgNode::getCanvasDiagonal() {
     return canvasDiagonal_;
 }
 
-void SvgNode::DrawForeignPixelMap(OH_Drawing_Canvas *canvas) {
+void SvgNode::DrawForeignPixelMap(OH_Drawing_Canvas *canvas, ForeignProps _foreignProps) {
     if (!_foreignProps.foreignPixelMap) {
-        DLOG(INFO) << "foreignPixelMap is null";
+        DLOG(INFO) << "[svgForeignNode] foreignPixelMap is null";
         return;
     }
-
+    DLOG(INFO) << "[svgForeignNode] DrawForeignPixelMap  start , width:" << _foreignProps.width;
     OH_Pixelmap_ImageInfo *imageInfo;
     OH_PixelmapImageInfo_Create(&imageInfo);
 
@@ -282,14 +285,14 @@ void SvgNode::DrawForeignPixelMap(OH_Drawing_Canvas *canvas) {
     OH_PixelmapImageInfo_Release(imageInfo);
 
     if (originalWidth == 0 || originalHeight == 0) {
-        DLOG(WARNING) << "Invalid pixelmap size";
+        DLOG(WARNING) << "[svgForeignNode] Invalid pixelmap size";
         OH_PixelmapNative_Release(_foreignProps.foreignPixelMap);
         return;
     }
 
     OH_Drawing_PixelMap *ohPixelMap = OH_Drawing_PixelMapGetFromOhPixelMapNative(_foreignProps.foreignPixelMap);
     if (!ohPixelMap) {
-        DLOG(WARNING) << "Failed to get OH_Drawing_PixelMap";
+        DLOG(WARNING) << "[svgForeignNode] Failed to get OH_Drawing_PixelMap";
         OH_PixelmapNative_Release(_foreignProps.foreignPixelMap);
         return;
     }
@@ -301,7 +304,7 @@ void SvgNode::DrawForeignPixelMap(OH_Drawing_Canvas *canvas) {
 
     float scaleX = static_cast<float>(_foreignProps.width) / originalWidth;
     float scaleY = static_cast<float>(_foreignProps.height) / originalHeight;
-    OH_Drawing_CanvasScale(canvas, 1, 1); 
+    OH_Drawing_CanvasScale(canvas, 1, 1);
 
     OH_Drawing_Rect *srcRect = OH_Drawing_RectCreate(0, 0, originalWidth, originalHeight);
     OH_Drawing_Rect *dstRect = OH_Drawing_RectCreate(0, 0, originalWidth, originalHeight);
@@ -309,7 +312,7 @@ void SvgNode::DrawForeignPixelMap(OH_Drawing_Canvas *canvas) {
     OH_Drawing_CanvasDrawPixelMapRect(canvas, ohPixelMap, srcRect, dstRect, sampling);
 
 
-    OH_Drawing_CanvasRestore(canvas); 
+    OH_Drawing_CanvasRestore(canvas);
     OH_Drawing_PixelMapDissolve(ohPixelMap);
     OH_PixelmapNative_Release(_foreignProps.foreignPixelMap);
     OH_Drawing_RectDestroy(srcRect);
@@ -317,6 +320,7 @@ void SvgNode::DrawForeignPixelMap(OH_Drawing_Canvas *canvas) {
     OH_Drawing_SamplingOptionsDestroy(sampling);
 
     _foreignProps.foreignPixelMap = nullptr;
+    DLOG(INFO) << "[svgForeignNode] DrawForeignPixelMap end";
 }
 
 } // namespace svg

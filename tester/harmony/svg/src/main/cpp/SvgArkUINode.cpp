@@ -4,17 +4,17 @@
  * found in the LICENSE file.
  */
 
+#include "SvgArkUINode.h"
+#include "RNOH/arkui/NativeNodeApi.h"
+#include "SvgViewManager.h"
 #include "arkui/native_node.h"
 #include "arkui/native_type.h"
-#include "RNOH/arkui/NativeNodeApi.h"
-#include "SvgArkUINode.h"
+#include <functional>
 #include <native_drawing/drawing_canvas.h>
 #include <native_drawing/drawing_path.h>
 #include <native_drawing/drawing_pen.h>
 #include <native_drawing/drawing_types.h>
 #include <sstream>
-#include <functional>
-#include "SvgViewManager.h"
 
 namespace rnoh {
 namespace svg {
@@ -45,17 +45,16 @@ SvgArkUINode::SvgArkUINode() : ArkUINode(CreateValidHandle()) {
         }
     };
     maybeThrow(NativeNodeApi::getInstance()->addNodeCustomEventReceiver(m_nodeHandle, eventReceiver));
-    maybeThrow(NativeNodeApi::getInstance()->registerNodeCustomEvent(m_nodeHandle, ARKUI_NODE_CUSTOM_EVENT_ON_DRAW, NODE_EVENT_ID,
-                                                                     userCallback_));
+    maybeThrow(NativeNodeApi::getInstance()->registerNodeCustomEvent(m_nodeHandle, ARKUI_NODE_CUSTOM_EVENT_ON_DRAW,
+                                                                     NODE_EVENT_ID, userCallback_));
 }
 
-ArkUI_NodeHandle SvgArkUINode::CreateValidHandle()
-{
+ArkUI_NodeHandle SvgArkUINode::CreateValidHandle() {
     auto handle = NativeNodeApi::getInstance()->createNode(ArkUI_NodeType::ARKUI_NODE_CUSTOM);
     if (!handle) {
         return {};
     }
-    return handle;	
+    return handle;
 }
 
 SvgArkUINode::~SvgArkUINode() {
@@ -81,9 +80,6 @@ void SvgArkUINode::OnDraw(ArkUI_NodeCustomEvent *event) {
     }
     root->ContextTraversal();
     root->InitStyle({});
-    if (foreignProps.foreignPixelMap  && _groupNode.lock()) {
-        _groupNode.lock()->SetForeignObject(foreignProps);
-    }
     root->Draw(drawingHandle);
 }
 
