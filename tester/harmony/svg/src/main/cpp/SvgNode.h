@@ -179,7 +179,9 @@ public:
     double getCanvasHeight();
     double getCanvasDiagonal();
 
-    void SetForeignObject(ForeignProps foreignProps) { _foreignProps = foreignProps; }
+    void SetForeignObject(ForeignProps foreignProps) {
+        _foreignPropsArray.emplace_back(foreignProps);
+    }
 
 protected:
     // override as need by derived class
@@ -203,7 +205,7 @@ protected:
     std::optional<Gradient> GetGradient(const std::string &href);
 
     std::shared_ptr<PatternAttr> GetPatternAttr(const std::string &href);
-    void DrawForeignPixelMap(OH_Drawing_Canvas *canvas);
+    void DrawForeignPixelMap(OH_Drawing_Canvas *canvas,ForeignProps _foreignProps);
     void InitNoneFlag() {
         hrefFill_ = false;
         hrefRender_ = false;
@@ -249,7 +251,7 @@ protected:
   */
     const double M_SQRT1_2l = 0.707106781186547524400844362104849039;
 
-    ForeignProps _foreignProps;
+    std::vector<ForeignProps> _foreignPropsArray;
 };
 
 } // namespace svg

@@ -5,9 +5,8 @@
  */
 
 #include "RNSVGSvgViewComponentInstance.h"
-#include <glog/logging.h>
 #include "RNSVGGroupComponentInstance.h"
-
+#include <glog/logging.h>
 namespace rnoh {
 namespace svg {
 
@@ -49,7 +48,8 @@ void RNSVGSvgViewComponentInstance::onFinalizeUpdates() {
 void RNSVGSvgViewComponentInstance::onDrawForeignImage(OH_PixelmapNative *foreignPixelMap, float width, float height,
                                                        float x, float y) {
     if (foreignPixelMap) {
-        DLOG(INFO) << "RNSVGSvgViewComponentInstance OH_PixelmapNative is not null";
+        DLOG(INFO) << "[svgForeignNode] RNSVGSvgViewComponentInstance OH_PixelmapNative is not null, position:{ x:" << x
+                   << ",y:" << y << "},width:" << width << ";height:" << height;
         m_svgArkUINode.SetForeignObject(foreignPixelMap, width, height, x, y);
         m_svgArkUINode.markDirty();
     } else {
@@ -62,13 +62,18 @@ void RNSVGSvgViewComponentInstance::onChildInserted(ComponentInstance::Shared co
     if (childComponentInstance->getComponentName() == "RNSVGGroup") {
         auto childInstance = childComponentInstance->getChildren();
         for (ComponentInstance::Shared c : childInstance) {
+            if (c->getComponentName().find("SVG") == std::string::npos) {
+                NativeNodeApi::getInstance()->insertChildAt(m_svgArkUINode.getArkUINodeHandle(),
+                                                            c->getLocalRootArkUINode().getArkUINodeHandle(), index);
+            }
             auto groupChildInstance = c->getChildren();
             for (ComponentInstance::Shared c1 : groupChildInstance) {
                 if (c1->getComponentName() == "RNSVGForeignObject") {
                     auto m_foreignComponentInstance =
                         std::dynamic_pointer_cast<RNSVGForeignObjectComponentInstance>(c1);
                     if (m_foreignComponentInstance) {
-                        auto groupInstance = std::dynamic_pointer_cast<RNSVGGroupComponentInstance>(c1->getParent().lock());
+                        auto groupInstance =
+                            std::dynamic_pointer_cast<RNSVGGroupComponentInstance>(c1->getParent().lock());
                         m_svgArkUINode.SetGroupNode(groupInstance->getNode());
                         m_svgArkUINode.AddChild(m_foreignComponentInstance->getLocalRootArkUINode());
                         m_foreignComponentInstance->getLocalRootArkUINode().SetForeignNodeDelegate(this);
@@ -77,6 +82,8 @@ void RNSVGSvgViewComponentInstance::onChildInserted(ComponentInstance::Shared co
             }
         }
     }
+
+
     OnChildInsertCommon(std::dynamic_pointer_cast<SvgHost>(childComponentInstance));
 }
 

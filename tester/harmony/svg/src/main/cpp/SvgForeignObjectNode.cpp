@@ -34,7 +34,12 @@ void SvgForeignObjectNode::SetSnapPosition(float x, float y) {
 void SvgForeignObjectNode::onNodeEvent(ArkUI_NodeEventType eventType, EventArgs &eventArgs) {
     if (eventType == ArkUI_NodeEventType::NODE_EVENT_ON_AREA_CHANGE) {
         if (m_NodeDelegate) {
-            m_NodeDelegate->onDrawForeignImage(GetNodePixelMap(), _width, _height, _positionX, _positionY);
+            OH_PixelmapNative *pixelMap = GetNodePixelMap();
+            if (!pixelMap) {
+                LOG(ERROR) << "[svgForeignNode] get node snapshot pixelMap is null";
+                return;
+            }
+            m_NodeDelegate->onDrawForeignImage(pixelMap, _width, _height, _positionX, _positionY);
         }
     }
 }
@@ -49,7 +54,6 @@ OH_PixelmapNative *SvgForeignObjectNode::GetNodePixelMap() {
     }
     return nullptr;
 }
-
 
 } // namespace svg
 } // namespace rnoh

@@ -29,8 +29,8 @@ private:
     ArkUI_NativeNodeAPI_1 *nativeModule_ = nullptr;
     UserCallback *userCallback_ = nullptr;
     void (*eventReceiver)(ArkUI_NodeCustomEvent *event);
-    
-    ForeignProps foreignProps;
+
+    std::vector<ForeignProps> foreignPropsArray;
 
 public:
     SvgArkUINode();
@@ -41,13 +41,10 @@ public:
     void ResetNodeHandle() {}
     void AddChild(ArkUINode &node);
     void SetForeignObject(OH_PixelmapNative *pixelMap, float w, float h, float x, float y) {
-        foreignProps = {
-            std::move(pixelMap),
-            w,
-            h,
-            x,
-            y 
-        };
+        ForeignProps foreignProps = {std::move(pixelMap), w, h, x, y};
+        if (auto groupNode = _groupNode.lock()) {
+            groupNode->SetForeignObject(std::move(foreignProps));
+        }
     }
 };
 
