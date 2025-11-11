@@ -6,6 +6,9 @@
 
 #include "SvgForeignObjectNode.h"
 #include "RNOH/arkui/NativeNodeApi.h"
+#include <deviceinfo.h>
+#include <info/application_target_sdk_version.h>
+
 namespace rnoh {
 namespace svg {
 SvgForeignObjectNode::SvgForeignObjectNode()
@@ -45,6 +48,12 @@ void SvgForeignObjectNode::onNodeEvent(ArkUI_NodeEventType eventType, EventArgs 
 }
 
 OH_PixelmapNative *SvgForeignObjectNode::GetNodePixelMap() {
+    DLOG(INFO) << "[svgForeignNode] OH_CURRENT_API_VERSION:" << OH_CURRENT_API_VERSION
+                << ";ROM SDK:" << OH_GetSdkApiVersion();
+#if OH_CURRENT_API_VERSION >= 15
+    if (OH_GetSdkApiVersion() < 15) {
+        return nullptr;
+    }
     OH_PixelmapNative *pixelMap;
     ArkUI_SnapshotOptions *options = OH_ArkUI_CreateSnapshotOptions();
     OH_ArkUI_SnapshotOptions_SetScale(options, 1);
@@ -52,6 +61,7 @@ OH_PixelmapNative *SvgForeignObjectNode::GetNodePixelMap() {
     if (code == ARKUI_ERROR_CODE_NO_ERROR) {
         return pixelMap;
     }
+ #endif
     return nullptr;
 }
 
