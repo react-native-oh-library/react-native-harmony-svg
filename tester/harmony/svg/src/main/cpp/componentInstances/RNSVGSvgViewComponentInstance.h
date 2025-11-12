@@ -49,6 +49,7 @@ public:
 private:
     SvgArkUINode m_svgArkUINode;
     std::shared_ptr<SvgSvg> m_svgSvg = std::make_shared<SvgSvg>();
+    int noSvgComponentIndex {0}; // 非svg添加的index(适配js侧view包裹会拆解子元素成平级)
 };
 
 } // namespace svg
