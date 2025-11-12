@@ -24,6 +24,9 @@ public:
     void SetSnapHeight(float height);
     OH_PixelmapNative *GetNodePixelMap();
     void SetForeignNodeDelegate(SvgForeignObjectNodeDelegate *delegate) { m_NodeDelegate = delegate; };
+    void SetGeneratedPixelMap(bool isNeed) {
+       _isGeneratedPixelMap = isNeed;
+    }
 
 private:
     StackNode mStackNode;
@@ -32,6 +35,7 @@ private:
     float _height{0};
     float _positionX{0};
     float _positionY{0};
+    bool _isGeneratedPixelMap{false}; //防止快照生成多次，导致性能影响
 };
 
 } // namespace svg

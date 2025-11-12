@@ -22,6 +22,7 @@ SvgForeignObjectNode::~SvgForeignObjectNode() {
     if (m_NodeDelegate) {
         m_NodeDelegate = nullptr;
     }
+    _isGeneratedPixelMap = false;	
 }
 void SvgForeignObjectNode::insertChild(ArkUINode &child, std::size_t index) { mStackNode.insertChild(child, index); }
 
@@ -36,12 +37,13 @@ void SvgForeignObjectNode::SetSnapPosition(float x, float y) {
 
 void SvgForeignObjectNode::onNodeEvent(ArkUI_NodeEventType eventType, EventArgs &eventArgs) {
     if (eventType == ArkUI_NodeEventType::NODE_EVENT_ON_AREA_CHANGE) {
-        if (m_NodeDelegate) {
+        if (m_NodeDelegate && _isGeneratedPixelMap) {
             OH_PixelmapNative *pixelMap = GetNodePixelMap();
             if (!pixelMap) {
                 LOG(ERROR) << "[svgForeignNode] get node snapshot pixelMap is null";
                 return;
             }
+            _isGeneratedPixelMap = false;
             m_NodeDelegate->onDrawForeignImage(pixelMap, _width, _height, _positionX, _positionY);
         }
     }
