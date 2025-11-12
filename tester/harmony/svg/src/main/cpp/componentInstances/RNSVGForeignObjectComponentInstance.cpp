@@ -29,6 +29,7 @@ void RNSVGForeignObjectComponentInstance::onFinalizeUpdates() {
                                           pointScaleFactor * std::stof(m_props->y));
         mForeignStackNode.SetSnapWidth(pointScaleFactor * std::stof(m_props->width));
         mForeignStackNode.SetSnapHeight(pointScaleFactor * std::stof(m_props->height));
+        mForeignStackNode.SetGeneratedPixelMap(true);		
     }
 }
 
