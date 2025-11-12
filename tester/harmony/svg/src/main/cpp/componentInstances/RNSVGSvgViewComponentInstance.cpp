@@ -20,6 +20,7 @@ RNSVGSvgViewComponentInstance::RNSVGSvgViewComponentInstance(Context context)
 
 RNSVGSvgViewComponentInstance::~RNSVGSvgViewComponentInstance() {
     SvgViewManager::getInstance().onDropView(CppComponentInstance::getTag());
+    noSvgComponentIndex = 0;	
 }
 
 void RNSVGSvgViewComponentInstance::onFinalizeUpdates() {
@@ -64,7 +65,8 @@ void RNSVGSvgViewComponentInstance::onChildInserted(ComponentInstance::Shared co
         for (ComponentInstance::Shared c : childInstance) {
             if (c->getComponentName().find("SVG") == std::string::npos) {
                 NativeNodeApi::getInstance()->insertChildAt(m_svgArkUINode.getArkUINodeHandle(),
-                                                            c->getLocalRootArkUINode().getArkUINodeHandle(), index);
+                                                            c->getLocalRootArkUINode().getArkUINodeHandle(), noSvgComponentIndex);
+                noSvgComponentIndex++;															
             }
             auto groupChildInstance = c->getChildren();
             for (ComponentInstance::Shared c1 : groupChildInstance) {
