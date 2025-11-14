@@ -1,6 +1,6 @@
 {
   "name": "@react-native-oh-tpl/react-native-svg",
-  "version": "15.0.1-rc.6.rc.1",
+  "version": "15.0.1-rc.7",
   "description": "",
   "react-native": "src/index",
   "main": "lib/commonjs/index",
