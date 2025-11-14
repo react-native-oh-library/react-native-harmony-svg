@@ -50,10 +50,9 @@ void SvgForeignObjectNode::onNodeEvent(ArkUI_NodeEventType eventType, EventArgs 
 }
 
 OH_PixelmapNative *SvgForeignObjectNode::GetNodePixelMap() {
-    DLOG(INFO) << "[svgForeignNode] OH_CURRENT_API_VERSION:" << OH_CURRENT_API_VERSION
-                << ";ROM SDK:" << OH_GetSdkApiVersion();
-#if OH_CURRENT_API_VERSION >= 15
-    if (OH_GetSdkApiVersion() < 15) {
+#ifdef OH_CURRENT_API_VERSION
+    if (OH_CURRENT_API_VERSION < 15 || OH_GetSdkApiVersion() < 15) {
+        LOG(ERROR) << "[svgForeignNode] current sdk or rom cannot support ForeignObject";
         return nullptr;
     }
     OH_PixelmapNative *pixelMap;
@@ -63,7 +62,7 @@ OH_PixelmapNative *SvgForeignObjectNode::GetNodePixelMap() {
     if (code == ARKUI_ERROR_CODE_NO_ERROR) {
         return pixelMap;
     }
- #endif
+#endif
     return nullptr;
 }
 
