@@ -46,6 +46,10 @@ public:
 
     bool canChildrenHandleTouch() const override;
 
+    void onCreate() {
+        this->getLocalRootArkUINode().setArkUINodeDelegate(this);
+    }
+
 private:
     SvgArkUINode m_svgArkUINode;
     std::shared_ptr<SvgSvg> m_svgSvg = std::make_shared<SvgSvg>();
