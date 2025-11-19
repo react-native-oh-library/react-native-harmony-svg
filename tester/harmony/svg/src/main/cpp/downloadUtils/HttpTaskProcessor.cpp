@@ -44,9 +44,30 @@ void ResponseCallback(void *usrCtx, Rcp_Response *response, uint32_t errCode) {
 }
 
 void HttpTaskProcessor::createParentPath(const fs::path &filePath) {
-    fs::path parentPath = filePath.parent_path();
-    if (!parentPath.empty() && !fs::exists(parentPath)) {
-        fs::create_directories(parentPath);
+    try {
+        fs::path parentPath = filePath.parent_path();
+        if (!parentPath.empty() && !fs::exists(parentPath)) {
+            // 检查路径的有效性
+            if (parentPath.is_relative()) {
+                LOG(ERROR) << "[SVGImage] Invalid parent path (relative path): " << parentPath;
+                return;
+            }
+            // 尝试创建目录，并捕获可能的异常
+            auto result = fs::create_directories(parentPath);
+            if (result) {
+                LOG(INFO) << "[SVGImage] Successfully created parent directories: " << parentPath;
+            } else {
+                LOG(ERROR) << "[SVGImage] Failed to create parent directories: " << parentPath;
+            }
+        }
+    } catch (const fs::filesystem_error& e) {
+        LOG(ERROR) << "[SVGImage] Filesystem error in createParentPath: " << e.what() 
+                   << " for path: " << filePath;
+    } catch (const std::exception& e) {
+        LOG(ERROR) << "[SVGImage] Standard exception in createParentPath: " << e.what() 
+                   << " for path: " << filePath;
+    } catch (...) {
+        LOG(ERROR) << "[SVGImage] Unknown exception in createParentPath for path: " << filePath;
     }
 }
 
@@ -54,14 +75,52 @@ size_t HttpTaskProcessor::saveImage(const char *buffer, uint32_t length) {
     size_t status = 0;
     if (filePath_ == "")
         return status;
-    createParentPath(filePath_);
-    fp_ = fopen(filePath_.c_str(), "w");
-    if (fp_) {
-        status = fwrite(buffer, sizeof(char), length, fp_);
-        fclose(fp_);
-    } else {
-        LOG(ERROR) << "[SVGImage] write to file failed: " << filePath_;
+    
+    // 验证输入参数
+    if (buffer == nullptr || length == 0) {
+        LOG(ERROR) << "[SVGImage] Invalid buffer or length in saveImage";
+        return status;
     }
+    
+    try {
+        // 先创建父目录
+        createParentPath(filePath_);
+        
+        // 验证文件路径的合理性
+        fs::path filePath(filePath_);
+        if (filePath.has_filename()) {
+            LOG(INFO) << "[SVGImage] Attempting to save image to: " << filePath_;
+        } else {
+            LOG(ERROR) << "[SVGImage] Invalid file path (no filename): " << filePath_;
+            return status;
+        }
+        
+        // 打开文件进行写入
+        fp_ = fopen(filePath_.c_str(), "w");
+        if (fp_) {
+            status = fwrite(buffer, sizeof(char), length, fp_);
+            fclose(fp_);
+            
+            if (status == length) {
+                LOG(INFO) << "[SVGImage] Successfully saved image: " << filePath_ 
+                         << " (size: " << length << " bytes)";
+            } else {
+                LOG(ERROR) << "[SVGImage] Partial write error. Expected: " << length 
+                           << ", wrote: " << status;
+                status = 0; // 返回0表示失败
+            }
+        } else {
+            LOG(ERROR) << "[SVGImage] Failed to open file for writing: " << filePath_ 
+                       << " (errno: " << errno << ")";
+        }
+    } catch (const std::exception& e) {
+        LOG(ERROR) << "[SVGImage] Exception in saveImage: " << e.what();
+        status = 0;
+    } catch (...) {
+        LOG(ERROR) << "[SVGImage] Unknown exception in saveImage";
+        status = 0;
+    }
+    
     return status;
 }
 
