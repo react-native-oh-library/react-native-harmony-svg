@@ -8,6 +8,7 @@
 
 #include "RNOH/arkui/ArkUINode.h"
 #include "SvgForeignObjectNodeDelegate.h"
+#include "SvgForeignProps.h"
 #include "SvgHost.h"
 #include "SvgNode.h"
 #include "arkui/native_node.h"
@@ -40,8 +41,7 @@ public:
     void SetGroupNode(const std::weak_ptr<SvgNode> &node) { _groupNode = node; }
     void ResetNodeHandle() {}
     void AddChild(ArkUINode &node);
-    void SetForeignObject(OH_PixelmapNative *pixelMap, float w, float h, float x, float y) {
-        ForeignProps foreignProps = {std::move(pixelMap), w, h, x, y};
+    void SetForeignObject(ForeignProps foreignProps) {
         if (auto groupNode = _groupNode.lock()) {
             groupNode->SetForeignObject(std::move(foreignProps));
         }

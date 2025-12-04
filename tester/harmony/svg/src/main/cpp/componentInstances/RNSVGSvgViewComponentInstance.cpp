@@ -46,12 +46,11 @@ void RNSVGSvgViewComponentInstance::onFinalizeUpdates() {
     getLocalRootArkUINode().markDirty();
 }
 
-void RNSVGSvgViewComponentInstance::onDrawForeignImage(OH_PixelmapNative *foreignPixelMap, float width, float height,
-                                                       float x, float y) {
-    if (foreignPixelMap) {
-        DLOG(INFO) << "[svgForeignNode] RNSVGSvgViewComponentInstance OH_PixelmapNative is not null, position:{ x:" << x
-                   << ",y:" << y << "},width:" << width << ";height:" << height;
-        m_svgArkUINode.SetForeignObject(foreignPixelMap, width, height, x, y);
+void RNSVGSvgViewComponentInstance::onDrawForeignImage(ForeignProps foreignProps) {
+    if (foreignProps.foreignPixelMap) {
+        DLOG(INFO) << "[svgForeignNode] RNSVGSvgViewComponentInstance OH_PixelmapNative is not null, position:{ x:" << foreignProps.x
+                   << ",y:" << foreignProps.y << "},width:" << foreignProps.width << ";height:" << foreignProps.height;
+        m_svgArkUINode.SetForeignObject(foreignProps);
         m_svgArkUINode.markDirty();
     } else {
         DLOG(INFO) << "RNSVGSvgViewComponentInstance OH_PixelmapNative is null";

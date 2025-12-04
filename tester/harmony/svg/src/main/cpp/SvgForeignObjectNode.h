@@ -27,7 +27,15 @@ public:
     void SetGeneratedPixelMap(bool isNeed) {
        _isGeneratedPixelMap = isNeed;
     }
-
+    
+    void SetClipPath(std::string path,int clipRule) {
+        _path = path;
+        _clipRule = clipRule;
+    }
+     void SetMask(std::string mask) {
+        _mask = mask;
+    }
+    
 private:
     StackNode mStackNode;
     SvgForeignObjectNodeDelegate *m_NodeDelegate;
@@ -35,6 +43,9 @@ private:
     float _height{0};
     float _positionX{0};
     float _positionY{0};
+    std::string _path{""};
+    std::string _mask{""};
+    int _clipRule{0};
     bool _isGeneratedPixelMap{false}; //防止快照生成多次，导致性能影响
 };
 

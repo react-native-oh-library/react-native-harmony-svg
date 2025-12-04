@@ -44,7 +44,8 @@ void SvgForeignObjectNode::onNodeEvent(ArkUI_NodeEventType eventType, EventArgs 
                 return;
             }
             _isGeneratedPixelMap = false;
-            m_NodeDelegate->onDrawForeignImage(pixelMap, _width, _height, _positionX, _positionY);
+            ForeignProps foreignProps = {pixelMap, _width, _height, _positionX, _positionY, _path, _clipRule, _mask};
+            m_NodeDelegate->onDrawForeignImage(foreignProps);
         }
     }
 }

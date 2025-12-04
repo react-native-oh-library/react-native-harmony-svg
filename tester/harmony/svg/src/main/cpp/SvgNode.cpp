@@ -269,11 +269,49 @@ double SvgNode::getCanvasDiagonal() {
     return canvasDiagonal_;
 }
 
+void SvgNode::DrawForeignClip(OH_Drawing_Canvas *canvas,const std::string &id,int clipRule) {
+    if (!context_) {
+        DLOG(INFO) << "[svgForeignNode] NO CONTEXT";
+        return;
+    }
+    auto refSvgNode = context_->GetSvgNodeById(id);
+    if (!refSvgNode) {
+        DLOG(WARNING) << "[svgForeignNode] clipPath: SvgNode is null!";
+        return;
+    };
+    auto clipPath = refSvgNode->AsPath();
+    drawing::Path::FillType fillType = clipRule == 0
+                                           ? OH_Drawing_PathFillType::PATH_FILL_TYPE_EVEN_ODD
+                                           : OH_Drawing_PathFillType::PATH_FILL_TYPE_WINDING;
+    clipPath.SetFillType(fillType);
+    OH_Drawing_CanvasClipPath(canvas, clipPath.get(), OH_Drawing_CanvasClipOp::INTERSECT, true);
+}
+
+void SvgNode::DrawForeignMask(OH_Drawing_Canvas *canvas, const std::string &id) {
+    if (!context_) {
+        DLOG(INFO) << "[svgForeignNode] NO CONTEXT";
+        return;
+    }
+    auto refMask = context_->GetSvgNodeById(id);
+    if (!refMask) {
+        return;
+    };
+    refMask->Draw(canvas);
+}
+
 void SvgNode::DrawForeignPixelMap(OH_Drawing_Canvas *canvas, ForeignProps _foreignProps) {
     if (!_foreignProps.foreignPixelMap) {
         DLOG(INFO) << "[svgForeignNode] foreignPixelMap is null";
         return;
     }
+    if (!_foreignProps.path.empty()) {
+        DrawForeignClip(canvas,_foreignProps.path, _foreignProps.clipRule);
+    }
+    
+    if (!_foreignProps.mask.empty()) {
+        DrawForeignMask(canvas,_foreignProps.mask);
+    }
+    
     DLOG(INFO) << "[svgForeignNode] DrawForeignPixelMap  start , width:" << _foreignProps.width;
     OH_Pixelmap_ImageInfo *imageInfo;
     OH_PixelmapImageInfo_Create(&imageInfo);

@@ -31,7 +31,7 @@ public:
     ~RNSVGSvgViewComponentInstance();
 
     void onFinalizeUpdates() override;
-    void onDrawForeignImage(OH_PixelmapNative *foreignPixelMap,float width,float height,float x,float y) override;
+    void onDrawForeignImage(ForeignProps foreignProps) override;
     // get SvgNode from childComponentInstance and set it to root_
     void onChildInserted(ComponentInstance::Shared const &childComponentInstance, std::size_t index) override;
 

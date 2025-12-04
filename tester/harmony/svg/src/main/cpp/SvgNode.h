@@ -24,6 +24,7 @@
 
 #include "SvgBaseAttribute.h"
 #include "SvgContext.h"
+#include "SvgForeignProps.h"
 #include "drawing/Path.h"
 #include "properties/Decoration.h"
 #include "properties/Dimension.h"
@@ -40,15 +41,6 @@
 
 namespace rnoh {
 namespace svg {
-
-struct ForeignProps {
-    OH_PixelmapNative *foreignPixelMap{nullptr};
-    float width;
-    float height;
-    float x;
-    float y;
-};
-
 
 constexpr int INHERIT_TYPE = 2;
 
@@ -206,6 +198,9 @@ protected:
 
     std::shared_ptr<PatternAttr> GetPatternAttr(const std::string &href);
     void DrawForeignPixelMap(OH_Drawing_Canvas *canvas,ForeignProps _foreignProps);
+    void DrawForeignMask(OH_Drawing_Canvas *canvas, const std::string &id);
+    void DrawForeignClip(OH_Drawing_Canvas *canvas, const std::string &id, int clipRule);
+    
     void InitNoneFlag() {
         hrefFill_ = false;
         hrefRender_ = false;
