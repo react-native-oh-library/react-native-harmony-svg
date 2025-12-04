@@ -10,6 +10,7 @@
 #include "SvgForeignObjectNode.h"
 #include <react/renderer/components/react_native_svg/ShadowNodes.h>
 #include "RNOH/arkui/ColumnNode.h"
+#include "RNOH/arkui/NativeNodeApi.h"
 namespace rnoh {
 namespace svg {
 class RNSVGForeignObjectComponentInstance : public CppComponentInstance<facebook::react::RNSVGForeignObjectShadowNode> {
@@ -23,7 +24,10 @@ public:
     void onChildRemoved(ComponentInstance::Shared const &childComponentInstance) override;
 
     SvgForeignObjectNode &getLocalRootArkUINode() override;
-
+    
+    void setOpacity(ArkUINode &node, float op);
+    
+    void transform(ArkUINode &node);
 private:
     SvgForeignObjectNode mForeignStackNode;
     ColumnNode node;
