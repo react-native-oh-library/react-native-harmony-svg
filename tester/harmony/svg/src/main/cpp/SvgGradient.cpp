@@ -70,6 +70,7 @@ void SvgGradient::SetAttrRy(const std::string& ry) {
 
 void SvgGradient::SetAttrGradient(std::vector<Float> gradient) {
     auto stopCount = gradient.size() / 2;
+    gradientAttr_.gradient.ClearColors();
     for (auto i = 0; i < stopCount; i++) {
         auto stopIndex = i * 2;
         GradientColor gradientColor;
