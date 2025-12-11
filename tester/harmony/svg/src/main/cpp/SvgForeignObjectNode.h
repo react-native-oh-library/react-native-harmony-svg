@@ -9,6 +9,7 @@
 #include "RNOH/arkui/ArkUINode.h"
 #include "RNOH/arkui/StackNode.h"
 #include "SvgForeignObjectNodeDelegate.h"
+#include "properties/Dimension.h"
 
 namespace rnoh {
 namespace svg {
@@ -19,9 +20,18 @@ public:
     void onNodeEvent(ArkUI_NodeEventType eventType, EventArgs &eventArgs) override;
     StackNode &getSnapNode() { return mStackNode; }
     void insertChild(ArkUINode &child, std::size_t index);
-    void SetSnapPosition(float x, float y);
-    void SetSnapWidth(float width);
-    void SetSnapHeight(float height);
+    void SetSnapPosition(Dimension x, Dimension y);
+    void SetSnapWidth(Dimension width);
+    void SetSnapHeight(Dimension height);
+    void SetPointScaleFactor(float pointScaleFactor) {
+        pointScaleFactor_ = pointScaleFactor;
+    }
+    void SetTransform(std::vector<double> transform) {
+        transform_ = transform;
+    }
+    void setNodeSize(float w, float h){
+        mStackNode.setSize({w, h});
+    }
     OH_PixelmapNative *GetNodePixelMap();
     void SetForeignNodeDelegate(SvgForeignObjectNodeDelegate *delegate) { m_NodeDelegate = delegate; };
     void SetGeneratedPixelMap(bool isNeed) {
@@ -39,13 +49,15 @@ public:
 private:
     StackNode mStackNode;
     SvgForeignObjectNodeDelegate *m_NodeDelegate;
-    float _width{0};
-    float _height{0};
-    float _positionX{0};
-    float _positionY{0};
+    Dimension _width{0};
+    Dimension _height{0};
+    Dimension _positionX{0};
+    Dimension _positionY{0};
     std::string _path{""};
     std::string _mask{""};
+    std::vector<double> transform_;
     int _clipRule{0};
+    float pointScaleFactor_{0};
     bool _isGeneratedPixelMap{false}; //防止快照生成多次，导致性能影响
 };
 

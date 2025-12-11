@@ -24,52 +24,31 @@ RNSVGForeignObjectComponentInstance::~RNSVGForeignObjectComponentInstance() {
 void RNSVGForeignObjectComponentInstance::onFinalizeUpdates() {
     ComponentInstance::onFinalizeUpdates();
     if (m_props) {
-        float pointScaleFactor = getLayoutMetrics().pointScaleFactor;
-        mForeignStackNode.SetSnapPosition(pointScaleFactor * std::stof(m_props->x),
-                                          pointScaleFactor * std::stof(m_props->y));
-        mForeignStackNode.SetSnapWidth(pointScaleFactor * std::stof(m_props->width));
-        mForeignStackNode.SetSnapHeight(pointScaleFactor * std::stof(m_props->height));
+        mForeignStackNode.SetPointScaleFactor(getLayoutMetrics().pointScaleFactor);
+        mForeignStackNode.SetSnapPosition(propsConversionValue(m_props->x), propsConversionValue(m_props->y));
+        mForeignStackNode.SetSnapWidth(propsConversionValue(m_props->width));
+        mForeignStackNode.SetSnapHeight(propsConversionValue(m_props->height));
+
         mForeignStackNode.SetClipPath(m_props->clipPath, m_props->clipRule);
         mForeignStackNode.SetMask(m_props->mask);
-        
+        mForeignStackNode.SetTransform(m_props->matrix);
         auto childs = getChildren();
         if (childs.size() > 0) {
             for (ComponentInstance::Shared c : childs) {
                 if ((m_props->opacity > 0 && m_props->opacity != 1)) {
                     setOpacity(c->getLocalRootArkUINode(), m_props->opacity);
                 }
-                transform(c->getLocalRootArkUINode());
             }
         }
         mForeignStackNode.SetGeneratedPixelMap(true);
     }
 }
 
-void RNSVGForeignObjectComponentInstance::transform(ArkUINode &node) {
-    // matrix 6 -> 16 ,2d->3d
-    if (m_props->matrix.size() != 6) {
-        return;
+Dimension RNSVGForeignObjectComponentInstance::propsConversionValue(const folly::dynamic &d) {
+    if (d.isNull()) {
+        return Dimension(0, DimensionUnit::INVALID);
     }
-    std::array<ArkUI_NumberValue, 16> transformValue;
-    for (int i = 0; i < 16; i++) {
-        if (i == 0 || i == 1) {
-            transformValue[i] = {.f32 = static_cast<float>(m_props->matrix[i])};
-        } else if (i == 4) {
-            transformValue[i] = {.f32 = static_cast<float>(m_props->matrix[2])};
-        } else if (i == 5) {
-            transformValue[i] = {.f32 = static_cast<float>(m_props->matrix[3])};
-        } else if (i == 10 || i == 15) {
-            transformValue[i] = {.f32 = static_cast<float>(1)};
-        } else if (i == 12) {
-            transformValue[i] = {.f32 = static_cast<float>(m_props->matrix[4])};
-        } else if (i == 13) {
-            transformValue[i] = {.f32 = static_cast<float>(m_props->matrix[5])};
-        } else {
-            transformValue[i] = {.f32 = static_cast<float>(0)};
-        }
-    }
-    ArkUI_AttributeItem transformItem = {transformValue.data(), transformValue.size()};
-    NativeNodeApi::getInstance()->setAttribute(node.getArkUINodeHandle(), NODE_TRANSFORM, &transformItem);
+    return StringUtils::StringToDimension(d.asString(), true);
 }
 
 void RNSVGForeignObjectComponentInstance::setOpacity(ArkUINode &node, float op) {
@@ -81,6 +60,9 @@ void RNSVGForeignObjectComponentInstance::setOpacity(ArkUINode &node, float op) 
 void RNSVGForeignObjectComponentInstance::onChildInserted(ComponentInstance::Shared const &childComponentInstance,
                                                           std::size_t index) {
     CppComponentInstance::onChildInserted(childComponentInstance, index);
+    float width = childComponentInstance->getLayoutMetrics().frame.size.width;
+    float height = childComponentInstance->getLayoutMetrics().frame.size.height;
+    mForeignStackNode.setNodeSize(width, height);
     node.insertChild(childComponentInstance->getLocalRootArkUINode(), index);
 }
 

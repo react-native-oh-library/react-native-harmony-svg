@@ -11,6 +11,8 @@
 #include <react/renderer/components/react_native_svg/ShadowNodes.h>
 #include "RNOH/arkui/ColumnNode.h"
 #include "RNOH/arkui/NativeNodeApi.h"
+#include "properties/Dimension.h"
+#include "utils/StringUtils.h"
 namespace rnoh {
 namespace svg {
 class RNSVGForeignObjectComponentInstance : public CppComponentInstance<facebook::react::RNSVGForeignObjectShadowNode> {
@@ -27,7 +29,7 @@ public:
     
     void setOpacity(ArkUINode &node, float op);
     
-    void transform(ArkUINode &node);
+    Dimension propsConversionValue(const folly::dynamic& d);
 private:
     SvgForeignObjectNode mForeignStackNode;
     ColumnNode node;

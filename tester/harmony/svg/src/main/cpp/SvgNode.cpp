@@ -127,10 +127,8 @@ void SvgNode::OnMask(OH_Drawing_Canvas *canvas) {
     refMask->Draw(canvas);
 }
 
-void SvgNode::OnTransform(OH_Drawing_Canvas *canvas) {
+void SvgNode::OnTransform(OH_Drawing_Canvas *canvas, std::vector<double> transform) {
     // input transfrom: (float scaleX, float skewY, float skewX, float scaleY, float transX, float transY)
-    const auto &transform = attributes_.transform;
-    /*
     /* (OH_Drawing_Matrix* , float scaleX, float skewX, float transX, float skewY, float scaleY, float transY, float
     persp0, float persp1, float persp2 )
     */
@@ -179,7 +177,7 @@ void SvgNode::Draw(OH_Drawing_Canvas *canvas) {
     const auto count = OH_Drawing_CanvasGetSaveCount(canvas);
     OH_Drawing_CanvasSave(canvas);
     if (!attributes_.transform.empty()) {
-        OnTransform(canvas);
+        OnTransform(canvas, attributes_.transform);
     }
     if (!hrefClipPath_.empty()) {
         OnClipPath(canvas);
@@ -304,6 +302,9 @@ void SvgNode::DrawForeignPixelMap(OH_Drawing_Canvas *canvas, ForeignProps _forei
         DLOG(INFO) << "[svgForeignNode] foreignPixelMap is null";
         return;
     }
+    if (!_foreignProps.transform.empty()) {
+        OnTransform(canvas, _foreignProps.transform);
+    }
     if (!_foreignProps.path.empty()) {
         DrawForeignClip(canvas,_foreignProps.path, _foreignProps.clipRule);
     }
@@ -311,8 +312,10 @@ void SvgNode::DrawForeignPixelMap(OH_Drawing_Canvas *canvas, ForeignProps _forei
     if (!_foreignProps.mask.empty()) {
         DrawForeignMask(canvas,_foreignProps.mask);
     }
-    
-    DLOG(INFO) << "[svgForeignNode] DrawForeignPixelMap  start , width:" << _foreignProps.width;
+    double postionX = _foreignProps.x.ParsePropsToPx(OH_Drawing_CanvasGetWidth(canvas), _foreignProps.pointScaleFactor);
+    double postionY = _foreignProps.y.ParsePropsToPx(OH_Drawing_CanvasGetHeight(canvas), _foreignProps.pointScaleFactor);
+    double foreignW = _foreignProps.width.ParsePropsToPx(OH_Drawing_CanvasGetWidth(canvas), _foreignProps.pointScaleFactor);
+    double foreignH = _foreignProps.height.ParsePropsToPx(OH_Drawing_CanvasGetHeight(canvas), _foreignProps.pointScaleFactor);
     OH_Pixelmap_ImageInfo *imageInfo;
     OH_PixelmapImageInfo_Create(&imageInfo);
 
@@ -327,7 +330,9 @@ void SvgNode::DrawForeignPixelMap(OH_Drawing_Canvas *canvas, ForeignProps _forei
         OH_PixelmapNative_Release(_foreignProps.foreignPixelMap);
         return;
     }
-
+    float  originalRelWidth  = originalWidth > foreignW ? foreignW : originalWidth;
+    float  originalRelHeight  = originalHeight > foreignH ? foreignH : originalHeight;
+    DLOG(INFO) << "[svgForeignNode] DrawForeignPixelMap start , foreignH:" << foreignH << ";originalHeight:" << originalHeight <<";originalRelHeight:" << originalRelHeight;
     OH_Drawing_PixelMap *ohPixelMap = OH_Drawing_PixelMapGetFromOhPixelMapNative(_foreignProps.foreignPixelMap);
     if (!ohPixelMap) {
         DLOG(WARNING) << "[svgForeignNode] Failed to get OH_Drawing_PixelMap";
@@ -337,15 +342,12 @@ void SvgNode::DrawForeignPixelMap(OH_Drawing_Canvas *canvas, ForeignProps _forei
 
     OH_Drawing_CanvasSave(canvas);
 
-    OH_Drawing_CanvasTranslate(canvas, _foreignProps.x, _foreignProps.y);
-
-
-    float scaleX = static_cast<float>(_foreignProps.width) / originalWidth;
-    float scaleY = static_cast<float>(_foreignProps.height) / originalHeight;
+    OH_Drawing_CanvasTranslate(canvas, postionX, postionY);
+    
     OH_Drawing_CanvasScale(canvas, 1, 1);
 
-    OH_Drawing_Rect *srcRect = OH_Drawing_RectCreate(0, 0, originalWidth, originalHeight);
-    OH_Drawing_Rect *dstRect = OH_Drawing_RectCreate(0, 0, originalWidth, originalHeight);
+    OH_Drawing_Rect *srcRect = OH_Drawing_RectCreate(0, 0, originalRelWidth, originalRelHeight);
+    OH_Drawing_Rect *dstRect = OH_Drawing_RectCreate(0, 0, originalRelWidth, originalRelHeight);
     OH_Drawing_SamplingOptions *sampling = OH_Drawing_SamplingOptionsCreate(FILTER_MODE_LINEAR, MIPMAP_MODE_LINEAR);
     OH_Drawing_CanvasDrawPixelMapRect(canvas, ohPixelMap, srcRect, dstRect, sampling);
 
