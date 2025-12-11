@@ -21,16 +21,19 @@
 
 #ifndef HARMONY_FOREIGNPROPS_H
 #define HARMONY_FOREIGNPROPS_H
+#include "properties/Dimension.h"
 #include <multimedia/image_framework/image/pixelmap_native.h>
 #include <string>
 struct ForeignProps {
     OH_PixelmapNative *foreignPixelMap{nullptr};
-    float width;
-    float height;
-    float x;
-    float y;
+    rnoh::svg::Dimension width;
+    rnoh::svg::Dimension height;
+    rnoh::svg::Dimension x;
+    rnoh::svg::Dimension y;
     std::string path;
     int clipRule;
     std::string mask;
+    float pointScaleFactor;
+    std::vector<double> transform;
 };
 #endif //HARMONY_FOREIGNPROPS_H

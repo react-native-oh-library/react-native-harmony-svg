@@ -48,8 +48,8 @@ void RNSVGSvgViewComponentInstance::onFinalizeUpdates() {
 
 void RNSVGSvgViewComponentInstance::onDrawForeignImage(ForeignProps foreignProps) {
     if (foreignProps.foreignPixelMap) {
-        DLOG(INFO) << "[svgForeignNode] RNSVGSvgViewComponentInstance OH_PixelmapNative is not null, position:{ x:" << foreignProps.x
-                   << ",y:" << foreignProps.y << "},width:" << foreignProps.width << ";height:" << foreignProps.height;
+        DLOG(INFO) << "[svgForeignNode] RNSVGSvgViewComponentInstance OH_PixelmapNative is not null, position:{ x:" << foreignProps.x.Value()
+                   << ",y:" << foreignProps.y.Value() << "},width:" << foreignProps.width.Value() << ";height:" << foreignProps.height.Value();
         m_svgArkUINode.SetForeignObject(foreignProps);
         m_svgArkUINode.markDirty();
     } else {

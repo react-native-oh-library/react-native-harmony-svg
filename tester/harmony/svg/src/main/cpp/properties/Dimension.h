@@ -141,6 +141,20 @@ public:
         return 0.0;
     };
 
+    double ParsePropsToPx(double relative, float pointScaleFactor){
+        if (unit_ == DimensionUnit::NONE) {
+            return value_*pointScaleFactor;
+        }
+        if (unit_ == DimensionUnit::PERCENT) {
+            return value_*relative - pointScaleFactor;
+        }
+        if (unit_ == DimensionUnit::VP) {
+            return value_*pointScaleFactor;
+        } else {
+            return value_;
+        }  
+    }
+    
     double GetNativeValue(DimensionUnit unit, double scale) const {
         if (unit_ == unit) {
             return value_;

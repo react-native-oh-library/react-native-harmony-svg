@@ -26,11 +26,11 @@ SvgForeignObjectNode::~SvgForeignObjectNode() {
 }
 void SvgForeignObjectNode::insertChild(ArkUINode &child, std::size_t index) { mStackNode.insertChild(child, index); }
 
-void SvgForeignObjectNode::SetSnapHeight(float height) { _height = height; }
+void SvgForeignObjectNode::SetSnapHeight(Dimension height) { _height = height; }
 
-void SvgForeignObjectNode::SetSnapWidth(float width) { _width = width; }
+void SvgForeignObjectNode::SetSnapWidth(Dimension width) { _width = width; }
 
-void SvgForeignObjectNode::SetSnapPosition(float x, float y) {
+void SvgForeignObjectNode::SetSnapPosition(Dimension x, Dimension y) {
     _positionX = x;
     _positionY = y;
 }
@@ -44,7 +44,8 @@ void SvgForeignObjectNode::onNodeEvent(ArkUI_NodeEventType eventType, EventArgs 
                 return;
             }
             _isGeneratedPixelMap = false;
-            ForeignProps foreignProps = {pixelMap, _width, _height, _positionX, _positionY, _path, _clipRule, _mask};
+            ForeignProps foreignProps = {pixelMap, _width, _height, _positionX, 
+                _positionY, _path, _clipRule, _mask, pointScaleFactor_, transform_};
             m_NodeDelegate->onDrawForeignImage(foreignProps);
         }
     }

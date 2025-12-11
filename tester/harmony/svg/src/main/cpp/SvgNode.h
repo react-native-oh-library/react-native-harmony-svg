@@ -187,7 +187,7 @@ protected:
 
     void OnClipPath(OH_Drawing_Canvas *canvas);
     void OnMask(OH_Drawing_Canvas *canvas);
-    void OnTransform(OH_Drawing_Canvas *canvas);
+    void OnTransform(OH_Drawing_Canvas *canvas, std::vector<double> transform);
 
     const Rect &GetRootViewBox() const;
 
