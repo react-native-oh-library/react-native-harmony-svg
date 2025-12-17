@@ -105,21 +105,29 @@ void ImageSourceResolver::imageDownloadComplete(std::string uri, std::string fil
 }
 
 void ImageSourceResolver::imageDownloadFail(std::string uri) {
-    auto pend = m_pendingSet.find(uri);
-    if (pend != m_pendingSet.end()) {
-        m_pendingSet.erase(uri);
-    }
-
-    auto it = m_uriListenersMap.find(uri);
-    if (it == m_uriListenersMap.end()) {
+    if (uri.empty()) {
         return;
     }
-    auto &listeners = it->second;
-    for (auto listener : listeners) {
+    if (!m_pendingSet.empty()) {
+        auto pend = m_pendingSet.find(uri);
+        if (pend != m_pendingSet.end()) {
+            m_pendingSet.erase(uri);
+        }
+    }
+    if (!m_uriListenersMap.empty()) {
+        auto it = m_uriListenersMap.find(uri);
+        if (it == m_uriListenersMap.end()) {
+            return;
+        }
+        auto &listeners = it->second;
+        for (auto listener : listeners) {
 
-        auto weaklistener = listener.lock();
-        weaklistener->onImageSourceCacheDownloadFileFail();
-        removeListenerForURI(uri, weaklistener);
+            auto weaklistener = listener.lock();
+            if (weaklistener) {
+                weaklistener->onImageSourceCacheDownloadFileFail();
+                removeListenerForURI(uri, weaklistener);
+            }
+        }
     }
 }
 
